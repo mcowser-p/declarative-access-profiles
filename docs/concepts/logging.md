@@ -2,7 +2,7 @@
 
 This page is the canonical reference for how a team reads its application's logs
 after lockdown — that is, after playbook 5 (`5_apply_access_profile.yml`) from the
-`mcowser_p.linux_access` collection has applied the access profile and the team has
+`mcowser_p.declarative_access` collection has applied the access profile and the team has
 been flipped from `<hostname>-app_full` to `<hostname>-app_restricted` (see
 [lifecycle](lifecycle.md)). It covers the two mechanisms the profile uses to grant
 log access, why the grant survives log rotation, the one way rotation silently

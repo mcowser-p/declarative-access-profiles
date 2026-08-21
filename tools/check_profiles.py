@@ -21,7 +21,7 @@ import yaml
 REPO = Path(__file__).resolve().parent.parent
 
 # The exporter's vars contract (docs/declarative-systemd-access.md in the
-# mcowser_p.linux_access collection). Keep in lockstep with cairn's
+# mcowser_p.declarative_access collection). Keep in lockstep with cairn's
 # accessvars._KEY_ORDER.
 ALLOWED = {
     "declarative_access_profile_name",

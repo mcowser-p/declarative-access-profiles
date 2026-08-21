@@ -2,7 +2,7 @@
 
 This page is the canonical description of how a declarative access profile turns into
 actual permissions on a host: the four grant mechanisms the `declarative_access` role
-(applied by playbook 5, `5_apply_access_profile.yml`, in the `mcowser_p.linux_access`
+(applied by playbook 5, `5_apply_access_profile.yml`, in the `mcowser_p.declarative_access`
 collection) composes, the decision matrix for choosing between them, why the *who* is
 never part of a profile, and the security tradeoffs you accept when you apply one.
 Application guides state only their app-specific instantiation of these mechanics and

@@ -9,7 +9,7 @@
 # Env:    ACCESS_SRC  (required) path to an ansible-declarative-access
 #                     checkout on branch feat/pam-group-support.
 #                     POST-RELEASE: replace with
-#                     `ansible-galaxy collection install mcowser_p.linux_access`.
+#                     `ansible-galaxy collection install mcowser_p.declarative_access`.
 #         DOCKER_HOST as needed (macOS Docker Desktop).
 #
 # Adapted from ansible-declarative-access scripts/verify-app-profile.sh;

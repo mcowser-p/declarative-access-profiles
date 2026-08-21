@@ -9,7 +9,7 @@ team that operates the application under restricted access, and the ops
 team that applies and maintains the lockdown.
 
 Profiles are applied with the
-[`mcowser_p.linux_access`](https://github.com/mcowser-p/ansible-declarative-access)
+[`mcowser_p.declarative_access`](https://github.com/mcowser-p/ansible-declarative-access)
 collection:
 
 ```bash

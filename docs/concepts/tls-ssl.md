@@ -44,7 +44,7 @@ Private keys live in the platform's dedicated key directory, root-owned and mode
   anything world-readable [app-knowledge])
 
 These directories are deliberately in **no access profile**. Playbook 5
-(`5_apply_access_profile.yml`) in the `mcowser_p.linux_access` collection never
+(`5_apply_access_profile.yml`) in the `mcowser_p.declarative_access` collection never
 writes an ACL into a private-key directory, and a profile submitted with one should
 fail review. The reasoning: the [access model](access-model.md) grants a team what it
 needs to *operate* its application, and no routine operation requires reading a key —

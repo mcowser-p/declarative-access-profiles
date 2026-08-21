@@ -93,7 +93,7 @@ flowchart TD
    real capture on the real host [needs-runtime-confirmation].
 
 7. **Apply.** Playbook 5 (5_apply_access_profile.yml) from the
-   `mcowser_p.linux_access` collection applies the approved profile to
+   `mcowser_p.declarative_access` collection applies the approved profile to
    `<hostname>-app_restricted`. Because app-full is nested inside
    app-restricted, the team inherits every grant immediately while still
    holding wheel — apply is a non-event for them, by design.
