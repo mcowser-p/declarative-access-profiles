@@ -1,0 +1,70 @@
+---
+# declarative-access-profiles :: redis on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-redis.json
+#               (schema 1.0, captured 2026-08-09 on an AlmaLinux 9 EC2 AMI,
+#               SELinux enforcing; cairn 0.10.0 feature branch)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/redis/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: cache — scoped service control + config write ACL (/etc/redis)
+# + log read ACL. NO pam_group: the 'redis' group owns the data dir
+# /var/lib/redis (0750), so membership would expose the persisted cache
+# (dump.rdb / appendonly.aof) beneath every redis AUTH/ACL. Read-only-units
+# profile: no unit-file write anywhere. The data dir is never granted.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/redis/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-9 ami-01dee4dd01d81901c, SELinux/authselect real)
+
+declarative_access_profile_name: 'redis'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'redis'
+  # REVIEW-DROP: 'redis-sentinel' — Sentinel is the optional HA
+  # failover-monitor daemon shipped by the package but disabled by default and
+  # unused on a single-node cache. "Would the team ever restart it?" — not
+  # here. Re-add the service (sentinel.conf is already under the /etc/redis ACL)
+  # if the deployment actually runs Sentinel.
+
+# REVIEW-DROP: declarative_access_files_modify [/lib + /usr/lib .../redis.service
+# and redis-sentinel.service] — vendor unit files; a write ACL on a unit file is
+# root-equivalent for that unit (edit ExecStart/User + granted
+# daemon-reload/restart). Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['redis'] — cache class, DB-style data exposure: the 'redis' group owns
+# /var/lib/redis (0750), so pam_group membership grants group read of the
+# persisted data files, bypassing every redis AUTH/ACL. Config write is granted
+# via an ACL instead (folders_modify below). The group option remains available
+# at apply time (-e enable_pam_group=true) for teams that accept the tradeoff.
+
+declarative_access_folders_modify:
+  - '/etc/redis'
+  # REVIEW-DROP: '/etc/systemd/system/redis.service.d' +
+  # '/etc/systemd/system/redis-sentinel.service.d' — vendor unit drop-in dirs
+  # (limit.conf: LimitNOFILE=10240); root-equivalent with the granted
+  # daemon-reload + restart.
+  # REVIEW-DROP: '/var/lib/redis' — the data dir. Cache/DB rule: never grant the
+  # data dir; the service group owns it and filesystem write corrupts persisted
+  # state. Install-time state kept via ownership below.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is
+  # still wanted (ACL + default ACL keeps rotated files readable). NOTE: EL redis
+  # logs to the journal by default (logfile unset in redis.conf) — this dir is
+  # populated only if an operator sets 'logfile /var/log/redis/...'.
+  # [needs-runtime-confirmation]
+  - '/var/log/redis'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: install-created state — enforces the install-time owner/mode and
+  # keeps drift visible. Config stays redis:root 0750: the team writes via the
+  # ACL above, and the 'redis' service account is NOT in the config group.
+  - {path: '/etc/redis', owner: 'redis', group: 'root', mode: '0750'}
+  - {path: '/var/lib/redis', owner: 'redis', group: 'redis', mode: '0750'}

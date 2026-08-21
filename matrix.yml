@@ -1,0 +1,71 @@
+---
+# matrix.yml — the app × distro capture matrix. Single source of truth for
+# scripts/capture-matrix.sh, tools/check_profiles.py, and the docs coverage
+# table.
+#
+# Cell fields:
+#   package  (required) distro package to install
+#   app      value for `cairn footprint --app` (default: the row slug)
+#   service  unit name asserted in the footprint and targeted by verify
+#   extra    extra packages installed alongside (list)
+#   na       reason this cell is not applicable (mutually exclusive with
+#            package) — N/A is always a recorded decision, never silence
+
+distros:
+  almalinux-9: {image: "almalinux:9", family: rhel}
+  almalinux-10: {image: "almalinux:10", family: rhel}
+  ubuntu-24.04: {image: "ubuntu:24.04", family: debian}
+
+apps:
+  nginx:
+    almalinux-9: {package: nginx, service: nginx.service}
+    almalinux-10: {package: nginx, service: nginx.service}
+    ubuntu-24.04: {package: nginx, service: nginx.service}
+  apache:
+    almalinux-9: {package: httpd, app: httpd, service: httpd.service}
+    almalinux-10: {package: httpd, app: httpd, service: httpd.service}
+    ubuntu-24.04: {package: apache2, app: apache2, service: apache2.service}
+  haproxy:
+    almalinux-9: {package: haproxy, service: haproxy.service}
+    almalinux-10: {package: haproxy, service: haproxy.service}
+    ubuntu-24.04: {package: haproxy, service: haproxy.service}
+  tomcat:
+    almalinux-9: {package: tomcat, service: tomcat.service}
+    almalinux-10: {package: tomcat, service: tomcat.service}
+    ubuntu-24.04: {package: tomcat10, app: tomcat10, service: tomcat10.service}
+  php-fpm:
+    almalinux-9: {package: php-fpm, service: php-fpm.service}
+    almalinux-10: {package: php-fpm, service: php-fpm.service}
+    ubuntu-24.04: {package: php8.3-fpm, app: php8.3-fpm, service: php8.3-fpm.service}
+  postgresql:
+    almalinux-9: {package: postgresql-server, app: postgresql, service: postgresql.service}
+    almalinux-10: {package: postgresql-server, app: postgresql, service: postgresql.service}
+    # Ubuntu meta-package pulls postgresql-16; config splits to
+    # /etc/postgresql/16/main (cluster model) — the review must reflect it.
+    ubuntu-24.04: {package: postgresql, service: postgresql.service}
+  mariadb:
+    almalinux-9: {package: mariadb-server, app: mariadb, service: mariadb.service}
+    almalinux-10: {package: mariadb-server, app: mariadb, service: mariadb.service}
+    ubuntu-24.04: {package: mariadb-server, app: mariadb, service: mariadb.service}
+  mysql:
+    # conflicts: packages removed BEFORE the re-baseline (mysql-server and
+    # mariadb-server cannot coexist on EL9; mariadb is captured earlier in
+    # the same container).
+    almalinux-9: {package: mysql-server, app: mysql, service: mysqld.service,
+                  conflicts: [mariadb-server]}
+    almalinux-10: {na: "mysql-server dropped from EL10 — mariadb is the packaged option"}
+    # Ubuntu 24.04 DOES package mysql-server 8.0; deliberately out of wave 1
+    # (mariadb covers the Ubuntu MySQL-compatible story). Flip later if the
+    # EL9-vs-Ubuntu mysql comparison becomes interesting.
+    ubuntu-24.04: {na: "deliberate wave-1 scope cut — mariadb covers Ubuntu; package exists"}
+  redis:
+    # Distro-split row: EL10 replaced redis with valkey (license change).
+    # Footprint files keep the row slug (footprint-redis.json); the model's
+    # app name stays honest (valkey).
+    almalinux-9: {package: redis, service: redis.service}
+    almalinux-10: {package: valkey, app: valkey, service: valkey.service}
+    ubuntu-24.04: {package: redis-server, app: redis, service: redis-server.service}
+  memcached:
+    almalinux-9: {package: memcached, service: memcached.service}
+    almalinux-10: {package: memcached, service: memcached.service}
+    ubuntu-24.04: {package: memcached, service: memcached.service}

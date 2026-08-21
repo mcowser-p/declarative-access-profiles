@@ -1,0 +1,64 @@
+---
+# declarative-access-profiles :: memcached on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-memcached.json
+#               (schema 1.0, footprint_type install_time, captured 2026-08-09
+#               on an Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch. apt
+#               auto-started memcached at install, so the footprint includes the
+#               enablement symlink and first-start side effects.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/memcached/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: cache — the most minimal profile in the library. Scoped service
+# control + a single config-file write ACL (/etc/memcached.conf). NO pam_group
+# (the service group owns nothing on disk), NO log dir (journal only), NO data
+# dir (in-memory). Read-only-units profile. Debian divergence: the service
+# account/group is `memcache` (NOT `memcached`, as on EL), uid/gid 116/118; the
+# config file is /etc/memcached.conf (a list of memcached CLI args), read by the
+# unit's ExecStart wrapper /usr/share/memcached/scripts/systemd-memcached-wrapper.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/memcached/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+declarative_access_profile_name: 'memcached'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'memcached'
+
+# REVIEW-DROP: declarative_access_files_modify
+# [/etc/systemd/system/multi-user.target.wants/memcached.service (the enablement
+# symlink apt created on auto-start) + /lib + /usr/lib .../memcached.service
+# (vendor unit + its usr-merge symlink)] — unit-file / enablement-symlink write
+# is root-equivalent for that unit. Read-only-units profile.
+
+declarative_access_files_modify:
+  # REVIEW-ADD: cache class — config write ACL on the single tuning file
+  # (root:root; the memcached args list that the systemd wrapper reads: -m -p -u
+  # -l -c ...). The raw omitted it: /etc/memcached.conf is root:root with no
+  # group_access, so the exporter routed no grant. File-scoped rw ACL (no default
+  # ACL — one file). The 'memcache' service account is NOT granted config write.
+  # NOTE: /etc/default/memcached is the SysV-init-era file (vestigial under
+  # systemd — the wrapper reads /etc/memcached.conf, not it) and is left ungranted.
+  - '/etc/memcached.conf'
+
+# NO declarative_access_folders_read: memcached logs to stderr, captured by the
+# systemd journal only; the install creates no /var/log/memcached. Log reads are
+# the granted `journalctl -u memcached` spellings (sudoers), not a file ACL. The
+# generic REVIEW-ADD '/var/log/<app>' rule is deliberately NOT applied — there is
+# no log directory. (An adopted install role that sets `logfile` would change
+# this — see docs/role-evals/memcached.md §6.)
+
+# NO declarative_access_pam_group / _local_groups: cache class. The install-
+# created 'memcache' group owns nothing on disk (config is root:root, no data
+# dir), so pam_group membership would grant no additional access. The option
+# remains available at apply time (-e enable_pam_group=true
+# -e '{"declarative_access_local_groups":["memcache"]}') but buys nothing here.
+
+# NO declarative_access_ownership: the install creates no memcache-owned
+# directories (account + group only; config is root:root, no data/log dir).

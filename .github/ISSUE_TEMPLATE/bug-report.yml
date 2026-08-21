@@ -1,0 +1,101 @@
+---
+name: Bug report
+description: A profile grants the wrong access, fails to apply, or a doc is wrong
+title: "bug: <short summary>"
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two things make these fast to fix: **the exact command and its
+        output**, and **which artifact** is wrong (a profile, a doc, or a
+        harness script).
+
+        A grant that is too *wide* is a security bug — say so and we will
+        prioritise it accordingly.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of bug?
+      options:
+        - "Profile grants too little — a needed action is denied"
+        - "Profile grants too much — access beyond what the install justifies"
+        - "Profile fails to apply"
+        - "Revocation (--tags cleanup) left something behind"
+        - "Documentation is wrong or stale"
+        - "Harness script or CI"
+    validations:
+      required: true
+
+  - type: input
+    id: artifact
+    attributes:
+      label: Which file?
+      description: Path in this repo, if you can name it.
+      placeholder: "profiles/mariadb/ubuntu-24.04-access.yml"
+    validations:
+      required: true
+
+  - type: input
+    id: app_distro
+    attributes:
+      label: App and distro
+      placeholder: "mariadb on ubuntu-24.04"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect, and what happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Command and output
+      description: >
+        The exact command and the error. For an access problem the useful
+        trio is `sudo -l`, the command that was denied, and `getfacl` on the
+        path. Output is rendered as a code block — no backticks needed.
+      render: shell
+      placeholder: |
+        $ sudo systemctl reload nginx
+        Sorry, user appdev is not allowed to execute ...
+
+        $ sudo -l
+        ...
+
+        $ getfacl /etc/nginx
+        ...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checked
+    attributes:
+      label: Ruled out
+      description: >
+        The two things that explain most "my access is broken" reports.
+      options:
+        - label: >
+            I logged in **after** the profile was applied (pam_group grants
+            the service group at login — a stale session will not have it)
+        - label: >
+            I copied the command from `sudo -l` (sudo matches the whole
+            string, so `journalctl -u app -e` differs from `-e -u app`)
+        - label: >
+            The path is not a mount point added after the profile was
+            applied (a mount hides the ACLs underneath it)
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      value: |
+        - Host / AMI:
+        - SELinux or AppArmor: enforcing / permissive / disabled
+        - Collection version or branch:
+        - Was the profile VERIFIED on this distro? (header line in the profile):

@@ -1,0 +1,87 @@
+---
+# declarative-access-profiles :: tomcat (tomcat10) on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-tomcat.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch. application
+#               slug 'tomcat10'. apt auto-started tomcat10 at install, so the
+#               footprint includes first-start side effects and the
+#               multi-user.target.wants enablement symlink.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/tomcat/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: app-server — pam_group into the service group 'tomcat' is the
+# PRIMARY grant. The Debian package ships the deploy/context dirs group-writable
+# to 'tomcat' (footprint group_access: /var/lib/tomcat10/webapps 0775
+# tomcat:tomcat, /etc/tomcat10/Catalina 0775 root:tomcat), so membership =
+# webapp deploy + context config with ZERO deviation from vendor permissions.
+# Config write ACL on /etc/tomcat10 (files are group-READ only) + log read ACL
+# on /var/log/tomcat10. Read-only-units profile. The Debian units grant ambient
+# CAP_NET_BIND_SERVICE (privileged-port bind without root) — vendor-owned and
+# NOT in this profile; see ops §11.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/tomcat/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+# REVIEW-CHANGE: profile_name 'tomcat10' -> 'tomcat' — normalized to the library
+# app slug (check_profiles requires profile_name == the app dir). Cosmetic: it
+# names the rendered sudoers file / group.conf label, not any unit or path (the
+# service below stays 'tomcat10').
+declarative_access_profile_name: 'tomcat'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'tomcat10'
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-KEEP: app-server class — the exporter chose pam_group into 'tomcat'
+  # (correct, and unlike the EL captures it did not omit it). The Debian package
+  # ships the deploy dirs group-writable to 'tomcat', so membership = webapp
+  # deploy + context config with zero drift. Note: unlike Debian nginx/apache
+  # (shared 'www-data'), 'tomcat' is Tomcat-specific — no cross-service exposure.
+  - 'tomcat'
+
+# REVIEW-DROP: declarative_access_files_modify [/etc/systemd/system/multi-user
+# .target.wants/tomcat10.service enablement symlink + /lib + /usr/lib
+# .../tomcat10.service] — vendor unit + the enablement symlink apt created on
+# auto-start; unit-file write is root-equivalent. Read-only-units profile. These
+# units also carry ambient CAP_NET_BIND_SERVICE (ops §11) — a second reason the
+# team must not be able to rewrite them.
+
+declarative_access_folders_modify:
+  - '/etc/tomcat10'
+  # REVIEW-KEEP: config write ACL. /etc/tomcat10 is 0755 root:root and its files
+  # (server.xml, tomcat-users.xml, catalina.properties, ...) are 0640 root:tomcat
+  # — group READ only — so pam_group does not confer config write. The ACL lets
+  # the team edit server.xml, add conf.d/policy.d entries, and place the TLS
+  # PKCS12 keystore. Config is ACL'd to the TEAM, never chgrp'd to the service
+  # account.
+  # REVIEW-DROP: '/etc/.java', '/etc/java-21-openjdk' — JVM / openjdk config from
+  # the java dependency closure; not Tomcat's.
+  # REVIEW-DROP: '/var/lib/ca-certificates-java' — system Java CA trust store
+  # (ca-certificates-java dependency); trust management is a platform concern.
+  # REVIEW-DROP: '/var/cache/tomcat10' — systemd CacheDirectory (service runtime,
+  # CacheDirectoryMode 0750); the service writes it, the team does not.
+  # REVIEW-DROP: '/var/lib/tomcat10' — CATALINA_BASE; the team writes only
+  # webapps/, already group-writable via pam_group above. Broad recursive ACL
+  # removed (it would also expose /var/lib/tomcat10/policy and /lib).
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default. The unit confirms
+  # the dir (RequiresMountsFor=/var/log/tomcat10 and
+  # ReadWritePaths=/var/log/tomcat10). Debian rotates catalina.out via
+  # /etc/logrotate.d/tomcat10 (cron.daily); juli self-rotates the per-day *.log
+  # files. Default ACL keeps both readable (ops §10).
+  - '/var/log/tomcat10'
+
+# No declarative_access_ownership: the raw had none and none is wanted — the
+# deploy tree is ALREADY the desired state (/var/lib/tomcat10/webapps 0775
+# tomcat:tomcat is vendor-shipped group-writable). Zero drift means nothing to
+# enforce or accept-list here (contrast the EL captures, which keep the vendor
+# ownership entries, and nginx/apache, which add a 2775 setgid content dir).

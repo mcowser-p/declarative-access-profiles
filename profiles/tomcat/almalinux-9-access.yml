@@ -1,0 +1,87 @@
+---
+# declarative-access-profiles :: tomcat on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-tomcat.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               AlmaLinux 9 EC2 AMI, SELinux enforcing; cairn 0.10.0 feature
+#               branch. application slug 'tomcat'.)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/tomcat/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: app-server — pam_group into the service group 'tomcat' is the
+# PRIMARY grant. The EL package already ships the deploy/content dirs
+# group-writable to 'tomcat' (footprint group_access: /var/lib/tomcat/webapps,
+# /etc/tomcat/Catalina[/localhost], /usr/share/tomcat all 0775 root:tomcat), so
+# membership = webapp deploy + per-app context config with ZERO deviation from
+# vendor permissions — no setgid, no content ACL (contrast nginx/apache, whose
+# web roots are NOT group-writable and need a 2775 chown). Config write ACL on
+# /etc/tomcat (the top-level files are group-READ only) + log read ACL. This is
+# the app where pam_group does the most. Read-only-units profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/tomcat/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-9 ami-01dee4dd01d81901c, SELinux/authselect real)
+
+declarative_access_profile_name: 'tomcat'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'tomcat'
+  # REVIEW-DROP: 'tomcat@' (the tomcat@.service instance template) is not a
+  # service here — the raw never listed it and this single-instance deploy does
+  # not run named instances. Its unit files are dropped below with the rest.
+
+# REVIEW-DROP: declarative_access_files_modify [/lib + /usr/lib
+# .../tomcat.service and .../tomcat@.service — 4 entries, usr-merge duplicated] —
+# vendor unit files incl. the multi-instance template; a write ACL on a unit
+# file is root-equivalent for that unit (edit ExecStart/drop User= + the granted
+# daemon-reload/restart). Read-only-units profile.
+
+# REVIEW-ADD: app-server class — pam_group puts the team into the install-created
+# 'tomcat' group (gid 53) at SSH login. The raw capture OMITTED pam_group even
+# though group_access shows the 'tomcat' group owns the writable deploy tree;
+# the review adds it (that evidence is the justification). Membership grants
+# webapp deploy (/var/lib/tomcat/webapps), context config (/etc/tomcat/Catalina)
+# and CATALINA_HOME (/usr/share/tomcat) writes through existing vendor group
+# permissions — zero drift, self-maintaining, covers files that do not exist yet.
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  - 'tomcat'
+
+declarative_access_folders_modify:
+  - '/etc/tomcat'
+  # REVIEW-KEEP: config write ACL. /etc/tomcat is 0755 root:tomcat and its files
+  # (server.xml 0644, tomcat-users.xml 0640, tomcat.conf 0644) are root-owned and
+  # NOT group-writable, so pam_group gives the team config READ but not write. The
+  # ACL is what lets them edit server.xml / tomcat.conf, add conf.d drop-ins, and
+  # place the TLS PKCS12 keystore in the tree (see dev §4). Config is ACL'd to the
+  # TEAM; it is never chgrp'd to the service account.
+  # REVIEW-DROP: '/etc/.java', '/etc/java', '/etc/jvm', '/etc/jvm-common' —
+  # JVM / update-alternatives config pulled in by the openjdk dependency closure;
+  # not Tomcat's, and JDK config is a platform concern.
+  # REVIEW-DROP: '/etc/pki/nssdb' — system NSS shared DB (root:root) from the
+  # crypto dependency closure; unrelated to operating Tomcat.
+  # REVIEW-DROP: '/var/lib/tomcat' — CATALINA_BASE. The only path the team writes
+  # under it is webapps/, already group-writable via pam_group above; the rest
+  # (work/, temp/) is service runtime. The broad recursive ACL is removed;
+  # install-time state is kept via the ownership entry below.
+  # REVIEW-DROP: '/var/lib/tomcats' — empty multi-instance base (root:root), used
+  # only by tomcat@ instances this single-instance deploy does not run.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is still
+  # wanted. EL tomcat writes juli file logs to /var/log/tomcat (CATALINA_BASE/logs
+  # is symlinked there) and self-rotates them — logrotate ships DISABLED
+  # (/etc/logrotate.d/tomcat.disabled). Default ACL keeps the daily files readable
+  # (see ops §10). [needs-runtime-confirmation: exact dir/symlink on the host]
+  - '/var/log/tomcat'
+
+declarative_access_ownership:
+  # Kept as captured (unchanged from raw) — enforces install-time state and makes
+  # drift visible to rpm -V. group 'tomcat' is the vendor default, not our change.
+  - { path: '/etc/tomcat', owner: 'root', group: 'tomcat', mode: '0755' }
+  - { path: '/var/lib/tomcat', owner: 'root', group: 'tomcat', mode: '0755' }

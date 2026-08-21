@@ -1,0 +1,87 @@
+---
+# declarative-access-profiles :: php-fpm on almalinux-10
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-10/footprint-php-fpm.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               AlmaLinux 10 EC2 AMI, SELinux enforcing; cairn 0.10.0 feature
+#               branch. No accounts/groups created — php-fpm reuses the
+#               pre-existing 'apache' account; pool workers run as apache.)
+#   raw       : ./almalinux-10-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/php-fpm/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to almalinux-9 as of this capture. The only raw
+# differences are cosmetic and dropped anyway: the httpd/nginx integration
+# drop-ins land under /etc/systemd/system (vs /lib on alma9), and the package
+# additionally ships a tmpfiles.d/php.conf fragment alongside the same
+# /var/lib/php subdirs — neither is a grant.
+#
+# ACCESS MODEL: app-server, config-scoped — config write ACL on the FPM pool
+# dir (/etc/php-fpm.d) + log read ACL (/var/log/php-fpm) + service control.
+# NO pam_group by default: php-fpm owns no content dir of its own (it executes
+# PHP in the webserver's document root — that setgid content grant lives in the
+# webserver's profile, not here), so the 'apache' group would back no write
+# grant in this profile; its only local reach is /var/lib/php/{session,opcache}
+# (0770 root:apache — live session state), which the default must not expose.
+# The pam_group opt-in stays available at apply time for co-located LAMP/LEMP
+# hosts (see ops.md §3). Read-only-units profile: no unit-file write anywhere.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/php-fpm/almalinux-10-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-10 ami-031f2f100ad9c9b8a, SELinux/authselect real)
+
+declarative_access_profile_name: 'php-fpm'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'php-fpm'
+
+# REVIEW-DROP: declarative_access_files_modify [4 entries: php-fpm.service under
+# /lib + /usr/lib, and the httpd.service.d/php-fpm.conf + nginx.service.d/
+# php-fpm.conf webserver-integration drop-ins under /etc/systemd/system] — all
+# vendor-shipped. A write ACL on a unit file (or a drop-in for another app's
+# unit) is root-equivalent for that unit with the granted daemon-reload +
+# restart; the two drop-ins also target httpd/nginx, not php-fpm. Read-only-
+# units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['apache'] (the webserver-class default the nginx/apache profiles REVIEW-ADD)
+# — NOT added here. php-fpm's "content" is the webserver's document root, which
+# it does not own; the shared web-root setgid grant lives in the webserver's
+# profile. In THIS profile the 'apache' group backs no write grant and its only
+# reach is /var/lib/php/{session,opcache,wsdlcache} (0770 root:apache), the
+# service's private runtime state (live PHP session files). Config is granted by
+# ACL, logs by ACL, the service by systemctl — a complete operating grant with
+# no group. Apply-time opt-in for co-located LAMP/LEMP hosts where the team also
+# writes app code into the webserver's setgid root (see ops.md §3):
+#   -e '{"declarative_access_pam_group": true, "declarative_access_local_groups": ["apache"]}'
+# On such hosts the webserver profile usually already grants it.
+
+declarative_access_folders_modify:
+  # REVIEW-KEEP: the FPM pool dir — config write ACL (+ default ACL). The team
+  # writes pool files here (www.conf and new pools); the apache account must NOT
+  # (never chgrp config to the service account). Per-pool php_admin_value /
+  # php_value in these files covers PHP tuning, so the team needs no write on the
+  # shared /etc/php.d (dropped below).
+  - '/etc/php-fpm.d'
+  # REVIEW-DROP: '/etc/php.d' — php-common's shared extension .ini dir, used by
+  # every PHP SAPI on the host (CLI as well as FPM); enabling/tuning a module
+  # here is a host-wide change. Keep the team scoped to their FPM pools; module
+  # changes are an ops/change-window act.
+  # REVIEW-DROP: '/etc/systemd/system/php-fpm.service.d' — unit drop-in dir;
+  # root-equivalent with the granted daemon-reload + restart.
+  # REVIEW-DROP: '/var/lib/php' — service runtime state. The session, opcache
+  # and wsdlcache subdirs are 0770 root:apache and hold live session data; the
+  # apache workers write here, the team does not. Left at vendor defaults, not
+  # granted (mirrors nginx's /var/lib/nginx drop).
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is
+  # still wanted (read ACL + default ACL keeps rotated files readable). EL
+  # php-fpm ships /etc/logrotate.d/php-fpm and the global php-fpm.conf +
+  # default www.conf write error/access logs under /var/log/php-fpm/
+  # [needs-runtime-confirmation on the pool's error_log setting].
+  - '/var/log/php-fpm'

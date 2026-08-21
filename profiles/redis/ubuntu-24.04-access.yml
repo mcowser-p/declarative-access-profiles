@@ -1,0 +1,68 @@
+---
+# declarative-access-profiles :: redis on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-redis.json
+#               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
+#               cairn 0.10.0 feature branch. apt auto-started redis-server at
+#               install, so the footprint includes first-start side effects.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/redis/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: cache — scoped service control + config write ACL (/etc/redis)
+# + log read ACL. NO pam_group: the 'redis' group owns the data dir
+# /var/lib/redis (0750) AND Debian ships /etc/redis 2770 redis:redis, so
+# pam_group would expose persisted data as well as config. Config write is
+# granted via an ACL only. Read-only-units profile; the data dir is never
+# granted. Canonical unit is redis-server.service (redis.service is a vendor
+# alias).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/redis/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+declarative_access_profile_name: 'redis'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'redis-server'
+  # REVIEW-DROP: 'redis' — redis.service is a vendor alias symlink for
+  # redis-server.service (Install.Alias). Grant the canonical unit; the team
+  # uses 'redis-server' in systemctl/journalctl (sudo matches exact strings).
+
+# REVIEW-DROP: declarative_access_files_modify [multi-user.target.wants symlink,
+# /etc/systemd/system/redis.service alias, /lib + /usr/lib redis-server.service,
+# redis-server@.service template] — vendor units + enablement/alias symlinks apt
+# created on auto-start; unit-file write is root-equivalent. Read-only-units.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['redis'] — cache class: the 'redis' group owns /var/lib/redis (0750) and
+# Debian ships /etc/redis 2770 redis:redis, so pam_group would grant read of
+# persisted data (dump.rdb/appendonly) beneath every redis AUTH/ACL. Config
+# write is granted via an ACL instead. The group option remains available at
+# apply time (-e enable_pam_group=true) for teams that accept data-dir exposure.
+
+declarative_access_folders_modify:
+  # REVIEW-ADD: '/etc/redis' — config write ACL. The raw omitted it: the
+  # exporter saw /etc/redis already group-writable (2770 redis:redis) and routed
+  # config write through pam_group + the 'redis' group (see group_access). We
+  # drop pam_group (data exposure), so config write comes via an ACL on
+  # /etc/redis for the team group (+ default ACL for included config files).
+  - '/etc/redis'
+  # REVIEW-DROP: '/var/lib/redis' — the data dir; never granted. Kept via
+  # ownership below.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default. Debian redis logs
+  # to a FILE here by default (logfile /var/log/redis/redis-server.log —
+  # confirmed as the unit's ReadWritePath), unlike EL, which logs to the journal.
+  - '/var/log/redis'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: install-created data-dir state; enforces owner/mode, drift
+  # visible. (/etc/redis 2770 redis:redis is vendor setgid state, left as-is —
+  # the team writes config via the ACL above, not via the service group.)
+  - {path: '/var/lib/redis', owner: 'redis', group: 'redis', mode: '0750'}

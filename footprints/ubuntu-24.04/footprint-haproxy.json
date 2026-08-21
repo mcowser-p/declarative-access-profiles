@@ -1,0 +1,1318 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-09T17:18:48.259612+00:00",
+  "application": "haproxy",
+  "host": "ip-172-31-18-169",
+  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_sha256": "83fbd4ff9dc3d4b055a6ff9ecb20e868edb15a562a22e61b1844e62573a87a76",
+    "created_at": "2026-08-09T17:17:36.513591+00:00",
+    "source_host": "ip-172-31-18-169",
+    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+  },
+  "summary": {
+    "files_added": 36,
+    "files_modified": 33,
+    "files_deleted": 0,
+    "systemd_units": 3,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 7,
+    "risks": 3,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "haproxy",
+        "uid": 111,
+        "gid": 114,
+        "gecos": "",
+        "home": "/var/lib/haproxy",
+        "shell": "/usr/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "haproxy",
+        "gid": 114,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "haproxy",
+        "gid": 114,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "haproxy.service",
+        "path": "/etc/systemd/system/multi-user.target.wants/haproxy.service",
+        "unit_type": "service",
+        "description": "HAProxy Load Balancer",
+        "exec_start": [
+          "/usr/sbin/haproxy -Ws -f $CONFIG -p $PIDFILE $EXTRAOPTS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/default/haproxy",
+          "-/etc/sysconfig/haproxy"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:haproxy(1)",
+            "file:/usr/share/doc/haproxy/configuration.txt.gz"
+          ],
+          "Unit.After": [
+            "network-online.target rsyslog.service"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.BindReadOnlyPaths": [
+            "/dev/log:/var/lib/haproxy/dev/log"
+          ],
+          "Service.Environment": [
+            "\"CONFIG=/etc/haproxy/haproxy.cfg\" \"PIDFILE=/run/haproxy.pid\" \"EXTRAOPTS=-S /run/haproxy-master.sock\""
+          ],
+          "Service.ExecReload": [
+            "/usr/sbin/haproxy -Ws -f $CONFIG -c -q $EXTRAOPTS",
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.KillMode": [
+            "mixed"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.SuccessExitStatus": [
+            "143"
+          ],
+          "Service.Type": [
+            "notify"
+          ]
+        }
+      },
+      {
+        "name": "haproxy.service",
+        "path": "/usr/lib/systemd/system/haproxy.service",
+        "unit_type": "service",
+        "description": "HAProxy Load Balancer",
+        "exec_start": [
+          "/usr/sbin/haproxy -Ws -f $CONFIG -p $PIDFILE $EXTRAOPTS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/default/haproxy",
+          "-/etc/sysconfig/haproxy"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:haproxy(1)",
+            "file:/usr/share/doc/haproxy/configuration.txt.gz"
+          ],
+          "Unit.After": [
+            "network-online.target rsyslog.service"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.BindReadOnlyPaths": [
+            "/dev/log:/var/lib/haproxy/dev/log"
+          ],
+          "Service.Environment": [
+            "\"CONFIG=/etc/haproxy/haproxy.cfg\" \"PIDFILE=/run/haproxy.pid\" \"EXTRAOPTS=-S /run/haproxy-master.sock\""
+          ],
+          "Service.ExecReload": [
+            "/usr/sbin/haproxy -Ws -f $CONFIG -c -q $EXTRAOPTS",
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.KillMode": [
+            "mixed"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.SuccessExitStatus": [
+            "143"
+          ],
+          "Service.Type": [
+            "notify"
+          ]
+        }
+      },
+      {
+        "name": "haproxy.service",
+        "path": "/lib/systemd/system/haproxy.service",
+        "unit_type": "service",
+        "description": "HAProxy Load Balancer",
+        "exec_start": [
+          "/usr/sbin/haproxy -Ws -f $CONFIG -p $PIDFILE $EXTRAOPTS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/default/haproxy",
+          "-/etc/sysconfig/haproxy"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:haproxy(1)",
+            "file:/usr/share/doc/haproxy/configuration.txt.gz"
+          ],
+          "Unit.After": [
+            "network-online.target rsyslog.service"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.BindReadOnlyPaths": [
+            "/dev/log:/var/lib/haproxy/dev/log"
+          ],
+          "Service.Environment": [
+            "\"CONFIG=/etc/haproxy/haproxy.cfg\" \"PIDFILE=/run/haproxy.pid\" \"EXTRAOPTS=-S /run/haproxy-master.sock\""
+          ],
+          "Service.ExecReload": [
+            "/usr/sbin/haproxy -Ws -f $CONFIG -c -q $EXTRAOPTS",
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.KillMode": [
+            "mixed"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.SuccessExitStatus": [
+            "143"
+          ],
+          "Service.Type": [
+            "notify"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/haproxy",
+      "category": "logrotate",
+      "change": "added"
+    },
+    {
+      "path": "/etc/init.d/haproxy",
+      "category": "init_script",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/tmpfiles.d/haproxy.conf",
+      "category": "tmpfiles",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/etc/init.d/haproxy",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/halog",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/halog",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/haproxy",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/halog",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/halog",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/haproxy",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "config": [
+        {
+          "path": "/etc/haproxy",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/haproxy/haproxy.cfg",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1285,
+          "sha256": "cc8b8c00566915d869d7ffc5f21ad4ade27b40e4845394ee00996f8eb83cad73"
+        },
+        {
+          "path": "/etc/haproxy/errors",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/haproxy/errors/503.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 213,
+          "sha256": "799602bc1ef35d2208c0519c1288516147a703f16c2837eb8802deb27f83beaa"
+        },
+        {
+          "path": "/etc/haproxy/errors/504.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 195,
+          "sha256": "0ac0c626a1ac4d322f40710ace0faa6a234f7225c8f9704de47de79cdd537eca"
+        },
+        {
+          "path": "/etc/haproxy/errors/400.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 188,
+          "sha256": "52646d932f52e68df43417ff910f45aa52157702f4d2a4a5b875545e047f434c"
+        },
+        {
+          "path": "/etc/haproxy/errors/502.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 205,
+          "sha256": "59efe86cf5e2d6767ab90bdb1446d49393862fba2f761dd5a23c43373e17336c"
+        },
+        {
+          "path": "/etc/haproxy/errors/403.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 189,
+          "sha256": "9fa69cf584383c71c67cfea0349f9c236b4bffac3da6f9bd7b320d35b59dc05b"
+        },
+        {
+          "path": "/etc/haproxy/errors/408.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 213,
+          "sha256": "ac1e1a0791101f4e4db2772fcf852353e921a38ede1d0705d1be9983ad4c7bff"
+        },
+        {
+          "path": "/etc/haproxy/errors/500.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 205,
+          "sha256": "1a15755124dd229112203f34fffe1ed8951a4a1fe0832af9aaf02f0bd8b0591e"
+        },
+        {
+          "path": "/etc/rc1.d/K01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc5.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc3.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc0.d/K01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc6.d/K01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rsyslog.d/49-haproxy.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 286,
+          "sha256": "a9ce3408cdd3e6aee896a16c55b716205ee31205baeb334ca58348a46b45e8a7"
+        },
+        {
+          "path": "/etc/rc2.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/default/haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 309,
+          "sha256": "c316bcb066714c0e311f86aa980dca692142cf951c86ad42f1ff07df77d55ceb"
+        }
+      ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/haproxy",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 221,
+          "sha256": "46b09eddb5249eba4213d532034704680466f9a79e9f796275445202a6a1adbb"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/haproxy",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3406,
+          "sha256": "21da8cfd200693ffc88741504baa3f770ca1990637ea0ff316646607e25dceef"
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/etc/systemd/system/multi-user.target.wants/haproxy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/haproxy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1506,
+          "sha256": "551aecbd5987826002836240b207e9310ff252ef8f6c5de954671da7d913427c"
+        },
+        {
+          "path": "/lib/systemd/system/haproxy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1506,
+          "sha256": "551aecbd5987826002836240b207e9310ff252ef8f6c5de954671da7d913427c"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/halog",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43432,
+          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
+        },
+        {
+          "path": "/sbin/halog",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43432,
+          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
+        },
+        {
+          "path": "/sbin/haproxy",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3818472,
+          "sha256": "1cdcdf104214da34c79986a6132b6b193476be5fb2cf26b831e4f0e91da68c5a"
+        },
+        {
+          "path": "/usr/bin/halog",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43432,
+          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
+        },
+        {
+          "path": "/usr/sbin/halog",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43432,
+          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
+        },
+        {
+          "path": "/usr/sbin/haproxy",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3818472,
+          "sha256": "1cdcdf104214da34c79986a6132b6b193476be5fb2cf26b831e4f0e91da68c5a"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/haproxy.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 38,
+          "sha256": "5a14ac044779508016cf1cf709a4cbab5fa7f51d4e46a50895790d02e5eb6888"
+        }
+      ],
+      "library": [
+        {
+          "path": "/lib/tmpfiles.d/haproxy.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 38,
+          "sha256": "5a14ac044779508016cf1cf709a4cbab5fa7f51d4e46a50895790d02e5eb6888"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/lintian/overrides/haproxy",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 129,
+          "sha256": "80a9f6babc4424062ce82791d5f123bf00cc6c79f8655f6f53acf0ba51fdf5ce"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/haproxy",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/haproxy/dev",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/haproxy/dev/log",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o666",
+          "mode_symbolic": "srw-rw-rw-",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": null
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 860,
+        "sha256": "00d884e80c72747b0332ea88c9cc579e5c38f37ac50442b0060b4da192af4e87"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1850,
+        "sha256": "a4fd568e761d120895b46a73aeb2c63dea0d9ccfafe7408d56dba4b9040b2310"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 725,
+        "sha256": "9fad62b95b1362083c1d65931d5d23f941d1dff5efbf745656679883d54ce558"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 875,
+        "sha256": "f10703213ee769bcf8623b4d4438bd6727488e0f0cf443a76814391dcfc404c2"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 921,
+        "sha256": "18941038defb6f69c182b10d5d28e1a5a73deffe6f297f74d7a9c6a1afcb0129"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 737,
+        "sha256": "dce5eb3c990197b5154ef4a51cec47fd2c4b4058f58b9d7d663ab796eef2b984"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1904,
+        "sha256": "48bf47c4094481d1bc99da834116d8fd73271ac2f36d34e673cc55a884e5653f"
+      },
+      {
+        "path": "/etc/rc1.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc5.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc4.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rsyslog.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc2.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/default",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/sbin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 20480,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 28672,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/lintian/overrides",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/update-notifier",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/cairn",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "haproxy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/default/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/sysconfig/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/usr/sbin/haproxy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "haproxy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/default/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/sysconfig/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/usr/sbin/haproxy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "haproxy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/default/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/sysconfig/haproxy",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/usr/sbin/haproxy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [],
+  "risks": [
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "haproxy.service has no User= directive; runs as root",
+      "path": "/etc/systemd/system/multi-user.target.wants/haproxy.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "haproxy.service has no User= directive; runs as root",
+      "path": "/usr/lib/systemd/system/haproxy.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "haproxy.service has no User= directive; runs as root",
+      "path": "/lib/systemd/system/haproxy.service"
+    }
+  ],
+  "scan_errors": []
+}

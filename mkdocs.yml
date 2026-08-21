@@ -1,0 +1,71 @@
+---
+site_name: Declarative Access Profiles
+# Required for correct canonical links and sitemap.xml when the site is
+# served from a subdirectory (https://<user>.github.io/<repo>/).
+site_url: https://mcowser-p.github.io/declarative-access-profiles/
+site_description: >-
+  Evidence-based access profiles for Linux applications — cairn footprints
+  reviewed into least-privilege grants, with dev and ops documentation.
+repo_url: https://github.com/mcowser-p/declarative-access-profiles
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: {icon: material/brightness-7, name: Dark mode}
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: {icon: material/brightness-4, name: Light mode}
+  features:
+    - navigation.sections
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.snippets
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - How it fits together: blog/how-it-fits-together.md
+  - Operations:
+      - Onboarding an app: onboarding.md
+  - Concepts:
+      - The access model: concepts/access-model.md
+      - Deployment lifecycle: concepts/lifecycle.md
+      - TLS / SSL: concepts/tls-ssl.md
+      - Logs & rotation: concepts/logging.md
+      - Storage & growth: concepts/storage.md
+  - Applications:
+      - nginx: [apps/nginx/dev.md, apps/nginx/ops.md]
+      - apache: [apps/apache/dev.md, apps/apache/ops.md]
+      - haproxy: [apps/haproxy/dev.md, apps/haproxy/ops.md]
+      - tomcat: [apps/tomcat/dev.md, apps/tomcat/ops.md]
+      - php-fpm: [apps/php-fpm/dev.md, apps/php-fpm/ops.md]
+      - postgresql: [apps/postgresql/dev.md, apps/postgresql/ops.md]
+      - mariadb: [apps/mariadb/dev.md, apps/mariadb/ops.md]
+      - mysql: [apps/mysql/dev.md, apps/mysql/ops.md]
+      - redis: [apps/redis/dev.md, apps/redis/ops.md]
+      - memcached: [apps/memcached/dev.md, apps/memcached/ops.md]
+  - Role evaluations:
+      - Method & index: role-evals/index.md
+      - nginx: role-evals/nginx.md
+      - apache: role-evals/apache.md
+      - haproxy: role-evals/haproxy.md
+      - tomcat: role-evals/tomcat.md
+      - php-fpm: role-evals/php-fpm.md
+      - postgresql: role-evals/postgresql.md
+      - mariadb: role-evals/mariadb.md
+      - mysql: role-evals/mysql.md
+      - redis: role-evals/redis.md
+      - memcached: role-evals/memcached.md
+  - Windows plan: windows-plan.md
+  - Conventions: conventions.md

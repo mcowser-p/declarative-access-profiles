@@ -1,0 +1,80 @@
+---
+# declarative-access-profiles :: apache (apache2) on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-apache.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch.
+#               application slug 'apache2'. apt auto-started apache2 at
+#               install, so the footprint includes first-start side effects:
+#               the ssl-cert.service snakeoil pair and enablement symlinks.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/apache/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: webserver — pam_group into the service group 'www-data'
+# (identity/read baseline) + setgid content dir /var/www/html + config write
+# ACL on /etc/apache2 + log read ACL on /var/log/apache2. Read-only-units
+# profile. Debian uses the a2ensite/a2enmod symlink model (see REVIEW notes)
+# and www-data is SHARED by other Debian web services (see REVIEW-KEEP).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/apache/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+# REVIEW-CHANGE: profile_name 'apache2' -> 'apache' — normalized to the
+# library app slug (check_profiles requires profile_name == the app dir).
+declarative_access_profile_name: 'apache'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'apache2'
+  # REVIEW-DROP: 'apache-htcacheclean' — mod_cache_disk cache cleaner
+  # (User=www-data), off by default; not the web server.
+  # REVIEW-DROP: 'ssl-cert' — a one-shot (make-ssl-cert generate-default-
+  # snakeoil) that ran once at apt auto-start to write the self-signed test
+  # pair. Not a service the team operates; it regenerates a throwaway cert.
+
+# REVIEW-DROP: declarative_access_files_modify [12 entries: apache2.service,
+# apache2@.service, apache-htcacheclean{,@}.service, ssl-cert.service under
+# /lib + /usr/lib, plus the two /etc/systemd/system/multi-user.target.wants
+# enablement symlinks apt created on auto-start] — vendor units + enablement
+# symlinks; unit-file write is root-equivalent. Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — Debian apache2 runs as www-data.
+  # REVIEW-KEEP caveat: www-data is SHARED by other Debian web services
+  # (nginx, php-fpm). Single-app servers only; on a shared box drop these two
+  # keys and use an ACL-only profile (config write ACL + log read ACL) with a
+  # per-team setgid content subtree instead of the www-data group.
+  - 'www-data'
+
+declarative_access_folders_modify:
+  # REVIEW-CHANGE: raw enumerated the leaf dirs (conf-enabled, mods-available,
+  # mods-enabled, sites-available, sites-enabled); grant the config root
+  # /etc/apache2 instead — one write ACL + default ACL covers editing
+  # *-available and creating the *-enabled symlinks the a2ensite/a2enmod
+  # model needs (matches EL's single /etc/httpd grant).
+  - '/etc/apache2'
+  # REVIEW-DROP: '/etc/ufw/applications.d/apache2' — firewall/ufw is ops,
+  # never an app grant (dependency-pulled onto this box).
+  # REVIEW-DROP: '/var/lib/apache2' — apache2 maintainer/module state
+  # (root:root); the service and a2* maintainer scripts write here, the team
+  # does not. Operators create enable-symlinks directly under the ACL'd
+  # /etc/apache2/*-enabled dirs; `a2ensite`/`a2enmod` themselves stay sudo
+  # (they also touch this dir) — see dev §3.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default.
+  - '/var/log/apache2'
+
+declarative_access_ownership:
+  # REVIEW-ADD: setgid content dir — Debian web root; team writes via
+  # www-data (pam_group), new files inherit the group. Not in the footprint
+  # (/var/www/html ships/pre-exists empty and is uncategorized). Accept-list
+  # for dpkg --verify. (No ownership entry in the raw — apt/www-data
+  # pre-exists.)
+  - {path: '/var/www/html', owner: 'root', group: 'www-data', mode: '2775'}

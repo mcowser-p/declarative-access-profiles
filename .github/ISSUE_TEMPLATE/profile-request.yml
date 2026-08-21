@@ -1,0 +1,147 @@
+---
+name: New access profile request
+description: Ask for an application to be added to the profile library
+title: "profile: <app>"
+labels: ["profile-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Everything here feeds the review that produces the profile. The
+        access model depends most on the **application class** and on what
+        your team actually needs to do day to day — be concrete about both.
+
+        Already covered? Check the [coverage
+        table](https://github.com/mcowser-p/declarative-access-profiles#readme)
+        first; if the app is listed for another distro, say so below and this
+        becomes a much smaller job.
+
+  - type: input
+    id: app
+    attributes:
+      label: Application
+      description: >
+        Distro-neutral slug plus the vendor name — e.g. `valkey` (Valkey),
+        `apache` (Apache httpd). The slug becomes the profile directory.
+      placeholder: "apache (Apache httpd)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: distros
+    attributes:
+      label: Distributions needed
+      multiple: true
+      options:
+        - almalinux-9
+        - almalinux-10
+        - ubuntu-24.04
+        - other (say which in Anything else)
+    validations:
+      required: true
+
+  - type: input
+    id: packages
+    attributes:
+      label: Package name per distro
+      description: >
+        The exact package you install, per distro, since they differ
+        (`httpd` on EL vs `apache2` on Ubuntu). Write "container" if it is
+        not distro-packaged.
+      placeholder: "almalinux: httpd / ubuntu: apache2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: class
+    attributes:
+      label: Application class
+      description: >
+        This decides the access model. Web servers and app servers get
+        pam_group into the service group plus a setgid content directory;
+        **databases are config-scoped with no pam_group and never any grant
+        on the data directory**, because the service group owns the raw
+        files and filesystem access bypasses every SQL GRANT.
+      options:
+        - web server / proxy
+        - application server
+        - database
+        - cache
+        - other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: units
+    attributes:
+      label: systemd units
+      description: >
+        Exact unit names, including any timers (keep the `.timer` suffix).
+        Leave blank if you do not know them yet — the footprint will.
+      placeholder: "httpd.service"
+
+  - type: textarea
+    id: needs
+    attributes:
+      label: What does the team need to do after lockdown?
+      description: >
+        The concrete list. Every grant in the profile has to trace back to
+        something here, so vague answers produce thin profiles.
+      value: |
+        - Restart/reload the service: yes/no
+        - Edit config, and which paths:
+        - Write content/data, and where:
+        - Read logs, and where:
+        - Anything else (deploy artifacts, run a CLI, manage timers):
+    validations:
+      required: true
+
+  - type: dropdown
+    id: storage
+    attributes:
+      label: Does its data grow without bound?
+      description: >
+        Databases and anything with a queue or upload directory usually do.
+        Unbounded growth means ops should mount a separate volume **before**
+        the profile is applied — a volume mounted over an already-granted
+        path hides the ACLs underneath it.
+      options:
+        - "No — logs only, rotation handles it"
+        - "Yes — needs its own volume"
+        - "Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tls
+    attributes:
+      label: Does it terminate TLS?
+      description: >
+        Private keys stay root-owned and out of every profile; the team
+        reloads, the platform rotates. Tomcat-style keystores inside the
+        config tree are the exception worth flagging here.
+      options:
+        - "No"
+        - "Yes — standard cert + key files"
+        - "Yes — keystore or other non-PEM format"
+        - "Not sure"
+
+  - type: dropdown
+    id: footprint
+    attributes:
+      label: Do you already have a cairn footprint?
+      description: >
+        If not, ops captures one — that is the normal path, not a blocker.
+      options:
+        - "No — please capture one"
+        - "Yes — I will attach the JSON"
+    validations:
+      required: true
+
+  - type: textarea
+    id: anything
+    attributes:
+      label: Anything else
+      description: >
+        Target hosts, deadlines, an existing profile this should resemble,
+        vendor docs, or constraints we should know about.

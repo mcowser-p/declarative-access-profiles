@@ -1,0 +1,67 @@
+---
+# declarative-access-profiles :: haproxy on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-haproxy.json
+#               (schema 1.0, captured 2026-08-09 on an AlmaLinux 9 EC2 AMI,
+#               SELinux enforcing; cairn 0.10.0 feature branch)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/haproxy/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: proxy — but the class defaults collapse here. haproxy runs as
+# root (no User= in the unit), the install-created 'haproxy' group owns nothing
+# the team needs, and a proxy serves no content. So this is a config-scoped
+# profile: config write ACL on /etc/haproxy + service control, read-only units.
+# NO pam_group, NO setgid content dir, NO /var/log ACL — in practice haproxy
+# reduces to the cache/minimal shape, not the full webserver/proxy shape.
+# See ops §2/§3 for the evidence behind each dropped class default.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/haproxy/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-9 ami-01dee4dd01d81901c, SELinux/authselect real)
+
+declarative_access_profile_name: 'haproxy'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'haproxy'
+
+# REVIEW-DROP: declarative_access_files_modify [/lib, /usr/lib .../haproxy.service]
+# — vendor unit files; a write ACL on a unit file is root-equivalent for that
+# unit, and here doubly so: haproxy.service has no User=, so it runs as root.
+# Editing ExecStart + the granted daemon-reload/restart is arbitrary root code.
+# Read-only-units profile.
+
+# REVIEW-DROP: proxy-class pam_group + local_groups ['haproxy'] — the install-
+# created 'haproxy' group has no members and owns nothing on disk the team
+# needs (footprint group_access: []; /etc/haproxy and /var/lib/haproxy are both
+# root:root). haproxy's workers drop to 'haproxy' after chroot, but membership
+# grants a human admin nothing, so pam_group is omitted rather than granting a
+# no-op. The apply-time opt-in still exists for teams that want it. See ops §3.
+
+# REVIEW-DROP: proxy-class setgid content dir — haproxy is a pure proxy with no
+# content root. The vendor error pages (/usr/share/haproxy/*.http) are root:root
+# package files, not team-writable content; there is nothing to setgid.
+
+declarative_access_folders_modify:
+  # REVIEW-KEEP: /etc/haproxy config write ACL (haproxy.cfg + the conf.d drop-in
+  # dir the EL unit loads via $CFGDIR). Retained despite the TLS caveat: a PEM
+  # bundle (cert+key concatenated) dropped into /etc/haproxy/certs would fall
+  # inside this write ACL and become team-readable. Doctrine keeps the bundle in
+  # the platform key dir (/etc/pki/tls/private, root:root 0600) referenced by
+  # absolute path — see dev.md §4 + concepts/tls-ssl.md.
+  - '/etc/haproxy'
+  # REVIEW-DROP: '/var/lib/haproxy' — haproxy's chroot/state dir (root:root; the
+  # daemon's runtime home). The service owns it; the team never writes here.
+
+# REVIEW-DROP: /var/log/haproxy read grant (class default) — haproxy has NO
+# application log directory: it emits to syslog. EL ships no rsyslog fragment
+# (footprint has none), so out of the box only the journal carries haproxy
+# output; there is no /var/log/haproxy* file to grant. A flat-file ACL would not
+# survive rotation anyway (no parent default ACL). The service grant's
+# journalctl -u haproxy covers health. If a site configures rsyslog to route
+# haproxy to a dedicated log DIR, ops adds that dir to folders_read at review.
+# See ops §10.

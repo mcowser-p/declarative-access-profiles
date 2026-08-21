@@ -1,0 +1,1228 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-09T17:29:03.564476+00:00",
+  "application": "memcached",
+  "host": "ip-172-31-18-169",
+  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_sha256": "e90e062f1eda8d5ee404f495748a52097f692afc0c94baa4e9979f3fc69af6e7",
+    "created_at": "2026-08-09T17:27:18.030544+00:00",
+    "source_host": "ip-172-31-18-169",
+    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+  },
+  "summary": {
+    "files_added": 30,
+    "files_modified": 33,
+    "files_deleted": 0,
+    "systemd_units": 3,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 7,
+    "risks": 3,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "memcache",
+        "uid": 116,
+        "gid": 118,
+        "gecos": "Memcached,,,",
+        "home": "/nonexistent",
+        "shell": "/bin/false",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "memcache",
+        "gid": 118,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "memcache",
+        "gid": 118,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "memcached.service",
+        "path": "/etc/systemd/system/multi-user.target.wants/memcached.service",
+        "unit_type": "service",
+        "description": "memcached daemon",
+        "exec_start": [
+          "/usr/share/memcached/scripts/systemd-memcached-wrapper /etc/memcached.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [
+          "CAP_SETGID",
+          "CAP_SETUID",
+          "CAP_SYS_RESOURCE"
+        ],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "man:memcached(1)"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.PIDFile": [
+            "/run/memcached/memcached.pid"
+          ],
+          "Service.Restart": [
+            "always"
+          ]
+        }
+      },
+      {
+        "name": "memcached.service",
+        "path": "/usr/lib/systemd/system/memcached.service",
+        "unit_type": "service",
+        "description": "memcached daemon",
+        "exec_start": [
+          "/usr/share/memcached/scripts/systemd-memcached-wrapper /etc/memcached.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [
+          "CAP_SETGID",
+          "CAP_SETUID",
+          "CAP_SYS_RESOURCE"
+        ],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "man:memcached(1)"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.PIDFile": [
+            "/run/memcached/memcached.pid"
+          ],
+          "Service.Restart": [
+            "always"
+          ]
+        }
+      },
+      {
+        "name": "memcached.service",
+        "path": "/lib/systemd/system/memcached.service",
+        "unit_type": "service",
+        "description": "memcached daemon",
+        "exec_start": [
+          "/usr/share/memcached/scripts/systemd-memcached-wrapper /etc/memcached.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [
+          "CAP_SETGID",
+          "CAP_SETUID",
+          "CAP_SYS_RESOURCE"
+        ],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "man:memcached(1)"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.PIDFile": [
+            "/run/memcached/memcached.pid"
+          ],
+          "Service.Restart": [
+            "always"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/init.d/memcached",
+      "category": "init_script",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/tmpfiles.d/memcached.conf",
+      "category": "tmpfiles",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/etc/init.d/memcached",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/memcached",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/memcached",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/memcached/scripts/damemtop",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/memcached/scripts/memcached-tool",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/memcached/scripts/start-memcached",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "config": [
+        {
+          "path": "/etc/memcached.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1487,
+          "sha256": "936518371fd4828e2b770805c57236b3f675d869d99257b7901dd7524c6d2814"
+        },
+        {
+          "path": "/etc/rc1.d/K01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc5.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc3.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc0.d/K01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc6.d/K01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc2.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/default/memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 60,
+          "sha256": "fab3bf5e485e25621cbcbb8d86d5ce58f094610bffc7e08b63a09895167c2bb2"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/memcached",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3481,
+          "sha256": "983b9651c0e6a28ff98553622c87269d5323dfa140bac132ec466cd0215dd440"
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/etc/systemd/system/multi-user.target.wants/memcached.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 41,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/memcached.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3205,
+          "sha256": "ca6edb184282efa8f0e3b32af868fdae616386408b9edafec871e282797c9e64"
+        },
+        {
+          "path": "/lib/systemd/system/memcached.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3205,
+          "sha256": "ca6edb184282efa8f0e3b32af868fdae616386408b9edafec871e282797c9e64"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/memcached",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 262344,
+          "sha256": "59a11639debb3af0b1bf008b54887a739513f4c943a6ea48b8fc618c518a40b6"
+        },
+        {
+          "path": "/usr/bin/memcached",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 262344,
+          "sha256": "59a11639debb3af0b1bf008b54887a739513f4c943a6ea48b8fc618c518a40b6"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/memcached.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 330288,
+          "sha256": "56287221e41fbad82158f3b1a506198f4dc45536a38c100cee25b707c10d0aec"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/lib/tmpfiles.d/memcached.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 330288,
+          "sha256": "56287221e41fbad82158f3b1a506198f4dc45536a38c100cee25b707c10d0aec"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libevent-2.1.so.7",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/memcached",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/memcached/memcached.conf.default",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1487,
+          "sha256": "936518371fd4828e2b770805c57236b3f675d869d99257b7901dd7524c6d2814"
+        },
+        {
+          "path": "/usr/share/memcached/scripts",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/memcached/scripts/damemtop",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15891,
+          "sha256": "87541557507a935e9a46bc81ab37c49551a0fdc26806f5a61ba345dbf66df799"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/damemtop.yaml",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 294,
+          "sha256": "e79a2cdde7d8d536ddf911131b4bb35ecbd6e3f1e214c4afcd454521af8b747a"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1423,
+          "sha256": "9fdd2cdbc7ef3437e8adfbef73f710f52c6605a6bb4b8ff66e8ebe4ecfa64234"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/memcached-tool",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 7019,
+          "sha256": "1f17d7d4c870f831fcf9211b3b262111ca0fc65527abc262546d12bfa0169a80"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/start-memcached",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2770,
+          "sha256": "283ea7c1067e3f9a67ec7ca0e1698e410ebed916635c44ce5b935ffa1afd7c08"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/libevent-2.1-7t64",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 68,
+          "sha256": "b9003444fe27bd68c4d8e00d0d0ede91ac1395c6e08f8419150755dadb78d573"
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 939,
+        "sha256": "cbb1eaa7dc5bffbe70989df91e4bf3a95d43175b80415914f9a8768619232b36"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 2247,
+        "sha256": "250fac1b2353226448c82792c2dbd5d14eb22222f5a8ff781e1d5537ad16ae2e"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 790,
+        "sha256": "dde0842b1687de3213507c3fe146e47410df8246e7e8c7b483ecebf7e1498101"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 955,
+        "sha256": "e0f9d294fd55c21421b3ac622349ad5dbc920ecb58584a8c18891b37940b1a30"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 1051,
+        "sha256": "c0805c911a588467f7cb0f05ea39b7fc1646c99bd1129303e1e479a7909b0d4f"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 803,
+        "sha256": "dbebe45134540895f960ed6be4cea1b7f539be64d5d7cd18bb61e717b911f0f4"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 1028,
+        "sha256": "5784d86f23b4a3c2b5dc6c3552c6df5164183df0f7c77f12d390a9653a9596db"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 2259,
+        "sha256": "544e66cf24300caddeaa8beae34d96f3cf6b114b83b90ea204d3f06974066e16"
+      },
+      {
+        "path": "/etc/rc1.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc5.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc4.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc2.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/default",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/lintian/overrides",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/update-notifier",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/cairn",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "memcached.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_SETGID",
+        "CAP_SETUID",
+        "CAP_SYS_RESOURCE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "memcached.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_SETGID",
+        "CAP_SETUID",
+        "CAP_SYS_RESOURCE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "memcached.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_SETGID",
+        "CAP_SETUID",
+        "CAP_SYS_RESOURCE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [],
+  "risks": [
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "memcached.service has no User= directive; runs as root",
+      "path": "/etc/systemd/system/multi-user.target.wants/memcached.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "memcached.service has no User= directive; runs as root",
+      "path": "/usr/lib/systemd/system/memcached.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "memcached.service has no User= directive; runs as root",
+      "path": "/lib/systemd/system/memcached.service"
+    }
+  ],
+  "scan_errors": []
+}

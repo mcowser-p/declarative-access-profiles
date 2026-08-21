@@ -1,0 +1,2274 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-09T17:27:16.941438+00:00",
+  "application": "redis",
+  "host": "ip-172-31-18-169",
+  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_sha256": "879c23f0356d22dbceab25fea12a3e2e647ffbb86f7f6aa44cc36e08f5f09ff8",
+    "created_at": "2026-08-09T17:25:31.394398+00:00",
+    "source_host": "ip-172-31-18-169",
+    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+  },
+  "summary": {
+    "files_added": 36,
+    "files_modified": 33,
+    "files_deleted": 0,
+    "systemd_units": 6,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 9,
+    "risks": 0,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "redis",
+        "uid": 115,
+        "gid": 117,
+        "gecos": "",
+        "home": "/var/lib/redis",
+        "shell": "/usr/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "redis",
+        "gid": 117,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "redis",
+        "gid": 117,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "redis.service",
+        "path": "/etc/systemd/system/redis.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ],
+          "Install.Alias": [
+            "redis.service"
+          ]
+        }
+      },
+      {
+        "name": "redis-server.service",
+        "path": "/etc/systemd/system/multi-user.target.wants/redis-server.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ],
+          "Install.Alias": [
+            "redis.service"
+          ]
+        }
+      },
+      {
+        "name": "redis-server@.service",
+        "path": "/usr/lib/systemd/system/redis-server@.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store (%I)",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis-%i.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis-%i"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis-%i"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis-%i/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ]
+        }
+      },
+      {
+        "name": "redis-server.service",
+        "path": "/usr/lib/systemd/system/redis-server.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ],
+          "Install.Alias": [
+            "redis.service"
+          ]
+        }
+      },
+      {
+        "name": "redis-server@.service",
+        "path": "/lib/systemd/system/redis-server@.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store (%I)",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis-%i.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis-%i"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis-%i"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis-%i/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ]
+        }
+      },
+      {
+        "name": "redis-server.service",
+        "path": "/lib/systemd/system/redis-server.service",
+        "unit_type": "service",
+        "description": "Advanced key-value store",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd --daemonize no"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [
+          "-/var/lib/redis",
+          "-/var/log/redis",
+          "-/var/run/redis"
+        ],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target"
+          ],
+          "Unit.Documentation": [
+            "http://redis.io/documentation, man:redis-server(1)"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.PIDFile": [
+            "/run/redis/redis-server.pid"
+          ],
+          "Service.TimeoutStopSec": [
+            "0"
+          ],
+          "Service.Restart": [
+            "always"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "2755"
+          ],
+          "Service.UMask": [
+            "007"
+          ],
+          "Service.LimitNOFILE": [
+            "65535"
+          ],
+          "Service.PrivateDevices": [
+            "true"
+          ],
+          "Service.LockPersonality": [
+            "true"
+          ],
+          "Service.MemoryDenyWriteExecute": [
+            "true"
+          ],
+          "Service.PrivateUsers": [
+            "true"
+          ],
+          "Service.ProtectClock": [
+            "true"
+          ],
+          "Service.ProtectControlGroups": [
+            "true"
+          ],
+          "Service.ProtectHostname": [
+            "true"
+          ],
+          "Service.ProtectKernelLogs": [
+            "true"
+          ],
+          "Service.ProtectKernelModules": [
+            "true"
+          ],
+          "Service.ProtectKernelTunables": [
+            "true"
+          ],
+          "Service.ProtectProc": [
+            "invisible"
+          ],
+          "Service.RemoveIPC": [
+            "true"
+          ],
+          "Service.RestrictAddressFamilies": [
+            "AF_INET AF_INET6 AF_UNIX"
+          ],
+          "Service.RestrictNamespaces": [
+            "true"
+          ],
+          "Service.RestrictRealtime": [
+            "true"
+          ],
+          "Service.RestrictSUIDSGID": [
+            "true"
+          ],
+          "Service.SystemCallArchitectures": [
+            "native"
+          ],
+          "Service.SystemCallFilter": [
+            "@system-service",
+            "~ @privileged @resources"
+          ],
+          "Service.ReadWriteDirectories": [
+            "-/etc/redis"
+          ],
+          "Service.NoExecPaths": [
+            "/"
+          ],
+          "Service.ExecPaths": [
+            "/usr/bin/redis-server /usr/lib /lib"
+          ],
+          "Install.Alias": [
+            "redis.service"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/redis-server",
+      "category": "logrotate",
+      "change": "added"
+    },
+    {
+      "path": "/etc/init.d/redis-server",
+      "category": "init_script",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/etc/init.d/redis-server",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-check-aof",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-check-rdb",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-check-aof",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-check-rdb",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "config": [
+        {
+          "path": "/etc/redis",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o2770",
+          "mode_symbolic": "drwxrws---",
+          "owner": "redis",
+          "group": "redis",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "redis",
+          "group": "redis",
+          "size": 106604,
+          "sha256": "f558f95397acc98423d3521b4c59af5ab8c36264e43c58c7e97419e0d4fcbbdf"
+        },
+        {
+          "path": "/etc/rc1.d/K01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc5.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc3.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc0.d/K01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc6.d/K01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc2.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/default/redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 271,
+          "sha256": "f4c22acc046ddbfe13b615608a55706f7563c0fdec710bef923c3e173a74b870"
+        }
+      ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/redis-server",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 146,
+          "sha256": "fdf1d4461183c190594bd95e665eb3486ba3e11b93f9668cb7537b2d8944a4b4"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/redis-server",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1610,
+          "sha256": "f68aa56069d5846e5550949771da3ab668ab3c488144464e7c63c1b858561150"
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/etc/systemd/system/redis.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 44,
+          "sha256": null
+        },
+        {
+          "path": "/etc/systemd/system/multi-user.target.wants/redis-server.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 44,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/redis-server@.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3054,
+          "sha256": "b97b4c0ce03dbdf2b2631f8af7c6ff38d10228c083cd8e683e11dac391ff1e9d"
+        },
+        {
+          "path": "/usr/lib/systemd/system/redis-server.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1834,
+          "sha256": "638211a92bf860f096003559005d7f54d51b16ebd1036d76c408c6ac3e081e8a"
+        },
+        {
+          "path": "/lib/systemd/system/redis-server@.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3054,
+          "sha256": "b97b4c0ce03dbdf2b2631f8af7c6ff38d10228c083cd8e683e11dac391ff1e9d"
+        },
+        {
+          "path": "/lib/systemd/system/redis-server.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1834,
+          "sha256": "638211a92bf860f096003559005d7f54d51b16ebd1036d76c408c6ac3e081e8a"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/redis-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 768720,
+          "sha256": "708b81a94b20b7879f467eecf8a7479d4ca1cc2d10ff39fe62f729a317625fe7"
+        },
+        {
+          "path": "/bin/redis-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/bin/redis-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2624600,
+          "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
+        },
+        {
+          "path": "/bin/redis-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 395720,
+          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
+        },
+        {
+          "path": "/bin/redis-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2624600,
+          "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
+        },
+        {
+          "path": "/usr/bin/redis-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 768720,
+          "sha256": "708b81a94b20b7879f467eecf8a7479d4ca1cc2d10ff39fe62f729a317625fe7"
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/redis-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2624600,
+          "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
+        },
+        {
+          "path": "/usr/bin/redis-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 395720,
+          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
+        },
+        {
+          "path": "/usr/bin/redis-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2624600,
+          "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/liblzf.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libjemalloc.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 830656,
+          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/liblzf.so.1.5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18424,
+          "sha256": "db8105cdc5b50e7ea043050d4050354365f7a3e993facd2c5ee4bad1afc6b24c"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/liblzf.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libjemalloc.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 830656,
+          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/liblzf.so.1.5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18424,
+          "sha256": "db8105cdc5b50e7ea043050d4050354365f7a3e993facd2c5ee4bad1afc6b24c"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/bash-completion/completions/redis-cli",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1003,
+          "sha256": "b7235496f91d98bfedcd5f2126146d60fcc39ed6118327abe1b03e729afc02a8"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/redis",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "redis",
+          "group": "redis",
+          "size": 4096,
+          "sha256": null
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 926,
+        "sha256": "ff62b06a574c84b17277b9fdf94f4adbbc9ea188c201e3bcea3f4a56cf0fbdd7"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 2153,
+        "sha256": "a37457a866b1af2cbddff36bfaa394cc37820be80511ddf0d2f7890908833c02"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 780,
+        "sha256": "a066ac217439f7dec3344f8b6a266c0e3adc64b38fe45f0e9855fd98d1be87fd"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 939,
+        "sha256": "cbb1eaa7dc5bffbe70989df91e4bf3a95d43175b80415914f9a8768619232b36"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 1028,
+        "sha256": "5784d86f23b4a3c2b5dc6c3552c6df5164183df0f7c77f12d390a9653a9596db"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 790,
+        "sha256": "dde0842b1687de3213507c3fe146e47410df8246e7e8c7b483ecebf7e1498101"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 1008,
+        "sha256": "ff89d7d3c6295497d31b8bd9f46d160ca3ddbd7e44bae021187082b4e87022e2"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 2203,
+        "sha256": "56a16299ca4d4e4b6aced1b5bc0f4578f5d876f69a7f43af2a21adf86fd610cb"
+      },
+      {
+        "path": "/etc/rc1.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc5.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc4.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc2.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/default",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/bash-completion/completions",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/update-notifier",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/cairn",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-server.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-server@.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis-%i",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis-%i",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-server.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-server@.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis-%i",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis-%i",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-server.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "strict",
+        "protect_home": "true",
+        "no_new_privileges": true
+      },
+      "needs": [
+        {
+          "path": "-/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/log/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "-/var/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:ReadWritePaths"
+          ]
+        },
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [
+    {
+      "group": "redis",
+      "gid": 117,
+      "writable": [
+        "/etc/redis/"
+      ],
+      "readable": [
+        "/etc/redis/redis.conf",
+        "/var/lib/redis/"
+      ]
+    }
+  ],
+  "risks": [],
+  "scan_errors": []
+}

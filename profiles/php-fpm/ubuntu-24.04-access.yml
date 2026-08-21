@@ -1,0 +1,95 @@
+---
+# declarative-access-profiles :: php-fpm (php8.3-fpm) on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-php-fpm.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch. application
+#               slug 'php8.3-fpm'. No accounts/groups created — php-fpm reuses
+#               the pre-existing 'www-data' account; pool workers run as
+#               www-data. apt auto-started php8.3-fpm at install, so the
+#               footprint includes first-start side effects: enablement
+#               symlinks and the phpsessionclean timer.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/php-fpm/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: app-server, config-scoped — config write ACL on the FPM pool
+# dir (/etc/php/8.3/fpm/pool.d) + log read ACL on the master log file + service
+# control. NO pam_group by default: php-fpm owns no content dir of its own (it
+# executes PHP in the webserver's document root — that setgid content grant
+# lives in the webserver's profile, not here). On Debian the 'www-data' group
+# owns NO php-fpm state dir at all (the session dir is /var/lib/php/sessions
+# 1733 root:root), so the group would reach nothing this app owns — even
+# thinner than EL. The pam_group opt-in stays available at apply time for
+# co-located LAMP/LEMP hosts (see ops.md §3). Read-only-units profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/php-fpm/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+# REVIEW-CHANGE: profile_name 'php8.3-fpm' -> 'php-fpm' — normalized to the
+# library app slug (check_profiles requires profile_name == the app dir).
+declarative_access_profile_name: 'php-fpm'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'php8.3-fpm'
+  # REVIEW-DROP: 'phpsessionclean' (service) — php-common's session garbage
+  # collector, a timer-driven oneshot that clears expired files from
+  # /var/lib/php/sessions. Host housekeeping the team never operates (restarting
+  # it does nothing; the timer fires it); EL has no equivalent unit. Dropped to
+  # keep the surface parallel with EL. See ops.md §2.
+
+# REVIEW-DROP: declarative_access_timers ['phpsessionclean'] — the timer that
+# drives the session GC above; same reasoning. Whole key removed.
+
+# REVIEW-DROP: declarative_access_files_modify [8 entries: php8.3-fpm.service,
+# phpsessionclean.service, phpsessionclean.timer under /lib + /usr/lib, plus the
+# multi-user.target.wants/php8.3-fpm.service and timers.target.wants/
+# phpsessionclean.timer enablement symlinks apt created on auto-start] — all
+# vendor units + enablement symlinks; a unit-file write ACL is root-equivalent
+# for that unit. Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['www-data'] (the webserver-class default the nginx/apache profiles REVIEW-ADD)
+# — NOT added here. php-fpm's "content" is the webserver's document root, which
+# it does not own; the shared web-root setgid grant lives in the webserver's
+# profile. On Debian www-data owns none of php-fpm's state (sessions dir is
+# root:root 1733), so the group would reach nothing this app owns. Config is
+# granted by ACL, logs by ACL, the service by systemctl — a complete operating
+# grant with no group. Apply-time opt-in for co-located LAMP/LEMP hosts where the
+# team also writes app code into the webserver's setgid root (see ops.md §3):
+#   -e '{"declarative_access_pam_group": true, "declarative_access_local_groups": ["www-data"]}'
+# On such hosts the webserver profile usually already grants it. NOTE: www-data
+# is SHARED by other Debian web services (nginx, apache2) — single-app servers
+# only.
+
+declarative_access_folders_modify:
+  # REVIEW-CHANGE: raw granted the whole PHP tree '/etc/php' (which includes the
+  # CLI SAPI config, mods-available, and 8.3/fpm/conf.d symlinks). Narrow to the
+  # FPM pool dir — one write ACL + default ACL covers editing www.conf and adding
+  # pools, the primary FPM knob. The Ubuntu analog of EL's /etc/php-fpm.d grant.
+  # Per-pool php_admin_value / php_value covers PHP tuning; the shared php.ini,
+  # mods-available and CLI config stay ops-managed (a change there affects every
+  # PHP SAPI and is re-capture-worthy).
+  - '/etc/php/8.3/fpm/pool.d'
+  # REVIEW-DROP: '/var/lib/php' — service runtime state (modules registry +
+  # /var/lib/php/sessions 1733 root:root, written by the workers / phpsessionclean,
+  # not the team). Left at vendor defaults, not granted.
+
+declarative_access_files_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is
+  # still wanted. Debian php-fpm writes its master error log to the single file
+  # /var/log/php8.3-fpm.log (not a dedicated dir), rotated by
+  # /etc/logrotate.d/php8.3-fpm. CAVEAT: a file read ACL travels with the file
+  # across a rename, but the FRESH log logrotate creates gets no ACL (there is
+  # no default ACL on /var/log itself), so this grant covers the current file
+  # and its renamed successors but not files created after rotation — the team's
+  # durable path for FPM health is the granted `journalctl -u php8.3-fpm`. To get
+  # a default-ACL'd log dir, point the pool's error_log at /var/log/php8.3-fpm/
+  # in the granted pool file and have ops add that dir to folders_read. See
+  # ops.md §10 and dev.md §5.
+  - '/var/log/php8.3-fpm.log'

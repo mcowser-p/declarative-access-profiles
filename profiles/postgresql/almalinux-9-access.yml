@@ -1,0 +1,57 @@
+---
+# declarative-access-profiles :: postgresql on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-postgresql.json
+#               (schema 1.0, captured 2026-08-09 on an AlmaLinux 9 EC2 AMI,
+#               SELinux enforcing; cairn 0.10.0 feature branch. dnf does not
+#               auto-start on install and the package ships NO data dir —
+#               postgresql-setup --initdb has not run, so postgresql.conf /
+#               pg_hba.conf do not yet exist on disk.)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/postgresql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped, NOT group-scoped. NO pam_group into
+# the 'postgres' group (that group owns the raw data files; membership =
+# filesystem access that bypasses every SQL GRANT). On EL the config lives
+# INSIDE the 0700 data dir, so it is not grantable without granting the data
+# dir — which we never do; config changes are SQL-side (ALTER SYSTEM) or ops
+# (sudo -u postgres). Read-only-units profile. Log read = the journal via the
+# service grant (file logs, if enabled, land in the closed data dir).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/postgresql/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-9 ami-01dee4dd01d81901c, SELinux/authselect real)
+
+declarative_access_profile_name: 'postgresql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'postgresql'
+
+# REVIEW-DROP: declarative_access_files_modify [postgresql.service +
+# postgresql@.service, each under /lib and /usr/lib — 4 paths] — vendor unit
+# files; a write ACL on a unit file is root-equivalent for that unit
+# (ExecStart runs as root before drop to postgres, with granted
+# daemon-reload/restart). Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['postgres'] — DATABASE class: the 'postgres' group owns the raw data files
+# under /var/lib/pgsql, so group membership is filesystem access to the data,
+# which bypasses every GRANT the database enforces. No pam_group by default.
+# The apply-time opt-in for teams that accept that tradeoff is in ops §3.
+
+# REVIEW-DROP: declarative_access_folders_modify ['/etc/postgresql-setup',
+# '/var/lib/pgsql'] — '/etc/postgresql-setup' is root:root postgresql-setup
+# UPGRADE tooling (not team config); '/var/lib/pgsql' is the 0700
+# postgres:postgres data dir and NEVER grantable — the DB config lives inside
+# it. EL config edits are SQL-side (ALTER SYSTEM) or ops — see ops §3.
+
+declarative_access_ownership:
+  # REVIEW-KEEP: enforces the install-time state of the 0700 data dir. This is
+  # an ownership assertion (chown/chmod), not an ACL — it grants the team
+  # nothing, and re-asserts the closed data dir if drift ever loosens it.
+  - {path: '/var/lib/pgsql', owner: 'postgres', group: 'postgres', mode: '0700'}

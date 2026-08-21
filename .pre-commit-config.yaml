@@ -1,0 +1,26 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-yaml
+        # raw/reviewed profiles are plain YAML; matrix.yml too
+      - id: check-added-large-files
+        args: [--maxkb=5000]
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        args: [-c, .yamllint]
+  - repo: local
+    hooks:
+      - id: profile-contract
+        name: profile contract check
+        entry: python3 tools/check_profiles.py
+        language: system
+        pass_filenames: false
+        files: ^(profiles/|matrix\.yml|tools/check_profiles\.py)

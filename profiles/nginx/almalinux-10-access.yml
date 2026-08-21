@@ -1,0 +1,53 @@
+---
+# declarative-access-profiles :: nginx on almalinux-10
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-10/footprint-nginx.json
+#               (schema 1.0, captured 2026-08-09 on an AlmaLinux 10 EC2 AMI,
+#               SELinux enforcing; cairn 0.10.0 feature branch)
+#   raw       : ./almalinux-10-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/nginx/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to almalinux-9 as of this capture — the only
+# raw difference is two extra vendor unit paths (nginx@.service template),
+# which the review drops anyway.
+#
+# ACCESS MODEL: webserver — pam_group + setgid content dir + config write
+# ACL + log read ACL. Read-only-units profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/nginx/almalinux-10-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-10 ami-031f2f100ad9c9b8a, SELinux/authselect real)
+
+declarative_access_profile_name: 'nginx'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'nginx'
+
+# REVIEW-DROP: declarative_access_files_modify [/lib, /usr/lib .../nginx.service
+# and nginx@.service] — vendor unit files incl. the instance template;
+# unit-file write is root-equivalent. Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — team into the install-created 'nginx' group.
+  - 'nginx'
+
+declarative_access_folders_modify:
+  - '/etc/nginx'
+  # REVIEW-DROP: '/etc/systemd/system/nginx.service.d' — unit drop-in dir.
+  # REVIEW-DROP: '/var/lib/nginx' — service runtime cache, not team space.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default.
+  - '/var/log/nginx'
+
+declarative_access_ownership:
+  - {path: '/var/lib/nginx', owner: 'nginx', group: 'root', mode: '0770'}
+  # REVIEW-ADD: setgid content dir (see almalinux-9 header) — accept-list
+  # for rpm -V.
+  - {path: '/usr/share/nginx/html', owner: 'root', group: 'nginx', mode: '2775'}

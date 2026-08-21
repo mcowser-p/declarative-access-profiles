@@ -1,0 +1,71 @@
+---
+# declarative-access-profiles :: mariadb on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-mariadb.json
+#               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
+#               cairn 0.10.0 feature branch. apt auto-started mariadb at
+#               install, so the footprint includes first-start side effects —
+#               the initialised data dir under /var/lib/mysql. NOTE: even with
+#               the daemon started, no TLS material was generated — see ops.md §9.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/mariadb/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped. Config write ACL on the drop-in dir
+# + log read ACL. NO pam_group (the mysql group owns the raw data). Data dir
+# (/var/lib/mysql) NEVER granted. Read-only-units profile. Debian layout:
+# config tree is /etc/mysql, drop-ins in /etc/mysql/mariadb.conf.d, and the
+# error log goes to journald (no /var/log/mysql — see the REVIEW-DROP below).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mariadb/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+declarative_access_profile_name: 'mariadb'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mariadb'
+  # REVIEW-DROP: 'mysql', 'mysqld' — Debian compat units that resolve to
+  # mariadb.service (same daemon). Grant the canonical name. See dev.md §7.
+
+# REVIEW-DROP: declarative_access_files_modify [/etc/systemd/system/
+# multi-user.target.wants/mariadb.service enablement symlink + /lib + /usr/lib
+# .../mariadb.service, mariadb@.service, mariadb.socket, mariadb@.socket,
+# mariadb-extra.socket, mariadb-extra@.socket, mysql.service, mysqld.service, and
+# the galera bootstrap drop-in] — vendor unit files + the enablement symlink apt
+# created on auto-start; unit-file write is root-equivalent. Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups ['mysql']
+# — database class: the mysql group owns the raw data files, so pam_group into it =
+# filesystem access to the data dir, which bypasses every SQL GRANT. Config-scoped
+# profile instead; the group option is an apply-time opt-in (ops.md §3).
+
+declarative_access_folders_modify:
+  # REVIEW-ADD: '/etc/mysql/mariadb.conf.d' — the Debian drop-in dir the team edits
+  # (parallels EL's /etc/my.cnf.d). Narrowed from the raw's whole-tree '/etc/mysql'
+  # (see REVIEW-DROP) so the recursive config ACL stops at the drop-ins.
+  - '/etc/mysql/mariadb.conf.d'
+  # REVIEW-DROP: '/etc/mysql' — too broad. folders_modify is a RECURSIVE rw ACL, and
+  # /etc/mysql/debian.cnf (0600 root:root) holds the debian-sys-maint DB credentials;
+  # a tree-wide ACL would hand the team that file. Grant the drop-in dir only.
+  # REVIEW-DROP: '/var/lib/mysql' — the data directory. Database class NEVER grants it.
+  # REVIEW-DROP: '/etc/logcheck/ignore.d.paranoid', '/etc/logcheck/ignore.d.workstation'
+  # — owned by the logcheck package; they only appear because mariadb-server drops a
+  # logcheck ignore fragment. Not mariadb config, not team space (dependency noise).
+
+# REVIEW-DROP: '/var/log/mysql' — the "always add /var/log/<app>" rule does NOT
+# hold here, and verification on a real Ubuntu 24.04 instance proved it: the
+# apply failed with "not a directory or regular file" because the directory does
+# not exist. Debian's 50-server.cnf leaves log_error commented out, so mariadb's
+# error log goes to journald; the shipped /etc/logrotate.d/mariadb only matters
+# once an operator turns on a file log. The team reads logs with the granted
+# journalctl spellings. Re-review and add the directory back if log_error is set.
+
+declarative_access_ownership:
+  # REVIEW-KEEP: asserts install-time state (mysql:mysql 0755); makes drift visible.
+  # NOT an access grant — no membership or ACL on the data dir is created.
+  - {path: '/var/lib/mysql', owner: 'mysql', group: 'mysql', mode: '0755'}

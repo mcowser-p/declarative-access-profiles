@@ -1,0 +1,1656 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-09T17:10:16.267563+00:00",
+  "application": "redis",
+  "host": "ip-172-31-20-9.us-west-2.compute.internal",
+  "platform": "Linux-5.14.0-687.29.1.el9_8.x86_64-x86_64-with-glibc2.34",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_sha256": "9c9925060cbc26f4a955df757018c0e94952924445d3ba8b49e0cf83ee74874e",
+    "created_at": "2026-08-09T17:09:19.070690+00:00",
+    "source_host": "ip-172-31-20-9.us-west-2.compute.internal",
+    "source_os": "Linux-5.14.0-687.29.1.el9_8.x86_64-x86_64-with-glibc2.34"
+  },
+  "summary": {
+    "files_added": 45,
+    "files_modified": 34,
+    "files_deleted": 0,
+    "systemd_units": 6,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 7,
+    "risks": 0,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "redis",
+        "uid": 992,
+        "gid": 992,
+        "gecos": "Redis Database Server",
+        "home": "/var/lib/redis",
+        "shell": "/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "redis",
+        "gid": 992,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "redis",
+        "gid": 992,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "limit.conf",
+        "path": "/etc/systemd/system/redis-sentinel.service.d/limit.conf",
+        "unit_type": "conf",
+        "description": null,
+        "exec_start": [],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      },
+      {
+        "name": "limit.conf",
+        "path": "/etc/systemd/system/redis.service.d/limit.conf",
+        "unit_type": "conf",
+        "description": null,
+        "exec_start": [],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      },
+      {
+        "name": "redis-sentinel.service",
+        "path": "/usr/lib/systemd/system/redis-sentinel.service",
+        "unit_type": "service",
+        "description": "Redis Sentinel",
+        "exec_start": [
+          "/usr/bin/redis-sentinel /etc/redis/sentinel.conf --daemonize no --supervised systemd"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [
+          "/usr/libexec/redis-shutdown sentinel"
+        ],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ]
+        }
+      },
+      {
+        "name": "redis.service",
+        "path": "/usr/lib/systemd/system/redis.service",
+        "unit_type": "service",
+        "description": "Redis persistent key-value database",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --daemonize no --supervised systemd"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [
+          "/usr/libexec/redis-shutdown"
+        ],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ]
+        }
+      },
+      {
+        "name": "redis-sentinel.service",
+        "path": "/lib/systemd/system/redis-sentinel.service",
+        "unit_type": "service",
+        "description": "Redis Sentinel",
+        "exec_start": [
+          "/usr/bin/redis-sentinel /etc/redis/sentinel.conf --daemonize no --supervised systemd"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [
+          "/usr/libexec/redis-shutdown sentinel"
+        ],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ]
+        }
+      },
+      {
+        "name": "redis.service",
+        "path": "/lib/systemd/system/redis.service",
+        "unit_type": "service",
+        "description": "Redis persistent key-value database",
+        "exec_start": [
+          "/usr/bin/redis-server /etc/redis/redis.conf --daemonize no --supervised systemd"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [
+          "/usr/libexec/redis-shutdown"
+        ],
+        "user": "redis",
+        "group": "redis",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "redis"
+        ],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/redis",
+      "category": "logrotate",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/tmpfiles.d/redis.conf",
+      "category": "tmpfiles",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/sysusers.d/redis.conf",
+      "category": "sysusers",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/bin/redis-server",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/redis-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-server",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/redis-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/libexec/redis-shutdown",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "config": [
+        {
+          "path": "/etc/systemd/system/redis-sentinel.service.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 24,
+          "sha256": null
+        },
+        {
+          "path": "/etc/systemd/system/redis.service.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 24,
+          "sha256": null
+        },
+        {
+          "path": "/etc/redis",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "redis",
+          "group": "root",
+          "size": 45,
+          "sha256": null
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "redis",
+          "group": "root",
+          "size": 93883,
+          "sha256": "11dc9d94adb90cc2873a79904f4c456e9a5e78976f9598262a9d6d882aee89b7"
+        },
+        {
+          "path": "/etc/redis/sentinel.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "redis",
+          "group": "root",
+          "size": 13793,
+          "sha256": "175ced53a58d0b40dcc027481d8677f3634d4a48bc387144c85220be9df4f01c"
+        }
+      ],
+      "systemd_dropin": [
+        {
+          "path": "/etc/systemd/system/redis-sentinel.service.d/limit.conf",
+          "category": "systemd_dropin",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 482,
+          "sha256": "098e770b5b725b0a6f5d7b1c2026d452f351741f32cd118528d38b82221fa2f4"
+        },
+        {
+          "path": "/etc/systemd/system/redis.service.d/limit.conf",
+          "category": "systemd_dropin",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 482,
+          "sha256": "098e770b5b725b0a6f5d7b1c2026d452f351741f32cd118528d38b82221fa2f4"
+        }
+      ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/redis",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 127,
+          "sha256": "40470eb4f50de9bd5bbad373504d5213b76358e0e9f17decf616010d2dcfdce4"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/redis-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2515280,
+          "sha256": "97d9e2b2812ab893d8aa42921436c49e3d9f153466f6e5e4668a78599a469fc4"
+        },
+        {
+          "path": "/bin/redis-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1353496,
+          "sha256": "1d78fc77fb31388b4e4c1c4c60318efa7d6f1522405ee47a6ec2513aeed6c106"
+        },
+        {
+          "path": "/bin/redis-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/bin/redis-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/bin/redis-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 957328,
+          "sha256": "a7abaac1d2a49159d374faabe436891ca03416e4c079e6c608fea8943cf249aa"
+        },
+        {
+          "path": "/bin/redis-sentinel",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2515280,
+          "sha256": "97d9e2b2812ab893d8aa42921436c49e3d9f153466f6e5e4668a78599a469fc4"
+        },
+        {
+          "path": "/usr/bin/redis-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1353496,
+          "sha256": "1d78fc77fb31388b4e4c1c4c60318efa7d6f1522405ee47a6ec2513aeed6c106"
+        },
+        {
+          "path": "/usr/bin/redis-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/redis-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/redis-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 957328,
+          "sha256": "a7abaac1d2a49159d374faabe436891ca03416e4c079e6c608fea8943cf249aa"
+        },
+        {
+          "path": "/usr/bin/redis-sentinel",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/usr/lib/systemd/system/redis-sentinel.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 386,
+          "sha256": "1411c2b581cd3171393ee394a6eb7003191552d501a28707a9a003248d799b19"
+        },
+        {
+          "path": "/usr/lib/systemd/system/redis.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 393,
+          "sha256": "4286471f1e739bdb57917eabc207ad0feba2d6930525b3b9a27c010150caaf98"
+        },
+        {
+          "path": "/lib/systemd/system/redis-sentinel.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 386,
+          "sha256": "1411c2b581cd3171393ee394a6eb7003191552d501a28707a9a003248d799b19"
+        },
+        {
+          "path": "/lib/systemd/system/redis.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 393,
+          "sha256": "4286471f1e739bdb57917eabc207ad0feba2d6930525b3b9a27c010150caaf98"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/redis.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 148,
+          "sha256": "b75012efb2af44cd35bb9a499410df6a16d581a8bd605221e500342d23034455"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/.build-id/a0/07ba661b1263be971db859cf78f4441451e4a5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 32,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/a6/4dfe4228f2147b6d784bf9675c463d196a62dd",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/40/a2cbf1fff3759fead155ca92e7d9dc6464e915",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 29,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/redis",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/redis/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/usr/libexec/redis-shutdown",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1122,
+          "sha256": "58903cac2f9205126edd440fc9ef1336fdd1ce5931fca85e41acbdaa4af4f409"
+        },
+        {
+          "path": "/lib/tmpfiles.d/redis.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 148,
+          "sha256": "b75012efb2af44cd35bb9a499410df6a16d581a8bd605221e500342d23034455"
+        },
+        {
+          "path": "/lib/.build-id/a0/07ba661b1263be971db859cf78f4441451e4a5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 32,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/a6/4dfe4228f2147b6d784bf9675c463d196a62dd",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/40/a2cbf1fff3759fead155ca92e7d9dc6464e915",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 29,
+          "sha256": null
+        },
+        {
+          "path": "/lib/sysusers.d/redis.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 76,
+          "sha256": "4cb767f848a8dd32606a55e89b2f1384169fe382a416fb373b67dcb2e98ce522"
+        },
+        {
+          "path": "/lib64/redis",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/redis/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ],
+      "sysusers": [
+        {
+          "path": "/usr/lib/sysusers.d/redis.conf",
+          "category": "sysusers",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 76,
+          "sha256": "4cb767f848a8dd32606a55e89b2f1384169fe382a416fb373b67dcb2e98ce522"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/licenses/redis",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 89,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/redis/COPYING",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1487,
+          "sha256": "97f0a15b7bbae580d2609dad2e11f1956ae167be296ab60f4691ab9c30ee9828"
+        },
+        {
+          "path": "/usr/share/licenses/redis/COPYING-hiredis",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1588,
+          "sha256": "dca05ce8fc87a8261783b4aed0deef8becc9350b6aa770bc714d0c1833b896eb"
+        },
+        {
+          "path": "/usr/share/licenses/redis/COPYING-jemalloc",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1703,
+          "sha256": "e9ee0ce67f1811b7867e2e4f00e90732260656cba1a0b2e69e55d9aa448d48bb"
+        },
+        {
+          "path": "/usr/share/licenses/redis/COPYRIGHT-lua",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1528,
+          "sha256": "ee5e3e82af1e1b543c4f216e399d7c8cfee797711913f349e385101c4ae60a79"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/redis",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "redis",
+          "group": "redis",
+          "size": 6,
+          "sha256": null
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 8192,
+        "sha256": null
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 522,
+        "sha256": "902326a53619fcfe12f6c6b70738622b1849cf49bb849b387bf15d9a1c8c2a16"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 774,
+        "sha256": "96c39d029c9f171d5814da9bfc292e9811bff579027216bd46414f0b4e965ecd"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1587,
+        "sha256": "95e30fa09338f94e4b13badc970583f9da222a95441482e65447ed1468aa6311"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 667,
+        "sha256": "3fdac5619ed48b00f71be370925bd19712742ab003b6898a842919bca41241d0"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 532,
+        "sha256": "631c8e029a64e500808b00794e4dee47f40869c9a55a337dc5deb1c7dbafd401"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1654,
+        "sha256": "de5019624f505081444ffca9f0d3386da7dde6e553eafd61ba38154284abe471"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 795,
+        "sha256": "523ebe454ac8c343709fe4eb9d367bd2106d74c9efab6b5f03ccc43f9e02f968"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 654,
+        "sha256": "aa8af24806c5aed8999c3feb808a75f302e13a3bafa4b1b603f9c252fd4bf531"
+      },
+      {
+        "path": "/etc/systemd/system",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 8192,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/a0",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/a6",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/40",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/sysusers.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib64",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/usr/libexec",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 8192,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/a0",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/a6",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/40",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/sysusers.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/licenses",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 8192,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dnf",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 93,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/rsyslog",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "root",
+        "group": "root",
+        "size": 29,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/rsyslog/imjournal.state",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 121,
+        "sha256": "b24fafc7a24608b48aee91d9fee0848b5dfef2a2b889d23ebec58e00a9f9e741"
+      },
+      {
+        "path": "/var/lib/cairn",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 31,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-sentinel.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-sentinel",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/libexec/redis-shutdown",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/libexec/redis-shutdown",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis-sentinel.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-sentinel",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/libexec/redis-shutdown",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "redis",
+      "principal_type": "systemd_service",
+      "unit": "redis.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/redis/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/redis",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/redis-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/libexec/redis-shutdown",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/redis",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [
+    {
+      "group": "redis",
+      "gid": 992,
+      "writable": [],
+      "readable": [
+        "/var/lib/redis/"
+      ]
+    }
+  ],
+  "risks": [],
+  "scan_errors": []
+}

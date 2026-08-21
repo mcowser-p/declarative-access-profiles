@@ -1,0 +1,77 @@
+---
+# declarative-access-profiles :: postgresql on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-postgresql.json
+#               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
+#               cairn 0.10.0 feature branch. The `postgresql` meta-package
+#               pulls postgresql-16 and apt ran initdb + auto-started the
+#               cluster at install, so the footprint includes the live
+#               /etc/postgresql/16/main config tree and the 16/main data dir.)
+#   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/postgresql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped, NOT group-scoped. NO pam_group into
+# the 'postgres' group (it owns the raw data). Unlike EL, Debian splits config
+# OUT of the data dir to /etc/postgresql/16/main, so a config write ACL is
+# grantable WITHOUT touching /var/lib/postgresql/16/main (the 0700 data dir).
+# Never the data dir. Read-only-units profile. Log read via /var/log/postgresql.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/postgresql/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+
+declarative_access_profile_name: 'postgresql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'postgresql'
+  # REVIEW-ADD: 'postgresql@16-main' — Debian's postgresql.service is an
+  # umbrella oneshot (ExecStart=/bin/true) that fans out to per-cluster
+  # instances of the postgresql@.service template; postgresql@16-main is the
+  # actual 16/main cluster unit (evidence: the postgresql@.service template +
+  # the captured /etc/postgresql/16/main config and /var/lib/postgresql/16/main
+  # data dir). Granting it lets the team restart/reload just their cluster
+  # instead of the host-wide umbrella.
+  - 'postgresql@16-main'
+
+# REVIEW-DROP: declarative_access_files_modify [19 vendor unit paths — the
+# postgresql.service umbrella + postgresql@.service template + the backup
+# automation units (pg_basebackup@/pg_compresswal@/pg_dump@/pg_receivewal@
+# .service and .timer) under /lib and /usr/lib, plus the multi-user.target
+# enablement symlink apt created on auto-start] — vendor units; unit-file
+# write is root-equivalent. The backup automation is opt-in and ops-owned.
+# Read-only-units profile.
+
+# DATABASE class: pam_group is deliberately NOT set (the raw did not add it
+# for Ubuntu either). The 'postgres' group owns the raw data; membership
+# bypasses every SQL GRANT. Apply-time opt-in documented in ops §3.
+
+declarative_access_folders_modify:
+  # REVIEW: narrowed from the raw's '/etc/postgresql' to the cluster config
+  # dir only. Debian splits config out of the data dir, so this write ACL (+
+  # default ACL for new conf.d drop-ins) grants config edits without reaching
+  # /var/lib/postgresql/16/main. Config files here are postgres:postgres —
+  # the ACL grants the TEAM, not the service account. See ops §2.
+  - '/etc/postgresql/16/main'
+  # REVIEW-DROP: '/etc/postgresql-common' — root:root postgresql-common
+  # package tooling (pg_upgradecluster.d, the logrotate fragment, pg_ctl
+  # defaults); system tooling, not team config.
+  # REVIEW-DROP: '/var/lib/postgresql' — the data-dir root; it contains the
+  # 0700 16/main data dir. NEVER grant the data dir (DB class).
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default. Debian's
+  # cluster logs to /var/log/postgresql/postgresql-16-main.log — grant read.
+  # See ops §10 for the log_file_mode / logrotate mask caveat.
+  - '/var/log/postgresql'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: install-time config-tree ownership; an assertion, not an ACL.
+  - {path: '/etc/postgresql', owner: 'postgres', group: 'postgres', mode: '0755'}
+  # REVIEW-KEEP: install-time data-root ownership; grants nothing. The 0700
+  # 16/main data dir beneath it is untouched and stays out of every grant.
+  - {path: '/var/lib/postgresql', owner: 'postgres', group: 'postgres', mode: '0755'}

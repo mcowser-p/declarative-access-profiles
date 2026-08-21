@@ -1,0 +1,33 @@
+---
+name: Publish site
+
+# Publishes the MkDocs site to https://mcowser-p.github.io/declarative-access-profiles/
+#
+# `mkdocs gh-deploy` publishes by pushing the built site to the gh-pages
+# branch (and writes .nojekyll there itself), so the repo's Pages source
+# must be "Deploy from a branch -> gh-pages / (root)" — NOT "GitHub
+# Actions". workflow_dispatch stays for manual redeploys.
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install mkdocs
+        run: pip install mkdocs-material
+
+      - name: Deploy to gh-pages
+        run: mkdocs gh-deploy --force

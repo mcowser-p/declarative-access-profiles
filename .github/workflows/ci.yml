@@ -1,0 +1,33 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install tooling
+        run: pip install yamllint pyyaml mkdocs-material
+
+      - name: yamllint
+        run: yamllint -c .yamllint matrix.yml profiles/ .github/
+
+      - name: Profile contract check
+        run: python tools/check_profiles.py
+
+      - name: Coverage table is current
+        run: python tools/gen_coverage.py --check
+
+      - name: Build site (strict — broken links fail)
+        run: mkdocs build --strict

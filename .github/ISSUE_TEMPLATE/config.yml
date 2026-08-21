@@ -1,0 +1,23 @@
+---
+blank_issues_enabled: false
+contact_links:
+  - name: Onboarding an application (ops workflow)
+    url: https://github.com/mcowser-p/declarative-access-profiles/blob/main/docs/onboarding.md
+    about: >
+      Provisioning through to the flip — read this before filing, it may
+      answer the question outright.
+  - name: How the access model works
+    url: https://github.com/mcowser-p/declarative-access-profiles/blob/main/docs/concepts/access-model.md
+    about: >
+      Why a grant is an ACL vs pam_group vs setgid, and the tradeoffs each
+      one carries.
+  - name: The role and playbook that apply these profiles
+    url: https://github.com/mcowser-p/ansible-declarative-access
+    about: >
+      Bugs in the apply/revoke mechanism itself belong in the collection
+      repo, not here.
+  - name: cairn (the footprint tool)
+    url: https://github.com/mcowser-p/cairn
+    about: >
+      Capture problems — a missing unit, a wrong path in the raw export —
+      belong there.

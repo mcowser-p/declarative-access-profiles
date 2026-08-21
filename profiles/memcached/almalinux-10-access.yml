@@ -1,0 +1,64 @@
+---
+# declarative-access-profiles :: memcached on almalinux-10
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-10/footprint-memcached.json
+#               (schema 1.0, footprint_type install_time, captured 2026-08-09
+#               on an AlmaLinux 10 EC2 AMI, SELinux enforcing; cairn 0.10.0
+#               feature branch)
+#   raw       : ./almalinux-10-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/memcached/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to almalinux-9 as of this capture — the only raw
+# difference is one extra SELinux module dir in folders_modify
+# (/var/lib/selinux/targeted/active/modules/400), which the review drops anyway.
+# The account gid shifts (990 vs 991); that is not a profile input.
+#
+# ACCESS MODEL: cache — the most minimal profile in the library. Scoped service
+# control + a single config-file write ACL (/etc/sysconfig/memcached). NO
+# pam_group (the 'memcached' group owns nothing on disk), NO log dir (journal
+# only), NO data dir (in-memory). Read-only-units profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/memcached/almalinux-10-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-10 ami-031f2f100ad9c9b8a, SELinux/authselect real)
+
+declarative_access_profile_name: 'memcached'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'memcached'
+
+# REVIEW-DROP: declarative_access_files_modify [/lib + /usr/lib .../memcached.service]
+# — vendor unit files (the /lib path is the usr-merge symlink of the same unit);
+# unit-file write is root-equivalent for that unit. Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_folders_modify
+# [/var/lib/selinux/targeted/active/modules/200/memcached AND
+# /var/lib/selinux/targeted/active/modules/400 (extra_varrun)] — compiled SELinux
+# policy module dirs shipped by memcached-selinux; system-owned SELinux store,
+# not team space. (The extra 400/extra_varrun entry is the only raw delta from
+# alma9.)
+
+declarative_access_files_modify:
+  # REVIEW-ADD: cache class — config write ACL on the single tuning file
+  # (root:root; PORT / USER / CACHESIZE / MAXCONN / OPTIONS, the unit's
+  # EnvironmentFile). Raw omitted it (root:root, no group_access). File-scoped rw
+  # ACL, no default ACL. The 'memcached' service account is NOT granted config
+  # write.
+  - '/etc/sysconfig/memcached'
+
+# NO declarative_access_folders_read: memcached logs to the systemd journal only;
+# the install creates no /var/log/memcached. Log reads are the granted
+# `journalctl -u memcached` spellings. The generic '/var/log/<app>' REVIEW-ADD is
+# deliberately NOT applied — there is no log directory.
+
+# NO declarative_access_pam_group / _local_groups: cache class; the 'memcached'
+# group owns nothing on disk (config root:root, no data dir), so membership would
+# grant nothing. Opt in at apply time only if a future need appears
+# (-e enable_pam_group=true -e '{"declarative_access_local_groups":["memcached"]}').
+
+# NO declarative_access_ownership: no memcached-owned directories are created.

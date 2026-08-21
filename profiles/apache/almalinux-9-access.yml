@@ -1,0 +1,67 @@
+---
+# declarative-access-profiles :: apache (httpd) on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-apache.json
+#               (schema 1.0, install_time; captured 2026-08-09 on an
+#               AlmaLinux 9 EC2 AMI, SELinux enforcing; cairn 0.10.0 feature
+#               branch. application slug 'httpd'.)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/apache/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: webserver — pam_group into the service group 'apache'
+# (identity/read baseline) + setgid content dir (write via group) + config
+# write ACL on /etc/httpd + log read ACL on /var/log/httpd. Read-only-units
+# profile: no unit-file write anywhere.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/apache/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 almalinux-9 ami-01dee4dd01d81901c, SELinux/authselect real)
+
+# REVIEW-CHANGE: profile_name 'httpd' -> 'apache' — normalized to the library
+# app slug (the check_profiles contract requires profile_name == the app dir).
+# The raw keeps the package name; artifact names follow the slug.
+declarative_access_profile_name: 'apache'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'httpd'
+  # REVIEW-DROP: 'htcacheclean' — the mod_cache_disk cache cleaner, not the
+  # web server; installed but not enabled by default. The team never restarts
+  # it on a stock install. Teams that turn on disk caching add it back.
+
+# REVIEW-DROP: declarative_access_files_modify [8 entries: httpd.service,
+# httpd@.service, httpd.socket, htcacheclean.service under both /lib and
+# /usr/lib (usr-merge)] — vendor unit files incl. the instance template and
+# the socket; a write ACL on a unit file is root-equivalent for that unit
+# (ExecStart + the granted daemon-reload/restart). Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — pam_group puts the team into the
+  # install-created 'apache' group (uid/gid 48) at SSH login: read/traverse
+  # baseline and the group that owns the content dir below.
+  - 'apache'
+
+declarative_access_folders_modify:
+  - '/etc/httpd'
+  # REVIEW-DROP: '/var/lib/httpd' — httpd's own runtime state (apache:apache
+  # 0700); the service writes here, the team does not. Install-time state is
+  # kept via the ownership entry below.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is
+  # still wanted (ACL + default ACL keeps rotated files readable).
+  - '/var/log/httpd'
+
+declarative_access_ownership:
+  - {path: '/var/lib/httpd', owner: 'apache', group: 'apache', mode: '0700'}
+  # REVIEW-ADD: content dir (Apache DocumentRoot) — group-owned + setgid so
+  # the team (in 'apache' via pam_group) writes content and new files inherit
+  # the group. Not in the footprint (the DocumentRoot ships/pre-exists empty
+  # and is uncategorized) — hand-added. The one intentional deviation from
+  # vendor permissions; accept-list it for rpm -V.
+  - {path: '/var/www/html', owner: 'root', group: 'apache', mode: '2775'}

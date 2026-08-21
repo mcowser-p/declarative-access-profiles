@@ -1,0 +1,7 @@
+# build / run artifacts
+out/
+site/
+.cache/
+__pycache__/
+*.pyc
+.DS_Store
