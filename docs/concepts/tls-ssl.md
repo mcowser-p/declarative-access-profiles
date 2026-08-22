@@ -212,3 +212,15 @@ sudo systemctl reload nginx             # or httpd — graceful, no downtime
 sudo systemctl restart tomcat           # keystore swap needs a restart
 sudo systemctl reload postgresql        # after an ops-side key rotation
 ```
+
+## Automated issuance and renewal
+
+Client onboarding, enterprise-CA (EAB) registration, issuance, and
+renewal into the canonical paths above are automated by
+[mcowser_p.acme_please](https://github.com/mcowser-p/acme-please) —
+clients come only from native package channels (certbot via dnf/apt,
+simple-acme via winget) so ordinary patch runs keep them updated, and
+deploy hooks re-fire on every renewal (including the Tomcat PKCS12
+rebuild and the team's granted reload command). Troubleshoot the
+result with
+[mcowser_p.ssl_sleuth](https://github.com/mcowser-p/ssl-sleuth).
