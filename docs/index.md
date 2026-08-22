@@ -26,6 +26,8 @@ flowchart LR
   from provisioning to the flip.
 - **"I'm locking a specific app down"** → its **ops runbook**
   (`apps/<app>/ops.md`) — evidence, review decisions, apply/verify/flip.
+- **"How does an install become a profile?"** → [Footprints: how
+  treadmark turns an install into evidence](concepts/footprints.md).
 - **"I'm choosing an install role"** → the **role evaluations** —
   geerlingguy et al. scored against our requirements.
 - **"I want the whole story"** → [How it fits

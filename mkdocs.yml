@@ -39,6 +39,7 @@ nav:
   - Operations:
       - Onboarding an app: onboarding.md
   - Concepts:
+      - Footprints (what treadmark does): concepts/footprints.md
       - The access model: concepts/access-model.md
       - Deployment lifecycle: concepts/lifecycle.md
       - TLS / SSL: concepts/tls-ssl.md

@@ -6,8 +6,8 @@ actual permissions on a host: the four grant mechanisms the `declarative_access`
 collection) composes, the decision matrix for choosing between them, why the *who* is
 never part of a profile, and the security tradeoffs you accept when you apply one.
 Application guides state only their app-specific instantiation of these mechanics and
-link here; how a profile is produced, reviewed, and eventually revoked is covered in
-[lifecycle.md](lifecycle.md).
+link here; how a profile is captured and derived is covered in [footprints.md](footprints.md),
+and how it is reviewed, applied, and eventually revoked in [lifecycle.md](lifecycle.md).
 
 ## WHAT is in the profile, WHO is not
 
