@@ -148,7 +148,16 @@ Tomcat's certificate and key are packed together into a PKCS12 keystore, and tha
 keystore lives *inside the granted config tree* (e.g. `/etc/tomcat/`, `root:tomcat
 0640`) rather than in the platform key directory. Because the team's profile already
 covers that tree, rebuilding the keystore from ops-supplied PEM files and swapping it
-in is something the team can do themselves. The catch: Tomcat has no graceful reload,
+in is something the team can do themselves:
+
+```bash
+openssl pkcs12 -export -in myapp.crt -inkey myapp.key   -certfile chain.crt -out /etc/tomcat/myapp.p12 -passout pass:changeit
+```
+
+(or, with the [mcowser_p.ssl_sleuth](https://github.com/mcowser-p/ssl-sleuth)
+collection, the `pem_to_pkcs12` conversion job — which also verifies the
+cert/key pair matches and can check the resulting endpoint's chain and
+expiry). The catch: Tomcat has no graceful reload,
 so picking up a new keystore means their granted `systemctl restart tomcat` and a
 brief outage [app-knowledge].
 
