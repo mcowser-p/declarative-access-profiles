@@ -118,3 +118,14 @@ fix a full disk. Alerting thresholds, retention policy, and volume growth
 are ops responsibilities. What the team owes ops is early warning and an
 honest growth estimate at handover; what ops owes the team is a threshold
 that fires before the service stops.
+
+## Growing existing volumes
+
+In-place growth (cloud disk → partition → LVM → filesystem) is
+automated by the
+[mcowser_p.fleet_medic](https://github.com/mcowser-p/fleet-medic)
+collection's `disk_expand` role — threshold-driven, capped, and
+cleanup-first. Growing in place never remounts, so the ACL grants on
+the filesystem survive. Attaching **new** volumes remains the manual
+six-step procedure above — and the mount-hides-ACLs rule applies:
+re-apply the access profile after any mount change.
