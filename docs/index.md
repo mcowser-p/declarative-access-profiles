@@ -12,7 +12,7 @@ flowchart LR
     A[clean baseline] --> B[team installs<br/>app-full window]
     B --> C[treadmark footprint<br/>--access-vars]
     C --> D[human review<br/>raw → reviewed]
-    D --> E[apply to<br/>rg.&lt;host&gt;.app-restricted]
+    D --> E[apply to<br/>&lt;hostname&gt;-app_restricted]
     E --> F[verify<br/>allow / deny / behavioral]
     F --> G[flip:<br/>remove app-full]
 ```

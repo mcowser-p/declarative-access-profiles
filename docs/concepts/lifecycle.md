@@ -34,13 +34,13 @@ moment where the team has zero access.
 ```mermaid
 flowchart TD
     B["Baseline<br/>treadmark files init on the clean, joined host"] --> S
-    S["Setup window (time-boxed)<br/>team added to rg.&lt;host&gt;.app-full<br/>fresh login → wheel via pam_group"] --> D
+    S["Setup window (time-boxed)<br/>team added to &lt;hostname&gt;-app_full<br/>fresh login → wheel via pam_group"] --> D
     D["Deploy<br/>team installs and configures the app"] --> H
     H["Handover<br/>manifest declares ready-for-lockdown"] --> C
     C["Ops capture<br/>treadmark footprint --access-vars"] --> R
     R{"Human review<br/>footprint vs manifest,<br/>trim the generated profile"}
     R -->|changes needed| S
-    R -->|approved| A["Apply to rg.&lt;host&gt;.app-restricted<br/>playbook 5 (5_apply_access_profile.yml)<br/>app-full inherits it via nesting"]
+    R -->|approved| A["Apply to &lt;hostname&gt;-app_restricted<br/>playbook 5 (5_apply_access_profile.yml)<br/>app-full inherits it via nesting"]
     A --> V{"Verify<br/>allow / deny / behavioral"}
     V -->|gaps| R
     V -->|pass| F["The flip<br/>remove from app-full<br/>loginctl terminate-user + sss_cache -E"]
