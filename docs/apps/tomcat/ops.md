@@ -14,7 +14,7 @@ group-writable to `tomcat`, so the review's headline action is *adding* pam_grou
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-tomcat.json` (schema 1.0, `install_time`,
-captured 2026-08-09, cairn 0.10.0 feature branch; EL under SELinux enforcing).
+captured 2026-08-09, treadmark 0.10.0 feature branch; EL under SELinux enforcing).
 
 | | alma9 | alma10 | ubuntu 24.04 |
 | --- | --- | --- | --- |

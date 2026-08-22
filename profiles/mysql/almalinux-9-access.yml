@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/almalinux-9/footprint-mysql.json
 #               (schema 1.0, captured 2026-08-09 on an AlmaLinux 9 EC2 AMI,
-#               SELinux enforcing; cairn 0.10.0 feature branch. dnf does not
+#               SELinux enforcing; treadmark 0.10.0 feature branch. dnf does not
 #               auto-start on install, so mysqld never ran: /var/lib/mysql is
 #               present but empty — the initial --initialize / mysql-prepare-db-dir
 #               has not run, so no tables, no auto-generated TLS pair yet.)

@@ -54,7 +54,7 @@ Open with one line: you deployed <app>, you're now in
 - **§1 Footprint summary (evidence)** — table from the JSON: counts, units
   (installed vs dependency-pulled), accounts created (uid/shell), key dirs
   with captured owner:mode; source line (footprint file, schema, date,
-  cairn version). Quote `privilege.sudoers_files[]` content here if any.
+  treadmark version). Quote `privilege.sudoers_files[]` content here if any.
 - **§2 Raw → reviewed: the decisions** — one row per delta with the
   REVIEW-* tag and a WHY sentence. This is the review record.
 - **§3 Access model for this app class** — name the model; the reduced

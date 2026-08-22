@@ -4,7 +4,7 @@ extends: default
 rules:
   line-length:
     max: 120
-  # cairn emits ownership entries as `{ path: ..., owner: ... }` with inner
+  # treadmark emits ownership entries as `{ path: ..., owner: ... }` with inner
   # spaces; raw profiles are byte-exact tool output and must not be reflowed.
   braces:
     max-spaces-inside: 1

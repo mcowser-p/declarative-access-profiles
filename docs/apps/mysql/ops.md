@@ -21,7 +21,7 @@ siblings) is never granted. See §3 and
 ## 1. Footprint summary (evidence)
 
 From `footprints/almalinux-9/footprint-mysql.json` (schema 1.0, captured
-2026-08-09 on an AlmaLinux 9 EC2 AMI, SELinux enforcing; cairn 0.10.0 feature
+2026-08-09 on an AlmaLinux 9 EC2 AMI, SELinux enforcing; treadmark 0.10.0 feature
 branch):
 
 | | alma9 | alma10 | ubuntu 24.04 |

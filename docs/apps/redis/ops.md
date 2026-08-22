@@ -14,7 +14,7 @@ alma10's units, account, and paths are all `valkey`.
 
 From `footprints/<distro>/footprint-redis.json` (schema 1.0,
 `footprint_type: install_time`, captured 2026-08-09 on EC2 AMIs,
-cairn 0.10.0 feature branch):
+treadmark 0.10.0 feature branch):
 
 | | alma9 (redis) | alma10 (valkey) | ubuntu 24.04 (redis-server) |
 | --- | --- | --- | --- |

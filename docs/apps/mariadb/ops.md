@@ -13,7 +13,7 @@ ACL, **no pam_group**, and the data directory is never granted. See §3 and
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-mariadb.json` (schema 1.0, captured
-2026-08-09 on EC2 AMIs, cairn 0.10.0 feature branch; EL captures SELinux
+2026-08-09 on EC2 AMIs, treadmark 0.10.0 feature branch; EL captures SELinux
 enforcing):
 
 | | alma9 | alma10 | ubuntu 24.04 |

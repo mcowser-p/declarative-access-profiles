@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/ubuntu-24.04/footprint-haproxy.json
 #               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
-#               cairn 0.10.0 feature branch. apt auto-started haproxy at
+#               treadmark 0.10.0 feature branch. apt auto-started haproxy at
 #               install, so the footprint includes first-start side effects:
 #               the enablement symlink and /var/lib/haproxy/dev/log.)
 #   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)

@@ -38,7 +38,7 @@ truth; the manifest is your claim.*
 ```mermaid
 flowchart LR
     A[clean baseline] --> B[team installs<br/>app-full window]
-    B --> C[cairn footprint<br/>--access-vars]
+    B --> C[treadmark footprint<br/>--access-vars]
     C --> D[human review<br/>raw → reviewed]
     D --> E[apply to<br/>rg.&lt;host&gt;.app-restricted]
     E --> F[verify<br/>allow / deny / behavioral]
@@ -47,7 +47,7 @@ flowchart LR
 
 ## The parts
 
-**cairn footprint** captures the install-time diff and parses the
+**treadmark footprint** captures the install-time diff and parses the
 security-relevant objects into structured form: units (and the identity
 they run as), timers, quadlets, the directories with owners and modes,
 service accounts, sudoers files, and a `risks[]` list a human should read
@@ -176,7 +176,7 @@ their own concept pages. The short version:
 
 ## Windows
 
-Capture already works there — cairn emits a `1.0-windows` footprint (file +
+Capture already works there — treadmark emits a `1.0-windows` footprint (file +
 registry diff, service and scheduled-task identities) from winget/MSI
 installs. The enforcement analogs exist too — `icacls`, GPO Restricted
 Groups, `sc.exe sdset`, `SeServiceLogonRight`, AppLocker — but there's no

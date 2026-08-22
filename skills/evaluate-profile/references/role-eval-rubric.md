@@ -3,7 +3,7 @@
 Method: the app's reviewed profile + dev/ops docs are the requirement
 rubric; a public Ansible role is scored on how much of it the role
 delivers. What no role delivers becomes the spec for the org overlay.
-Modeled on the chrony worked example in cairn's runbook corpus.
+Modeled on the chrony worked example in treadmark's runbook corpus.
 
 ## Sections (docs/role-evals/<app>.md)
 

@@ -4,7 +4,7 @@ site_name: Declarative Access Profiles
 # served from a subdirectory (https://<user>.github.io/<repo>/).
 site_url: https://mcowser-p.github.io/declarative-access-profiles/
 site_description: >-
-  Evidence-based access profiles for Linux applications — cairn footprints
+  Evidence-based access profiles for Linux applications — treadmark footprints
   reviewed into least-privilege grants, with dev and ops documentation.
 repo_url: https://github.com/mcowser-p/declarative-access-profiles
 

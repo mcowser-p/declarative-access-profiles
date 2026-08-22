@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/almalinux-9/footprint-postgresql.json
 #               (schema 1.0, captured 2026-08-09 on an AlmaLinux 9 EC2 AMI,
-#               SELinux enforcing; cairn 0.10.0 feature branch. dnf does not
+#               SELinux enforcing; treadmark 0.10.0 feature branch. dnf does not
 #               auto-start on install and the package ships NO data dir —
 #               postgresql-setup --initdb has not run, so postgresql.conf /
 #               pg_hba.conf do not yet exist on disk.)

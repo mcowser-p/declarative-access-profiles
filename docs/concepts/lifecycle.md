@@ -33,11 +33,11 @@ moment where the team has zero access.
 
 ```mermaid
 flowchart TD
-    B["Baseline<br/>cairn files init on the clean, joined host"] --> S
+    B["Baseline<br/>treadmark files init on the clean, joined host"] --> S
     S["Setup window (time-boxed)<br/>team added to rg.&lt;host&gt;.app-full<br/>fresh login → wheel via pam_group"] --> D
     D["Deploy<br/>team installs and configures the app"] --> H
     H["Handover<br/>manifest declares ready-for-lockdown"] --> C
-    C["Ops capture<br/>cairn footprint --access-vars"] --> R
+    C["Ops capture<br/>treadmark footprint --access-vars"] --> R
     R{"Human review<br/>footprint vs manifest,<br/>trim the generated profile"}
     R -->|changes needed| S
     R -->|approved| A["Apply to rg.&lt;host&gt;.app-restricted<br/>playbook 5 (5_apply_access_profile.yml)<br/>app-full inherits it via nesting"]
@@ -52,7 +52,7 @@ flowchart TD
 ### Phase by phase
 
 1. **Baseline.** Before the team touches the host, ops records the clean
-   state: `cairn files init` on the deployed, AD-joined server. Everything
+   state: `treadmark files init` on the deployed, AD-joined server. Everything
    the team does afterwards will be measured as a diff against this point,
    so the baseline must land *after* platform setup (join, access playbooks)
    and *before* team access — otherwise platform noise gets attributed to
@@ -79,7 +79,7 @@ flowchart TD
    questioned.
 
 5. **Ops capture.** Ops runs
-   `cairn footprint --app <app> --report footprint-<app>.json --access-vars <app>-access.yml`.
+   `treadmark footprint --app <app> --report footprint-<app>.json --access-vars <app>-access.yml`.
    The footprint JSON is the evidence record; the access-vars file is a
    *generated draft* profile derived from it.
 

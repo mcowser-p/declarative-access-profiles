@@ -88,7 +88,7 @@ neither the role nor our profile touches it.
 
 The role runs during the **setup window** (executor in `<hostname>-app_full`)
 or via platform automation — **always before capture**, so its outputs land
-in the cairn footprint exactly like a manual install and flow through the
+in the treadmark footprint exactly like a manual install and flow through the
 normal raw→reviewed step.
 
 | Role output | Lands in footprint as | Profile key it maps to |

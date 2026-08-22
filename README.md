@@ -1,7 +1,7 @@
 # declarative-access-profiles
 
 Evidence-based access profiles for Linux applications: each application's
-install is captured as a [cairn](https://github.com/mcowser-p/cairn)
+install is captured as a [treadmark](https://github.com/mcowser-p/treadmark)
 footprint, the generated `declarative_access` profile is **reviewed by a
 human**, verified end to end in a container, and published here together
 with documentation for the two people who have to live with it — the dev
@@ -23,7 +23,7 @@ ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
 
 | Path | What it is |
 | --- | --- |
-| `profiles/<app>/` | `<distro>-raw.yml` (byte-exact cairn output, never edited) + `<distro>-access.yml` (reviewed — the diff between the two IS the review) |
+| `profiles/<app>/` | `<distro>-raw.yml` (byte-exact treadmark output, never edited) + `<distro>-access.yml` (reviewed — the diff between the two IS the review) |
 | `footprints/<distro>/` | The committed footprint JSON evidence each profile derives from |
 | `docs/apps/<app>/` | `dev.md` (your life after lockdown) + `ops.md` (lockdown runbook) |
 | `docs/role-evals/` | Public Ansible role evaluations (adopt / wrap / build) per app |
@@ -39,7 +39,7 @@ Both harnesses take the two upstream projects as environment variables, so
 point them at wherever your clones live:
 
 ```bash
-export CAIRN_SRC=/path/to/cairn                       # github.com/mcowser-p/cairn
+export TREADMARK_SRC=/path/to/treadmark                       # github.com/mcowser-p/treadmark
 export ACCESS_SRC=/path/to/ansible-declarative-access # the collection
 
 # authoritative: capture on real EC2 AMIs (one instance per distro)
@@ -57,9 +57,9 @@ scripts/capture-matrix.sh
 scripts/verify-profile.sh nginx almalinux-9
 ```
 
-`CAIRN_SRC` must point at a cairn tree whose `footprint` command supports
+`TREADMARK_SRC` must point at a treadmark tree whose `footprint` command supports
 `--access-vars`; the harness refuses to run otherwise. Once that lands in a
-cairn release, `CAIRN_SRC` goes away in favour of installing the released
+treadmark release, `TREADMARK_SRC` goes away in favour of installing the released
 package — each script header notes the simplification.
 
 ## License

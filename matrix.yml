@@ -5,7 +5,7 @@
 #
 # Cell fields:
 #   package  (required) distro package to install
-#   app      value for `cairn footprint --app` (default: the row slug)
+#   app      value for `treadmark footprint --app` (default: the row slug)
 #   service  unit name asserted in the footprint and targeted by verify
 #   extra    extra packages installed alongside (list)
 #   na       reason this cell is not applicable (mutually exclusive with

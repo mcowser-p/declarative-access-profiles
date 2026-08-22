@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# capture-matrix-ec2.sh — capture cairn footprints + raw access profiles on
+# capture-matrix-ec2.sh — capture treadmark footprints + raw access profiles on
 # REAL EC2 instances (one per distro; apps sequential with re-baseline).
 # Authoritative substrate — captures the OS auth surface containers miss.
 #
@@ -8,8 +8,8 @@
 #   scripts/capture-matrix-ec2.sh sweep [--hours N]    # reap strays
 #   scripts/capture-matrix-ec2.sh [distro ...]         # default: all distros
 # Env:
-#   CAIRN_SRC (required) — cairn checkout with --access-vars (feature branch
-#             until merged). POST-MERGE: install cairn from a release instead.
+#   TREADMARK_SRC (required) — treadmark checkout with --access-vars (feature branch
+#             until merged). POST-MERGE: install treadmark from a release instead.
 #   AWS_REGION (default us-west-2), DAP_ITYPE (default t3.small),
 #   DAP_MAX_MINUTES (default 30, per-instance watchdog)
 set -euo pipefail
@@ -20,9 +20,9 @@ source "$REPO/scripts/ec2-lib.sh"
 [ "${1:-}" = "--dry-run" ] && { ec2_dry_run; exit 0; }
 [ "${1:-}" = "sweep" ] && { shift; [ "${1:-}" = "--hours" ] && { ec2_sweep "$2"; exit 0; }; ec2_sweep; exit 0; }
 
-: "${CAIRN_SRC:?set CAIRN_SRC to a cairn checkout with --access-vars}"
-grep -rq "access-vars" "$CAIRN_SRC/src/cairn/__main__.py" \
-  || { echo "FATAL: $CAIRN_SRC has no --access-vars (wrong branch?)" >&2; exit 2; }
+: "${TREADMARK_SRC:?set TREADMARK_SRC to a treadmark checkout with --access-vars}"
+grep -rq "access-vars" "$TREADMARK_SRC/src/treadmark/__main__.py" \
+  || { echo "FATAL: $TREADMARK_SRC has no --access-vars (wrong branch?)" >&2; exit 2; }
 
 DISTROS="${*:-almalinux-9 almalinux-10 ubuntu-24.04}"
 trap ec2_teardown EXIT INT TERM
@@ -33,12 +33,12 @@ capture_one_distro() {
   start=$(date +%s)
   ip="$(ec2_launch "$distro")" || return 1
   u="$(ec2_ssh_user "$distro")"
-  log "$distro up at $ip ($u) — staging cairn"
+  log "$distro up at $ip ($u) — staging treadmark"
 
-  ec2_scp_to "$CAIRN_SRC" "$ip" "$u" "/tmp/cairn-src"
+  ec2_scp_to "$TREADMARK_SRC" "$ip" "$u" "/tmp/treadmark-src"
   ec2_scp_to "$REPO/matrix.yml" "$ip" "$u" "/tmp/matrix.yml"
 
-  # bootstrap cairn in a venv (real host — no --break-system-packages)
+  # bootstrap treadmark in a venv (real host — no --break-system-packages)
   ec2_ssh "$ip" "$u" 'sudo bash -s' <<'BOOT'
 set -e
 if command -v apt-get >/dev/null 2>&1; then
@@ -48,22 +48,22 @@ if command -v apt-get >/dev/null 2>&1; then
 else
   dnf install -qy python3-pip >/dev/null
 fi
-python3 -m venv /opt/cairn-venv
-/opt/cairn-venv/bin/pip -q install /tmp/cairn-src pyyaml
-mkdir -p /etc/cairn /var/lib/cairn
-/opt/cairn-venv/bin/python - <<PY
+python3 -m venv /opt/treadmark-venv
+/opt/treadmark-venv/bin/pip -q install /tmp/treadmark-src pyyaml
+mkdir -p /etc/treadmark /var/lib/treadmark
+/opt/treadmark-venv/bin/python - <<PY
 import yaml
-c=yaml.safe_load(open("/tmp/cairn-src/packaging/cairn-footprint-linux.yaml"))
-c.setdefault("exclude",[]).extend(["/var/lib/cairn/","/etc/cairn/","/opt/cairn-venv/","/tmp/"])
-yaml.safe_dump(c,open("/etc/cairn/footprint.yaml","w"),sort_keys=False)
+c=yaml.safe_load(open("/tmp/treadmark-src/packaging/treadmark-footprint-linux.yaml"))
+c.setdefault("exclude",[]).extend(["/var/lib/treadmark/","/etc/treadmark/","/opt/treadmark-venv/","/tmp/"])
+yaml.safe_dump(c,open("/etc/treadmark/footprint.yaml","w"),sort_keys=False)
 PY
 BOOT
 
   # per-app capture loop (runs on the instance; re-baseline isolates each app)
   ec2_ssh "$ip" "$u" "sudo DISTRO=$distro bash -s" <<'CAP'
 set -uo pipefail
-CAIRN=/opt/cairn-venv/bin/cairn
-PY=/opt/cairn-venv/bin/python
+TREADMARK=/opt/treadmark-venv/bin/treadmark
+PY=/opt/treadmark-venv/bin/python
 mkdir -p /tmp/out/footprints /tmp/out/profiles
 $PY - <<'PYGEN' > /tmp/cells.txt
 import yaml,json
@@ -84,7 +84,7 @@ while IFS= read -r cell; do
   if [ -n "$conflicts" ]; then
     command -v apt-get >/dev/null 2>&1 && DEBIAN_FRONTEND=noninteractive apt-get remove -qq -y $conflicts >/dev/null 2>&1 || dnf remove -qy $conflicts >/dev/null 2>&1 || true
   fi
-  $CAIRN files init --config /etc/cairn/footprint.yaml --force >/dev/null 2>&1
+  $TREADMARK files init --config /etc/treadmark/footprint.yaml --force >/dev/null 2>&1
   if command -v apt-get >/dev/null 2>&1; then
     dpkg -s "$pkg" >/dev/null 2>&1 && { echo "SKIP: $pkg already present"; continue; }
     DEBIAN_FRONTEND=noninteractive apt-get install -qq -y $pkg $extra >/dev/null 2>&1
@@ -93,7 +93,7 @@ while IFS= read -r cell; do
     dnf install -qy $pkg $extra >/dev/null 2>&1
   fi
   rc=0
-  $CAIRN footprint --config /etc/cairn/footprint.yaml --app "$app" \
+  $TREADMARK footprint --config /etc/treadmark/footprint.yaml --app "$app" \
     --report /tmp/out/footprints/footprint-$slug.json \
     --access-vars /tmp/out/profiles/$slug-raw.yml >/tmp/fp.log 2>&1 || rc=$?
   [ "$rc" -eq 1 ] || { echo "FAIL: footprint rc=$rc"; cat /tmp/fp.log; continue; }

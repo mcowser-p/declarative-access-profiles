@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/almalinux-10/footprint-tomcat.json
 #               (schema 1.0, install_time; captured 2026-08-09 on an
-#               AlmaLinux 10 EC2 AMI, SELinux enforcing; cairn 0.10.0 feature
+#               AlmaLinux 10 EC2 AMI, SELinux enforcing; treadmark 0.10.0 feature
 #               branch. application slug 'tomcat'.)
 #   raw       : ./almalinux-10-raw.yml  (diff against this file = the review)
 #   docs      : ../../docs/apps/tomcat/ops.md  (review reasoning, §2)

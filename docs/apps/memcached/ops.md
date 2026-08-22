@@ -14,7 +14,7 @@ service grant and one config-file ACL.
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-memcached.json` (schema 1.0,
-`footprint_type: install_time`, captured 2026-08-09 on EC2 AMIs, cairn 0.10.0
+`footprint_type: install_time`, captured 2026-08-09 on EC2 AMIs, treadmark 0.10.0
 feature branch):
 
 | | alma9 | alma10 | ubuntu 24.04 |

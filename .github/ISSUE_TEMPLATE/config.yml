@@ -16,8 +16,8 @@ contact_links:
     about: >
       Bugs in the apply/revoke mechanism itself belong in the collection
       repo, not here.
-  - name: cairn (the footprint tool)
-    url: https://github.com/mcowser-p/cairn
+  - name: treadmark (the footprint tool)
+    url: https://github.com/mcowser-p/treadmark
     about: >
       Capture problems — a missing unit, a wrong path in the raw export —
       belong there.

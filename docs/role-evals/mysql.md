@@ -137,7 +137,7 @@ root-placed, still out of the team profile.
 The role runs during the **setup window** (executor in `<hostname>-app_full`) or
 via platform automation — always **before capture**, so its outputs land in the
 footprint like a manual install ([lifecycle](../concepts/lifecycle.md) steps
-2–5). Then cairn captures, we review, playbook 5 applies. Mapping:
+2–5). Then treadmark captures, we review, playbook 5 applies. Mapping:
 
 | geerlingguy.mysql output | Lands in footprint as | Profile key |
 |---|---|---|

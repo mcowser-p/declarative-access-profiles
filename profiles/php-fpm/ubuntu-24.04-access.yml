@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/ubuntu-24.04/footprint-php-fpm.json
 #               (schema 1.0, install_time; captured 2026-08-09 on an
-#               Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch. application
+#               Ubuntu 24.04 EC2 AMI; treadmark 0.10.0 feature branch. application
 #               slug 'php8.3-fpm'. No accounts/groups created — php-fpm reuses
 #               the pre-existing 'www-data' account; pool workers run as
 #               www-data. apt auto-started php8.3-fpm at install, so the

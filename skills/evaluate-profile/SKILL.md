@@ -1,7 +1,7 @@
 ---
 name: evaluate-profile
 description: >
-  Turn a fresh cairn capture (footprints/<distro>/footprint-<app>.json plus
+  Turn a fresh treadmark capture (footprints/<distro>/footprint-<app>.json plus
   profiles/<app>/<distro>-raw.yml) into this library's full artifact set:
   reviewed per-distro access profiles, the dev/ops doc pair, and a public
   Ansible role evaluation. Use when asked to review, tighten, or evaluate a
@@ -49,7 +49,7 @@ others; never duplicate their content.
    `references/review-rules.md`. Keep the raw file byte-identical. Every
    delta carries exactly one `REVIEW-DROP/KEEP/ADD` comment
    (`docs/conventions.md` §4). Header block: PROVENANCE (footprint file +
-   capture date + cairn source), ACCESS MODEL one-liner, APPLY + revoke
+   capture date + treadmark source), ACCESS MODEL one-liner, APPLY + revoke
    commands, `# REVIEWED:` and `# VERIFIED:` lines.
 3. **Verify** — run `scripts/verify-profile.sh <app> <distro>` for every
    reviewed profile; fix and re-run until green; record the line.

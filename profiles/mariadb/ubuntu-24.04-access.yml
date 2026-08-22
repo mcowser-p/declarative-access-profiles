@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/ubuntu-24.04/footprint-mariadb.json
 #               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
-#               cairn 0.10.0 feature branch. apt auto-started mariadb at
+#               treadmark 0.10.0 feature branch. apt auto-started mariadb at
 #               install, so the footprint includes first-start side effects —
 #               the initialised data dir under /var/lib/mysql. NOTE: even with
 #               the daemon started, no TLS material was generated — see ops.md §9.)

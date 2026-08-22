@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/ubuntu-24.04/footprint-postgresql.json
 #               (schema 1.0, captured 2026-08-09 on an Ubuntu 24.04 EC2 AMI;
-#               cairn 0.10.0 feature branch. The `postgresql` meta-package
+#               treadmark 0.10.0 feature branch. The `postgresql` meta-package
 #               pulls postgresql-16 and apt ran initdb + auto-started the
 #               cluster at install, so the footprint includes the live
 #               /etc/postgresql/16/main config tree and the 16/main data dir.)

@@ -46,7 +46,7 @@ the install does not justify it.
 | Documentation that would widen access if followed | here |
 | A harness script in `scripts/` doing something unsafe on a target host | here |
 | The apply/revoke mechanism (the role, playbook 5, cleanup) | [ansible-declarative-access](https://github.com/mcowser-p/ansible-declarative-access) |
-| Footprint capture (missing units, wrong paths in the raw export) | [cairn](https://github.com/mcowser-p/cairn) |
+| Footprint capture (missing units, wrong paths in the raw export) | [treadmark](https://github.com/mcowser-p/treadmark) |
 
 ## What the footprints contain
 

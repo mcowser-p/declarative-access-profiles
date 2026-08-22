@@ -1,7 +1,7 @@
 # Declarative Access Profiles
 
 Evidence-based access profiles for Linux applications. Each application's
-install was captured as a cairn footprint in a clean container, the
+install was captured as a treadmark footprint in a clean container, the
 generated `declarative_access` profile was **reviewed by a human** (the
 raw→reviewed diff is committed), verified end to end — apply, allow/deny
 probes, revoke — and published here with documentation for both sides of
@@ -10,7 +10,7 @@ the lockdown.
 ```mermaid
 flowchart LR
     A[clean baseline] --> B[team installs<br/>app-full window]
-    B --> C[cairn footprint<br/>--access-vars]
+    B --> C[treadmark footprint<br/>--access-vars]
     C --> D[human review<br/>raw → reviewed]
     D --> E[apply to<br/>rg.&lt;host&gt;.app-restricted]
     E --> F[verify<br/>allow / deny / behavioral]

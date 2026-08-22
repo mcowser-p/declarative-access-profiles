@@ -17,7 +17,7 @@ PostgreSQL is a **database**: the profile is config-scoped, grants **no**
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-postgresql.json` (schema 1.0, captured
-2026-08-09, cairn 0.10.0 feature branch):
+2026-08-09, treadmark 0.10.0 feature branch):
 
 | | alma9 | alma10 | ubuntu 24.04 |
 | --- | --- | --- | --- |

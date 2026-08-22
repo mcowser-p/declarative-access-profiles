@@ -4,7 +4,7 @@
 # PROVENANCE
 #   footprint : footprints/ubuntu-24.04/footprint-memcached.json
 #               (schema 1.0, footprint_type install_time, captured 2026-08-09
-#               on an Ubuntu 24.04 EC2 AMI; cairn 0.10.0 feature branch. apt
+#               on an Ubuntu 24.04 EC2 AMI; treadmark 0.10.0 feature branch. apt
 #               auto-started memcached at install, so the footprint includes the
 #               enablement symlink and first-start side effects.)
 #   raw       : ./ubuntu-24.04-raw.yml  (diff against this file = the review)

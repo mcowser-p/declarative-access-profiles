@@ -8,7 +8,7 @@ their untouched `-raw.yml` siblings. Lifecycle mechanics:
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-nginx.json` (schema 1.0, captured
-2026-08-09, feature-branch cairn):
+2026-08-09, feature-branch treadmark):
 
 | | alma9 | alma10 | ubuntu 24.04 |
 | --- | --- | --- | --- |

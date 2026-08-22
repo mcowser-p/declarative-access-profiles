@@ -24,7 +24,7 @@ flowchart TD
     F --> G[team deploys + declares the manifest]
     G --> H{3. Handover gate:<br/>ready-for-lockdown?}
     H -->|no| G
-    H -->|yes| I[4. Capture: cairn footprint --access-vars]
+    H -->|yes| I[4. Capture: treadmark footprint --access-vars]
     I --> J[5. Review: raw → reviewed<br/>apply the class matrix]
     J --> K[6. Apply to host-app_restricted]
     K --> L{7. Verify: allow / deny / behavioral}
@@ -54,7 +54,7 @@ justification recorded in an ADR before installation.
 
 Four things, in this order:
 
-1. **Take the clean cairn baseline.** Everything downstream is a diff
+1. **Take the clean treadmark baseline.** Everything downstream is a diff
    against it. No baseline, no footprint, no profile.
 2. **Create the two AD groups** — `<hostname>-app_full` and
    `<hostname>-app_restricted`, with **full nested inside restricted**. That
@@ -102,7 +102,7 @@ flip is not.
 ## 5 — Capture
 
 ```bash
-sudo cairn footprint --config /etc/cairn/cairn-footprint-linux.yaml \
+sudo treadmark footprint --config /etc/treadmark/treadmark-footprint-linux.yaml \
   --app <app> --report footprint-<app>.json --access-vars <app>-access.yml
 ```
 
@@ -175,7 +175,7 @@ got caught before it reached a real server.
 
 Order matters:
 
-1. Refresh the cairn baseline — **only after** the footprint and reviewed
+1. Refresh the treadmark baseline — **only after** the footprint and reviewed
    profile are committed, since `--accept-all` erases the forensic diff.
 2. In AD: remove the team from `app-full`, add them directly to
    `app-restricted`.

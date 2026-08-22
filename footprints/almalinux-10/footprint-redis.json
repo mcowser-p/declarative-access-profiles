@@ -8,7 +8,7 @@
   "platform": "Linux-6.12.0-211.7.3.el10_2.x86_64-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
-    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
     "db_sha256": "19c1b5522e120e63ecdf8a06ec06e4065f44e3fc885844219720c520f888671a",
     "created_at": "2026-08-09T17:16:58.815662+00:00",
     "source_host": "ip-172-31-20-115.us-west-2.compute.internal",
@@ -1319,7 +1319,7 @@
         "sha256": "3bee6835bda56add3c8223003330656686a0d239ad6615199395071bee33515c"
       },
       {
-        "path": "/var/lib/cairn",
+        "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",

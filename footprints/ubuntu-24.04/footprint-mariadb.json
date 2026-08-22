@@ -8,7 +8,7 @@
   "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
-    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
     "db_sha256": "7480374fa467cbcf6dd55f37d6f49bc0242e24010468416998c9912d2b9d01d7",
     "created_at": "2026-08-09T17:23:39.647733+00:00",
     "source_host": "ip-172-31-18-169",
@@ -15158,7 +15158,7 @@
         "sha256": null
       },
       {
-        "path": "/var/lib/cairn",
+        "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",

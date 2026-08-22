@@ -8,7 +8,7 @@
   "platform": "Linux-5.14.0-687.29.1.el9_8.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
-    "db_path": "/var/lib/cairn/clean-baseline.db",
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
     "db_sha256": "20eecca8f284855fbe0dce48ff85bb8d6988a424a8ebaad29f06abe88655da75",
     "created_at": "2026-08-09T17:03:20.006778+00:00",
     "source_host": "ip-172-31-20-9.us-west-2.compute.internal",
@@ -17002,7 +17002,7 @@
           "sha256": "2f0f8a4298c705f7f3ff64f73485e09712123ee27563ba5c3c2391647a767841"
         },
         {
-          "path": "/usr/share/javazi/Pacific/Pitcairn",
+          "path": "/usr/share/javazi/Pacific/Pittreadmark",
           "category": "share_data",
           "is_dir": false,
           "mode_octal": "0o644",
@@ -19911,7 +19911,7 @@
         "sha256": "a52a2d7bf41b7d6d75b7ec7e054a8019c7ba19acb79f69323cb55aadb5ce3043"
       },
       {
-        "path": "/var/lib/cairn",
+        "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",

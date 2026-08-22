@@ -15,7 +15,7 @@ webserver/proxy shape. The reasoning is §2/§3.
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-haproxy.json` (schema 1.0, `install_time`,
-captured 2026-08-09 on EC2 AMIs, cairn 0.10.0 feature branch):
+captured 2026-08-09 on EC2 AMIs, treadmark 0.10.0 feature branch):
 
 | | alma9 | alma10 | ubuntu 24.04 |
 | --- | --- | --- | --- |
