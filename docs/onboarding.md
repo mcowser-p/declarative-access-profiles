@@ -210,3 +210,13 @@ reverted, and parent traverse ACLs stay (they're shared).
 | 7 | Apply | Sudoers valid, ACLs and `group.conf` present on the host |
 | 8 | Verify | Allow, deny, **and** behavioral probes all pass |
 | 9 | Flip | Fresh login shows no wheel; `sudo -l` scoped to the profile |
+
+## When a login doesn't work
+
+The whole chain — DNS/SRV, DC reachability (including the Global
+Catalog ports), time skew, realm join, sssd, nsswitch, identity
+resolution, and the pam_group hook — can be diagnosed in one run with
+the [mcowser_p.auth_sleuth](https://github.com/mcowser-p/auth-sleuth)
+collection, which reports per-check findings and applies only the
+remediations you explicitly list (`sss_cache -E`, pam_group hook
+reinsertion, and friends).
