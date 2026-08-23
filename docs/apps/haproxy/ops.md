@@ -1,8 +1,8 @@
 # HAProxy — lockdown runbook (ops)
 
 Companion to the [dev guide](dev.md). Profiles:
-`profiles/haproxy/{almalinux-9,almalinux-10,ubuntu-24.04}-access.yml` with
-their untouched `-raw.yml` siblings. Role evaluation:
+`profiles/haproxy/{almalinux-9,almalinux-10,amazonlinux-2023,ubuntu-24.04,ubuntu-26.04}-access.yml`
+with their untouched `-raw.yml` siblings. Role evaluation:
 [docs/role-evals/haproxy.md](../../role-evals/haproxy.md). Lifecycle mechanics:
 [concepts/lifecycle.md](../../concepts/lifecycle.md).
 
@@ -15,30 +15,35 @@ webserver/proxy shape. The reasoning is §2/§3.
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-haproxy.json` (schema 1.0, `install_time`,
-captured 2026-08-09 on EC2 AMIs, treadmark 0.10.0 feature branch):
+captured 2026-08-23 on KVM golden-image VMs, treadmark 0.11.0):
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| files added / modified | 39 / 37 | 39 / 43 | 36 / 33 |
-| Units installed | `haproxy.service` (vendor: `/usr/lib` + `/lib`) | same | `haproxy.service` (vendor `/usr/lib`+`/lib` + enablement symlink — apt auto-started it) |
-| Runs as | root (no `User=` in unit) | root (no `User=`) | root (no `User=`) |
-| Account created | `haproxy` uid 993, gid 993, `/usr/sbin/nologin` | `haproxy` uid 992, gid 992, nologin | `haproxy` uid 111, gid 114, nologin |
-| Group created | `haproxy` gid 993 — **0 members** | `haproxy` gid 992 — **0 members** | `haproxy` gid 114 — **0 members** |
-| `group_access[]` | **`[]`** (group owns nothing) | **`[]`** | **`[]`** |
-| Config | `/etc/haproxy` (root:root 0755) → `haproxy.cfg` 0644 + `conf.d/` 0755 | same | `/etc/haproxy` → `haproxy.cfg` 0644 + `errors/` (vendor pages); **no `conf.d`** |
-| State dir | `/var/lib/haproxy` root:root 0755 | same | `/var/lib/haproxy` + `dev/log` 0666 (chroot syslog socket) |
-| Env file | `/etc/sysconfig/haproxy` | `/etc/sysconfig/haproxy` | `/etc/default/haproxy` |
-| Logging install | logrotate frag only; **no rsyslog fragment** | same | logrotate + **`/etc/rsyslog.d/49-haproxy.conf` → `/var/log/haproxy.log`** |
-| Vendor sudoers shipped | none (`sudoers_files: []`) | none | none |
-| `risks[]` | 2 × `service_runs_as_root` (medium) | 2 × `service_runs_as_root` | 3 × `service_runs_as_root` |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| files added / modified | 39 / 35 | 39 / 41 | 39 / 32 | 36 / 33 | 34 / 32 |
+| Units installed | `haproxy.service` (vendor: `/usr/lib` + `/lib`) | same | same | `haproxy.service` (vendor `/usr/lib`+`/lib` + enablement symlink — apt auto-started it) | same as 24.04 |
+| Runs as | root (no `User=` in unit) | root (no `User=`) | root (no `User=`) | root (no `User=`) | root (no `User=`) |
+| Account created | `haproxy` uid 993, gid 993, `/usr/sbin/nologin` | `haproxy` uid 992, gid 992, nologin | `haproxy` uid 993, gid 993, nologin | `haproxy` uid 111, gid 116, nologin | `haproxy` uid 103, gid 110, nologin |
+| Group created | `haproxy` gid 993 — **0 members** | `haproxy` gid 992 — **0 members** | `haproxy` gid 993 — **0 members** | `haproxy` gid 116 — **0 members** | `haproxy` gid 110 — **0 members** |
+| `group_access[]` | **`[]`** (group owns nothing) | **`[]`** | **`[]`** | **`[]`** | **`[]`** |
+| Config | `/etc/haproxy` (root:root 0755) → `haproxy.cfg` 0644 + `conf.d/` 0755 | same | same | `/etc/haproxy` → `haproxy.cfg` 0644 + `errors/` (vendor pages); **no `conf.d`** | same as 24.04 |
+| State dir | `/var/lib/haproxy` root:root 0755 | same | same | `/var/lib/haproxy` + `dev/log` (chroot syslog socket, 0644 as captured) | same + `dev/log` 0666 as captured |
+| Env file | `/etc/sysconfig/haproxy` | `/etc/sysconfig/haproxy` | `/etc/sysconfig/haproxy` | `/etc/default/haproxy` | `/etc/default/haproxy` |
+| Logging install | logrotate frag only; **no rsyslog fragment** | same | same | logrotate + **`/etc/rsyslog.d/49-haproxy.conf` → `/var/log/haproxy.log`** | same as 24.04 |
+| Vendor sudoers shipped | none (`sudoers_files: []`) | none | none | none | none |
+| `risks[]` | 2 × `service_runs_as_root` (medium) | 2 × `service_runs_as_root` | 2 × `service_runs_as_root` | 3 × `service_runs_as_root` | 3 × `service_runs_as_root` |
 
 Two evidence facts drive the whole review: the `haproxy` **group has no members
 and an empty `group_access[]`** (nothing on disk is group-owned to it), and the
-unit has **no `User=`** so the daemon is root. Ubuntu's footprint carries
-first-start side effects (apt auto-starts; EL/dnf does not) — the enablement
-symlink, the `init.d` + `rc?.d` SysV compat shims, and `/var/lib/haproxy/dev/log`
-— which is better evidence, not noise, but means the raw profiles aren't
-line-comparable across distros.
+unit has **no `User=`** so the daemon is root — on all five distros. The Ubuntu
+footprints carry first-start side effects (apt auto-starts; EL/dnf does not) —
+the enablement symlink, the `init.d` + `rc?.d` SysV compat shims, and
+`/var/lib/haproxy/dev/log` — which is better evidence, not noise, but means the
+raw profiles aren't line-comparable across distro families. Within each family
+the raw profiles are byte-identical apart from the capture header; the only
+per-distro deltas are capture details that touch no grant (26.04's `ExecReload`
+config check drops the `-q` flag; AL2023 puts the `halog`/`iprange`/`ip6range`
+helpers in `/usr/sbin` where alma9/10 use `/usr/bin`; 26.04 drops the
+`/bin`+`/usr/bin` `halog` aliases — 4 binary paths, down from 24.04's 6).
 
 ## 2. Raw → reviewed: the decisions
 
@@ -52,8 +57,10 @@ line-comparable across distros.
 | Drop class-default `/var/log/haproxy` read grant | REVIEW-DROP | No app log dir exists — HAProxy logs via syslog (Ubuntu → flat file `/var/log/haproxy.log`; EL → nothing shipped). A flat-file ACL wouldn't survive rotation; the journal covers health (§10). |
 
 Result: a four-key profile (`profile_name`, `sudo`, `services: [haproxy]`,
-`folders_modify: [/etc/haproxy]`). EL9 and EL10 reviewed files are identical;
-Ubuntu differs only in provenance and the enablement-symlink drop.
+`folders_modify: [/etc/haproxy]`). The three EL-family reviewed files (alma9,
+alma10, AL2023) are identical, as are the two Ubuntu files (24.04, 26.04);
+the Ubuntu pair differs from EL only in provenance and the enablement-symlink
+drop.
 
 ## 3. Access model for this app class
 
@@ -95,9 +102,11 @@ Applying is non-breaking while the team still holds app-full (group nesting).
 
 ## 5. Verify
 
-Verify with `scripts/verify-profile.sh haproxy <distro>` (init container, real
-playbook apply, probes, real `--tags cleanup`). On a live host, as a user who
-holds **only** app-restricted:
+Verify with `scripts/verify-profile.sh haproxy <distro>` (init container) or
+`scripts/verify-profile-kvm.sh --app haproxy` (real KVM golden-image guests —
+the substrate the `# VERIFIED:` stamps name); both do a real playbook apply,
+probes, and a real `--tags cleanup`. On a live host, as a user who holds
+**only** app-restricted:
 
 ```bash
 sudo -l -U <pilot>                              # exactly the scoped grants, no more
@@ -218,12 +227,12 @@ forecast** — the sizing rule in [Storage & growth](../../concepts/storage.md)
 applies in full: the capture sees what the installer wrote, never what the
 service accumulates.
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Install floor | **6.7 MB** (39 files added) | **6.8 MB** (39 added) | **7.5 MB** (36 added) |
-| Nearly all of it | 8 binary paths — `haproxy` 3.3 MB, plus `halog`/`iprange`/`ip6range` | 8 binary paths — `haproxy` 3.3 MB | 6 binary paths — `haproxy` 3.6 MB, plus `halog` |
-| Data directory | **N/A on alma9 — none; `/var/lib/haproxy` is an empty chroot dir** | **N/A on alma10 — same** | **N/A on ubuntu — `/var/lib/haproxy` holds only `dev/log`, the 0666 chroot syslog socket** |
-| Bytes under `/var/log` | 0 | 0 | 0 — the rsyslog fragment ships, the log file does not exist until traffic |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Install floor | **7.1 MB** (39 files added) | **7.2 MB** (39 added) | **8.0 MB** (39 added) | **7.8 MB** (36 added) | **10.4 MB** (34 added) |
+| Nearly all of it | 8 binary paths — `haproxy` 3.5 MB, plus `halog`/`iprange`/`ip6range` | 8 binary paths — `haproxy` 3.5 MB | 8 binary paths — `haproxy` 3.9 MB | 6 binary paths — `haproxy` 3.8 MB, plus `halog` | 4 binary paths — `haproxy` 5.1 MB, plus `halog` |
+| Data directory | **N/A on alma9 — none; `/var/lib/haproxy` is an empty chroot dir** | **N/A on alma10 — same** | **N/A on AL2023 — same** | **N/A on ubuntu 24.04 — `/var/lib/haproxy` holds only `dev/log`, the chroot syslog socket** | **N/A on ubuntu 26.04 — same** |
+| Bytes under `/var/log` | 0 | 0 | 0 | 0 — the rsyslog fragment ships, the log file does not exist until traffic | 0 — same |
 
 Quote those numbers as-is, but know what is inside them: each usr-merge alias is
 counted separately (`/sbin/haproxy` and `/usr/sbin/haproxy` carry the same
@@ -237,7 +246,7 @@ it.
 | --- | --- | --- |
 | Journal (`haproxy.service`) | Bounded | journald's `SystemMaxUse` default; unbounded only if an operator raised the cap |
 | Traffic log — Ubuntu | **Unbounded between rotations** | `/etc/rsyslog.d/49-haproxy.conf` → `/var/log/haproxy.log`, on the **root filesystem**; `option httplog` on a busy frontend is the volume driver `[app-knowledge]` |
-| Traffic log — EL | Not yet | **N/A on alma9/alma10 — no rsyslog fragment ships (§1)**; journal only until a site configures a syslog target |
+| Traffic log — EL | Not yet | **N/A on alma9/alma10/AL2023 — no rsyslog fragment ships (§1)**; journal only until a site configures a syslog target |
 | Data / content | **None** | no data dir, no content root (§2) — HAProxy proxies, it does not store |
 | State dir `/var/lib/haproxy` | **None by default** | chroot dir, empty at install; grows only if a site enables a server-state file or stick-table persistence `[app-knowledge]` |
 | Sockets, stats, stick tables | None on disk | `/run` is tmpfs; stick tables live in memory `[app-knowledge]` |
@@ -252,7 +261,7 @@ volume, and only where a site configured file logging:
 | --- | --- | --- |
 | Ubuntu default (flat `/var/log/haproxy.log`) | the host's `/var/log`, if anything | a host-wide sizing decision, not an HAProxy one — a single file is not a mount point |
 | Site routed HAProxy to a dedicated log dir (§10) | `/var/log/haproxy` — that directory | it is the path in `folders_read`, so the grant keeps working |
-| EL default | **N/A on alma9/alma10 — no file logging configured; nothing to mount** | — |
+| EL default | **N/A on alma9/alma10/AL2023 — no file logging configured; nothing to mount** | — |
 
 **Mount → re-apply → `getfacl`, in that order.** Any mount at or above a granted
 path (`/etc/haproxy`, or a `/var/log/haproxy` dir grant if §10 added one) hides
@@ -270,10 +279,10 @@ getfacl /etc/haproxy       # team group rwx + matching default: entry
 getfacl /var/log/haproxy   # only if §10 added the dir grant
 ```
 
-**Retention is an ops request.** All three distros ship
-`/etc/logrotate.d/haproxy` (307 B on EL, 221 B on Ubuntu), but on EL it rotates
-a file nothing writes — no rsyslog fragment ships. The footprint records the
-fragment, not its contents, so its `rotate`/`size` values are
+**Retention is an ops request.** All five distros ship
+`/etc/logrotate.d/haproxy` (307 B on the EL family, 221 B on Ubuntu), but on EL
+it rotates a file nothing writes — no rsyslog fragment ships. The footprint
+records the fragment, not its contents, so its `rotate`/`size` values are
 `[needs-runtime-confirmation]`: read the file on the host before promising a
 retention number. The fragment, journald's limits, and alert thresholds are all
 `root:root`, in **no** profile, and change only through the window in

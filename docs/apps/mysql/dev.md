@@ -3,9 +3,13 @@
 You deployed MySQL; you're now in `<hostname>-app_restricted`. This page is
 everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
-distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mysql/almalinux-9-access.yml)).
-MySQL is **AlmaLinux 9 only** in this library — alma10 and Ubuntu are N/A (see
-§8) — so alma9 is the one profile.
+distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mysql/almalinux-9-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mysql/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mysql/ubuntu-26.04-access.yml)).
+MySQL covers **AlmaLinux 9 and Ubuntu 24.04/26.04** in this library — alma10
+and Amazon Linux 2023 are N/A (see §8). The prose below uses the EL spellings
+(`mysqld`, `/etc/my.cnf.d`); on Ubuntu the unit is **`mysql`** and the drop-in
+dir is **`/etc/mysql/mysql.conf.d`** — the §8 table maps every path.
 
 The one thing to internalise up front: this is a **database** profile, and it is
 deliberately **config-scoped**. You can control the service, edit config
@@ -37,15 +41,18 @@ prompt for a password. Copy from `sudo -l` output, not from memory.
 
 There is **no content directory** and **no pam_group** in this profile — those
 are webserver-class mechanisms. Everything you touch is config, logs, or the
-unit. Note the service name is **`mysqld`** (the unit is `mysqld.service`), not
-`mysql`.
+unit. Mind the unit-name trap: on EL the service is **`mysqld`**
+(`mysqld.service`), on Ubuntu it is **`mysql`** (`mysql.service`) — and on
+Ubuntu your config ACL is on `/etc/mysql/mysql.conf.d` instead of
+`/etc/my.cnf.d` (§8). sudo grants the spelling for *your* distro only.
 
 ## 2. Administering your systemd unit
 
-The full verb set is granted for `mysqld.service`. There is also a
-`mysqld@.service` **template** for running extra named instances — it is *not*
-in your grant (single-instance deployments don't use it; standing up a second
-instance is a change-window task).
+The full verb set is granted for `mysqld.service` (Ubuntu: `mysql.service`).
+On EL there is also a `mysqld@.service` **template** for running extra named
+instances — it is *not* in your grant (single-instance deployments don't use
+it; standing up a second instance is a change-window task; Ubuntu ships no
+template unit at all).
 
 Reload vs restart, for THIS app: MySQL does **not** re-read `my.cnf` on
 `systemctl reload` — a reload (SIGHUP) flushes/reopens logs but leaves server
@@ -78,6 +85,14 @@ over the packaged `client.cnf` / `mysql-server.cnf`:
 vi /etc/my.cnf.d/zz-tuning.cnf     # your write ACL covers this directory
 ```
 
+Same discipline on Ubuntu, different tree: the main file is
+`/etc/mysql/mysql.cnf` (reached via the `/etc/mysql/my.cnf` alternatives
+symlink — don't edit any of that chain), your ACL is on
+`/etc/mysql/mysql.conf.d`, and your drop-in sorts after the packaged
+`mysqld.cnf` there. Everything else under `/etc/mysql` — including
+`debian.cnf`, the root-only maintenance-credential file — is outside your
+grant on purpose (see [ops §2](ops.md#2-raw-reviewed-the-decisions)).
+
 Each file needs a section header (`[mysqld]` for server settings, `[client]` for
 client defaults). Unlike MariaDB, MySQL 8 ships an **offline config check** —
 use it before restarting:
@@ -98,14 +113,16 @@ purpose; put your change in a drop-in instead.
 
 ## 4. TLS / SSL administration
 
-**MySQL 8 turns TLS on by default — but the certificates don't exist yet in this
-capture.** At its first initialization MySQL auto-generates a self-signed CA plus
-server certificate and key (via `mysql_ssl_rsa_setup`, shipped at
+**MySQL 8 turns TLS on by default and generates its own certificates.** At its
+first initialization MySQL auto-generates a self-signed CA plus server
+certificate and key (via `mysql_ssl_rsa_setup`, shipped at
 `/usr/bin/mysql_ssl_rsa_setup` — confirmed in the footprint) and drops them
 **inside the data directory** as `ca.pem` / `server-cert.pem` / `server-key.pem`.
-Because dnf does not auto-start the service, the data dir was still empty at
-capture, so no cert files appear — but they will be generated the first time the
-server initializes. `[app-knowledge]`
+The ubuntu-26.04 capture proves it: apt auto-started the server and the full
+set is right there in `/var/lib/mysql` — certs `0644`, keys `0600`, all
+`mysql:mysql`. On alma9, dnf does not auto-start, so the data dir was still
+empty at capture — the same files appear the first time the server
+initializes. `[app-knowledge]`
 
 What that means for you: the key lives in `/var/lib/mysql`, which this profile
 never grants — exactly the PostgreSQL-on-EL situation. **Key rotation is ops.**
@@ -120,13 +137,13 @@ never grants — exactly the PostgreSQL-on-EL situation. **Key rotation is ops.*
   `mysql`* (`root:mysql 0640`) with the correct `mysqld_db_t`/`cert_t` SELinux
   label, never world-readable and never in your profile.
 
-The doctrine (keys are root-owned and in no profile) and the EL cert/key paths
-(`/etc/pki/tls/{certs,private}`) are in
+The doctrine (keys are root-owned and in no profile) and the cert/key paths
+(EL `/etc/pki/tls/{certs,private}`, Ubuntu `/etc/ssl/{certs,private}`) are in
 [TLS under the access model](../../concepts/tls-ssl.md). Checking expiry needs no
 privileges:
 
 ```bash
-openssl x509 -enddate -noout -in /etc/pki/tls/certs/<host>.crt
+openssl x509 -enddate -noout -in /etc/pki/tls/certs/<host>.crt   # Ubuntu: /etc/ssl/certs
 ```
 
 Renewal flow: platform drops the new pair with the `mysql`-readable perms above →
@@ -148,7 +165,10 @@ Two places, two mechanisms (the general pattern is in
   `log-error` at `/var/log/mysql/mysqld.log`, which you read directly via your
   log ACL, **no sudo**: `tail -f /var/log/mysql/mysqld.log`. Whether the server
   writes a file here or only to journald depends on the effective `log-error`
-  setting `[needs-runtime-confirmation]`.
+  setting `[needs-runtime-confirmation]`. On Ubuntu the file log is the
+  packaged default: `mysqld.cnf` ships
+  `log_error = /var/log/mysql/error.log` `[app-knowledge]`, so
+  `tail -f /var/log/mysql/error.log` is the everyday read there.
 
 One database-specific trap: the **general query log and slow query log** default
 to `log_output=FILE` under the log dir on MySQL, but can be switched to
@@ -161,7 +181,8 @@ Rotated files stay readable because the profile sets a **default ACL** on
 `/var/log/mysql` — tomorrow's log and the `.gz` archives inherit your read grant.
 If a rotated file is ever unreadable, `getfacl` it and look for `#effective:---`
 — that's the logrotate `create`-mode mask interaction, explained in
-[Logs & rotation](../../concepts/logging.md). `/etc/logrotate.d/mysqld` is
+[Logs & rotation](../../concepts/logging.md). The rotation fragment —
+`/etc/logrotate.d/mysqld` on EL, `/etc/logrotate.d/mysql-server` on Ubuntu — is
 outside your grant: retention or frequency changes are a request to ops.
 
 ## 6. Storage: what fills up, and what you can do about it
@@ -209,7 +230,8 @@ Denied on purpose (you will hit these):
 
 ```bash
 sudo systemctl restart sshd                 # DENY — not your unit
-sudo journalctl -e -u mysql                 # DENY — granted spelling is -u mysqld
+sudo journalctl -e -u mysql                 # DENY on EL — granted spelling is -u mysqld
+sudo journalctl -e -u mysqld                # DENY on Ubuntu — the trap inverts: granted is -u mysql
 echo x | sudo tee /var/lib/mysql/probe      # DENY — data dir is never granted
 cat /var/lib/mysql-keyring/*                 # DENY — encryption keyring, never granted
 vi /etc/my.cnf                              # the vendor main file — use a drop-in
@@ -217,30 +239,37 @@ vi /etc/my.cnf                              # the vendor main file — use a dro
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package | `mysql-server` (MySQL 8.0) | N/A on alma10 — `mysql-server` dropped from EL10; `mariadb` is the packaged option (see [mariadb](../mariadb/dev.md)) | N/A on ubuntu — deliberate wave-1 scope cut; `mariadb` covers the Ubuntu MySQL-compatible story (package exists) |
-| Unit | `mysqld.service` (+ `mysqld@.service` template, not granted) | N/A on alma10 | N/A on ubuntu 24.04 |
-| Service account:group | `mysql:mysql` | N/A on alma10 | N/A on ubuntu 24.04 |
-| Config main file (do not edit) | `/etc/my.cnf` | N/A on alma10 | N/A on ubuntu 24.04 |
-| Config drop-in dir (**your ACL**) | `/etc/my.cnf.d` | N/A on alma10 | N/A on ubuntu 24.04 |
-| Log dir (**your ACL**) | `/var/log/mysql` | N/A on alma10 | N/A on ubuntu 24.04 |
-| Config validator | `mysqld --validate-config` + restart + journal | N/A on alma10 | N/A on ubuntu 24.04 |
-| TLS cert/key paths | auto-gen self-signed in `/var/lib/mysql` (never granted); CA-signed in `/etc/pki/tls/{certs,private}` | N/A on alma10 | N/A on ubuntu 24.04 |
-| pam_group | N/A — database class grants no service-group membership | N/A on alma10 | N/A on ubuntu 24.04 |
+Two cells are N/A across every row: **alma10** — `mysql-server` dropped from
+EL10, `mariadb` is the packaged option (see [mariadb](../mariadb/dev.md)) —
+and **al2023** — `mysql` is not packaged in Amazon Linux 2023 (community RPM
+only, out of scope).
 
-If you need a MySQL-compatible database on AlmaLinux 10 or Ubuntu 24.04, deploy
-**MariaDB** — the drop-in-compatible option this library covers on those distros.
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | al2023 |
+| --- | --- | --- | --- | --- | --- |
+| Package | `mysql-server` (MySQL 8.0) | N/A — see above | `mysql-server` (MySQL 8.0) | `mysql-server` | N/A — see above |
+| Unit (**the grant spelling**) | `mysqld.service` (+ `mysqld@.service` template, not granted) | N/A | `mysql.service` (no template unit) | `mysql.service` (no template unit) | N/A |
+| Service account:group | `mysql:mysql` | N/A | `mysql:mysql` | `mysql:mysql` | N/A |
+| Config main file (do not edit) | `/etc/my.cnf` | N/A | `/etc/mysql/mysql.cnf` (via the `/etc/mysql/my.cnf` alternatives symlink) | `/etc/mysql/mysql.cnf` (same alternatives chain) | N/A |
+| Config drop-in dir (**your ACL**) | `/etc/my.cnf.d` | N/A | `/etc/mysql/mysql.conf.d` | `/etc/mysql/mysql.conf.d` | N/A |
+| Root-only config outside your grant | — | N/A | `/etc/mysql/debian.cnf` (`root:root 0600`) + `debian-start` — the Debian maintenance layer, one level above your ACL | same (`debian.cnf` captured `root:root 0600`) | N/A |
+| Log dir (**your ACL**) | `/var/log/mysql` (`mysqld.log`, if `log-error` targets a file) | N/A | `/var/log/mysql` (`error.log` — file log is the packaged default) | `/var/log/mysql` (`error.log`) | N/A |
+| Config validator | `mysqld --validate-config` + restart + journal | N/A | same | same | N/A |
+| TLS cert/key paths | auto-gen self-signed in `/var/lib/mysql` (never granted); CA-signed in `/etc/pki/tls/{certs,private}` | N/A | auto-gen in `/var/lib/mysql`; CA-signed in `/etc/ssl/{certs,private}` | same — the auto-gen set is captured in the footprint | N/A |
+| MAC confinement | SELinux (policy module in the capture) | N/A | AppArmor — `/etc/apparmor.d/usr.sbin.mysqld` ships with the package | AppArmor — profile + `local/usr.sbin.mysqld` override stub | N/A |
+| pam_group | N/A — database class grants no service-group membership | N/A | N/A — same | N/A — same | N/A |
+
+If you need a MySQL-compatible database on AlmaLinux 10 or Amazon Linux 2023,
+deploy **MariaDB** — the drop-in-compatible option this library covers there.
 
 ## 9. Cheat sheet
 
 ```bash
 sudo -l                                     # your exact grants — start here
-sudo systemctl status mysqld                # health
-sudo journalctl -e -u mysqld                # recent journal (granted spelling)
-vi /etc/my.cnf.d/zz-tuning.cnf              # config drop-in (ACL)
+sudo systemctl status mysqld                # health (Ubuntu: mysql)
+sudo journalctl -e -u mysqld                # recent journal (granted spelling; Ubuntu: -u mysql)
+vi /etc/my.cnf.d/zz-tuning.cnf              # config drop-in (ACL; Ubuntu: /etc/mysql/mysql.conf.d)
 mysqld --validate-config                    # sanity-check the merged config parses
 sudo systemctl restart mysqld              # config changes need a RESTART, not reload
-less /var/log/mysql/mysqld.log              # file logs (ACL, no sudo)
+less /var/log/mysql/mysqld.log              # file logs (ACL, no sudo; Ubuntu: error.log)
 mysql -u root -p                            # DB admin is SQL, not the filesystem
 ```

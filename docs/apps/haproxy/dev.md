@@ -5,7 +5,9 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/ubuntu-24.04-access.yml)).
+[AL2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/amazonlinux-2023-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/haproxy/ubuntu-26.04-access.yml)).
 
 HAProxy is leaner than the web-server profiles you may have seen. It runs as
 **root** (its workers drop to the `haproxy` user internally), serves **no
@@ -61,16 +63,16 @@ yours. There are no timers or quadlets in this profile.
 Your write ACL covers `/etc/haproxy`. **Where** your config goes differs by
 distro (§8):
 
-- **EL (alma9/alma10):** the unit loads `haproxy.cfg` **and** everything in
-  `/etc/haproxy/conf.d/` (`-f $CONFIG -f $CFGDIR`). Use drop-in discipline: put
-  each change in `/etc/haproxy/conf.d/<intention>.cfg`, one intention per file,
-  and leave the vendor `haproxy.cfg` alone. HAProxy concatenates all `-f` files,
-  so section names must stay unique across them.
-- **Ubuntu 24.04:** the unit loads **only** `haproxy.cfg` (no `conf.d`). Edits
-  go in `haproxy.cfg` directly — keep them minimal and clearly fenced, because
-  you are editing the packaged main file. (Routing Ubuntu to a `conf.d` dir
-  means changing `$EXTRAOPTS` in `/etc/default/haproxy`, which is an ops change —
-  see §7.)
+- **EL (alma9 / alma10 / AL2023):** the unit loads `haproxy.cfg` **and**
+  everything in `/etc/haproxy/conf.d/` (`-f $CONFIG -f $CFGDIR`). Use drop-in
+  discipline: put each change in `/etc/haproxy/conf.d/<intention>.cfg`, one
+  intention per file, and leave the vendor `haproxy.cfg` alone. HAProxy
+  concatenates all `-f` files, so section names must stay unique across them.
+- **Ubuntu (24.04 / 26.04):** the unit loads **only** `haproxy.cfg` (no
+  `conf.d`). Edits go in `haproxy.cfg` directly — keep them minimal and clearly
+  fenced, because you are editing the packaged main file. (Routing Ubuntu to a
+  `conf.d` dir means changing `$EXTRAOPTS` in `/etc/default/haproxy`, which is
+  an ops change — see §7.)
 
 Validate before you reload — **no sudo needed**, because your ACL lets you read
 the config and `-c` only parses it (it does not bind ports):
@@ -141,12 +143,12 @@ that lands is a site decision:
   ```
 
 - **Traffic/access logs** go wherever rsyslog routes HAProxy's syslog facility:
-  - **Ubuntu 24.04:** the package ships `/etc/rsyslog.d/49-haproxy.conf`, which
-    writes to the flat file **`/var/log/haproxy.log`**.
-  - **EL (alma9/alma10):** the package ships **no** rsyslog fragment, so out of
-    the box traffic logging is unconfigured — the journal is all you have until
-    someone points `log` (in `haproxy.cfg`) at a syslog target and configures
-    rsyslog.
+  - **Ubuntu (24.04 / 26.04):** the package ships `/etc/rsyslog.d/49-haproxy.conf`,
+    which writes to the flat file **`/var/log/haproxy.log`**.
+  - **EL (alma9 / alma10 / AL2023):** the package ships **no** rsyslog fragment,
+    so out of the box traffic logging is unconfigured — the journal is all you
+    have until someone points `log` (in `haproxy.cfg`) at a syslog target and
+    configures rsyslog.
 
 The profile grants **no `/var/log` ACL** because there's no application log
 directory to grant, and a flat-file ACL wouldn't survive rotation anyway (the
@@ -193,17 +195,17 @@ back ([Storage & growth](../../concepts/storage.md)).
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / unit | `haproxy` / `haproxy.service` | `haproxy` / `haproxy.service` | `haproxy` / `haproxy.service` |
-| Runs as | root (workers drop to `haproxy` via config) | root (same) | root (same) |
-| Config root | `/etc/haproxy` | `/etc/haproxy` | `/etc/haproxy` |
-| Drop-in dir | `/etc/haproxy/conf.d` (loaded via `$CFGDIR`) | `/etc/haproxy/conf.d` | **N/A on ubuntu — unit reads only `haproxy.cfg`; no `conf.d`** |
-| Env file | `/etc/sysconfig/haproxy` (`$OPTIONS`) | `/etc/sysconfig/haproxy` | `/etc/default/haproxy` (`$EXTRAOPTS`) |
-| Validator | `haproxy -c -f …` (no sudo) | `haproxy -c -f …` | `haproxy -c -f …` |
-| Traffic log sink | **N/A by default — no rsyslog fragment shipped; journal only** | same | `/var/log/haproxy.log` (package rsyslog fragment) |
-| TLS PEM (keep root-only) | `/etc/pki/tls/private/` | `/etc/pki/tls/private/` | `/etc/ssl/private/` |
-| pam_group service group | **N/A — omitted; `haproxy` group grants nothing** | same | same |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package / unit | `haproxy` / `haproxy.service` | same | same | same | same |
+| Runs as | root (workers drop to `haproxy` via config) | root (same) | root (same) | root (same) | root (same) |
+| Config root | `/etc/haproxy` | same | same | same | same |
+| Drop-in dir | `/etc/haproxy/conf.d` (loaded via `$CFGDIR`) | `/etc/haproxy/conf.d` | `/etc/haproxy/conf.d` | **N/A on ubuntu 24.04 — unit reads only `haproxy.cfg`; no `conf.d`** | **N/A on ubuntu 26.04 — same** |
+| Env file | `/etc/sysconfig/haproxy` (`$OPTIONS`) | `/etc/sysconfig/haproxy` | `/etc/sysconfig/haproxy` | `/etc/default/haproxy` (`$EXTRAOPTS`) | `/etc/default/haproxy` |
+| Validator | `haproxy -c -f …` (no sudo) | same | same | same | same |
+| Traffic log sink | **N/A by default on alma9 — no rsyslog fragment shipped; journal only** | **N/A on alma10 — same** | **N/A on AL2023 — same** | `/var/log/haproxy.log` (package rsyslog fragment) | `/var/log/haproxy.log` (same fragment) |
+| TLS PEM (keep root-only) | `/etc/pki/tls/private/` | `/etc/pki/tls/private/` | `/etc/pki/tls/private/` | `/etc/ssl/private/` | `/etc/ssl/private/` |
+| pam_group service group | **N/A — omitted; `haproxy` group grants nothing** | same | same | same | same |
 
 ## 9. Cheat sheet
 

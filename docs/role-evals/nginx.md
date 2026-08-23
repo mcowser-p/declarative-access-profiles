@@ -1,4 +1,4 @@
-# Ansible role evaluation: nginx (AlmaLinux 9/10, Ubuntu 24.04)
+# Ansible role evaluation: nginx (AlmaLinux 9/10, Ubuntu 24.04/26.04, Amazon Linux 2023)
 
 ## 1. Method
 
@@ -21,16 +21,16 @@ this.
 
 | # | Requirement | geerlingguy.nginx | nginxinc.nginx |
 | --- | --- | --- | --- |
-| R1 | Both distro families, correct paths/unit/account | ✅ RedHat + Debian families; installs the vendor/package unit | ✅ broad OS matrix, incl. EL/Debian |
+| R1 | Both distro families across our five distros (EL9/10 + AL2023; Ubuntu 24.04/26.04), correct paths/unit/account | ✅ RedHat + Debian family logic; installs the vendor/package unit — the same family branches our AL2023 and 26.04 footprints confirm | ✅ broad OS matrix, incl. EL/Debian families |
 | R2 | Install + configure via native mechanisms | ✅ package install + config template | ✅ package + repo setup + templated config |
 | R3 | Drop-in discipline vs whole-file | ⚠️ templates the main `nginx.conf` whole-file (`templates/nginx.conf.j2`) + a vhosts template | ⚠️ directive-level templating, but still renders managed files whole |
 | R4 | systemd hardening drop-ins | ❌ none | ❌ none |
 | R5 | env/secret file management | ❌ n/a for nginx | ❌ n/a |
 | R6 | **Access model (sudoers/pam_group/ACLs)** | ❌ none | ❌ none |
-| R7 | Verify / idempotence quality | ✅ molecule, multi-distro | ✅ molecule, extensive |
+| R7 | Verify / idempotence quality | ✅ molecule, multi-distro at the family level (AL2023 / Ubuntu 26.04 were not pinned platforms at the 2026-08-09 check) | ✅ molecule, extensive (same family-level caveat) |
 | R8 | TLS wiring | ⚠️ passes ssl directives through vhost config; no key lifecycle | ✅ richer TLS templating; still no key ownership/rotation model |
 | R9 | logrotate policy management | ❌ relies on the package's fragment | ❌ same |
-| R10 | Maintenance/assurance for our versions | ✅ covers EL9/10 + noble | ✅ vendor-tracked |
+| R10 | Maintenance/assurance for our versions (EL9/10, Ubuntu 24.04/26.04, AL2023) | ✅ covers EL9/10 + noble; AL2023 and 26.04 ride the family logic — not explicitly asserted at the 2026-08-09 check | ✅ vendor-tracked; same explicit-assertion caveat for AL2023/26.04 |
 
 ## 4. Nuances
 
@@ -51,24 +51,89 @@ either with our access lifecycle — neither delivers R4/R6/R9, and that gap
 is not a role defect, it's the job this library does. As with every app so
 far, R6 (access model) is a clean miss across all public roles.
 
-## 6. Running the adopted role inside our access lifecycle
+## 6. Implementing least privilege with this role
 
-- **When it runs:** during the setup window (the executor holds
-  `<hostname>-app_full`) or via platform automation — always **before**
-  capture, so everything the role creates lands in the footprint exactly as
-  a manual install would.
-- **Mapping (role output → profile key):** the installed `nginx.service` →
-  `declarative_access_services`; the templated `/etc/nginx` tree → the
-  config-write ACL in `folders_modify`; the content root the role serves →
-  the setgid `ownership` entry; the role's reload handler confirms the
-  `reload` verb belongs in the grant.
-- **Wrap notes:** pin the role version — a version bump can change the
-  rendered config set and therefore the footprint, so re-capture and
-  re-review on upgrade. Disable any role option that chowns the config tree
-  to the `nginx` service account (it would let the service rewrite its own
-  config, which our model deliberately prevents). Re-running the role
-  post-lockdown is a platform act; if it replaces ACL'd files, re-run
-  playbook 5 afterward (it's idempotent).
+### 6a. Where the role runs in the lifecycle
+
+The role runs during the **setup window** (the executor holds
+`<hostname>-app_full`) or via platform automation — always **before**
+capture, so everything it creates lands in the footprint exactly as a
+manual install would.
+
+| Role output | Profile key it lands in |
+| --- | --- |
+| Installed/enabled `nginx.service` | `declarative_access_services` |
+| Templated `/etc/nginx` tree (`nginx.conf.j2`, vhost files) | config-write ACL via `declarative_access_folders_modify` |
+| Content root the role serves (vhost `root:`) | the setgid `declarative_access_ownership` entry |
+| Reload handler (`service: nginx state: reloaded`) | confirms `reload` belongs in the sudoers verb set |
+| No timers/quadlets installed | `_timers` / `_quadlets` stay absent |
+
+Wrap notes: **pin the role version** — a version bump can change the
+rendered config set and therefore the footprint, so re-capture and
+re-review on upgrade. Re-running the role post-lockdown is a platform act;
+if it replaces ACL'd files, re-run playbook 5 afterward (it's idempotent).
+
+### 6b. Configuring the deployment for least privilege
+
+From `geerlingguy.nginx`'s own defaults and templates (2026-08-09 check):
+
+- **Keep config root-owned.** The role renders `nginx.conf` and vhost files
+  as root and never chowns `/etc/nginx` to the service account or writes
+  sudoers — there is nothing to disable; just don't add your own
+  `owner:`/`group:` overrides on top.
+- **`nginx_user`** — leave at the family default (`nginx` on EL/AL2023,
+  `www-data` on Ubuntu). The packaged system accounts are exactly what the
+  profiles' pam_group and setgid grants name; a custom or login user breaks
+  that mapping.
+- **`nginx_vhosts[].root`** — point at the content root the profile grants
+  (`/usr/share/nginx/html` EL / `/var/www/html` Ubuntu). A novel docroot
+  needs a profile edit and re-review before lockdown.
+- **`nginx_error_log` / `nginx_access_log`** — keep the defaults under
+  `/var/log/nginx/` so the profile's log-read ACL holds; relocating logs
+  silently un-grants the team.
+- **`nginx_proxy_cache_path`** — leave empty (the default) unless you
+  accept unbounded `/var/lib/nginx` growth: that dir is REVIEW-DROPped, so
+  the team can neither see nor clear it (ops §12).
+- **Determinism** — keep `ansible_managed` timestamp-free so the rendered
+  whole-file config passes the FIM baseline (§4).
+- **TLS** — vhost `listen: "443 ssl"` and certificate paths pass through
+  role config, but the role has no key lifecycle (R8): key files stay
+  root-owned in the platform dirs, which is the boundary our model wants.
+- **Not expressible with this role**: systemd hardening drop-ins (R4), any
+  sudoers/pam_group/ACL access model (R6 — this library's job), and
+  port/capability posture beyond vhost `listen` values (nginx's root
+  master binding :80 is inherent — accepted in ops §11).
+
+`nginxinc.nginx` equivalents exist for install-source and config templating
+(directive-level via `nginx_config`); the same rules apply — root-owned
+rendering, packaged service account, packaged log dir.
+
+### 6c. Applying the access profile
+
+Once the role has deployed and capture/review is done, lockdown is one
+playbook run with the distro's reviewed profile, then the verify pass and
+the flip out of app-full — the full runbook is
+[ops §4–§6](../apps/nginx/ops.md#4-apply).
+
+```bash
+ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+  -e @profiles/nginx/<distro>-access.yml \
+  -e "group_name=<hostname>-app_restricted"
+# <distro>: almalinux-9 | almalinux-10 | ubuntu-24.04 | ubuntu-26.04 | amazonlinux-2023
+```
+
+### 6d. Who does what after lockdown
+
+The **application team's** admin surface is the
+[dev guide](../apps/nginx/dev.md) — "your life after lockdown": the granted
+systemctl verbs and journalctl spellings, the `/etc/nginx` config-edit
+paths with drop-in discipline, content and log access, and the
+denied-command playbook.
+
+The **operations team's** reference is the
+[ops runbook](../apps/nginx/ops.md) — the footprint evidence, the
+raw→reviewed decisions, apply/verify/revoke including the flip out of
+app-full, drift handling after patching, and the `risks[]` triage.
 
 ## 7. Sources
 

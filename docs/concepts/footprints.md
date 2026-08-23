@@ -18,7 +18,7 @@ them*.
 
 So instead of asking anyone, treadmark measures:
 
-1. **Baseline** a clean host (fresh AMI or container rootfs) — a scan of
+1. **Baseline** a clean host (fresh golden-image guest or container rootfs) — a scan of
    files, packages, units, users/groups before the team touches anything.
 2. The team **installs** their application during the time-boxed
    `app-full` window.
@@ -87,7 +87,8 @@ Two honest limits, tagged throughout the docs per the
 - **Fidelity depends on where you capture.** Container capture is fast but
   misses the OS auth surface (authselect, SELinux enforcing, real
   sshd/PAM). The authoritative footprints in this repo were captured on
-  real EC2 instances per distro — see the harnesses in `scripts/` and the
+  real KVM guests from holy-qcow golden images, one per distro — see the
+  harnesses in `scripts/` and the
   [coverage table](../index.md#coverage) for which tier each profile
   reached.
 

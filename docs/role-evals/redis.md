@@ -1,13 +1,16 @@
-# Ansible role evaluation: redis / valkey (AlmaLinux 9/10 + Ubuntu 24.04)
+# Ansible role evaluation: redis / valkey (AlmaLinux 9/10, Amazon Linux 2023, Ubuntu 24.04/26.04)
 
 ## 1. Method
 
 The reviewed profiles and the [dev](../apps/redis/dev.md)/[ops](../apps/redis/ops.md)
 docs are the requirement rubric; a public role is scored (R1–R10) on how much of
 it the role delivers, read from the role's **code**, not its README. What no role
-delivers becomes the spec for the org overlay. Evaluated **2026-08-09**
-(web-search findings decay — dates are load-bearing). Note the distro split:
-AlmaLinux 10 ships **valkey**, not redis, and that split is itself a scoring axis.
+delivers becomes the spec for the org overlay. Candidates evaluated
+**2026-08-09** (web-search findings decay — dates are load-bearing); rubric rows
+R1/R7/R10 re-scored **2026-08-23** against the five-cell matrix from the same
+role-code findings — no new candidate research. Note the distro split: **three
+of our five cells now ship valkey**, not redis (alma10, AL2023, ubuntu 26.04),
+and that split is itself a scoring axis.
 
 ## 2. Candidates
 
@@ -20,8 +23,8 @@ AlmaLinux 10 ships **valkey**, not redis, and that split is itself a scoring axi
 | linux-system-roles.* | Red Hat official | **No redis or valkey role exists** in the linux-system-roles org (2026-08-09) — nothing official to adopt, unlike timesync/postgresql. |
 
 Only **geerlingguy.redis** clears the bar (active + native package + both distro
-families for redis proper). It is scored below; its **EL10/valkey gap** is the
-headline finding.
+families for redis proper). It is scored below; its **valkey gap** — now three
+of our five cells (alma10, AL2023, ubuntu 26.04) — is the headline finding.
 
 ## 3. Rubric scoring — geerlingguy.redis @ 1.9.1
 
@@ -32,30 +35,34 @@ Scored from `tasks/main.yml`, `tasks/setup-RedHat.yml`, `tasks/setup-Debian.yml`
 
 | # | Requirement | Score | Evidence (from code) |
 |---|---|---|---|
-| R1 | Covers both distro families (paths/units/accounts correct) | ⚠️ | `tasks/main.yml` includes OS-specific vars. `vars/Debian.yml`: `redis_package: redis-server`, `redis_daemon: redis-server`, `redis_conf_path: /etc/redis/redis.conf` — correct for Ubuntu 24.04. `vars/RedHat.yml`: `redis_package: redis`, `redis_daemon: redis` — correct for EL9. **EL10 is broken**: the role has no valkey awareness, and EL10 has no `redis` package (it is `valkey`, unit `valkey.service`, user/paths `valkey`). Accounts: the role creates none (the package does) — correct. |
+| R1 | All five cells correct (paths/units/accounts) — alma9 `redis`, ubuntu 24.04 `redis-server`, and the three valkey cells (alma10/AL2023 `valkey.service`; ubuntu 26.04 `valkey-server.service`) | ⚠️ | `tasks/main.yml` includes OS-specific vars. `vars/Debian.yml`: `redis_package: redis-server`, `redis_daemon: redis-server`, `redis_conf_path: /etc/redis/redis.conf` — correct for ubuntu 24.04. `vars/RedHat.yml`: `redis_package: redis`, `redis_daemon: redis` — correct for alma9. **All three valkey cells are broken**: the role has no valkey awareness. On alma10 there is no `redis` package at all; on AL2023 the redis-era package is `redis6` (`matrix.yml` recon 2026-08-23), so the RedHat vars fail outright; on ubuntu 26.04 the Debian vars would install redis proper (`redis-server` still exists there) — a working install of the **wrong cell**, not our valkey pick. Accounts: the role creates none (the package does) — correct on all five. |
 | R2 | Installs + configures via native package/config mechanisms | ✅ | `setup-RedHat.yml`/`setup-Debian.yml` use the `package` module (`redis_enablerepo: epel` default on EL); config via a whole-file Jinja template to `redis_conf_path`, extensible via `redis_extra_config` + `redis_includes`. |
 | R3 | Drop-in discipline / whole-file determinism (FIM) | ⚠️ | redis has **no `conf.d` model** — one `redis.conf` + `include`s — so a whole-file template is the only option; `redis_includes` is the drop-in analogue. But `redis.conf.j2` starts with `# {{ ansible_managed }}`, and the default `ansible_managed` embeds a timestamp → the file churns every run and trains operators to ignore FIM diffs. Set `ansible_managed` timestamp-free (the chrony/apache whole-file nuance applies — §4). |
 | R4 | systemd hardening drop-ins | ❌ | No `*.service.d` drop-ins. (The Debian vendor unit already ships heavy hardening — `ProtectSystem=strict`, `PrivateTmp`, `NoNewPrivileges`, `MemoryDenyWriteExecute` — while the EL/valkey vendor units ship almost none; the role contributes to neither.) |
 | R5 | Env / secret file management | ⚠️ | `redis_requirepass` is templated **inline into `redis.conf`** (mode 0640), not a separate secret file; the role does not manage `/etc/default/redis-server` or `/etc/sysconfig/valkey`. Password-in-config is workable under our config ACL but is not secret-file hygiene. |
 | R6 | **Access model** (scoped sudoers, pam_group, ACLs) | ❌ | None — no sudoers, pam/sssd, ACLs, or ownership in `tasks/`. The standing all-roles-fail row; that gap is this library's job (delivered by the reviewed profiles + playbook 5). |
-| R7 | Verification / idempotence quality | ⚠️ | `.github/workflows/ci.yml` molecule matrix = **ubuntu2404, debian12, rockylinux9** → Ubuntu 24.04 ✅ and EL9-family (Rocky 9) ✅, but **no Alma 10 / valkey**. Role is idempotent; our EL10 target is untested upstream. |
+| R7 | Verification / idempotence quality (molecule, our five cells) | ⚠️ | `.github/workflows/ci.yml` molecule matrix = **ubuntu2404, debian12, rockylinux9** → 2 of our 5 cells (ubuntu 24.04 ✅, alma9-equivalent Rocky 9 ✅). **alma10, AL2023 and ubuntu 26.04 are untested upstream, and valkey appears nowhere in CI.** Role is idempotent on the platforms it does test. |
 | R8 | TLS wiring | ❌ | `defaults/main.yml` and `redis.conf.j2` have **no** TLS directives (`tls-port`, `tls-cert-file`, `tls-key-file` absent). TLS must be added via `redis_extra_config`/`redis_includes` by hand. |
-| R9 | logrotate policy management | ❌ | No logrotate handling; relies on the package fragment (`/etc/logrotate.d/redis*`). Note `redis_logfile` defaults to `/var/log/redis/redis-server.log` — applying that on **EL switches redis from journal to file logging**, a deliberate change (§6). |
-| R10 | Maintenance & platform assurance for OUR versions | ⚠️ | Actively maintained (`1.9.1`, 2025-10; commits to 2025-11). Ubuntu 24.04 + Rocky 9 in CI. `meta/main.yml` lists Fedora/Debian/Ubuntu/Archlinux — **no explicit EL, no EL10, no valkey**. Verify EL10/valkey out of band before rollout. |
+| R9 | logrotate policy management | ❌ | No logrotate handling; relies on the package fragment (`/etc/logrotate.d/redis*`). Note `redis_logfile` defaults to `/var/log/redis/redis-server.log` — applying that on **EL switches redis from journal to file logging**, a deliberate change (§6b). |
+| R10 | Maintenance & platform assurance for OUR versions (alma9/10, AL2023, ubuntu 24.04/26.04) | ⚠️ | Actively maintained (`1.9.1`, 2025-10; commits to 2025-11). Assurance covers 2 of 5 cells (ubuntu 24.04 + Rocky 9 in CI). `meta/main.yml` lists Fedora/Debian/Ubuntu/Archlinux — **no explicit EL, no Amazon Linux, no valkey anywhere**. Every valkey cell (alma10, AL2023, ubuntu 26.04) needs out-of-band verification before rollout. |
 
 ## 4. Nuances found
 
-**EL10/valkey is the real gap — and it's a variable overlay, not a fork.**
-Because R2's config path, package, and daemon are all variables, EL10 can in
-principle be driven by overriding
+**The valkey cells are the real gap — and it's a variable overlay, not a fork.**
+Because R2's config path, package, and daemon are all variables, all three
+valkey cells can in principle be driven by overrides. EL-style (alma10, AL2023):
 `redis_package: valkey`, `redis_daemon: valkey`,
-`redis_conf_path: /etc/valkey/valkey.conf`. `valkey.conf` is redis-config-
-compatible, so `redis.conf.j2` *should* render a valid file — but this is
-**unverified upstream** (valkey is not in the role's CI, meta, or vars). Treat
-EL10 as a thin per-distro overlay (vars + a molecule run), mirroring the chrony
-eval's "fall back to a small internal task for the family the role doesn't
-cover." If the template diverges from valkey's expectations, a ~20-line internal
-`valkey`-package task is the fallback — do **not** fork the whole role.
+`redis_conf_path: /etc/valkey/valkey.conf`. Debian-style (ubuntu 26.04): same
+package/conf-path overrides but `redis_daemon: valkey-server` — the canonical
+unit is `valkey-server.service` (`valkey.service` is the vendor alias; the
+profile grants the canonical name). `valkey.conf` is redis-config-compatible, so
+`redis.conf.j2` *should* render a valid file — but this is **unverified
+upstream** (valkey is not in the role's CI, meta, or vars). Treat the valkey
+cells as a thin per-distro overlay (vars + a molecule run each), mirroring the
+chrony eval's "fall back to a small internal task for the family the role
+doesn't cover." If the template diverges from valkey's expectations, a ~20-line
+internal `valkey`-package task is the fallback — do **not** fork the whole
+role.
 
 **The whole-file question (mirrors chrony/apache).** Our admin doctrine is
 drop-in-per-intention, but redis genuinely has no drop-in dir. geerlingguy owning
@@ -65,7 +72,7 @@ the *rendered* file, so drift is a tamper signal — **provided** the
 model: the reviewed profile hands the team a **write ACL on `/etc/redis`**, so
 post-lockdown the team edits config the role doesn't know about. Clean seam:
 let the role own `redis.conf` (setup window, before capture) and give the team an
-`include`d file (`redis_includes`) to own after lockdown — see §6.
+`include`d file (`redis_includes`) to own after lockdown — see §6a/§6b.
 
 **No graceful reload — the handler is `restart`, and that's correct.** redis has
 no zero-downtime config reload; the role's `restart redis` handler (not a reload)
@@ -80,16 +87,18 @@ key material there.
 ## 5. Verdict: adopt + wrap (redis); overlay for valkey
 
 1. **Adopt `geerlingguy.redis` as the install/config engine for redis** —
-   **EL9 and Ubuntu 24.04**. It is the only active, native, two-family option
-   (DavidWittman is source-build + stale; the valkey roles are container/niche;
-   Red Hat ships nothing). Pin **`1.9.1`**. It correctly leaves accounts to the
-   package and writes no sudoers/users/ACLs, so it does not fight the
-   read-only-units + config-ACL posture.
-2. **Overlay for EL10/valkey.** Drive the same role with valkey vars
-   (`redis_package/redis_daemon/redis_conf_path`) and **verify in molecule on
-   Alma 10** before rollout; keep a ~20-line internal valkey task as the fallback
-   if the config template diverges. This is the only place a public role does not
-   cover a target out of the box.
+   the two redis-proper cells, **alma9 and ubuntu 24.04**. It is the only
+   active, native, two-family option (DavidWittman is source-build + stale; the
+   valkey roles are container/niche; Red Hat ships nothing). Pin **`1.9.1`**. It
+   correctly leaves accounts to the package and writes no sudoers/users/ACLs, so
+   it does not fight the read-only-units + config-ACL posture.
+2. **Overlay for the valkey cells (alma10, AL2023, ubuntu 26.04).** Drive the
+   same role with valkey vars (`redis_package/redis_daemon/redis_conf_path`;
+   `redis_daemon: valkey-server` on ubuntu 26.04 — §4) and **verify in molecule
+   on all three cells** before rollout; keep a ~20-line internal valkey task as
+   the fallback if the config template diverges. This is the only place a public
+   role does not cover a target out of the box — and it is now three of our five
+   cells.
 3. **Build a thin org overlay** carrying the rubric rows the role fails: R4
    (systemd hardening drop-in), R5 (secret/env-file hygiene), R6 (**the access
    model — already delivered by this repo's reviewed profiles + playbook 5**),
@@ -99,49 +108,132 @@ key material there.
    least-privilege." One reusable overlay parameterized per service covers it
    fleet-wide; the redis profiles here are its R6 payload.
 
-## 6. Running the adopted role inside our access lifecycle
+## 6. Implementing least privilege with this role
+
+From "we picked geerlingguy.redis" to "the team is locked down and knows how to
+operate", in four steps.
+
+### 6a. Where the role runs in the lifecycle
 
 The role runs during the **setup window** (executor in `<hostname>-app_full`) or
 via platform automation — **always before capture**, so its outputs land in the
 treadmark footprint exactly like a manual install and flow through the normal
-raw→reviewed step.
+raw→reviewed step. See [lifecycle](../concepts/lifecycle.md).
 
 | Role output | Lands in footprint as | Profile key it maps to |
 |---|---|---|
-| `redis_package` installed + vendor unit started/enabled | `redis.service` / `valkey.service` / `redis-server.service` | `declarative_access_services` (read-only-units — the role emits **no** unit of its own; Sentinel dropped at review) |
+| `redis_package` installed + vendor unit started/enabled | `redis.service` / `valkey.service` / `redis-server.service` / `valkey-server.service` | `declarative_access_services` (read-only-units — the role emits **no** unit of its own; Sentinel dropped at review on EL, absent on the Ubuntu cells) |
 | Templated whole-file config at `redis_conf_path` | config-tree file (`<user>:root 0640` EL; `redis:redis 0640` Deb) | config **write ACL** — `folders_modify: ['/etc/redis'/'/etc/valkey']` |
 | Package-created `redis`/`valkey` user + `/var/lib/redis(valkey)` | account + `state_dir` in footprint | `ownership` kept as captured; **data dir never granted** |
-| `redis_requirepass` (inline in config) | secret inside the config file | inside the config ACL (team can rotate) — wrap note: prefer an `include`d secret file |
+| `redis_requirepass` (inline in config) | secret inside the config file | inside the config ACL (team can rotate) — see §6b |
 | `redis_logfile` set (default `/var/log/redis/...`) | file-log dir (and on EL, a switch away from journal) | log **read ACL** — `folders_read: ['/var/log/redis'/'/var/log/valkey']` |
 | `restart redis` handler | — (runtime verb) | the granted `systemctl restart` in `_services` — the verb that matters (no graceful reload) |
 
 **Wrap notes.**
 
 - **Pin the role version.** `1.9.1` is the baseline; a bump can change the
-  templated output or files → re-capture, re-review, re-verify.
+  templated output or files → the footprint changes → re-capture, re-review,
+  re-verify.
 - **Strip the `ansible_managed` timestamp** (`redis.conf.j2` header) so FIM stays
-  quiet on repeated runs.
-- **EL10:** set the valkey vars (§5.2) and re-verify — the role has no built-in
-  valkey path.
-- **Decide the logging model deliberately.** Leaving `redis_logfile` at its
-  default turns on **file** logging on EL, diverging from the journal-default our
-  ops doc documents; either accept it (and rely on the `/var/log` read ACL) or
-  set `redis_logfile: ""` to keep journal logging.
-- **Re-running post-lockdown is a platform act.** A later role run re-templates
-  `redis.conf` and **sheds its ACL** with the file replace — **re-run playbook 5
-  afterward** (idempotent) to reassert the config ACL. Give the team an
-  `include`d file to own so their edits survive role re-runs.
+  quiet on repeated runs (R3 ⚠️).
+- **Re-running the role post-lockdown is a platform act.** A later role run
+  re-templates `redis.conf` and **sheds its ACL** with the file replace —
+  **re-run playbook 5 afterward** (idempotent) to reassert the config ACL. Give
+  the team an `include`d file to own so their edits survive role re-runs.
+
+### 6b. Configuring the deployment for least privilege
+
+The vars and app config that keep the install least-priv-compatible, scored
+from the role's own `defaults/main.yml` + `templates/redis.conf.j2` +
+`tasks/*.yml` (read 2026-08-09):
+
+- **Config stays out of the team's ownership — nothing to disable.** The role
+  templates `redis.conf` in place with the packaged ownership (`<user>:root
+  0640` EL; `redis:redis 0640` Deb) and writes **no sudoers, users, or ACLs of
+  its own** (R6 evidence). The team's write path is the reviewed profile's
+  config ACL, never ownership of the file.
+- **Run as the packaged system account.** The role creates no accounts and has
+  no var to relocate the service user (R1 evidence) — the packaged
+  `User=redis`/`valkey` in the vendor unit stands. Keep it that way; never
+  re-point the unit at a login user.
+- **Port/capability posture: nothing to manage.** redis/valkey binds 6379 by
+  default — above 1024, so no capability wiring exists in the role and none is
+  needed; the vendor units declare no capabilities on any of the five cells
+  ([ops §1](../apps/redis/ops.md)).
+- **Set the valkey vars on the valkey cells** (alma10, AL2023, ubuntu 26.04):
+  `redis_package: valkey`, `redis_conf_path: /etc/valkey/valkey.conf`,
+  `redis_daemon: valkey` (EL) / `valkey-server` (ubuntu 26.04) — §4/§5.2. The
+  role has no built-in valkey path; without these it installs the wrong cell or
+  fails (R1).
+- **Decide the logging model deliberately** (`redis_logfile`). The default
+  `/var/log/redis/redis-server.log` turns on **file** logging — on EL that
+  diverges from the journal default the [ops doc](../apps/redis/ops.md)
+  documents (§10); either accept it (the profile's `/var/log/<app>` read ACL
+  covers it) or set `redis_logfile: ""` to keep journal logging. On the valkey
+  cells point it under **`/var/log/valkey`**, the packaged log dir and the
+  profile's granted path — on ubuntu 26.04 anything else also lands outside the
+  unit's `ReadWritePaths` sandbox and the daemon cannot write it.
+- **Secrets via the config ACL, hygienically.** `redis_requirepass` lands
+  inline in `redis.conf` (R5 ⚠️) — workable inside the team's config ACL, but
+  prefer routing it through `redis_includes` to an `include`d file with tight
+  perms; never co-locate TLS key material there
+  ([dev §4](../apps/redis/dev.md)).
+- **TLS: not expressible with this role** (R8 ❌). Add `tls-port`/`tls-*`
+  directives via `redis_extra_config`/`redis_includes`; the key stays in the
+  platform key dir, readable by the service account only — redis reads it as
+  the unprivileged service user, not root ([ops §9](../apps/redis/ops.md)).
+- **systemd hardening drop-in: not expressible with this role** (R4 ❌; org
+  overlay, §5.3). It matters most on the EL/valkey cells, whose vendor units
+  ship almost none of the hardening the Debian units carry
+  ([ops §1](../apps/redis/ops.md)).
+
+### 6c. Applying the access profile
+
+Once the role has deployed and capture/review is done, lockdown is playbook 5
+(`5_apply_access_profile.yml`) with this app's reviewed profile — then the
+verify pass and the flip out of app-full, exactly as the
+[ops runbook](../apps/redis/ops.md) steps them (§4–§6):
+
+```bash
+ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+  -e @profiles/redis/<distro>-access.yml \
+  -e "group_name=<hostname>-app_restricted" -l <host>
+```
+
+All five distro cells ship a reviewed profile
+(`profiles/redis/{almalinux-9,almalinux-10,amazonlinux-2023,ubuntu-24.04,ubuntu-26.04}-access.yml`);
+ubuntu 26.04 and AL2023 are `VERIFIED: pending` — run the verifier first
+([ops §5](../apps/redis/ops.md)).
+
+### 6d. Who does what after lockdown
+
+**Application team** — your admin surface is
+[dev.md, "your life after lockdown"](../apps/redis/dev.md): the granted
+`systemctl` verb set on your one unit (restart, not reload — redis has no
+zero-downtime config reload), the verbatim `journalctl` spellings, config edits
+under the `/etc/redis` (`/etc/valkey`) ACL with the
+`CONFIG SET` → `CONFIG REWRITE` live path, and the hard boundary: the data dir
+is administered through `redis-cli`, never the filesystem.
+
+**Operations team** — your reference is the
+[ops runbook](../apps/redis/ops.md): the five-cell footprint evidence (§1), the
+raw→reviewed decision record (§2), the pam_group opt-in tradeoff (§3),
+apply/verify/flip/revoke (§4–§7), drift after patching (§8), TLS key custody
+(§9), the journal-vs-file log split (§10), risk triage (§11), and storage
+sizing (§12).
 
 ## 7. If nothing fits
 
 Not applicable — geerlingguy.redis fits as the engine for redis. The two unbuilt
-pieces: (a) the **valkey overlay** for EL10 (vars + molecule verify, fallback a
-20-line internal task); and (b) the shared **`org.cache_baseline`** overlay
-(R4/R5/R6/R8/R9 for every cache/data-store): scope = hardening drop-in +
-secret/env hygiene + this repo's access-profile apply + TLS wiring (key material
-to platform) + logrotate policy; distro matrix = Alma 9/10 + Ubuntu 24.04;
-molecule = apply-then-assert on all three. **Not scheduled** — the access-model
-half (R6) already ships here as the reviewed profiles.
+pieces: (a) the **valkey overlay** for the three valkey cells — alma10, AL2023,
+ubuntu 26.04 (vars per cell + molecule verify, fallback a 20-line internal
+task); and (b) the shared **`org.cache_baseline`** overlay (R4/R5/R6/R8/R9 for
+every cache/data-store): scope = hardening drop-in + secret/env hygiene + this
+repo's access-profile apply + TLS wiring (key material to platform) + logrotate
+policy; distro matrix = alma9/10 + AL2023 + ubuntu 24.04/26.04; molecule =
+apply-then-assert on all five (add alma10, AL2023 and ubuntu 26.04 — no
+upstream role tests any of them). **Not scheduled** — the access-model half
+(R6) already ships here as the reviewed profiles.
 
 ## 8. Sources
 
@@ -159,5 +251,10 @@ half (R6) already ships here as the reviewed profiles.
   2026-08-09).
 - https://github.com/orgs/linux-system-roles/repositories — no redis/valkey role
   present (read 2026-08-09).
-- Requirement source: `profiles/redis/*-access.yml`,
+- Requirement source: `profiles/redis/*-access.yml` (all five cells),
   `docs/apps/redis/{dev,ops}.md`.
+- Five-cell packaging reality (valkey on alma10/AL2023/ubuntu 26.04; AL2023
+  ships `redis6` + `valkey`, ubuntu 26.04 ships `redis-server` + `valkey`):
+  `matrix.yml` recon 2026-08-23 and
+  `footprints/<distro>/footprint-redis.json`, captured 2026-08-23 on KVM golden
+  images (treadmark 0.11.0).

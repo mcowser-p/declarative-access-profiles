@@ -39,12 +39,14 @@ an auto-grant.** Every profile here was reviewed by a human — the
 byte-exact treadmark output (`*-raw.yml`) is committed next to the reviewed
 version (`*-access.yml`), so **the diff between the two IS the review**.
 Then each reviewed profile was applied, probed (allow *and* deny), and
-revoked on a real EC2 instance with SELinux enforcing and a real PAM stack.
+revoked on a real KVM guest built from our holy-qcow golden images — the
+CIS-hardened images the fleet actually runs, with SELinux (or AppArmor on
+Ubuntu) and a real PAM stack. Every stamp names the exact image.
 
 ## Using a profile
 
-Ten applications × three distros (AlmaLinux 9/10, Ubuntu 24.04), all
-verified — see the [coverage
+Eleven applications × five distros (AlmaLinux 9/10, Ubuntu 24.04/26.04,
+Amazon Linux 2023), all verified — see the [coverage
 table](https://mcowser-p.github.io/declarative-access-profiles/). Apply one
 with the collection:
 
@@ -69,6 +71,7 @@ reversible.
 | `footprints/<distro>/` | The committed footprint JSON evidence each profile derives from |
 | `docs/apps/<app>/` | `dev.md` (your life after lockdown) + `ops.md` (lockdown runbook) |
 | `docs/role-evals/` | Public Ansible role evaluations (adopt / wrap / build) per app |
+| `examples/<app>/` | Runnable worked examples: deploy via the adopted role with least-priv vars, then apply the reviewed profile |
 | `docs/blog/` | [How it all fits together](docs/blog/how-it-fits-together.md) |
 | `skills/evaluate-profile/` | The LLM skill that turns a fresh capture into this repo's artifact set |
 | `matrix.yml` | The app × distro capture matrix (single source of truth) |
@@ -81,21 +84,31 @@ install-time capture cannot know.
 
 ## Regenerating or extending
 
-Both harnesses take the two upstream projects as environment variables, so
-point them at wherever your clones live:
+The authoritative substrate is KVM: holy-qcow golden images (the same
+CIS-hardened images the fleet runs) provisioned through the checkout's
+`tofu/modules/vm`. The harnesses take their targets as environment
+variables:
 
 ```bash
-export TREADMARK_SRC=/path/to/treadmark        # github.com/mcowser-p/treadmark
-export ACCESS_SRC=/path/to/ansible-declarative-access   # the collection
+export ACCESS_SRC=/path/to/ansible-declarative-access   # the collection (verify)
+export LIBVIRT_URI=qemu+ssh://user@kvm-host/system      # or local qemu:///system
+export HOLY_QCOW_SRC=/path/to/holy-qcow                 # default: ../md
 
-# authoritative: capture on real EC2 AMIs (one instance per distro)
-scripts/capture-matrix-ec2.sh --dry-run     # resolve AMIs + print the cost estimate
-scripts/capture-matrix-ec2.sh               # ~$0.03; instances self-terminate
-scripts/capture-matrix-ec2.sh sweep         # reap anything a failed run left behind
+# authoritative: capture on holy-qcow KVM golden images (one VM per distro)
+scripts/capture-matrix-kvm.sh --dry-run     # resolve images + preflight
+scripts/capture-matrix-kvm.sh               # footprints + raw profiles, all distros
+scripts/capture-matrix-kvm.sh sweep         # reap anything a failed run left behind
 
-# authoritative: apply/probe/revoke every reviewed profile on real instances
+# authoritative: apply/probe/revoke every reviewed profile on real VMs
+scripts/verify-profile-kvm.sh almalinux-9
+scripts/verify-profile-kvm.sh --app nginx ubuntu-24.04
+
+# treadmark installs on guests from PyPI (TREADMARK_VERSION, default 0.11.0);
+# set TREADMARK_SRC=/path/to/checkout to test an unreleased build instead
+
+# legacy AWS fallback (original three distros only; needs TREADMARK_SRC + creds)
+scripts/capture-matrix-ec2.sh --dry-run
 scripts/verify-profile-ec2.sh almalinux-9
-scripts/verify-profile-ec2.sh --app nginx ubuntu-24.04
 
 # fast, low-fidelity local pre-check in containers (misses the OS auth
 # surface: authselect, SELinux enforcing, real sshd/PAM)

@@ -47,7 +47,24 @@ exactly one greppable review comment:
 ```
 
 dev.md and ops.md cite the profile path; a profile edit invalidates the
-`# VERIFIED:` line until `scripts/verify-profile.sh` passes again.
+`# VERIFIED:` line until a verify pass stamps it again.
+
+The stamp names the exact substrate the profile was proven on. The
+authoritative tier is KVM (`scripts/verify-profile-kvm.sh`), and the
+guest self-reports every field from `/etc/image-release` plus a live MAC
+probe:
+
+```
+# REVIEWED: <date>   VERIFIED: <date> (KVM <IMAGE_NAME>, <MAC state>, real PAM, <CIS state>)
+# e.g.        (KVM alma9-20260823, SELinux enforcing, real PAM, CIS L1)
+# e.g.        (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
+# e.g.        (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+```
+
+Fidelity notes are never smoothed over: AL2023 really does default to
+SELinux permissive, and Ubuntu 26.04 images carry no CIS hardening yet —
+the stamp says so. A brand-new reviewed profile carries
+`VERIFIED: pending` until its first green verify.
 
 ## 5. Tone split
 
@@ -59,9 +76,10 @@ dev.md and ops.md cite the profile path; a profile edit invalidates the
 
 ## 6. Per-distro N/A is explicit
 
-Distro tables always carry all three distro columns. A non-applicable cell
-reads `N/A on <distro> — <short reason>`. Silence is indistinguishable
-from omission at generation scale, so silence is banned.
+Distro tables always carry a column for **every** distro in `matrix.yml`
+(five today: AlmaLinux 9/10, Ubuntu 24.04/26.04, Amazon Linux 2023). A
+non-applicable cell reads `N/A on <distro> — <short reason>`. Silence is
+indistinguishable from omission at generation scale, so silence is banned.
 
 ## 7. Naming discipline
 
@@ -87,8 +105,10 @@ Wherever they apply, these are stated with the canonical sentences from
 2. logrotate's `create` mode is the ACL mask — `getfacl` `#effective:` is
    the diagnostic, `logrotate -f` + `getfacl` is the pre-flip test;
 3. private keys are root-only and in no profile — the team reloads, the
-   platform rotates; Tomcat (keystore in granted tree) and PostgreSQL (key
-   inside the closed data dir) are the two named exceptions.
+   platform rotates; Tomcat (keystore in granted tree), PostgreSQL (key
+   inside the closed data dir), and Caddy (self-issued, self-rotating keys
+   in its never-granted storage dir — grant platform keys per-user, not
+   per-group) are the three named exceptions.
 
 ## 10. Honesty sections are mandatory
 

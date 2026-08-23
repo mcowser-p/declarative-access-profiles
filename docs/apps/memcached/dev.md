@@ -5,7 +5,9 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your distro
 ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/ubuntu-24.04-access.yml)).
+[AL2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/amazonlinux-2023-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/memcached/ubuntu-26.04-access.yml)).
 
 memcached is locked down as a **cache**, and it is the most minimal profile in
 the library: you control the service, edit its one config file, and read its logs
@@ -63,10 +65,11 @@ yours.
 memcached has **no `conf.d`/drop-in model** — it is a single file, and that file
 is not a config language but a list of daemon arguments:
 
-- **EL** (`/etc/sysconfig/memcached`): a shell env file read as the unit's
-  `EnvironmentFile`. You set `PORT`, `USER`, `MAXCONN`, `CACHESIZE`, and
-  free-form `OPTIONS` (e.g. `-l 127.0.0.1`, `-t 4`, `-I 2m`).
-- **Ubuntu** (`/etc/memcached.conf`): one memcached CLI flag per line
+- **EL family (alma9 / alma10 / AL2023)** (`/etc/sysconfig/memcached`): a shell
+  env file read as the unit's `EnvironmentFile`. You set `PORT`, `USER`,
+  `MAXCONN`, `CACHESIZE`, and free-form `OPTIONS` (e.g. `-l 127.0.0.1`, `-t 4`,
+  `-I 2m`).
+- **Ubuntu (24.04 / 26.04)** (`/etc/memcached.conf`): one memcached CLI flag per line
   (`-m 64`, `-p 11211`, `-u memcache`, `-l 127.0.0.1`, `-c 1024`), read by the
   unit's wrapper `/usr/share/memcached/scripts/systemd-memcached-wrapper`.
 
@@ -133,7 +136,7 @@ geerlingguy.memcached and robertdebock.memcached template `logfile
 writes a plain file at `/var/log/memcached.log` (root:root) that this profile
 does **not** grant you and that has **no** logrotate — reading it or rotating it
 is a profile-review request to ops. See the
-[role evaluation §6](../../role-evals/memcached.md).
+[role evaluation §6b](../../role-evals/memcached.md).
 
 ## 6. Storage: what fills up, and what you can do about it
 
@@ -179,19 +182,24 @@ the profile
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / unit | `memcached` / `memcached.service` | `memcached` / `memcached.service` | `memcached` / `memcached.service` |
-| Service account:group | `memcached:memcached` (uid/gid 991) | `memcached:memcached` (uid/gid 990) | **`memcache:memcache`** (uid 116, gid 118 — note the name) |
-| Config file | `/etc/sysconfig/memcached` (shell env file) | `/etc/sysconfig/memcached` (shell env file) | `/etc/memcached.conf` (CLI-args file) |
-| Config mechanism | `EnvironmentFile` → `-u ${USER}` etc. in ExecStart | same | wrapper `systemd-memcached-wrapper /etc/memcached.conf` |
-| Drop-in dir | N/A — single file, no `conf.d` | N/A — same | N/A — same |
-| Content dir | N/A — memcached has none (in-memory) | N/A — same | N/A — same |
-| Data dir | N/A — memcached has none (in-memory) | N/A — same | N/A — same |
-| Log dir | N/A — journal only, no file | N/A — same | N/A — same |
-| Validator | N/A — no offline validator; restart + check status/journal | N/A — same | N/A — same |
-| pam_group | N/A — cache class, service group owns nothing | N/A — same | N/A — same |
-| TLS paths (if built with TLS) | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package / unit | `memcached` / `memcached.service` | same | same | same | same |
+| Service account:group | `memcached:memcached` (uid/gid 992 as captured) | `memcached:memcached` (991) | `memcached:memcached` (992) | **`memcache:memcache`** (uid 112, gid 117 — note the name) | **`memcache:memcache`** (uid 104, gid 111) |
+| Config file | `/etc/sysconfig/memcached` (shell env file) | `/etc/sysconfig/memcached` (shell env file) | `/etc/sysconfig/memcached` (shell env file) | `/etc/memcached.conf` (CLI-args file) | `/etc/memcached.conf` (CLI-args file) |
+| Config mechanism | `EnvironmentFile` → `-u ${USER}` etc. in ExecStart | same | same | wrapper `systemd-memcached-wrapper /etc/memcached.conf` | same as 24.04 |
+| Drop-in dir | N/A — single file, no `conf.d` | N/A — same | N/A — same | N/A — same | N/A — same |
+| Content dir | N/A — memcached has none (in-memory) | N/A — same | N/A — same | N/A — same | N/A — same |
+| Data dir | N/A — memcached has none (in-memory) | N/A — same | N/A — same | N/A — same | N/A — same |
+| Log dir | N/A — journal only, no file | N/A — same | N/A — same | N/A — same | N/A — same |
+| Validator | N/A — no offline validator; restart + check status/journal | N/A — same | N/A — same | N/A — same | N/A — same |
+| pam_group | N/A — cache class, service group owns nothing | N/A — same | N/A — same | N/A — same | N/A — same |
+| TLS paths (if built with TLS) | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` | `/etc/ssl/{certs,private}` |
+
+Ubuntu 26.04 is layout-identical to 24.04 (same wrapper, same config file, same
+`memcache` account name); AL2023 follows the EL layout exactly — same
+`memcached` account and `/etc/sysconfig/memcached` as alma9/alma10. The uid/gid
+numbers are allocation-order artifacts of the golden image, not contract.
 
 ## 9. Cheat sheet
 

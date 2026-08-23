@@ -1,39 +1,46 @@
 # nginx — lockdown runbook (ops)
 
 Companion to the [dev guide](dev.md). Profiles:
-`profiles/nginx/{almalinux-9,almalinux-10,ubuntu-24.04}-access.yml` with
-their untouched `-raw.yml` siblings. Lifecycle mechanics:
+`profiles/nginx/{almalinux-9,almalinux-10,ubuntu-24.04,ubuntu-26.04,amazonlinux-2023}-access.yml`
+with their untouched `-raw.yml` siblings. Lifecycle mechanics:
 [concepts/lifecycle.md](../../concepts/lifecycle.md).
 
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-nginx.json` (schema 1.0, captured
-2026-08-09, feature-branch treadmark):
+2026-08-23 on the KVM golden-image substrate, treadmark 0.11.0):
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Units installed | `nginx.service` (+ dependency-pulled `logrotate.service`/`.timer`) | same + `nginx@.service` template | `nginx.service` (+ enablement symlink — apt auto-started it) |
-| Accounts created | `nginx` (system, nologin) | `nginx` | none new (`www-data` pre-exists on Debian) |
-| Key dirs | `/etc/nginx` root:root; `/var/lib/nginx` nginx:root 0770 | same | `/etc/nginx`; `/var/lib/nginx`; plus dependency noise in `/etc/iproute2`, `/etc/ufw` |
-| Vendor sudoers shipped | none | none | none |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | al2023 |
+| --- | --- | --- | --- | --- | --- |
+| Units installed | `nginx.service` (counted twice — `/usr/lib` + `/lib` usr-merge alias) | same + `nginx@.service` template | `nginx.service` (+ enablement symlink — apt auto-started it) | same as 24.04 | `nginx.service` (usr-merge alias only) |
+| Accounts created | `nginx` (system, nologin) | `nginx` (system, nologin) | none new (`www-data` pre-exists on Debian) | none new (`www-data` pre-exists) | `nginx` (uid 994, system, nologin, home `/var/lib/nginx`) |
+| Key dirs | `/etc/nginx` root:root; `/var/lib/nginx` nginx:root 0770 | same | `/etc/nginx` root:root; `/var/lib/nginx` root:root with `www-data` 0700 buffer subdirs (first-start) | same as 24.04 | `/etc/nginx` root:root; `/var/lib/nginx` nginx:root 0770 |
+| Dependency payload | none beyond the nginx packages | none | none (`/etc/ufw/applications.d/nginx` is nginx's own file, not noise) | same | gperftools-libs/libunwind pulled in — 57 library files, 3.1 MB, no grants |
+| Vendor sudoers shipped | none | none | none | none | none |
 
-Ubuntu's footprint includes first-start side effects (apt auto-starts
+Ubuntu's footprints include first-start side effects (apt auto-starts
 services); EL captures do not. That's evidence, not noise — but raw
-profiles are not line-comparable across distros.
+profiles are not line-comparable across distros. AL2023 boots SELinux
+**permissive** by default (the Almas boot enforcing): contexts are applied
+and AVCs logged, but nothing blocks — the §5 deny probes test sudo, not
+SELinux, so they behave identically; flipping AL2023 to enforcing is a
+platform decision outside this profile.
 
 ## 2. Raw → reviewed: the decisions
 
 | Change | Tag | Why |
 | --- | --- | --- |
-| Drop `logrotate` from services + timers (EL) | REVIEW-DROP | Dependency-pulled system units; the team never legitimately restarts host logrotate. |
-| Drop all `files_modify` (7/9/3 entries) | REVIEW-DROP | All vendor units + enablement symlinks; a unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
-| Drop `/etc/systemd/system/nginx.service.d` (EL) | REVIEW-DROP | Unit drop-in dir — same root-equivalence with granted `daemon-reload`+`restart`. |
-| Drop `/var/lib/nginx`, `/var/lib/logrotate` from folders | REVIEW-DROP | Service runtime caches / system state; not team space. Install state kept via `ownership`. |
-| Drop `/etc/iproute2`, `/etc/ufw` (Ubuntu) | REVIEW-DROP | Dependency-pulled system/network config; firewall is ops, never an app grant. |
-| Add pam_group + `nginx`/`www-data` | REVIEW-ADD | Webserver class rule: identity/read baseline + content-group. Debian caveat: `www-data` is shared — single-app servers only (REVIEW-KEEP note in the profile). |
-| Add `/var/log/nginx` read | REVIEW-ADD | `/var/log` is excluded from footprints by default. |
-| Add setgid content dir (`/usr/share/nginx/html` / `/var/www/html`, `root:<group>` `2775`) | REVIEW-ADD | Team writes content via the group; new files inherit it. The one intentional vendor-permission deviation — accept-list it (§8). |
-| Keep `/var/lib/nginx` ownership (EL) | as captured | Enforces install-time state; drift stays visible. |
+| Drop all `files_modify` (2/4/3/3/2 entries — alma9/alma10/u24.04/u26.04/al2023) | REVIEW-DROP | All vendor unit files (Ubuntu adds the enablement symlink from apt auto-start; alma10 adds the `nginx@.service` template); a unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
+| Drop `/etc/systemd/system/nginx.service.d` (EL family: alma9, alma10, al2023) | REVIEW-DROP | Unit drop-in dir — same root-equivalence with granted `daemon-reload`+`restart`. |
+| Drop `/var/lib/nginx` from folders (all five) | REVIEW-DROP | Service runtime cache; not team space. Install state kept via `ownership` (EL family). |
+| Add pam_group + `nginx`/`www-data` (all five) | REVIEW-ADD | Webserver class rule: identity/read baseline + content-group. Debian caveat: `www-data` is shared — single-app servers only (REVIEW-KEEP note in the profile). |
+| Add `/var/log/nginx` read (all five) | REVIEW-ADD | `/var/log` is excluded from footprints by default. |
+| Add setgid content dir (`/usr/share/nginx/html` EL / `/var/www/html` Ubuntu, `root:<group>` `2775`) | REVIEW-ADD | Team writes content via the group; new files inherit it. The one intentional vendor-permission deviation — accept-list it (§8). |
+| Keep `/var/lib/nginx` ownership (EL family) | as captured | Enforces install-time state; drift stays visible. |
+
+The 2026-08-23 additions changed no decision: ubuntu-26.04's raw grant set
+is byte-identical to 24.04's, and amazonlinux-2023's to almalinux-9's, so
+each reviewed profile mirrors that sibling (cross-noted in its header).
 
 ## 3. Access model for this app class
 
@@ -59,8 +66,13 @@ app-full (group nesting).
 
 ## 5. Verify
 
-Verified with `scripts/verify-profile.sh nginx <distro>` (init container,
-real playbook apply, probes, real `--tags cleanup`). On a live host:
+Verified with `scripts/verify-profile.sh nginx <distro>` (init container)
+or `scripts/verify-profile-kvm.sh` (real KVM guest with SELinux/AppArmor
+and real PAM — the stamp names the image): real playbook apply, probes,
+real `--tags cleanup`. Current state per the profile headers: alma9
+re-verified 2026-08-23 on KVM; alma10 and ubuntu 24.04 verified 2026-08-09
+(EC2); **ubuntu 26.04 and al2023 are reviewed but `VERIFIED: pending`** —
+run the verifier before relying on them. On a live host:
 
 ```bash
 sudo -l -U <pilot>                          # exactly the scoped grants
@@ -140,10 +152,10 @@ install defect.
 Install-time floor, summed from the `filesystem` block of each
 `footprints/<distro>/footprint-nginx.json`:
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Install floor (all added files) | **2.7 MB** | **3.0 MB** | **2.7 MB** |
-| Dominated by | 4 binaries, 2.6 MB | 4 binaries, 2.8 MB | 2 binaries, 2.5 MB |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | al2023 |
+| --- | --- | --- | --- | --- | --- |
+| Install floor (all added files) | **2.7 MB** | **3.0 MB** | **2.6 MB** | **3.2 MB** | **6.5 MB** |
+| Dominated by | 4 binaries, 2.6 MB | 4 binaries, 2.8 MB | 2 binaries, 2.5 MB | 2 binaries, 3.1 MB | 4 binaries, 3.2 MB + 57 gperftools/libunwind dependency libs, 3.1 MB |
 
 Treat that as a **floor, not a forecast** — it answers "will it fit", never
 "how fast will it fill"
@@ -156,10 +168,10 @@ Growth drivers, worst first:
 | --- | --- | --- |
 | Content root — `/usr/share/nginx/html` (EL) / `/var/www/html` (Ubuntu) | **No** | Whatever the team writes. The unbounded path in a plain install. |
 | `/var/lib/nginx` proxy/cache buffers | **No, if proxy caching is configured** | Footprint shows `tmp/` (EL) and `body,proxy,fastcgi,uwsgi,scgi` (Ubuntu). `[needs-runtime-confirmation]` — a `proxy_cache_path` in a team `conf.d` drop-in makes this unbounded, and the dir is REVIEW-DROPped (§2), so the team can neither see nor clear it. |
-| `/var/log/nginx/{access,error}.log` | Yes — package fragment | `/etc/logrotate.d/nginx` is in the footprint on all three distros. Verbose access logging still outpaces a weekly rotate. |
+| `/var/log/nginx/{access,error}.log` | Yes — package fragment | `/etc/logrotate.d/nginx` is in the footprint on all five distros (byte-identical across the EL family, and across both Ubuntus). Verbose access logging still outpaces a weekly rotate. |
 | journal | Yes — journald `SystemMaxUse` | nginx writes only start/exit records here. |
 
-**Separate volume: not warranted for a plain static site** — a ~3 MB floor
+**Separate volume: not warranted for a plain static site** — a 3–7 MB floor
 with rotated logs fits anywhere. Provision one when the team's content is
 large or a `proxy_cache_path` is configured. Mount it at the app's existing
 data path — the content root for content, `/var/log/nginx` for a log split.

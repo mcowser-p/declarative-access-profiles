@@ -1,8 +1,10 @@
 # Tomcat — lockdown runbook (ops)
 
 Companion to the [dev guide](dev.md). Profiles:
-`profiles/tomcat/{almalinux-9,almalinux-10,ubuntu-24.04}-access.yml` with their
-untouched `-raw.yml` siblings. Role evaluation:
+`profiles/tomcat/{almalinux-9,almalinux-10,ubuntu-24.04,ubuntu-26.04}-access.yml`
+with their untouched `-raw.yml` siblings; amazonlinux-2023 is N/A — tomcat is
+not packaged in AL2023 core repos and AL2023 has no EPEL support, so that cell
+has no footprint, no profiles, and no artifacts anywhere. Role evaluation:
 [docs/role-evals/tomcat.md](../../role-evals/tomcat.md). Lifecycle mechanics:
 [concepts/lifecycle.md](../../concepts/lifecycle.md).
 
@@ -14,54 +16,73 @@ group-writable to `tomcat`, so the review's headline action is *adding* pam_grou
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-tomcat.json` (schema 1.0, `install_time`,
-captured 2026-08-09, treadmark 0.10.0 feature branch; EL under SELinux enforcing).
+captured 2026-08-23 on the KVM golden images, treadmark 0.11.0). amazonlinux-2023
+has no footprint by design (N/A cell — see the header note).
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| files added / modified | 1305 / 228 | 1433 / 185 | 1918 / 48 |
-| systemd unit entries | 4 | 4 | 3 |
-| Distinct units | `tomcat.service`, `tomcat@.service` (each at `/usr/lib` + `/lib`, usr-merge) | same | `tomcat10.service` (at `/usr/lib`, `/lib`, + `multi-user.target.wants` symlink) |
-| Account created | `tomcat` uid/gid **53**, home `/usr/share/tomcat`, `/sbin/nologin` | same | `tomcat` uid/gid **988**, home `/nonexistent`, `/usr/sbin/nologin` |
-| cron jobs | 0 | 0 | 1 (`/etc/cron.daily/tomcat10` — logrotate) |
-| `risks[]` | 0 | 0 | **3 (high)** — see §11 |
-| Vendor sudoers | none | none | none |
-| category counts | config 68, share_data 512, library 640, binary 70, state_dir 10, logrotate 1 | config 72, share_data 268, library 1024, binary 56, state_dir 8, logrotate 1 | config 60, share_data 1237, library 590, binary 14, state_dir 10, logrotate 1, cron_periodic 1, tmpfiles 1, sysusers 1 |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| App package | `tomcat` | `tomcat` | `tomcat10` | `tomcat11` (26.04 ships tomcat10 *and* tomcat11; matrix takes the newest) | N/A — tomcat not packaged in AL2023 core repos and no EPEL support |
+| files added / modified | 1305 / 220 | 1331 / 142 | 1920 / 44 | 2528 / 52 | N/A |
+| systemd unit entries | 4 | 4 | 3 | 3 | N/A |
+| Distinct units | `tomcat.service`, `tomcat@.service` (each at `/usr/lib` + `/lib`, usr-merge) | same | `tomcat10.service` (at `/usr/lib`, `/lib`, + `multi-user.target.wants` symlink) | `tomcat11.service` (same three paths; **no** `ExecStartPre=` policy script — see below) | N/A |
+| Account created | `tomcat` uid/gid **53**, home `/usr/share/tomcat`, `/sbin/nologin` | same | `tomcat` uid/gid **987**, home `/nonexistent`, `/usr/sbin/nologin` | `tomcat` uid/gid **982**, home `/nonexistent`, `/usr/sbin/nologin` | N/A |
+| cron jobs | 0 | 0 | 1 (`/etc/cron.daily/tomcat10` — logrotate) | 1 (`/etc/cron.daily/tomcat11` — logrotate) | N/A |
+| `risks[]` | 0 | 0 | **3 (high)** — see §11 | **3 (high)** — same finding, see §11 | N/A |
+| Vendor sudoers | none | none | none | none | N/A |
+| category counts | config 68, share_data 512, library 640, binary 70, state_dir 10, logrotate 1 | config 68, share_data 260, library 938, binary 52, state_dir 8, logrotate 1 | config 60, share_data 1237, library 592, binary 14, state_dir 10, logrotate 1, cron_periodic 1, tmpfiles 1, sysusers 1 | config 105, share_data 1767, library 627, binary 14, state_dir 8, logrotate 1, cron_periodic 1, tmpfiles 1, sysusers 1 | N/A |
+
+The Ubuntu accounts' uid/gid are dynamic system-range allocations — expect a
+different number per image generation `[app-knowledge]`; EL pins 53.
 
 Key directories, captured owner:mode:
 
-| Path (EL / Ubuntu) | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Config root | `/etc/tomcat` `0755 root:tomcat` | same | `/etc/tomcat10` `0755 root:root` |
-| Context dir | `/etc/tomcat/Catalina` `0775 root:tomcat` | same | `/etc/tomcat10/Catalina` `0775 root:tomcat` |
-| Context (per-vhost) | `/etc/tomcat/Catalina/localhost` `0775 root:tomcat` | same | `/etc/tomcat10/Catalina/localhost` `0750 tomcat:tomcat` |
-| CATALINA_HOME | `/usr/share/tomcat` `0775 root:tomcat` | same | `/usr/share/tomcat10` (root-owned tree) |
-| CATALINA_BASE | `/var/lib/tomcat` `0755 root:tomcat` | same | `/var/lib/tomcat10` `0755 root:root` |
-| Webapps (deploy) | `/var/lib/tomcat/webapps` `0775 root:tomcat` | same + `webapps-javaee` `0775 root:tomcat` | `/var/lib/tomcat10/webapps` `0775 tomcat:tomcat` |
+| Path (EL / Ubuntu) | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| Config root | `/etc/tomcat` `0755 root:tomcat` | same | `/etc/tomcat10` `0755 root:root` | `/etc/tomcat11` `0755 root:root` | N/A — no package |
+| Context dir | `/etc/tomcat/Catalina` `0775 root:tomcat` | same | `/etc/tomcat10/Catalina` `0775 root:tomcat` | `/etc/tomcat11/Catalina` `0775 root:tomcat` | N/A |
+| Context (per-vhost) | `/etc/tomcat/Catalina/localhost` `0775 root:tomcat` | same | `/etc/tomcat10/Catalina/localhost` `0750 tomcat:tomcat` | `/etc/tomcat11/Catalina/localhost` `0750 tomcat:tomcat` | N/A |
+| Security Manager policy | `/etc/tomcat/catalina.policy` (single file) | same | `/etc/tomcat10/policy.d/` `0755 root:tomcat` (5 files) + `/var/lib/tomcat10/policy` | **absent** — no `policy.d`, no `/var/lib/tomcat11/policy` in the capture (why: see below) | N/A |
+| CATALINA_HOME | `/usr/share/tomcat` `0775 root:tomcat` | same | `/usr/share/tomcat10` (root-owned tree) | `/usr/share/tomcat11` (root-owned tree) | N/A |
+| CATALINA_BASE | `/var/lib/tomcat` `0755 root:tomcat` | same | `/var/lib/tomcat10` `0755 root:root` | `/var/lib/tomcat11` `0755 root:root` | N/A |
+| Webapps (deploy) | `/var/lib/tomcat/webapps` `0775 root:tomcat` | same + `webapps-javaee` `0775 root:tomcat` | `/var/lib/tomcat10/webapps` `0775 tomcat:tomcat` | `/var/lib/tomcat11/webapps` `0775 tomcat:tomcat` | N/A |
 
 The `group_access` block is the crux: the `tomcat` group is **writable** on
 `{webapps, Catalina, Catalina/localhost, /usr/share/tomcat}` (EL) /
-`{webapps, Catalina}` (Ubuntu) and **readable** on the whole config tree. That
-is vendor-shipped group-write — the profile reuses it via pam_group rather than
-laying down new ACLs (`references/review-rules.md` §7). `privilege.sudoers_files`
-is empty on every distro (nothing to quote).
+`{webapps, Catalina}` (both Ubuntu releases) and **readable** on the whole
+config tree. That is vendor-shipped group-write — the profile reuses it via
+pam_group rather than laying down new ACLs (`references/review-rules.md` §7).
+`privilege.sudoers_files` is empty on every distro (nothing to quote).
+
+**What tomcat11 (26.04) changes vs tomcat10 (24.04), per this capture:** the
+Security Manager machinery is gone — no `/etc/tomcat11/policy.d`, no
+`/var/lib/tomcat11/policy`, and the unit drops tomcat10's
+`ExecStartPre=+/usr/libexec/tomcat10/tomcat-update-policy.sh` build step
+(Tomcat 11 removed Security Manager support `[app-knowledge]`). The dependency
+closure moves to OpenJDK **25** (24.04 pulls OpenJDK 21) and additionally drags
+in fontconfig (`/etc/fonts`), which is why the 26.04 raw profile carries two
+extra dependency folders. Everything the access model rests on — unit hardening
+(`ProtectSystem=strict`, `PrivateTmp`, `NoNewPrivileges`), ambient
+`CAP_NET_BIND_SERVICE`, group-writable `webapps/` + `Catalina/`, group-read
+config files `0640 root:tomcat` — is unchanged.
 
 ## 2. Raw → reviewed: the decisions
 
 | Change | Distro | Tag | Why |
 | --- | --- | --- | --- |
 | **Add** `pam_group` + `local_groups: [tomcat]` | EL9, EL10 | REVIEW-ADD | app-server class; the raw omitted pam_group even though `group_access` shows `tomcat` owns the writable deploy tree. This is the primary grant — webapp deploy + context config through vendor group permissions, zero drift. |
-| Keep `pam_group` + `local_groups: [tomcat]` | Ubuntu | REVIEW-KEEP | Exporter chose it correctly; `tomcat` is app-specific (not shared like `www-data`). |
-| Drop all `files_modify` (4 / 4 / 3 entries) | all | REVIEW-DROP | Vendor unit files + the `tomcat@` template + apt's enablement symlink; a unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
-| Keep `/etc/tomcat` in `folders_modify` (config ACL) | all | REVIEW-KEEP | Config files are root-owned, group-READ only; pam_group cannot write them. The ACL grants the *team* config write (server.xml, conf.d, the keystore) without chgrp-ing config to the service account. |
-| Drop `/etc/.java`, `/etc/java*`, `/etc/jvm*` | all | REVIEW-DROP | JVM / update-alternatives config from the openjdk dependency closure; platform concern, not Tomcat's. |
+| Keep `pam_group` + `local_groups: [tomcat]` | Ubuntu (both) | REVIEW-KEEP | Exporter chose it correctly; `tomcat` is app-specific (not shared like `www-data`). |
+| Drop all `files_modify` (4 / 4 / 3 / 3 entries) | all | REVIEW-DROP | Vendor unit files + the EL `tomcat@` template + apt's enablement symlink; a unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
+| Keep `/etc/tomcat` (`/etc/tomcat10`, `/etc/tomcat11`) in `folders_modify` (config ACL) | all | REVIEW-KEEP | Config files are root-owned, group-READ only; pam_group cannot write them. The ACL grants the *team* config write (server.xml, conf.d on EL, the keystore) without chgrp-ing config to the service account. |
+| Drop `/etc/.java`, `/etc/java*`, `/etc/jvm*` | all | REVIEW-DROP | JVM / update-alternatives config from the openjdk dependency closure (EL: `/etc/java`, `/etc/jvm*`; 24.04: `/etc/java-21-openjdk`; 26.04: `/etc/java-25-openjdk`); platform concern, not Tomcat's. |
 | Drop `/etc/cups` | EL10 | REVIEW-DROP | CUPS printing config pulled in by the dependency closure (root:root); appears only in the EL10 capture. |
-| Drop `/etc/pki/nssdb` | EL | REVIEW-DROP | System NSS shared DB (root:root), crypto dependency closure. |
-| Drop `/var/lib/ca-certificates-java` | Ubuntu | REVIEW-DROP | System Java CA trust store (dependency); trust management is platform. |
-| Drop `/var/cache/tomcat10` | Ubuntu | REVIEW-DROP | systemd `CacheDirectory` (service runtime, mode 0750); service writes it, team does not. |
-| Drop `/var/lib/tomcat` (`/var/lib/tomcat10`) broad ACL | all | REVIEW-DROP | CATALINA_BASE; the team writes only `webapps/` (already group-writable via pam_group). Broad recursive ACL removed; EL install state kept via `ownership`. |
+| Drop `/etc/pki/nssdb` | EL9 | REVIEW-DROP | System NSS shared DB (root:root), crypto dependency closure. (The 2026-08-23 alma10 re-capture no longer emits it; the alma10 reviewed file retains the drop comment from the earlier capture.) |
+| Drop `/etc/fonts` | Ubuntu 26.04 | REVIEW-DROP | fontconfig, dragged in by the OpenJDK 25 dependency closure; absent from the 24.04 capture. Platform concern, not Tomcat's. |
+| Drop `/var/lib/ca-certificates-java` | Ubuntu (both) | REVIEW-DROP | System Java CA trust store (dependency); trust management is platform. |
+| Drop `/var/cache/tomcat10` (`/var/cache/tomcat11`) | Ubuntu (both) | REVIEW-DROP | systemd `CacheDirectory` (service runtime, mode 0750); service writes it, team does not. |
+| Drop `/var/lib/tomcat` (`/var/lib/tomcat10`, `/var/lib/tomcat11`) broad ACL | all | REVIEW-DROP | CATALINA_BASE; the team writes only `webapps/` (already group-writable via pam_group). Broad recursive ACL removed; EL install state kept via `ownership`. |
 | Drop `/var/lib/tomcats` | EL | REVIEW-DROP | Empty multi-instance base (root:root); unused by this single-instance deploy. |
-| Add `/var/log/tomcat` (`/var/log/tomcat10`) read | all | REVIEW-ADD | `/var/log` excluded from footprints by default; Ubuntu unit confirms the dir (`RequiresMountsFor` + `ReadWritePaths`). |
-| `profile_name` `tomcat10` → `tomcat` | Ubuntu | REVIEW-CHANGE | Normalized to the app-dir slug (`check_profiles`); cosmetic — names the sudoers file / group.conf label, not any unit or path. |
+| Add `/var/log/tomcat` (`/var/log/tomcat10`, `/var/log/tomcat11`) read | all | REVIEW-ADD | `/var/log` excluded from footprints by default; Ubuntu unit confirms the dir (`RequiresMountsFor` + `ReadWritePaths`). |
+| `profile_name` `tomcat10` / `tomcat11` → `tomcat` | Ubuntu (both) | REVIEW-CHANGE | Normalized to the app-dir slug (`check_profiles`); cosmetic — names the sudoers file / group.conf label, not any unit or path. |
 | Keep `/etc/tomcat`, `/var/lib/tomcat` ownership | EL | as captured | Enforces install-time state; `group: tomcat` is the vendor default, not our change. No ownership entry on Ubuntu — vendor state is already correct. |
 
 ## 3. Access model for this app class
@@ -92,7 +113,7 @@ ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
 Artifacts to eyeball afterwards:
 
 - `/etc/sudoers.d/tomcat-rg-<host>-app-restricted` — `visudo -cf` it; confirm the
-  `tomcat`/`tomcat10` systemctl + journalctl lines and `daemon-reload`.
+  `tomcat`/`tomcat10`/`tomcat11` systemctl + journalctl lines and `daemon-reload`.
 - the `group.conf` line mapping the AD group into `tomcat` (pam_group).
 - `getfacl /etc/tomcat /var/log/tomcat` — team group present with `rwx` / `r-x`
   and a matching `default:` entry.
@@ -104,11 +125,13 @@ Applying is non-breaking while the team still holds app-full (group nesting).
 ## 5. Verify
 
 Verified with `scripts/verify-profile.sh tomcat <distro>` (init container, real
-playbook apply, allow/deny probes, real `--tags cleanup`). On a live host:
+playbook apply, allow/deny probes, real `--tags cleanup`). The ubuntu-26.04
+profile is reviewed but **`VERIFIED: pending`** (see its header) — run the
+verify pass before first production apply. On a live host:
 
 ```bash
 sudo -l -U <pilot>                          # exactly the scoped grants
-sudo systemctl restart tomcat               # allow (Ubuntu: tomcat10)
+sudo systemctl restart tomcat               # allow (Ubuntu: tomcat10 / tomcat11)
 sudo journalctl -e -u tomcat                # allow (granted spelling)
 sudo systemctl restart sshd                 # DENY
 echo x | sudo tee /usr/lib/systemd/system/tomcat.service   # DENY (read-only units)
@@ -156,8 +179,10 @@ strip, no ownership to undo.
 - **ACLs are invisible** to `rpm -V`/`dpkg --verify`; verify them with `getfacl`.
 - **Package updates replace files and shed file ACLs** (and can reset config-dir
   modes): re-run playbook 5 after patching — it is idempotent. A Tomcat *major*
-  version bump on Ubuntu (`tomcat10` → a future `tomcat11`) changes unit name,
-  paths, and the account gid → **re-capture and re-review**, do not hand-edit.
+  version bump on Ubuntu changes unit name, paths, and the account gid →
+  **re-capture and re-review**, do not hand-edit. That is exactly why 26.04's
+  `tomcat11` is its own captured cell with its own reviewed profile rather than
+  an edit of the tomcat10 one; treat a future `tomcat12` the same way.
 - **authselect** runs can drop the pam_group line from `/etc/pam.d/sshd` on EL —
   re-run the role or wire the module into a custom authselect profile. This
   matters more for Tomcat than most apps: pam_group is the *primary* grant, so
@@ -195,9 +220,10 @@ mode.
   owns rotation. Pre-flip test: trigger a day-roll (or restart) and `getfacl` the
   fresh dated file — confirm no `#effective:---`. If juli's mode ever masks the
   ACL, that is an application-config change, not a logrotate one.
-- **Ubuntu:** `catalina.out` is rotated by `/etc/logrotate.d/tomcat10` from
+- **Ubuntu (both releases):** `catalina.out` is rotated by
+  `/etc/logrotate.d/tomcat10` (26.04: `/etc/logrotate.d/tomcat11`) from
   `cron.daily`; the dated `*.log` files are still juli's. Run the standard
-  pre-flip test on the logrotate side:
+  pre-flip test on the logrotate side (26.04: substitute `tomcat11`):
 
   ```bash
   logrotate -f /etc/logrotate.d/tomcat10
@@ -210,12 +236,13 @@ or logrotate fragment was customized.
 
 ## 11. Known risks (from `risks[]`)
 
-EL9/EL10 carry **no** `risks[]` entries. Ubuntu carries **three high** entries —
-all the same finding, one per unit-file path:
+EL9/EL10 carry **no** `risks[]` entries; amazonlinux-2023 has no capture (N/A).
+Each Ubuntu release carries **three high** entries — the same finding, one per
+unit-file path:
 
 | Finding | Severity | Decision | Owner |
 | --- | --- | --- | --- |
-| `tomcat10.service` grants ambient `CAP_NET_BIND_SERVICE` (`/usr/lib/...`, `/lib/...`, and the `multi-user.target.wants` symlink) | high | **Accept.** The Debian unit ships this so Tomcat can bind ports <1024 as the unprivileged `tomcat` user instead of running as root — arguably *more* least-privilege than the alternative. Default connectors are 8080/8443 (unprivileged), so it is latent unless someone configures a low port. It is a **vendor-owned unit setting, not in our profile** (read-only-units), so the team cannot widen or exploit it via any granted verb. | platform |
+| `tomcat10.service` (24.04) / `tomcat11.service` (26.04) grants ambient `CAP_NET_BIND_SERVICE` (`/usr/lib/...`, `/lib/...`, and the `multi-user.target.wants` symlink) | high | **Accept.** The Debian unit ships this so Tomcat can bind ports <1024 as the unprivileged `tomcat` user instead of running as root — arguably *more* least-privilege than the alternative. Default connectors are 8080/8443 (unprivileged), so it is latent unless someone configures a low port. It is a **vendor-owned unit setting, not in our profile** (read-only-units), so the team cannot widen or exploit it via any granted verb. | platform |
 
 If org policy forbids ambient capabilities regardless, removing them is a systemd
 hardening **drop-in** authored by ops in a change window (`[Service]` with
@@ -229,24 +256,24 @@ reverse proxy or on 8080; the divergence is packaging, not an install defect.
 Install-time floor, summed from the `filesystem` block of each
 `footprints/<distro>/footprint-tomcat.json` (same captures as §1):
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Install floor (all added entries) | **305.0 MB** | **454.9 MB** | **412.2 MB** |
-| Dominated by | OpenJDK **8** under `/usr/lib/jvm` (+ its `/lib/jvm` usr-merge twin): 281.8 MB — **92%** | OpenJDK **21**: 427.3 MB — **94%** | OpenJDK **21**: 385.7 MB — **94%** |
-| Tomcat's own trees | `/etc/tomcat` + `/var/lib/tomcat` + `/usr/share/tomcat`: **0.3 MB** | **0.3 MB** | `/etc/tomcat10` + `/var/lib/tomcat10` + `/usr/share/tomcat10`: **1.1 MB** |
-| Not in the floor | `/var/log/tomcat` (`/var/log` excluded from footprints); `webapps/` ships **empty** | same, plus `webapps-javaee/` — also empty | `/var/log/tomcat10`; `webapps/` ships a 2 KB `ROOT` app; `/var/cache/tomcat10` is created at runtime by `CacheDirectory=` |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| Install floor (all added entries) | **305.0 MB** | **445.6 MB** | **412.2 MB** | **499.5 MB** | N/A — no package |
+| Dominated by | OpenJDK **8** under `/usr/lib/jvm` (+ its `/lib/jvm` usr-merge twin): 281.8 MB — **92%** | OpenJDK **21**: 427.3 MB — **96%** | OpenJDK **21**: 385.7 MB — **94%** | OpenJDK **25**: 466.0 MB — **93%** | N/A |
+| Tomcat's own trees | `/etc/tomcat` + `/var/lib/tomcat` + `/usr/share/tomcat`: **0.3 MB** | **0.3 MB** | `/etc/tomcat10` + `/var/lib/tomcat10` + `/usr/share/tomcat10`: **0.6 MB** | `/etc/tomcat11` + `/var/lib/tomcat11` + `/usr/share/tomcat11`: **0.5 MB** | N/A |
+| Not in the floor | `/var/log/tomcat` (`/var/log` excluded from footprints); `webapps/` ships **empty** | same, plus `webapps-javaee/` — also empty | `/var/log/tomcat10`; `webapps/` ships a 2 KB `ROOT` app; `/var/cache/tomcat10` is created at runtime by `CacheDirectory=` | `/var/log/tomcat11`; `webapps/` ships a 2 KB `ROOT` app; `/var/cache/tomcat11` is created at runtime by `CacheDirectory=` | N/A |
 
 Treat that as a **floor, not a forecast** — it answers "will it fit", never
 "how fast will it fill"
 ([sizing](../../concepts/storage.md#sizing-the-footprint-is-a-floor-not-a-forecast)).
-Two things to read off it before provisioning. First, this is **among the
-heaviest floors in the library** — the largest of all on alma10, top-two on the
-other two (compare nginx at 3 MB, apache at 10 MB); only MySQL on alma9
-(335.4 MB) and MariaDB on Ubuntu (493.0 MB) are larger anywhere. Second, it is
+Two things to read off it before provisioning. First, this is **the heaviest
+app in the library** — the largest floor of all on ubuntu-26.04 (499.5 MB), and
+elsewhere only MariaDB on Ubuntu 24.04 (494.0 MB) beats tomcat's alma10 /
+ubuntu-24.04 floors (compare nginx at 3 MB, apache at 10 MB). Second, it is
 heavy because of the **JVM dependency closure, not Tomcat** — Tomcat's own trees
-are about 1 MB, and the alma9→alma10 jump is the JDK the package pulls (8 vs
-21), not a Tomcat difference. Budget the working set on top of the floor, never
-inside it.
+are under 1 MB everywhere, and both jumps (alma9→alma10, 24.04→26.04) are the
+JDK the package pulls (8 vs 21, 21 vs 25), not a Tomcat difference. Budget the
+working set on top of the floor, never inside it.
 
 **Growth drivers**, worst first:
 
@@ -254,23 +281,23 @@ inside it.
 | --- | --- | --- |
 | `webapps/` — deployed WARs **and their exploded copies** | **No** | The unbounded path on a stock install. Tomcat unpacks each WAR beside itself, so a deploy transiently needs **roughly double** the WAR `[app-knowledge]`. Ships empty (EL) / 2 KB (Ubuntu), so 100% of this tree is the team's. |
 | `/var/log/tomcat*` dated juli files | **No by default** | juli writes one file per day and *rolls* but does not *prune*; retention needs `maxDays` in `logging.properties` `[app-knowledge]`. On EL nothing else prunes them — the fragment ships disabled (§10). `[needs-runtime-confirmation]` per host. |
-| `catalina.out` | Ubuntu: **yes**, `/etc/logrotate.d/tomcat10` via `cron.daily`. EL: nothing would rotate it | Both distros' units are `Type=simple` with no `StandardOutput=`, so stdout/stderr land in the **journal**, not a file — the classic unbounded `catalina.out` only exists if a start script or `logging.properties` redirects to it. `[needs-runtime-confirmation]` on any given host. |
-| journal | Yes — journald `SystemMaxUse` | Where Tomcat's console output actually goes on both distros (§10). |
-| `/var/cache/tomcat10` work dir (Ubuntu) | **No** | Compiled JSPs; systemd `CacheDirectory=`, mode `0750`, **REVIEW-DROPped** (§2) — the team can neither see nor clear it. N/A on alma9/alma10 — no cache dir in the capture. |
+| `catalina.out` | Ubuntu (both): **yes**, `/etc/logrotate.d/tomcat10` / `tomcat11` via `cron.daily`. EL: nothing would rotate it | All four distros' units are `Type=simple` with no `StandardOutput=`, so stdout/stderr land in the **journal**, not a file — the classic unbounded `catalina.out` only exists if a start script or `logging.properties` redirects to it. `[needs-runtime-confirmation]` on any given host. |
+| journal | Yes — journald `SystemMaxUse` | Where Tomcat's console output actually goes on every distro (§10). |
+| `/var/cache/tomcat10` / `tomcat11` work dir (Ubuntu, both) | **No** | Compiled JSPs; systemd `CacheDirectory=`, mode `0750`, **REVIEW-DROPped** (§2) — the team can neither see nor clear it. N/A on alma9/alma10 — no cache dir in the capture. |
 
 **Separate volume: warranted**, and for a different reason than a database. The
-floor is 305–455 MB before the team deploys anything, and `webapps/` growth is
+floor is 305–500 MB before the team deploys anything, and `webapps/` growth is
 unbounded and doubles during deploys. Mount it at **CATALINA_BASE** —
-`/var/lib/tomcat` (Ubuntu `/var/lib/tomcat10`) — the app's own data path, which
-carries `webapps/` and is already the path the profile knows. Split
-`/var/log/tomcat*` onto a second volume only where juli retention is unresolved.
-Never invent a new path and symlink.
+`/var/lib/tomcat` (Ubuntu `/var/lib/tomcat10` / `/var/lib/tomcat11`) — the
+app's own data path, which carries `webapps/` and is already the path the
+profile knows. Split `/var/log/tomcat*` onto a second volume only where juli
+retention is unresolved. Never invent a new path and symlink.
 
-Ubuntu's unit already declares `RequiresMountsFor=/var/log/tomcat10
-/var/lib/tomcat10`, so systemd orders the service after both mounts. **The EL
-units declare no such dependency** — add `RequiresMountsFor=` in an ops drop-in,
-or Tomcat can start before the volume is mounted and deploy into the directory
-hidden underneath it.
+Both Ubuntu units already declare `RequiresMountsFor=/var/log/tomcat10
+/var/lib/tomcat10` (26.04: the `tomcat11` pair), so systemd orders the service
+after both mounts. **The EL units declare no such dependency** — add
+`RequiresMountsFor=` in an ops drop-in, or Tomcat can start before the volume
+is mounted and deploy into the directory hidden underneath it.
 
 **Ordering: mount → restore → re-apply → `getfacl`.** Full procedure in
 [separate volumes: when and where](../../concepts/storage.md#separate-volumes-when-and-where).
@@ -301,12 +328,12 @@ strip on revoke, but nothing to restore after a mount either.
 **Log retention.** Two sinks, and the file sink is the one with no default
 ceiling:
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Shipped fragment | `/etc/logrotate.d/tomcat.disabled` `0644` — **inactive** | same | `/etc/logrotate.d/tomcat10` `0644` — **active** |
-| Runs from | N/A on alma9 — fragment disabled, no cron entry (`cron_jobs` 0 in §1) | N/A on alma10 — same | `/etc/cron.daily/tomcat10`, the single cron job in §1 |
-| Dated `*.log` files | juli self-rotates; pruning only via `maxDays` | same | same |
-| Console output | journal (`Type=simple`), journald caps apply | same | same |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| Shipped fragment | `/etc/logrotate.d/tomcat.disabled` `0644` — **inactive** | same | `/etc/logrotate.d/tomcat10` `0644` — **active** | `/etc/logrotate.d/tomcat11` `0644` — **active** | N/A — no package |
+| Runs from | N/A on alma9 — fragment disabled, no cron entry (`cron_jobs` 0 in §1) | N/A on alma10 — same | `/etc/cron.daily/tomcat10`, the single cron job in §1 | `/etc/cron.daily/tomcat11`, the single cron job in §1 | N/A |
+| Dated `*.log` files | juli self-rotates; pruning only via `maxDays` | same | same | same | N/A |
+| Console output | journal (`Type=simple`), journald caps apply | same | same | same | N/A |
 
 Neither the fragment nor juli's `logging.properties` sits in any profile:
 **retention and frequency changes are an ops request** in a change window. Flag

@@ -34,20 +34,43 @@ Modeled on the chrony worked example in treadmark's runbook corpus.
 4. **Nuances found** — free slot (the chrony eval's
    whole-file-vs-drop-in analysis is the exemplar).
 5. **Verdict** — adopt / adopt+wrap / build, with reasoning bullets.
-6. **Running the adopted role inside our access lifecycle** — the section
-   that makes these evals different:
-   - it runs during the **setup window** (executor in app-full) or via
-     platform automation — always **before capture**, so its outputs land
-     in the footprint like a manual install;
-   - mapping table: role outputs → profile keys (units →
+6. **Implementing least privilege with this role** — the section that
+   makes these evals different. Four fixed subsections, so a reader can go
+   from "we picked this role" to "the team is locked down and knows how to
+   operate":
+   - **6a. Where the role runs in the lifecycle** — during the **setup
+     window** (executor in app-full) or via platform automation — always
+     **before capture**, so its outputs land in the footprint like a
+     manual install. Mapping table: role outputs → profile keys (units →
      `_services`/`_timers`; templated config tree → `folders_modify` or
-     the group model; handlers → the reload verb mattering);
-   - wrap notes: **pin the role version** (a version bump changes the
-     footprint → re-capture, re-review); disable role features that fight
-     the access model (roles that chown config to the service account or
-     write their own sudoers); re-running the role post-lockdown is a
+     the group model; handlers → the reload verb mattering). Wrap notes:
+     **pin the role version** (a version bump changes the footprint →
+     re-capture, re-review); re-running the role post-lockdown is a
      platform act — if it replaces ACL'd files, re-run playbook 5 after
      (idempotent).
+   - **6b. Configuring the deployment for least privilege** — the role
+     vars and app config that keep the install least-priv-compatible,
+     scored from the role's own code: keep config root-owned (disable any
+     role behavior that chowns config to the service account or writes
+     its own sudoers); run the service as its packaged system user, never
+     a login user; port/capability posture (e.g. ambient
+     `CAP_NET_BIND_SERVICE` vs >1024); log to the packaged log dir or
+     journald so the profile's log grants hold; secrets via R5's
+     mechanism, never world-readable. Name the exact vars with values
+     where the role provides them; say "not expressible with this role"
+     where it doesn't.
+   - **6c. Applying the access profile** — the concrete lockdown step
+     once the role has deployed and capture/review is done: the
+     `5_apply_access_profile.yml` invocation with this app's reviewed
+     profile (`-e @profiles/<app>/<distro>-access.yml
+     -e group_name=<hostname>-app_restricted`), the verify pass, and the
+     flip out of app-full. Two sentences + the command — the full
+     runbook lives in ops.md; link, don't duplicate.
+   - **6d. Who does what after lockdown** — one paragraph each with
+     links: the application team's admin surface is dev.md ("your life
+     after lockdown": granted systemctl verbs, journalctl, config edit
+     paths); the operations team's reference is ops.md (evidence,
+     raw→reviewed decisions, apply/verify/revoke, risk triage).
 7. **If nothing fits** — spec stub for an org install role (scope, distro
    matrix, molecule expectations), two paragraphs max, marked
    "not scheduled".
