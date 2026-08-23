@@ -1,0 +1,100 @@
+---
+# declarative-access-profiles :: mysql on ubuntu-24.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-24.04/footprint-mysql.json
+#               (schema 1.0, captured 2026-08-23 on the Ubuntu 24.04 KVM golden
+#               image, host dap-ubuntu2404, AppArmor; treadmark 0.11.0. Wave-2
+#               flip: the wave-1 "mariadb covers Ubuntu" cut is over — this is
+#               the first reviewed mysql-on-Ubuntu profile. Clean-guest
+#               re-capture 2026-08-23: the first capture ran after a
+#               remove-not-purge of mariadb on a shared guest and missed the
+#               data-dir initialization; this capture is from a fresh guest —
+#               apt auto-start initialized /var/lib/mysql (0700, binlog,
+#               auto-generated TLS pair) and the harness now purges conflicts.)
+#   raw       : ./ubuntu-24.04-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/mysql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped. Config write ACL on the Debian server
+# drop-in dir (/etc/mysql/mysql.conf.d) + log read ACL (/var/log/mysql). NO
+# pam_group into the 'mysql' group (that group owns the raw data files, so
+# membership = filesystem access that bypasses every SQL GRANT). The data dir
+# (/var/lib/mysql) and its siblings are NEVER granted, on any distro. The
+# /etc/mysql TREE is deliberately not granted either — /etc/mysql/debian.cnf
+# (root:root 0600, the historical debian-sys-maint credential file) lives one
+# level up from the granted drop-in dir. Read-only-units profile.
+#
+# The effective grant set (service 'mysql', /etc/mysql/mysql.conf.d,
+# /var/log/mysql) and the ownership assertions are identical to ubuntu-26.04
+# as of this capture; the files differ only in dropped capture noise.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mysql/ubuntu-24.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2404-20260823, AppArmor, real PAM, CIS L1)
+
+declarative_access_profile_name: 'mysql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mysql'
+
+# REVIEW-DROP: declarative_access_files_modify [mysql.service under /lib and
+# /usr/lib — 2 paths, the same unit through the usr-merge symlink — plus the
+# /etc/systemd/system/multi-user.target.wants/mysql.service enablement symlink
+# apt's auto-start created] — vendor unit files; a write ACL on a unit file is
+# root-equivalent for that unit (edit ExecStart, which runs /usr/sbin/mysqld,
+# then the granted daemon-reload + restart), and the enablement symlink
+# repoints boot while enable/disable are already granted verbs. Read-only-units
+# profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['mysql'] — database class grants no pam_group: the 'mysql' group owns the
+# raw data files (/var/lib/mysql, 0700 mysql:mysql), so membership is
+# filesystem access that bypasses every SQL GRANT. Same decision as mariadb
+# and postgresql. The apply-time opt-in for a team that knowingly accepts
+# data-dir exposure is documented in ops §3.
+
+declarative_access_folders_modify:
+  # REVIEW-CHANGE: narrowed '/etc/mysql' (whole tree in the raw) to the server
+  # drop-in dir — debian.cnf (root:root 0600) lives one level up and stays
+  # root-only.
+  - '/etc/mysql/mysql.conf.d'
+  # REVIEW-DROP: '/etc/init' — the legacy upstart job dir (the package still
+  # ships /etc/init/mysql.conf and /etc/init.d/mysql on 24.04). Inert under
+  # systemd, vendor compat plumbing, not team config.
+  # REVIEW-DROP: '/etc/logcheck/ignore.d.workstation' — logcheck rule
+  # fragments, another package's config; dependency noise (mariadb precedent).
+  # REVIEW-DROP: '/var/lib/mecab' — mecab-ipadic full-text tokenizer
+  # dictionaries (root:root 0755, ~90 MiB) pulled in alongside mysql's mecab
+  # plugin. Another package's read-only data — dependency noise, never edited.
+  # REVIEW-DROP: '/var/lib/mysql', '/var/lib/mysql-files',
+  # '/var/lib/mysql-keyring' — the data dir and its siblings (all 0700
+  # mysql:mysql). NEVER granted in any list; asserted below instead.
+  # REVIEW-DROP: '/var/lib/mysql-upgrade' — Debian packaging's upgrade
+  # bookkeeping dir (root:root 0755). Data-adjacent packaging state, not team
+  # space.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; file-log read
+  # is still wanted (ACL + default ACL keeps rotated files readable). Unlike
+  # mariadb-on-Ubuntu (log_error unset → journald only; its /var/log/mysql
+  # REVIEW-ADD failed verification and was dropped), the mysql-server packaging
+  # points log_error at /var/log/mysql/error.log in the shipped mysqld.cnf and
+  # creates the directory (mysql:adm) at install [app-knowledge] — the captured
+  # /etc/logrotate.d/mysql-server rotates exactly that file. Existence on this
+  # substrate is [needs-runtime-confirmation] until the first KVM verify pass.
+  - '/var/log/mysql'
+
+declarative_access_ownership:
+  # REVIEW-ADD: assert the captured install-time state of the data +
+  # data-adjacent dirs and make drift visible. NOT an access grant — no
+  # membership or ACL on these paths is created; the entries only chown/chmod
+  # them back to the captured state_dir evidence on apply, re-tightening the
+  # 0700 modes if drift ever loosens them. Note the all-0700 Debian posture
+  # (EL9: 0755 data dir, 0750 mysql-files).
+  - {path: '/var/lib/mysql', owner: 'mysql', group: 'mysql', mode: '0700'}
+  - {path: '/var/lib/mysql-files', owner: 'mysql', group: 'mysql', mode: '0700'}
+  - {path: '/var/lib/mysql-keyring', owner: 'mysql', group: 'mysql', mode: '0700'}

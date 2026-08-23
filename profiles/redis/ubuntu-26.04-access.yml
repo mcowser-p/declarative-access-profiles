@@ -1,0 +1,86 @@
+---
+# declarative-access-profiles :: redis on ubuntu-26.04  (package: valkey)
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-redis.json
+#               (schema 1.0, captured 2026-08-23 on an Ubuntu 26.04 KVM golden
+#               image; treadmark 0.11.0. apt auto-started valkey-server at
+#               install, so the footprint includes first-start side effects:
+#               the enablement + alias symlinks under /etc/systemd/system.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/redis/ops.md  (review reasoning, §2)
+#
+# 26.04 ships both redis-server and valkey; this cell packages valkey per the
+# row's EL10 precedent (redis's BSD->SSPL/RSAL relicense). The packaged app,
+# unit, user, group and paths are all 'valkey'. This profile keeps the 'redis'
+# row slug so it sits beside the other redis-row profiles and passes the
+# profile-name==app-dir contract check (tools/check_profiles.py).
+#
+# ACCESS MODEL: cache — scoped service control + config write ACL (/etc/valkey)
+# + log read ACL. NO pam_group: the 'valkey' group owns the data dir
+# /var/lib/valkey (0750) AND Debian ships /etc/valkey 2770 valkey:valkey, so
+# pam_group would expose persisted data as well as config. Config write is
+# granted via an ACL only. Read-only-units profile; the data dir is never
+# granted. Canonical unit is valkey-server.service (valkey.service is the
+# vendor Install.Alias — the Debian redis-server/redis.service pattern with
+# valkey names). Sentinel: not shipped by this package — no sentinel unit or
+# sentinel.conf in the capture, so there is nothing to drop.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/redis/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+# REVIEW-CHANGE: declarative_access_profile_name 'valkey' -> 'redis' — the raw
+# names the packaged app (valkey); the reviewed profile uses the repo row slug
+# 'redis' to satisfy the profile-name==app-dir contract check. Cosmetic only: it
+# names the rendered sudoers file / group.conf label, not any unit or path.
+declarative_access_profile_name: 'redis'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'valkey-server'
+  # REVIEW-DROP: 'valkey' — valkey.service is the vendor Install.Alias for
+  # valkey-server.service (enabling created the /etc/systemd/system/valkey.service
+  # alias symlink). Grant the canonical unit; the team uses 'valkey-server' in
+  # systemctl/journalctl (sudo matches exact strings).
+
+# REVIEW-DROP: declarative_access_files_modify [multi-user.target.wants symlink,
+# /etc/systemd/system/valkey.service alias, /lib + /usr/lib
+# valkey-server.service, valkey-server@.service template] — vendor units +
+# enablement/alias symlinks apt created on auto-start; unit-file write is
+# root-equivalent. Read-only-units.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups
+# ['valkey'] — cache class: the 'valkey' group owns /var/lib/valkey (0750) and
+# Debian ships /etc/valkey 2770 valkey:valkey, so pam_group would grant read of
+# persisted data (dump.rdb/appendonly) beneath every valkey AUTH/ACL. Config
+# write is granted via an ACL instead. The group option remains available at
+# apply time (-e enable_pam_group=true) for teams that accept data-dir exposure.
+
+declarative_access_folders_modify:
+  # REVIEW-ADD: '/etc/valkey' — config write ACL. The raw omitted it: the
+  # exporter saw /etc/valkey already group-writable (2770 valkey:valkey) and
+  # routed config write through pam_group + the 'valkey' group (see
+  # group_access). We drop pam_group (data exposure), so config write comes via
+  # an ACL on /etc/valkey for the team group (+ default ACL for included config
+  # files).
+  - '/etc/valkey'
+  # REVIEW-DROP: '/var/lib/valkey' — the data dir; never granted. Kept via
+  # ownership below.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default. Debian valkey logs
+  # to a FILE under /var/log/valkey by default, unlike EL valkey which logs to
+  # the journal: the unit lists -/var/log/valkey in ReadWritePaths and the
+  # package ships /etc/logrotate.d/valkey-server. The exact filename is set by
+  # 'logfile' in valkey.conf [needs-runtime-confirmation].
+  - '/var/log/valkey'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: install-created data-dir state; enforces owner/mode, drift
+  # visible. (/etc/valkey 2770 valkey:valkey is vendor setgid state, left as-is
+  # — the team writes config via the ACL above, not via the service group.)
+  - {path: '/var/lib/valkey', owner: 'valkey', group: 'valkey', mode: '0750'}

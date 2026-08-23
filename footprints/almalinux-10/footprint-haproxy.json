@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:15:07.993941+00:00",
+  "generated_at": "2026-08-23T21:33:26.422730+00:00",
   "application": "haproxy",
-  "host": "ip-172-31-20-115.us-west-2.compute.internal",
-  "platform": "Linux-6.12.0-211.7.3.el10_2.x86_64-x86_64-with-glibc2.39",
+  "host": "dap-alma10",
+  "platform": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "e2d0b01ce6c3a09f449dfa1c503e15ca871e9b64ef9412d93227e225fcbcdeda",
-    "created_at": "2026-08-09T17:14:46.854835+00:00",
-    "source_host": "ip-172-31-20-115.us-west-2.compute.internal",
-    "source_os": "Linux-6.12.0-211.7.3.el10_2.x86_64-x86_64-with-glibc2.39"
+    "db_sha256": "c3d55f1c41080f458a331ab3de250c62d885506320e248725eee328667bfeb59",
+    "created_at": "2026-08-23T21:32:59.528974+00:00",
+    "source_host": "dap-alma10",
+    "source_os": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39"
   },
   "summary": {
     "files_added": 39,
-    "files_modified": 43,
+    "files_modified": 41,
     "files_deleted": 0,
     "systemd_units": 2,
     "quadlets": 0,
@@ -216,13 +216,13 @@
       "change": "added"
     },
     {
-      "path": "/usr/lib/sysusers.d/haproxy.conf",
-      "category": "sysusers",
+      "path": "/usr/lib/tmpfiles.d/haproxy.conf",
+      "category": "tmpfiles",
       "change": "added"
     },
     {
-      "path": "/usr/lib/tmpfiles.d/haproxy.conf",
-      "category": "tmpfiles",
+      "path": "/usr/lib/sysusers.d/haproxy.conf",
+      "category": "sysusers",
       "change": "added"
     }
   ],
@@ -239,7 +239,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/iprange",
+      "path": "/bin/ip6range",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -250,7 +250,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/ip6range",
+      "path": "/bin/iprange",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -283,7 +283,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/iprange",
+      "path": "/usr/bin/ip6range",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -294,7 +294,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/ip6range",
+      "path": "/usr/bin/iprange",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -387,18 +387,7 @@
           "owner": "root",
           "group": "root",
           "size": 36680,
-          "sha256": "e85f2a447e53444c5034d730caa152e2becd6ff9864fbef02a1ad7cc3c100bc9"
-        },
-        {
-          "path": "/bin/iprange",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15824,
-          "sha256": "2955bb65192e356152d9fdfa02cc91cd0082181e1a5caffa16ab3b5179cd9eab"
+          "sha256": "7b40ddac0b2064510f2fe103245a15835b8db038f19c09eef8605f75540e9ae2"
         },
         {
           "path": "/bin/ip6range",
@@ -409,7 +398,18 @@
           "owner": "root",
           "group": "root",
           "size": 19936,
-          "sha256": "447928ec444519449d7179158451fb9bbc7c656580bd469baa10b92d85d1f25c"
+          "sha256": "137b6fa813064456749c4bd7c7ea320150ebee820ce9049caf8c5f8520b558df"
+        },
+        {
+          "path": "/bin/iprange",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15824,
+          "sha256": "05d91e3e491aff79b2a80a5e62399bd673d798412e12f987dd1ffbc9500c1e81"
         },
         {
           "path": "/sbin/haproxy",
@@ -420,7 +420,7 @@
           "owner": "root",
           "group": "root",
           "size": 3502048,
-          "sha256": "dd823afc34a9e5b0ef5ce347e124762197df90d5d7be75c810bb170376f8be9b"
+          "sha256": "ad32f6e50a172e4f7c3ee8e7e1f8ce8fabfd93821fe3640cf6c4f689fd6c06e5"
         },
         {
           "path": "/usr/bin/halog",
@@ -431,18 +431,7 @@
           "owner": "root",
           "group": "root",
           "size": 36680,
-          "sha256": "e85f2a447e53444c5034d730caa152e2becd6ff9864fbef02a1ad7cc3c100bc9"
-        },
-        {
-          "path": "/usr/bin/iprange",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15824,
-          "sha256": "2955bb65192e356152d9fdfa02cc91cd0082181e1a5caffa16ab3b5179cd9eab"
+          "sha256": "7b40ddac0b2064510f2fe103245a15835b8db038f19c09eef8605f75540e9ae2"
         },
         {
           "path": "/usr/bin/ip6range",
@@ -453,7 +442,18 @@
           "owner": "root",
           "group": "root",
           "size": 19936,
-          "sha256": "447928ec444519449d7179158451fb9bbc7c656580bd469baa10b92d85d1f25c"
+          "sha256": "137b6fa813064456749c4bd7c7ea320150ebee820ce9049caf8c5f8520b558df"
+        },
+        {
+          "path": "/usr/bin/iprange",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15824,
+          "sha256": "05d91e3e491aff79b2a80a5e62399bd673d798412e12f987dd1ffbc9500c1e81"
         },
         {
           "path": "/usr/sbin/haproxy",
@@ -464,7 +464,132 @@
           "owner": "root",
           "group": "root",
           "size": 3502048,
-          "sha256": "dd823afc34a9e5b0ef5ce347e124762197df90d5d7be75c810bb170376f8be9b"
+          "sha256": "ad32f6e50a172e4f7c3ee8e7e1f8ce8fabfd93821fe3640cf6c4f689fd6c06e5"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/.build-id/19/ea0fe66c3cfc2250b5247e13eab3c81c760501",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/2d/fe219350f593d1d076151582cece8233f2f44b",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/b7/ee6d833fba0ea5780de3dc4ab3d3ad2c615ea8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/f0/534068bee472493d61abcbbc374ba88c3a72ab",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 25,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/19/ea0fe66c3cfc2250b5247e13eab3c81c760501",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/2d/fe219350f593d1d076151582cece8233f2f44b",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/b7/ee6d833fba0ea5780de3dc4ab3d3ad2c615ea8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/f0/534068bee472493d61abcbbc374ba88c3a72ab",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 25,
+          "sha256": null
+        },
+        {
+          "path": "/lib/tmpfiles.d/haproxy.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 38,
+          "sha256": "cb8e1a87c2526195bbf4df566fa138d56a2940b57ba5b421b228b4a6d516d419"
+        },
+        {
+          "path": "/lib/sysusers.d/haproxy.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": "238507fdc481ae45e75c91215ada5610d660b63deac53aeefa118be3dfe1bcd3"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/haproxy.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 38,
+          "sha256": "cb8e1a87c2526195bbf4df566fa138d56a2940b57ba5b421b228b4a6d516d419"
         }
       ],
       "systemd_unit": [
@@ -491,118 +616,6 @@
           "sha256": "f48ea2b7f44aee5060b6fe87c1b142e887e360d5028fcf2c06c6b3da5b9889ee"
         }
       ],
-      "library": [
-        {
-          "path": "/usr/lib/.build-id/4c/3d67b0212579d27d266e561f3139b7924e5042",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 28,
-          "sha256": null
-        },
-        {
-          "path": "/usr/lib/.build-id/a7/40c45721d3a0bec29f38f971f7589b2c615ea8",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 28,
-          "sha256": null
-        },
-        {
-          "path": "/usr/lib/.build-id/67/ad8124f8b2e26c2d8ee59ecb74e77d1c760501",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 27,
-          "sha256": null
-        },
-        {
-          "path": "/usr/lib/.build-id/71/ab1ce9bb65d0f013dd03a8db5bffc98c3a72ab",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 25,
-          "sha256": null
-        },
-        {
-          "path": "/lib/.build-id/4c/3d67b0212579d27d266e561f3139b7924e5042",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 28,
-          "sha256": null
-        },
-        {
-          "path": "/lib/.build-id/a7/40c45721d3a0bec29f38f971f7589b2c615ea8",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 28,
-          "sha256": null
-        },
-        {
-          "path": "/lib/.build-id/67/ad8124f8b2e26c2d8ee59ecb74e77d1c760501",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 27,
-          "sha256": null
-        },
-        {
-          "path": "/lib/.build-id/71/ab1ce9bb65d0f013dd03a8db5bffc98c3a72ab",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 25,
-          "sha256": null
-        },
-        {
-          "path": "/lib/sysusers.d/haproxy.conf",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 39,
-          "sha256": "238507fdc481ae45e75c91215ada5610d660b63deac53aeefa118be3dfe1bcd3"
-        },
-        {
-          "path": "/lib/tmpfiles.d/haproxy.conf",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 38,
-          "sha256": "cb8e1a87c2526195bbf4df566fa138d56a2940b57ba5b421b228b4a6d516d419"
-        }
-      ],
       "sysusers": [
         {
           "path": "/usr/lib/sysusers.d/haproxy.conf",
@@ -614,19 +627,6 @@
           "group": "root",
           "size": 39,
           "sha256": "238507fdc481ae45e75c91215ada5610d660b63deac53aeefa118be3dfe1bcd3"
-        }
-      ],
-      "tmpfiles": [
-        {
-          "path": "/usr/lib/tmpfiles.d/haproxy.conf",
-          "category": "tmpfiles",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 38,
-          "sha256": "cb8e1a87c2526195bbf4df566fa138d56a2940b57ba5b421b228b4a6d516d419"
         }
       ],
       "share_data": [
@@ -779,28 +779,6 @@
         "sha256": null
       },
       {
-        "path": "/etc/gshadow-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o0",
-        "mode_symbolic": "----------",
-        "owner": "root",
-        "group": "root",
-        "size": 509,
-        "sha256": "49d30ed2f521594b977468b3a5b368d237e3a45e1ebb2665bb8ece9e8679e10f"
-      },
-      {
-        "path": "/etc/shadow-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o0",
-        "mode_symbolic": "----------",
-        "owner": "root",
-        "group": "root",
-        "size": 722,
-        "sha256": "24408cbfc726c01a8212ebd56a2bf1fc943b5cd1c3f8065752fd775da81b8021"
-      },
-      {
         "path": "/etc/group-",
         "category": "config",
         "is_dir": false,
@@ -808,8 +786,19 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 629,
-        "sha256": "d48e1f0ed30610f9cd850be1945b958228bf95354662fb5daccbccad3e6202cd"
+        "size": 626,
+        "sha256": "b88b71872249184a6f45ed07f4452f18d175b3078574013f37e2f5969d9bed59"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 500,
+        "sha256": "5b2909733234c0b3dc6cb08ab09f131129a597930c514751c2f86de0c95ed6a5"
       },
       {
         "path": "/etc/passwd-",
@@ -819,8 +808,19 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1551,
-        "sha256": "c1c8b558af087a20f1fc71fda4643496a7c5e83dce76f1ec8664db39ec371817"
+        "size": 1534,
+        "sha256": "6799be58d839646de4e57a684de8de2106dd99db8e68815060a6e6258fdebbe7"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 717,
+        "sha256": "4535583e86c579ad11e703847ff50f06e64e15b8f0b8ccd43dc83395d7b6a522"
       },
       {
         "path": "/etc/group",
@@ -830,8 +830,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 644,
-        "sha256": "7f70424d5754ca4adb420ebec812080a9ae26de99ab92e7b9acfd19b156a1aa9"
+        "size": 641,
+        "sha256": "98c00b3a50e9ef2119f5f24ea4461910588cee13c19c814f8dc424caea55c10c"
       },
       {
         "path": "/etc/gshadow",
@@ -841,8 +841,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 521,
-        "sha256": "36e8ee20472e082a97ebf75ad644c3e4067aeb614340c26eff94f2f1303ece35"
+        "size": 512,
+        "sha256": "5d054629feee1a41e93abdc1d90572df3cefd8d8f62628cf705d01d05d881fb0"
       },
       {
         "path": "/etc/passwd",
@@ -852,8 +852,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1612,
-        "sha256": "e237fe7fd6539def35c1561152afbf914a62dbdc5f9e937b417a2affe191c3c4"
+        "size": 1595,
+        "sha256": "6719e9768f810ff063249a4a42b5a2a33248364cce594afcd7baab1f55bc2d62"
       },
       {
         "path": "/etc/shadow",
@@ -863,8 +863,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 744,
-        "sha256": "cbe1cc178c62e2729f1383f17f7352978ae200a1ff6b990ab6322c461fc44573"
+        "size": 739,
+        "sha256": "7a0109201cea4bc733bcd223b0a558922eefcd6c15da8588b5797774380c4f7c"
       },
       {
         "path": "/etc/logrotate.d",
@@ -874,7 +874,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 139,
+        "size": 168,
         "sha256": null
       },
       {
@@ -885,7 +885,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 189,
+        "size": 4096,
         "sha256": null
       },
       {
@@ -896,7 +896,7 @@
         "mode_symbolic": "dr-xr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 20480,
+        "size": 28672,
         "sha256": null
       },
       {
@@ -918,8 +918,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 33112064,
-        "sha256": "6b3a3bf9132d6aea62531e3be17e0df5bbca6133f71e369399d7ca952e55c326"
+        "size": 61591552,
+        "sha256": "2a9c38b9dda7b61359d421d3fa6a475d4c047d08d18af33dcef077507d1cac59"
       },
       {
         "path": "/usr/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -941,18 +941,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "2c80ec23413db7357eb6b63f1f940086c34e0884d5c574c8d1e61b562bd1c48b"
-      },
-      {
-        "path": "/usr/lib/systemd/system",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 16384,
-        "sha256": null
+        "sha256": "ea1af438ed71f44ea4c12986bd296a0dc8018616d3553caafa38544fc97bbcf2"
       },
       {
         "path": "/usr/lib/.build-id",
@@ -966,7 +955,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/.build-id/4c",
+        "path": "/usr/lib/.build-id/19",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -977,7 +966,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/.build-id/a7",
+        "path": "/usr/lib/.build-id/2d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -988,7 +977,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/.build-id/67",
+        "path": "/usr/lib/.build-id/b7",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -999,18 +988,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/.build-id/71",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/usr/lib/sysusers.d",
+        "path": "/usr/lib/.build-id/f0",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1032,6 +1010,28 @@
         "sha256": null
       },
       {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/sysusers.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
         "path": "/lib/sysimage/rpm/rpmdb.sqlite",
         "category": "library",
         "is_dir": false,
@@ -1039,8 +1039,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 33112064,
-        "sha256": "6b3a3bf9132d6aea62531e3be17e0df5bbca6133f71e369399d7ca952e55c326"
+        "size": 61591552,
+        "sha256": "2a9c38b9dda7b61359d421d3fa6a475d4c047d08d18af33dcef077507d1cac59"
       },
       {
         "path": "/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -1062,18 +1062,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "2c80ec23413db7357eb6b63f1f940086c34e0884d5c574c8d1e61b562bd1c48b"
-      },
-      {
-        "path": "/lib/systemd/system",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 16384,
-        "sha256": null
+        "sha256": "ea1af438ed71f44ea4c12986bd296a0dc8018616d3553caafa38544fc97bbcf2"
       },
       {
         "path": "/lib/.build-id",
@@ -1087,7 +1076,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/.build-id/4c",
+        "path": "/lib/.build-id/19",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1098,7 +1087,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/.build-id/a7",
+        "path": "/lib/.build-id/2d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1109,7 +1098,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/.build-id/67",
+        "path": "/lib/.build-id/b7",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1120,18 +1109,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/.build-id/71",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/lib/sysusers.d",
+        "path": "/lib/.build-id/f0",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1143,6 +1121,28 @@
       },
       {
         "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/sysusers.d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1208,33 +1208,11 @@
         "sha256": null
       },
       {
-        "path": "/var/lib/rsyslog",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "root",
-        "group": "root",
-        "size": 29,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/rsyslog/imjournal.state",
-        "category": "state_dir",
-        "is_dir": false,
-        "mode_octal": "0o600",
-        "mode_symbolic": "-rw-------",
-        "owner": "root",
-        "group": "root",
-        "size": 120,
-        "sha256": "b3fde1c37745ea14122b143206365b3523f64fbc0dd0ba365c0d8335e4e18b2f"
-      },
-      {
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 31,

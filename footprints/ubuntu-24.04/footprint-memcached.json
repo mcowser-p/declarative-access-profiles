@@ -2,17 +2,17 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:29:03.564476+00:00",
+  "generated_at": "2026-08-23T21:36:13.337624+00:00",
   "application": "memcached",
-  "host": "ip-172-31-18-169",
-  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "host": "dap-ubuntu2404",
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "e90e062f1eda8d5ee404f495748a52097f692afc0c94baa4e9979f3fc69af6e7",
-    "created_at": "2026-08-09T17:27:18.030544+00:00",
-    "source_host": "ip-172-31-18-169",
-    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+    "db_sha256": "079dff4e887343e72b3e542e53665581d75e6a063267718b72ae69ef504f70c7",
+    "created_at": "2026-08-23T21:35:38.082018+00:00",
+    "source_host": "dap-ubuntu2404",
+    "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
     "files_added": 30,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "memcache",
-        "uid": 116,
-        "gid": 118,
+        "uid": 112,
+        "gid": 117,
         "gecos": "Memcached,,,",
         "home": "/nonexistent",
         "shell": "/bin/false",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "memcache",
-        "gid": 118,
+        "gid": 117,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "memcache",
-        "gid": 118,
+        "gid": 117,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -365,17 +365,6 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/share/memcached/scripts/damemtop",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/usr/share/memcached/scripts/systemd-memcached-wrapper",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -387,7 +376,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/share/memcached/scripts/memcached-tool",
+      "path": "/usr/share/memcached/scripts/start-memcached",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -398,7 +387,18 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/share/memcached/scripts/start-memcached",
+      "path": "/usr/share/memcached/scripts/damemtop",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/memcached/scripts/memcached-tool",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -422,39 +422,6 @@
           "group": "root",
           "size": 1487,
           "sha256": "936518371fd4828e2b770805c57236b3f675d869d99257b7901dd7524c6d2814"
-        },
-        {
-          "path": "/etc/rc1.d/K01memcached",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 19,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc5.d/S01memcached",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 19,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc4.d/S01memcached",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 19,
-          "sha256": null
         },
         {
           "path": "/etc/rc3.d/S01memcached",
@@ -490,7 +457,29 @@
           "sha256": null
         },
         {
-          "path": "/etc/rc2.d/S01memcached",
+          "path": "/etc/rc5.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01memcached",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 19,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc1.d/K01memcached",
           "category": "config",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -510,19 +499,17 @@
           "group": "root",
           "size": 60,
           "sha256": "fab3bf5e485e25621cbcbb8d86d5ce58f094610bffc7e08b63a09895167c2bb2"
-        }
-      ],
-      "init_script": [
+        },
         {
-          "path": "/etc/init.d/memcached",
-          "category": "init_script",
+          "path": "/etc/rc2.d/S01memcached",
+          "category": "config",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 3481,
-          "sha256": "983b9651c0e6a28ff98553622c87269d5323dfa140bac132ec466cd0215dd440"
+          "size": 19,
+          "sha256": null
         }
       ],
       "systemd_unit": [
@@ -560,6 +547,19 @@
           "sha256": "ca6edb184282efa8f0e3b32af868fdae616386408b9edafec871e282797c9e64"
         }
       ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/memcached",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3481,
+          "sha256": "983b9651c0e6a28ff98553622c87269d5323dfa140bac132ec466cd0215dd440"
+        }
+      ],
       "binary": [
         {
           "path": "/bin/memcached",
@@ -584,31 +584,7 @@
           "sha256": "59a11639debb3af0b1bf008b54887a739513f4c943a6ea48b8fc618c518a40b6"
         }
       ],
-      "tmpfiles": [
-        {
-          "path": "/usr/lib/tmpfiles.d/memcached.conf",
-          "category": "tmpfiles",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 42,
-          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
-        }
-      ],
       "library": [
-        {
-          "path": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 330288,
-          "sha256": "56287221e41fbad82158f3b1a506198f4dc45536a38c100cee25b707c10d0aec"
-        },
         {
           "path": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7",
           "category": "library",
@@ -621,18 +597,7 @@
           "sha256": null
         },
         {
-          "path": "/lib/tmpfiles.d/memcached.conf",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 42,
-          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
-        },
-        {
-          "path": "/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
+          "path": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o644",
@@ -652,6 +617,41 @@
           "group": "root",
           "size": 21,
           "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 330288,
+          "sha256": "56287221e41fbad82158f3b1a506198f4dc45536a38c100cee25b707c10d0aec"
+        },
+        {
+          "path": "/lib/tmpfiles.d/memcached.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/memcached.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": "6e76a886fc9ff17c34aa02350d87a2b72cde131f49f490361caec85c939723d9"
         }
       ],
       "share_data": [
@@ -689,17 +689,6 @@
           "sha256": null
         },
         {
-          "path": "/usr/share/memcached/scripts/damemtop",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15891,
-          "sha256": "87541557507a935e9a46bc81ab37c49551a0fdc26806f5a61ba345dbf66df799"
-        },
-        {
           "path": "/usr/share/memcached/scripts/damemtop.yaml",
           "category": "share_data",
           "is_dir": false,
@@ -722,17 +711,6 @@
           "sha256": "9fdd2cdbc7ef3437e8adfbef73f710f52c6605a6bb4b8ff66e8ebe4ecfa64234"
         },
         {
-          "path": "/usr/share/memcached/scripts/memcached-tool",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 7019,
-          "sha256": "1f17d7d4c870f831fcf9211b3b262111ca0fc65527abc262546d12bfa0169a80"
-        },
-        {
           "path": "/usr/share/memcached/scripts/start-memcached",
           "category": "share_data",
           "is_dir": false,
@@ -742,6 +720,28 @@
           "group": "root",
           "size": 2770,
           "sha256": "283ea7c1067e3f9a67ec7ca0e1698e410ebed916635c44ce5b935ffa1afd7c08"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/damemtop",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15891,
+          "sha256": "87541557507a935e9a46bc81ab37c49551a0fdc26806f5a61ba345dbf66df799"
+        },
+        {
+          "path": "/usr/share/memcached/scripts/memcached-tool",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 7019,
+          "sha256": "1f17d7d4c870f831fcf9211b3b262111ca0fc65527abc262546d12bfa0169a80"
         },
         {
           "path": "/usr/share/lintian/overrides/libevent-2.1-7t64",
@@ -769,15 +769,15 @@
         "sha256": null
       },
       {
-        "path": "/etc/group-",
-        "category": "config",
+        "path": "/etc/group",
+        "category": "group",
         "is_dir": false,
         "mode_octal": "0o644",
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 939,
-        "sha256": "cbb1eaa7dc5bffbe70989df91e4bf3a95d43175b80415914f9a8768619232b36"
+        "size": 931,
+        "sha256": "807a6fa64d43c803f75fa234e44377f56a718ffe9829ceb4849231af4fde2453"
       },
       {
         "path": "/etc/passwd-",
@@ -787,52 +787,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2247,
-        "sha256": "250fac1b2353226448c82792c2dbd5d14eb22222f5a8ff781e1d5537ad16ae2e"
-      },
-      {
-        "path": "/etc/gshadow-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 790,
-        "sha256": "dde0842b1687de3213507c3fe146e47410df8246e7e8c7b483ecebf7e1498101"
-      },
-      {
-        "path": "/etc/group",
-        "category": "group",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 955,
-        "sha256": "e0f9d294fd55c21421b3ac622349ad5dbc920ecb58584a8c18891b37940b1a30"
-      },
-      {
-        "path": "/etc/shadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 1051,
-        "sha256": "c0805c911a588467f7cb0f05ea39b7fc1646c99bd1129303e1e479a7909b0d4f"
-      },
-      {
-        "path": "/etc/gshadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 803,
-        "sha256": "dbebe45134540895f960ed6be4cea1b7f539be64d5d7cd18bb61e717b911f0f4"
+        "size": 2078,
+        "sha256": "c102ffb34e173529d79855cf4ac8eea5937d1d015b8116bf307329e7f999c887"
       },
       {
         "path": "/etc/shadow-",
@@ -842,8 +798,30 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 1028,
-        "sha256": "5784d86f23b4a3c2b5dc6c3552c6df5164183df0f7c77f12d390a9653a9596db"
+        "size": 948,
+        "sha256": "c7ea6120e4cbae2379bb89ba7513a1950fca4dbddf83b08b273b5148050fa447"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 915,
+        "sha256": "9d6566b101458c8bbab52527c75aa4484da9b2f30c8b5a51e3575118a68ace93"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 971,
+        "sha256": "e1be2b0fe35830b32721c315876a3154ec16ebfb40cdb5bd565abf7f8e99c419"
       },
       {
         "path": "/etc/passwd",
@@ -853,11 +831,77 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2259,
-        "sha256": "544e66cf24300caddeaa8beae34d96f3cf6b114b83b90ea204d3f06974066e16"
+        "size": 2090,
+        "sha256": "f1e9f41519fb556b1f7e69e881f838f78714c26d0cfa7fb972db6539b85fea3c"
       },
       {
-        "path": "/etc/rc1.d",
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 776,
+        "sha256": "b94bcf59b1bc85a40c6494209573ef98c6f0aeefc47ade217e84d737f0b69cb5"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 763,
+        "sha256": "f0aa8e70841f4e7316ba2a3be93a49c0898097506bb52094412d08480b4e701c"
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -890,62 +934,7 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc3.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc0.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc6.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/init.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/systemd/system/multi-user.target.wants",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc2.d",
+        "path": "/etc/rc1.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -967,19 +956,8 @@
         "sha256": null
       },
       {
-        "path": "/usr/bin",
-        "category": "other",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 36864,
-        "sha256": null
-      },
-      {
-        "path": "/usr/lib/tmpfiles.d",
-        "category": "library",
+        "path": "/etc/rc2.d",
+        "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
@@ -989,8 +967,8 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/x86_64-linux-gnu",
-        "category": "library",
+        "path": "/usr/bin",
+        "category": "other",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
@@ -1011,7 +989,18 @@
         "sha256": null
       },
       {
-        "path": "/lib/tmpfiles.d",
+        "path": "/usr/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/tmpfiles.d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1019,6 +1008,17 @@
         "owner": "root",
         "group": "root",
         "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 24576,
         "sha256": null
       },
       {
@@ -1033,14 +1033,14 @@
         "sha256": null
       },
       {
-        "path": "/lib/systemd/system",
+        "path": "/lib/tmpfiles.d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 24576,
+        "size": 4096,
         "sha256": null
       },
       {
@@ -1062,7 +1062,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 32768,
+        "size": 36864,
         "sha256": null
       },
       {
@@ -1074,6 +1074,17 @@
         "owner": "root",
         "group": "root",
         "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
         "sha256": null
       },
       {
@@ -1091,19 +1102,8 @@
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/apt",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 4096,

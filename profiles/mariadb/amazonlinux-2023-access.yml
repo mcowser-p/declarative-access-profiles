@@ -1,0 +1,82 @@
+---
+# declarative-access-profiles :: mariadb on amazonlinux-2023
+#
+# PROVENANCE
+#   footprint : footprints/amazonlinux-2023/footprint-mariadb.json
+#               (schema 1.0, captured 2026-08-23 on the amazonlinux-2023
+#               holy-qcow KVM golden image; treadmark 0.11.0)
+#   raw       : ./amazonlinux-2023-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/mariadb/ops.md  (review reasoning, §2)
+#
+# NEW CELL — first AL2023 capture. The package is the versioned stream
+# mariadb1011-server (MariaDB 10.11.18; AL2023 ships 10.5/10.11 streams,
+# newest wins per matrix.yml). Unit name stays mariadb.service and the daemon
+# is /usr/libexec/mariadbd — the EL layout throughout. Reviewed result is
+# IDENTICAL to almalinux-9 and almalinux-10 as of this capture. The AL2023 raw
+# differences all drop out in review: the raw names the whole SELinux policy
+# store (modules/200 + modules/disabled — like the fresh alma re-captures,
+# the store dirs are themselves install-created on the lean golden images),
+# a second policy module is compiled (mariadb-plugin-cracklib-password-check),
+# and mysql/mysqld exist only as Install.Alias lines — the raw already lists
+# just the canonical 'mariadb'.
+#
+# ACCESS MODEL: database — config-scoped. Config write ACL on the drop-in dir
+# + log read ACL. NO pam_group (the mysql group owns the raw data). Data dir
+# (/var/lib/mysql) NEVER granted. Read-only-units profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mariadb/amazonlinux-2023-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
+
+declarative_access_profile_name: 'mariadb'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mariadb'
+  # (no alias drop needed on AL2023 — mysql/mysqld are Install.Alias lines in
+  # mariadb.service, not separate shipped units, so the exporter emits only
+  # the canonical name. Contrast almalinux-10/ubuntu, where the review drops
+  # them. See dev.md §8.)
+
+# REVIEW-DROP: declarative_access_files_modify [/lib + /usr/lib .../mariadb.service,
+# mariadb@.service, mariadb.socket, mariadb@.socket, mariadb-extra.socket,
+# mariadb-extra@.socket, and the galera bootstrap drop-in — 14 entries, the /lib
+# half being the same files through the usr-merge symlink] — vendor unit files; a
+# write ACL on any of them is root-equivalent for that unit. Read-only-units
+# profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups ['mysql']
+# — database class: the mysql group owns the raw data files, so pam_group into it =
+# filesystem access to the data dir, which bypasses every SQL GRANT. Config-scoped
+# profile instead; the group option is an apply-time opt-in (ops.md §3).
+
+declarative_access_folders_modify:
+  - '/etc/my.cnf.d'
+  # REVIEW-DROP: '/var/lib/mysql' — the data directory. Database class NEVER grants it
+  # in any list; filesystem access to the raw tables bypasses the DB's own GRANTs.
+  # Install-time state is kept visible via the ownership entry below (not a grant).
+  # REVIEW-DROP: '/var/lib/selinux/targeted/active/modules/200' +
+  # '/var/lib/selinux/targeted/active/modules/disabled' — the compiled SELinux
+  # policy module store (root:root 0700). The golden-image baseline has no
+  # priority-200 store, so the install created the store dirs themselves and the
+  # exporter names them whole: an ACL here would cover every policy module at that
+  # priority, not only mariadb's two (mysql +
+  # mariadb-plugin-cracklib-password-check). Not team space, never hand-edited.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; file-log read is
+  # still wanted (ACL + default ACL keeps rotated files readable). AL2023's
+  # mariadb1011-server ships /etc/logrotate.d/mariadb rotating /var/log/mariadb/*.log
+  # like the other EL cells; whether the server writes here or only to journald
+  # depends on the log-error setting [needs-runtime-confirmation].
+  - '/var/log/mariadb'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: asserts the install-time state (mysql:mysql 0755, fixed uid/gid 27,
+  # captured pre-first-start — dnf does not auto-start) and makes drift visible.
+  # This is NOT an access grant — the team gets no membership or ACL on the data
+  # dir; the entry only chown/chmods it back to the captured state on apply.
+  - {path: '/var/lib/mysql', owner: 'mysql', group: 'mysql', mode: '0755'}

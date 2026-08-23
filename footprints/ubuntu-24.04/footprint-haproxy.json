@@ -2,17 +2,17 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:18:48.259612+00:00",
+  "generated_at": "2026-08-23T21:34:03.266250+00:00",
   "application": "haproxy",
-  "host": "ip-172-31-18-169",
-  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "host": "dap-ubuntu2404",
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "83fbd4ff9dc3d4b055a6ff9ecb20e868edb15a562a22e61b1844e62573a87a76",
-    "created_at": "2026-08-09T17:17:36.513591+00:00",
-    "source_host": "ip-172-31-18-169",
-    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+    "db_sha256": "e9b5b01ea812d628fc982f9340c41b4bdc6457bd93a19092b4b46d9bcd3b6052",
+    "created_at": "2026-08-23T21:33:35.083202+00:00",
+    "source_host": "dap-ubuntu2404",
+    "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
     "files_added": 36,
@@ -34,7 +34,7 @@
       {
         "name": "haproxy",
         "uid": 111,
-        "gid": 114,
+        "gid": 116,
         "gecos": "",
         "home": "/var/lib/haproxy",
         "shell": "/usr/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "haproxy",
-        "gid": 114,
+        "gid": 116,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "haproxy",
-        "gid": 114,
+        "gid": 116,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -344,7 +344,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/sbin/halog",
+      "path": "/sbin/haproxy",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -355,7 +355,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/sbin/haproxy",
+      "path": "/sbin/halog",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -377,7 +377,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/sbin/halog",
+      "path": "/usr/sbin/haproxy",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -388,7 +388,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/sbin/haproxy",
+      "path": "/usr/sbin/halog",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -402,6 +402,28 @@
   "filesystem": {
     "added_by_category": {
       "config": [
+        {
+          "path": "/etc/rc3.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc0.d/K01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
         {
           "path": "/etc/haproxy",
           "category": "config",
@@ -447,28 +469,6 @@
           "sha256": "799602bc1ef35d2208c0519c1288516147a703f16c2837eb8802deb27f83beaa"
         },
         {
-          "path": "/etc/haproxy/errors/504.http",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 195,
-          "sha256": "0ac0c626a1ac4d322f40710ace0faa6a234f7225c8f9704de47de79cdd537eca"
-        },
-        {
-          "path": "/etc/haproxy/errors/400.http",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 188,
-          "sha256": "52646d932f52e68df43417ff910f45aa52157702f4d2a4a5b875545e047f434c"
-        },
-        {
           "path": "/etc/haproxy/errors/502.http",
           "category": "config",
           "is_dir": false,
@@ -480,15 +480,15 @@
           "sha256": "59efe86cf5e2d6767ab90bdb1446d49393862fba2f761dd5a23c43373e17336c"
         },
         {
-          "path": "/etc/haproxy/errors/403.http",
+          "path": "/etc/haproxy/errors/504.http",
           "category": "config",
           "is_dir": false,
           "mode_octal": "0o644",
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 189,
-          "sha256": "9fa69cf584383c71c67cfea0349f9c236b4bffac3da6f9bd7b320d35b59dc05b"
+          "size": 195,
+          "sha256": "0ac0c626a1ac4d322f40710ace0faa6a234f7225c8f9704de47de79cdd537eca"
         },
         {
           "path": "/etc/haproxy/errors/408.http",
@@ -502,6 +502,17 @@
           "sha256": "ac1e1a0791101f4e4db2772fcf852353e921a38ede1d0705d1be9983ad4c7bff"
         },
         {
+          "path": "/etc/haproxy/errors/403.http",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 189,
+          "sha256": "9fa69cf584383c71c67cfea0349f9c236b4bffac3da6f9bd7b320d35b59dc05b"
+        },
+        {
           "path": "/etc/haproxy/errors/500.http",
           "category": "config",
           "is_dir": false,
@@ -513,59 +524,15 @@
           "sha256": "1a15755124dd229112203f34fffe1ed8951a4a1fe0832af9aaf02f0bd8b0591e"
         },
         {
-          "path": "/etc/rc1.d/K01haproxy",
+          "path": "/etc/haproxy/errors/400.http",
           "category": "config",
           "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 17,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc5.d/S01haproxy",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 17,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc4.d/S01haproxy",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 17,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc3.d/S01haproxy",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 17,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc0.d/K01haproxy",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 17,
-          "sha256": null
+          "size": 188,
+          "sha256": "52646d932f52e68df43417ff910f45aa52157702f4d2a4a5b875545e047f434c"
         },
         {
           "path": "/etc/rc6.d/K01haproxy",
@@ -590,7 +557,29 @@
           "sha256": "a9ce3408cdd3e6aee896a16c55b716205ee31205baeb334ca58348a46b45e8a7"
         },
         {
-          "path": "/etc/rc2.d/S01haproxy",
+          "path": "/etc/rc5.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01haproxy",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc1.d/K01haproxy",
           "category": "config",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -610,32 +599,17 @@
           "group": "root",
           "size": 309,
           "sha256": "c316bcb066714c0e311f86aa980dca692142cf951c86ad42f1ff07df77d55ceb"
-        }
-      ],
-      "logrotate": [
+        },
         {
-          "path": "/etc/logrotate.d/haproxy",
-          "category": "logrotate",
+          "path": "/etc/rc2.d/S01haproxy",
+          "category": "config",
           "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 221,
-          "sha256": "46b09eddb5249eba4213d532034704680466f9a79e9f796275445202a6a1adbb"
-        }
-      ],
-      "init_script": [
-        {
-          "path": "/etc/init.d/haproxy",
-          "category": "init_script",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 3406,
-          "sha256": "21da8cfd200693ffc88741504baa3f770ca1990637ea0ff316646607e25dceef"
+          "size": 17,
+          "sha256": null
         }
       ],
       "systemd_unit": [
@@ -673,20 +647,35 @@
           "sha256": "551aecbd5987826002836240b207e9310ff252ef8f6c5de954671da7d913427c"
         }
       ],
-      "binary": [
+      "logrotate": [
         {
-          "path": "/bin/halog",
-          "category": "binary",
+          "path": "/etc/logrotate.d/haproxy",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 221,
+          "sha256": "46b09eddb5249eba4213d532034704680466f9a79e9f796275445202a6a1adbb"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/haproxy",
+          "category": "init_script",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 43432,
-          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
-        },
+          "size": 3406,
+          "sha256": "21da8cfd200693ffc88741504baa3f770ca1990637ea0ff316646607e25dceef"
+        }
+      ],
+      "binary": [
         {
-          "path": "/sbin/halog",
+          "path": "/bin/halog",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
@@ -708,7 +697,7 @@
           "sha256": "1cdcdf104214da34c79986a6132b6b193476be5fb2cf26b831e4f0e91da68c5a"
         },
         {
-          "path": "/usr/bin/halog",
+          "path": "/sbin/halog",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
@@ -719,7 +708,7 @@
           "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
         },
         {
-          "path": "/usr/sbin/halog",
+          "path": "/usr/bin/halog",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
@@ -739,6 +728,17 @@
           "group": "root",
           "size": 3818472,
           "sha256": "1cdcdf104214da34c79986a6132b6b193476be5fb2cf26b831e4f0e91da68c5a"
+        },
+        {
+          "path": "/usr/sbin/halog",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43432,
+          "sha256": "649865c49f05dc0bf79fdf78b57d27992a71d46080408e4cd9ad938b60f0f2b0"
         }
       ],
       "tmpfiles": [
@@ -807,12 +807,12 @@
           "path": "/var/lib/haproxy/dev/log",
           "category": "state_dir",
           "is_dir": false,
-          "mode_octal": "0o666",
-          "mode_symbolic": "srw-rw-rw-",
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
           "size": 0,
-          "sha256": null
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
         }
       ]
     },
@@ -825,41 +825,8 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 4096,
+        "size": 12288,
         "sha256": null
-      },
-      {
-        "path": "/etc/group-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 860,
-        "sha256": "00d884e80c72747b0332ea88c9cc579e5c38f37ac50442b0060b4da192af4e87"
-      },
-      {
-        "path": "/etc/passwd-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 1850,
-        "sha256": "a4fd568e761d120895b46a73aeb2c63dea0d9ccfafe7408d56dba4b9040b2310"
-      },
-      {
-        "path": "/etc/gshadow-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 725,
-        "sha256": "9fad62b95b1362083c1d65931d5d23f941d1dff5efbf745656679883d54ce558"
       },
       {
         "path": "/etc/group",
@@ -869,8 +836,30 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 875,
-        "sha256": "f10703213ee769bcf8623b4d4438bd6727488e0f0cf443a76814391dcfc404c2"
+        "size": 901,
+        "sha256": "e1f6a8a1dc7f4ad352100397bd1e6d6f65a84d2bd3f2ceb90bb1c5c541931b35"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1918,
+        "sha256": "3edfd9a2acc5b1b92bb4f958dce44350fa463e30e559fe72e38c8a428f079fc7"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 886,
+        "sha256": "873854e9fc8f8e0146f5119473455eba7e7e80e3b85eef7c49bb56f775ada352"
       },
       {
         "path": "/etc/shadow",
@@ -880,19 +869,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 921,
-        "sha256": "18941038defb6f69c182b10d5d28e1a5a73deffe6f297f74d7a9c6a1afcb0129"
-      },
-      {
-        "path": "/etc/gshadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 737,
-        "sha256": "dce5eb3c990197b5154ef4a51cec47fd2c4b4058f58b9d7d663ab796eef2b984"
+        "size": 926,
+        "sha256": "d4aa4237ec760619cce267897c7b635cf05f5e81c9aa5f07139aef6fb245fc0b"
       },
       {
         "path": "/etc/passwd",
@@ -902,11 +880,55 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1904,
-        "sha256": "48bf47c4094481d1bc99da834116d8fd73271ac2f36d34e673cc55a884e5653f"
+        "size": 1972,
+        "sha256": "447b2a97a631f80a8f36ca9654dab3809ffe2ccce3fe01be44c5b732606f4411"
       },
       {
-        "path": "/etc/rc1.d",
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 751,
+        "sha256": "e6f7bec2b0665ea55cc50eab3808ab02041e619670f46fd229d8f96749c94040"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 739,
+        "sha256": "b920eb4563836b159ed96c6e2732e734d5186968e962795ba6a361fce2e7f9cd"
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -918,6 +940,39 @@
       },
       {
         "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rsyslog.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -950,73 +1005,7 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc3.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc0.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc6.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/init.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/systemd/system/multi-user.target.wants",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rsyslog.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc2.d",
+        "path": "/etc/rc1.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1028,6 +1017,17 @@
       },
       {
         "path": "/etc/default",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc2.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1060,17 +1060,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/tmpfiles.d",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
         "path": "/usr/lib/systemd/system",
         "category": "library",
         "is_dir": true,
@@ -1082,7 +1071,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/tmpfiles.d",
+        "path": "/usr/lib/tmpfiles.d",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1101,6 +1090,17 @@
         "owner": "root",
         "group": "root",
         "size": 24576,
+        "sha256": null
+      },
+      {
+        "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
         "sha256": null
       },
       {
@@ -1137,6 +1137,17 @@
         "sha256": null
       },
       {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
         "path": "/var/lib/update-notifier",
         "category": "state_dir",
         "is_dir": true,
@@ -1151,19 +1162,8 @@
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/apt",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 4096,

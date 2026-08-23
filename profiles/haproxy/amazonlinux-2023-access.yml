@@ -1,0 +1,63 @@
+---
+# declarative-access-profiles :: haproxy on amazonlinux-2023
+#
+# PROVENANCE
+#   footprint : footprints/amazonlinux-2023/footprint-haproxy.json
+#               (schema 1.0, captured 2026-08-23 on an Amazon Linux 2023 KVM
+#               golden image; treadmark 0.11.0)
+#   raw       : ./amazonlinux-2023-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/haproxy/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to almalinux-9/almalinux-10 as of this capture —
+# the raw files are byte-identical apart from the capture header (same vendor
+# units, same /etc/haproxy + conf.d + /var/lib/haproxy folders; dnf does not
+# auto-start, so no enablement symlink), and the review makes the same
+# decisions on all three EL-family cells. Only capture-detail delta: the
+# halog/iprange/ip6range helpers live under /usr/sbin here, not /usr/bin —
+# no grant touches them either way.
+#
+# ACCESS MODEL: proxy — class defaults collapse (root-run daemon, empty
+# 'haproxy' group, no content). Config write ACL on /etc/haproxy + service
+# control, read-only units. NO pam_group, NO setgid content dir, NO /var/log
+# ACL. Reduces to the cache/minimal shape. See ops §2/§3.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/haproxy/amazonlinux-2023-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
+
+declarative_access_profile_name: 'haproxy'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'haproxy'
+
+# REVIEW-DROP: declarative_access_files_modify [/lib, /usr/lib .../haproxy.service]
+# — vendor unit files; unit-file write is root-equivalent, and haproxy.service
+# has no User= so it runs as root. Read-only-units profile.
+
+# REVIEW-DROP: proxy-class pam_group + local_groups ['haproxy'] — the 'haproxy'
+# group (gid 993) has no members and owns nothing the team needs
+# (group_access: []; /etc/haproxy and /var/lib/haproxy both root:root).
+# pam_group would grant a no-op. See ops §3.
+
+# REVIEW-DROP: proxy-class setgid content dir — pure proxy, no content root; the
+# vendor error pages (/usr/share/haproxy/*.http) are root:root package files.
+
+declarative_access_folders_modify:
+  # REVIEW-KEEP: /etc/haproxy config write ACL (haproxy.cfg + the conf.d
+  # drop-in dir the EL unit loads via $CFGDIR). Retained despite the TLS caveat
+  # that a PEM bundle under /etc/haproxy/certs would fall inside this write ACL
+  # — keep the bundle in /etc/pki/tls/private (root:root 0600) by absolute
+  # path. See dev.md §4 + concepts/tls-ssl.md.
+  - '/etc/haproxy'
+  # REVIEW-DROP: '/var/lib/haproxy' — haproxy's chroot/state dir (root:root);
+  # the service owns it, the team never writes here.
+
+# REVIEW-DROP: /var/log/haproxy read grant (class default) — haproxy has no app
+# log dir; it emits to syslog, and AL2023 (like alma9/alma10) ships no rsyslog
+# fragment, so only the journal carries output out of the box. The service
+# grant's journalctl covers health; ops adds a folders_read entry only if a
+# site routes haproxy to a dedicated log DIR. See ops §10.

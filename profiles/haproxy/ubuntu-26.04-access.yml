@@ -1,0 +1,74 @@
+---
+# declarative-access-profiles :: haproxy on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-haproxy.json
+#               (schema 1.0, captured 2026-08-23 on an Ubuntu 26.04 KVM
+#               golden image; treadmark 0.11.0. apt auto-started haproxy at
+#               install, so the footprint includes first-start side effects:
+#               the enablement symlink and /var/lib/haproxy/dev/log.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/haproxy/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to ubuntu-24.04 as of this capture — the raw
+# files are byte-identical apart from the capture header (same vendor unit +
+# enablement symlink, same /etc/haproxy + /var/lib/haproxy folders), and the
+# review makes the same decisions on both. Only capture-detail deltas: 26.04's
+# ExecReload config check drops the -q flag, and halog lost its /usr/bin
+# alias — neither touches a grant.
+#
+# ACCESS MODEL: proxy — class defaults collapse (root-run daemon, empty
+# 'haproxy' group, no content). Config write ACL on /etc/haproxy + service
+# control, read-only units. NO pam_group, NO setgid content dir, NO /var/log
+# ACL. Reduces to the cache/minimal shape. Debian specifics carry over from
+# 24.04: the package ships /etc/rsyslog.d/49-haproxy.conf routing haproxy to
+# the flat file /var/log/haproxy.log, and the unit reads only haproxy.cfg
+# (no conf.d drop-in dir). See ops §2/§3.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/haproxy/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+declarative_access_profile_name: 'haproxy'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'haproxy'
+
+# REVIEW-DROP: declarative_access_files_modify [multi-user.target.wants symlink
+# + /lib + /usr/lib .../haproxy.service] — vendor unit + the enablement symlink
+# apt created on auto-start; unit-file write is root-equivalent, and
+# haproxy.service has no User= so it runs as root. Read-only-units profile.
+
+# REVIEW-DROP: proxy-class pam_group + local_groups ['haproxy'] — the 'haproxy'
+# group (dynamically allocated gid 110) has no members and owns nothing the
+# team needs (footprint group_access: []; /etc/haproxy and /var/lib/haproxy
+# both root:root). pam_group would grant a no-op. See ops §3.
+
+# REVIEW-DROP: proxy-class setgid content dir — pure proxy, no content root. The
+# error pages under /etc/haproxy/errors/ are root:root package files (they fall
+# inside the config ACL below, but they are not team "content" to setgid).
+
+declarative_access_folders_modify:
+  # REVIEW-KEEP: /etc/haproxy config write ACL (haproxy.cfg; the Debian unit has
+  # no conf.d drop-in dir, so changes go in haproxy.cfg — see dev.md §3). Also
+  # covers the vendor errors/ dir. Retained despite the TLS caveat: a PEM bundle
+  # under /etc/haproxy/certs would fall inside this write ACL — keep the bundle
+  # in /etc/ssl/private (root:root 0600) by absolute path. See dev.md §4 +
+  # concepts/tls-ssl.md.
+  - '/etc/haproxy'
+  # REVIEW-DROP: '/var/lib/haproxy' — haproxy's chroot/state dir (root:root; it
+  # holds dev/log, the chroot syslog socket apt's rsyslog fragment feeds). The
+  # service owns it; the team never writes here.
+
+# REVIEW-DROP: /var/log/haproxy read grant (class default) — haproxy has no app
+# log DIR. The Debian package ships /etc/rsyslog.d/49-haproxy.conf routing
+# haproxy to the flat FILE /var/log/haproxy.log. A file ACL there would not
+# survive rotation (logrotate creates a fresh file in /var/log, which has no
+# default ACL for the team), so no /var/log ACL is granted by default; the
+# service grant's journalctl -u haproxy covers health. To make file reads
+# rotation-safe, a site points rsyslog at a dedicated log DIR and ops adds that
+# dir to folders_read at review. See ops §10.

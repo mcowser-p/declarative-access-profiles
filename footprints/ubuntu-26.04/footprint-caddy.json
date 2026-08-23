@@ -1,0 +1,2739 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-23T21:41:34.784489+00:00",
+  "application": "caddy",
+  "host": "dap-ubuntu2604",
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
+    "db_sha256": "3124737163c2200c8a0971a9f7d9adb6de6e6ac65a3196f73c8db8706da68625",
+    "created_at": "2026-08-23T21:40:45.730568+00:00",
+    "source_host": "dap-ubuntu2604",
+    "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
+  },
+  "summary": {
+    "files_added": 81,
+    "files_modified": 24,
+    "files_deleted": 0,
+    "systemd_units": 5,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 2,
+    "sudo_rules": 0,
+    "executables": 60,
+    "risks": 5,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "caddy",
+        "uid": 999,
+        "gid": 986,
+        "gecos": "Caddy web server",
+        "home": "/var/lib/caddy",
+        "shell": "/usr/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "caddy",
+        "gid": 986,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "www-data",
+        "gid": 33,
+        "users_added": [
+          "caddy"
+        ],
+        "users_removed": [],
+        "group_is_new": false
+      },
+      {
+        "group": "caddy",
+        "gid": 986,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "caddy.service",
+        "path": "/etc/systemd/system/multi-user.target.wants/caddy.service",
+        "unit_type": "service",
+        "description": "Caddy",
+        "exec_start": [
+          "/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "caddy",
+        "group": "caddy",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [
+          "CAP_NET_BIND_SERVICE"
+        ],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "https://caddyserver.com/docs/"
+          ],
+          "Unit.After": [
+            "network.target network-online.target"
+          ],
+          "Unit.Requires": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecReload": [
+            "/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force"
+          ],
+          "Service.TimeoutStopSec": [
+            "5s"
+          ],
+          "Service.LimitNOFILE": [
+            "1048576"
+          ],
+          "Service.LimitNPROC": [
+            "512"
+          ]
+        }
+      },
+      {
+        "name": "caddy-api.service",
+        "path": "/usr/lib/systemd/system/caddy-api.service",
+        "unit_type": "service",
+        "description": "Caddy",
+        "exec_start": [
+          "/usr/bin/caddy run --environ --resume"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "caddy",
+        "group": "caddy",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [
+          "CAP_NET_BIND_SERVICE"
+        ],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "https://caddyserver.com/docs/"
+          ],
+          "Unit.After": [
+            "network.target network-online.target"
+          ],
+          "Unit.Requires": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.TimeoutStopSec": [
+            "5s"
+          ],
+          "Service.LimitNOFILE": [
+            "1048576"
+          ],
+          "Service.LimitNPROC": [
+            "512"
+          ]
+        }
+      },
+      {
+        "name": "caddy.service",
+        "path": "/usr/lib/systemd/system/caddy.service",
+        "unit_type": "service",
+        "description": "Caddy",
+        "exec_start": [
+          "/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "caddy",
+        "group": "caddy",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [
+          "CAP_NET_BIND_SERVICE"
+        ],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "https://caddyserver.com/docs/"
+          ],
+          "Unit.After": [
+            "network.target network-online.target"
+          ],
+          "Unit.Requires": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecReload": [
+            "/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force"
+          ],
+          "Service.TimeoutStopSec": [
+            "5s"
+          ],
+          "Service.LimitNOFILE": [
+            "1048576"
+          ],
+          "Service.LimitNPROC": [
+            "512"
+          ]
+        }
+      },
+      {
+        "name": "caddy-api.service",
+        "path": "/lib/systemd/system/caddy-api.service",
+        "unit_type": "service",
+        "description": "Caddy",
+        "exec_start": [
+          "/usr/bin/caddy run --environ --resume"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "caddy",
+        "group": "caddy",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [
+          "CAP_NET_BIND_SERVICE"
+        ],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "https://caddyserver.com/docs/"
+          ],
+          "Unit.After": [
+            "network.target network-online.target"
+          ],
+          "Unit.Requires": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.TimeoutStopSec": [
+            "5s"
+          ],
+          "Service.LimitNOFILE": [
+            "1048576"
+          ],
+          "Service.LimitNPROC": [
+            "512"
+          ]
+        }
+      },
+      {
+        "name": "caddy.service",
+        "path": "/lib/systemd/system/caddy.service",
+        "unit_type": "service",
+        "description": "Caddy",
+        "exec_start": [
+          "/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "caddy",
+        "group": "caddy",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [
+          "CAP_NET_BIND_SERVICE"
+        ],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "https://caddyserver.com/docs/"
+          ],
+          "Unit.After": [
+            "network.target network-online.target"
+          ],
+          "Unit.Requires": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecReload": [
+            "/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force"
+          ],
+          "Service.TimeoutStopSec": [
+            "5s"
+          ],
+          "Service.LimitNOFILE": [
+            "1048576"
+          ],
+          "Service.LimitNPROC": [
+            "512"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [],
+  "executables": [
+    {
+      "path": "/bin/p7verify",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/nss-dbtest",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/certutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pk12util",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/signtool",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/vfychain",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pk1sign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/shlibsign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/nss-pp",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/strsclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/p7content",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/ocspclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/tstclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/caddy",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/selfserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/vfyserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/crlutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/chktest",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/httpserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/derdump",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/p7sign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/symkeyutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/ssltap",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pwdecrypt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/nss-addbuiltin",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/signver",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/rsaperf",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/p7env",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/modutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/cmsutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/p7verify",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/nss-dbtest",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/certutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pk12util",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/signtool",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/vfychain",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pk1sign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/shlibsign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/nss-pp",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/strsclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/p7content",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/ocspclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/tstclnt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/caddy",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/selfserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/vfyserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/crlutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/chktest",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/httpserv",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/derdump",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/p7sign",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/symkeyutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/ssltap",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pwdecrypt",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/nss-addbuiltin",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/signver",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/rsaperf",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/p7env",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/modutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/cmsutil",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "systemd_unit": [
+        {
+          "path": "/etc/systemd/system/multi-user.target.wants/caddy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/caddy-api.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 647,
+          "sha256": "e1522046019c912af380dccfb6ac1a558b4c4df24fe0716bbdc6ad451bb598aa"
+        },
+        {
+          "path": "/usr/lib/systemd/system/caddy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1030,
+          "sha256": "df2189b76e606ba16f620a348a4ecab446c6760234363566d473a2a51636ebe7"
+        },
+        {
+          "path": "/lib/systemd/system/caddy-api.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 647,
+          "sha256": "e1522046019c912af380dccfb6ac1a558b4c4df24fe0716bbdc6ad451bb598aa"
+        },
+        {
+          "path": "/lib/systemd/system/caddy.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1030,
+          "sha256": "df2189b76e606ba16f620a348a4ecab446c6760234363566d473a2a51636ebe7"
+        }
+      ],
+      "config": [
+        {
+          "path": "/etc/caddy",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/caddy/Caddyfile",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 769,
+          "sha256": "66177d46fa761acb07208065db9b0274cb1b12c02ac43b9bfc9857b698b1ccfe"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/p7verify",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22920,
+          "sha256": "946d4d97667f1fb021d6d078302a4ac5ad826942ad04ce193778cf35c56b9a6a"
+        },
+        {
+          "path": "/bin/nss-dbtest",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23008,
+          "sha256": "7f8aa0534e3e2c0d6d8d649eb24285f2303e89ae265e1e0b682e6d5c8c13220e"
+        },
+        {
+          "path": "/bin/certutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 179128,
+          "sha256": "84ebeb30599c135576ce3410649dd76db60f4082ae4c015340c8a711c08c52c4"
+        },
+        {
+          "path": "/bin/pk12util",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 68680,
+          "sha256": "df7b02635ce425312c17eddf9f9f812386793737b27c53f14d739157d02cf78c"
+        },
+        {
+          "path": "/bin/signtool",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 113136,
+          "sha256": "c3919ff6b145bcddd53c789ca91ac5a3bbf096a0aacef6e4be6c31da7ff6eac6"
+        },
+        {
+          "path": "/bin/vfychain",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 72160,
+          "sha256": "9d17c24e6f27c9a0fc4458da8d8d513b1a2da6c526bca0c09a5f5cd9d811782f"
+        },
+        {
+          "path": "/bin/pk1sign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23064,
+          "sha256": "08ee5dd7af95fa5c3e328f360ca02615b033979d5b49a21d710d96b8e2bec3ec"
+        },
+        {
+          "path": "/bin/shlibsign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39688,
+          "sha256": "0f07ddde6636f83169da46befd9ef24bea151f9eb09e29f83460301a37c98cb6"
+        },
+        {
+          "path": "/bin/nss-pp",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76248,
+          "sha256": "f9dfc065e612dcea2a45b69f907ac518a7e4cdd8f5088f5dcacca617ad1e71a7"
+        },
+        {
+          "path": "/bin/strsclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 47600,
+          "sha256": "a1b7ebe90244d44044ae556cbda1366332967201b414577bd1ca1ad6a21b57a4"
+        },
+        {
+          "path": "/bin/p7content",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22928,
+          "sha256": "18ab9552d2d964878179274b6a64e61c2396acb8eac759d75f0752563d72d871"
+        },
+        {
+          "path": "/bin/ocspclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 72152,
+          "sha256": "9b465bb7cb66ffeb4aad24db423e7aa66da920314c13a7a94b772645c1aca33d"
+        },
+        {
+          "path": "/bin/tstclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 100864,
+          "sha256": "9e1a8969888074ed7c21f354f70eaf8e78426b71f749db15e99718b90d6b3f30"
+        },
+        {
+          "path": "/bin/caddy",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39183416,
+          "sha256": "678c1849799e6d81c7cfbe63cebb8f92400cb70a67fc9f601697cb8ce7cdfa4a"
+        },
+        {
+          "path": "/bin/selfserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76288,
+          "sha256": "00883d9182b31efb1a74dd2eff2691edc7f2358aeeaf7560917be42bb80f66d6"
+        },
+        {
+          "path": "/bin/vfyserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43488,
+          "sha256": "56e2910c15758c1ccd7718c556fe941e6fec5b3f68472965212f42fd0d41924d"
+        },
+        {
+          "path": "/bin/crlutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 88552,
+          "sha256": "223830dcce14899d380c27de0764bb88a7ecc64df413ff63f38e4003c76a2a83"
+        },
+        {
+          "path": "/bin/chktest",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 14728,
+          "sha256": "3c5b43f4bb090fa0cc1d4ce000288a2c298c480140ee48f8ebd1d553af0e5dab"
+        },
+        {
+          "path": "/bin/httpserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39320,
+          "sha256": "47bec9edc3fc8f59dfcaf000e417674e243a4b4db7822516b8ef9fd95af228ac"
+        },
+        {
+          "path": "/bin/derdump",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23000,
+          "sha256": "05a59c2574072977330a8ca20b49ee150833c6e94b76d55df792a9ea56b2c91a"
+        },
+        {
+          "path": "/bin/p7sign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 27024,
+          "sha256": "8ac123015f48178e0c212148a1a42353c1ffb656ec59752dc65041d514b2dee0"
+        },
+        {
+          "path": "/bin/symkeyutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 36136,
+          "sha256": "19801da45a7c4507a989d6b8638f38398c44860b801ce91329b69951296867aa"
+        },
+        {
+          "path": "/bin/ssltap",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76248,
+          "sha256": "4ccf1957dfbc5db63b9de3701fc035c192d2d1e5c44b15564ca31402d6a684ca"
+        },
+        {
+          "path": "/bin/pwdecrypt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22928,
+          "sha256": "5c399157c065665236da545e9c8c9631dc63001f9527be5f4d49fdbfb9bc1c5b"
+        },
+        {
+          "path": "/bin/nss-addbuiltin",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 31416,
+          "sha256": "908b0b64167c8972bf54f98b7e6d100977f5e6f5b641c64241b02d569a36c26a"
+        },
+        {
+          "path": "/bin/signver",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39688,
+          "sha256": "ff526ea28fa52cd6b21a8f6fc8023be477c463753f56aadc746ac88d40eaa5eb"
+        },
+        {
+          "path": "/bin/rsaperf",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 602952,
+          "sha256": "e1cd53443236e240fe6607f021c95a883b877044979cf248eeed9dc32a773dc1"
+        },
+        {
+          "path": "/bin/p7env",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 18824,
+          "sha256": "31614dbea247315696c2c9f762640e7a8a66984cd9df913423f1eb2b7eaea026"
+        },
+        {
+          "path": "/bin/modutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 92664,
+          "sha256": "64045c516adfd38eabc5164a60b48874948017ace1aadc1f357ffc45984bb295"
+        },
+        {
+          "path": "/bin/cmsutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 47584,
+          "sha256": "b3c8540c5e24038d206b56783b0eb9775aef111304a866e1179136746b43c471"
+        },
+        {
+          "path": "/usr/bin/p7verify",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22920,
+          "sha256": "946d4d97667f1fb021d6d078302a4ac5ad826942ad04ce193778cf35c56b9a6a"
+        },
+        {
+          "path": "/usr/bin/nss-dbtest",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23008,
+          "sha256": "7f8aa0534e3e2c0d6d8d649eb24285f2303e89ae265e1e0b682e6d5c8c13220e"
+        },
+        {
+          "path": "/usr/bin/certutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 179128,
+          "sha256": "84ebeb30599c135576ce3410649dd76db60f4082ae4c015340c8a711c08c52c4"
+        },
+        {
+          "path": "/usr/bin/pk12util",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 68680,
+          "sha256": "df7b02635ce425312c17eddf9f9f812386793737b27c53f14d739157d02cf78c"
+        },
+        {
+          "path": "/usr/bin/signtool",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 113136,
+          "sha256": "c3919ff6b145bcddd53c789ca91ac5a3bbf096a0aacef6e4be6c31da7ff6eac6"
+        },
+        {
+          "path": "/usr/bin/vfychain",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 72160,
+          "sha256": "9d17c24e6f27c9a0fc4458da8d8d513b1a2da6c526bca0c09a5f5cd9d811782f"
+        },
+        {
+          "path": "/usr/bin/pk1sign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23064,
+          "sha256": "08ee5dd7af95fa5c3e328f360ca02615b033979d5b49a21d710d96b8e2bec3ec"
+        },
+        {
+          "path": "/usr/bin/shlibsign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39688,
+          "sha256": "0f07ddde6636f83169da46befd9ef24bea151f9eb09e29f83460301a37c98cb6"
+        },
+        {
+          "path": "/usr/bin/nss-pp",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76248,
+          "sha256": "f9dfc065e612dcea2a45b69f907ac518a7e4cdd8f5088f5dcacca617ad1e71a7"
+        },
+        {
+          "path": "/usr/bin/strsclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 47600,
+          "sha256": "a1b7ebe90244d44044ae556cbda1366332967201b414577bd1ca1ad6a21b57a4"
+        },
+        {
+          "path": "/usr/bin/p7content",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22928,
+          "sha256": "18ab9552d2d964878179274b6a64e61c2396acb8eac759d75f0752563d72d871"
+        },
+        {
+          "path": "/usr/bin/ocspclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 72152,
+          "sha256": "9b465bb7cb66ffeb4aad24db423e7aa66da920314c13a7a94b772645c1aca33d"
+        },
+        {
+          "path": "/usr/bin/tstclnt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 100864,
+          "sha256": "9e1a8969888074ed7c21f354f70eaf8e78426b71f749db15e99718b90d6b3f30"
+        },
+        {
+          "path": "/usr/bin/caddy",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39183416,
+          "sha256": "678c1849799e6d81c7cfbe63cebb8f92400cb70a67fc9f601697cb8ce7cdfa4a"
+        },
+        {
+          "path": "/usr/bin/selfserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76288,
+          "sha256": "00883d9182b31efb1a74dd2eff2691edc7f2358aeeaf7560917be42bb80f66d6"
+        },
+        {
+          "path": "/usr/bin/vfyserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 43488,
+          "sha256": "56e2910c15758c1ccd7718c556fe941e6fec5b3f68472965212f42fd0d41924d"
+        },
+        {
+          "path": "/usr/bin/crlutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 88552,
+          "sha256": "223830dcce14899d380c27de0764bb88a7ecc64df413ff63f38e4003c76a2a83"
+        },
+        {
+          "path": "/usr/bin/chktest",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 14728,
+          "sha256": "3c5b43f4bb090fa0cc1d4ce000288a2c298c480140ee48f8ebd1d553af0e5dab"
+        },
+        {
+          "path": "/usr/bin/httpserv",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39320,
+          "sha256": "47bec9edc3fc8f59dfcaf000e417674e243a4b4db7822516b8ef9fd95af228ac"
+        },
+        {
+          "path": "/usr/bin/derdump",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 23000,
+          "sha256": "05a59c2574072977330a8ca20b49ee150833c6e94b76d55df792a9ea56b2c91a"
+        },
+        {
+          "path": "/usr/bin/p7sign",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 27024,
+          "sha256": "8ac123015f48178e0c212148a1a42353c1ffb656ec59752dc65041d514b2dee0"
+        },
+        {
+          "path": "/usr/bin/symkeyutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 36136,
+          "sha256": "19801da45a7c4507a989d6b8638f38398c44860b801ce91329b69951296867aa"
+        },
+        {
+          "path": "/usr/bin/ssltap",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 76248,
+          "sha256": "4ccf1957dfbc5db63b9de3701fc035c192d2d1e5c44b15564ca31402d6a684ca"
+        },
+        {
+          "path": "/usr/bin/pwdecrypt",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22928,
+          "sha256": "5c399157c065665236da545e9c8c9631dc63001f9527be5f4d49fdbfb9bc1c5b"
+        },
+        {
+          "path": "/usr/bin/nss-addbuiltin",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 31416,
+          "sha256": "908b0b64167c8972bf54f98b7e6d100977f5e6f5b641c64241b02d569a36c26a"
+        },
+        {
+          "path": "/usr/bin/signver",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 39688,
+          "sha256": "ff526ea28fa52cd6b21a8f6fc8023be477c463753f56aadc746ac88d40eaa5eb"
+        },
+        {
+          "path": "/usr/bin/rsaperf",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 602952,
+          "sha256": "e1cd53443236e240fe6607f021c95a883b877044979cf248eeed9dc32a773dc1"
+        },
+        {
+          "path": "/usr/bin/p7env",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 18824,
+          "sha256": "31614dbea247315696c2c9f762640e7a8a66984cd9df913423f1eb2b7eaea026"
+        },
+        {
+          "path": "/usr/bin/modutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 92664,
+          "sha256": "64045c516adfd38eabc5164a60b48874948017ace1aadc1f357ffc45984bb295"
+        },
+        {
+          "path": "/usr/bin/cmsutil",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 47584,
+          "sha256": "b3c8540c5e24038d206b56783b0eb9775aef111304a866e1179136746b43c471"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/zsh/vendor-completions/_caddy",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 7712,
+          "sha256": "a34412a408b4c462bd3ae75e427b43bd74436b0a52f4b1427c08ce292ad15b67"
+        },
+        {
+          "path": "/usr/share/caddy",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/caddy/index.html",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14970,
+          "sha256": "46b4784bb01029b90faeb7bfb43703af44944b1a98401c1a7d0b5cd517e4f53d"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/caddy",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 487,
+          "sha256": "e54ae8b2f0761c1140e1f3c0b4c12b1825f42804635ebc9d9a11294f4ae77d42"
+        },
+        {
+          "path": "/usr/share/bash-completion/completions/caddy",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 27652,
+          "sha256": "2cd420b3ab63246355dfce254204bf2b43c608ef1d8d82654d90af93bec5ae39"
+        },
+        {
+          "path": "/usr/share/fish/vendor_completions.d/caddy.fish",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9601,
+          "sha256": "375f3a886f27c80a5c01ad207a9be9a795955364fe735fd4efc92339bf1e4e2d"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/caddy",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 3771,
+          "sha256": "342099da4dd28c394d3f8782d90d7465cb2eaa611193f8f378d6918261cb9bb8"
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 220,
+          "sha256": "26882b79471c25f945c970f8233d8ce29d54e9d5eedcd2884f88affa84a18f56"
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 807,
+          "sha256": "28b4a453b68dde64f814e94bab14ee651f4f162e15dd9920490aa1d49f05d2a4"
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o700",
+          "mode_symbolic": "drwx------",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o700",
+          "mode_symbolic": "drwx------",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o700",
+          "mode_symbolic": "drwx------",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "caddy",
+          "group": "caddy",
+          "size": 184,
+          "sha256": "99c076053d2ccc29f1283b45221ff47d37f15016049ba8076a7f5f1865d7b4a3"
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 754,
+        "sha256": "f933a595a0d66bc2d171b03b7310eff0d375be56fd105fbef0098ea74bacf837"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 901,
+        "sha256": "eb46fc368e663a74ba20ea3fb2dbcde0ac921a57e67a17d190105228290f738f"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 898,
+        "sha256": "6e5447982d555bc452dbb74af89548a497bdbabc87cc14099c48073f5b802a5e"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1845,
+        "sha256": "89edaa239da5f9ef64bb88f36b764a93792581cc6d1d5324327b907db90fafe8"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 749,
+        "sha256": "6b8f7f33729f43ac365f802f1e9d71178f730e50fdda683c2560bf150c6b9837"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 893,
+        "sha256": "ac0e041f0e2a5a506bf1e039473b3bc135c650c593a20899444e71e8cd60b6fd"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 881,
+        "sha256": "c0ca619f95aaada872535e9aa7d5be431858da1f31e33a45d6f5716fd1c79c7a"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1911,
+        "sha256": "85c4e87273b482b41262542360938c33b6d06fb555ae1b94f50f9af3f18fa08b"
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 57344,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 57344,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/zsh/vendor-completions",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/lintian/overrides",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 28672,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/bash-completion/completions",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/fish/vendor_completions.d",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/update-notifier",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/treadmark",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "caddy",
+      "principal_type": "systemd_service",
+      "unit": "caddy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_NET_BIND_SERVICE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/caddy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "caddy",
+      "principal_type": "systemd_service",
+      "unit": "caddy-api.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_NET_BIND_SERVICE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/caddy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "caddy",
+      "principal_type": "systemd_service",
+      "unit": "caddy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_NET_BIND_SERVICE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/caddy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "caddy",
+      "principal_type": "systemd_service",
+      "unit": "caddy-api.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_NET_BIND_SERVICE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/caddy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "caddy",
+      "principal_type": "systemd_service",
+      "unit": "caddy.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [
+        "CAP_NET_BIND_SERVICE"
+      ],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "full",
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/caddy",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bash_logout",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.bashrc",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.config/caddy/autosave.json",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.profile",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        },
+        {
+          "path": "/var/lib/caddy/.step",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [
+    {
+      "group": "caddy",
+      "gid": 986,
+      "writable": [],
+      "readable": [
+        "/var/lib/caddy/",
+        "/var/lib/caddy/.bash_logout",
+        "/var/lib/caddy/.bashrc",
+        "/var/lib/caddy/.profile"
+      ]
+    }
+  ],
+  "risks": [
+    {
+      "severity": "high",
+      "kind": "ambient_capabilities",
+      "detail": "caddy.service grants CAP_NET_BIND_SERVICE",
+      "path": "/etc/systemd/system/multi-user.target.wants/caddy.service"
+    },
+    {
+      "severity": "high",
+      "kind": "ambient_capabilities",
+      "detail": "caddy-api.service grants CAP_NET_BIND_SERVICE",
+      "path": "/usr/lib/systemd/system/caddy-api.service"
+    },
+    {
+      "severity": "high",
+      "kind": "ambient_capabilities",
+      "detail": "caddy.service grants CAP_NET_BIND_SERVICE",
+      "path": "/usr/lib/systemd/system/caddy.service"
+    },
+    {
+      "severity": "high",
+      "kind": "ambient_capabilities",
+      "detail": "caddy-api.service grants CAP_NET_BIND_SERVICE",
+      "path": "/lib/systemd/system/caddy-api.service"
+    },
+    {
+      "severity": "high",
+      "kind": "ambient_capabilities",
+      "detail": "caddy.service grants CAP_NET_BIND_SERVICE",
+      "path": "/lib/systemd/system/caddy.service"
+    }
+  ],
+  "scan_errors": []
+}

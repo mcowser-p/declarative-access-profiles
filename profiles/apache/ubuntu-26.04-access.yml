@@ -1,0 +1,100 @@
+---
+# declarative-access-profiles :: apache (apache2) on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-apache.json
+#               (schema 1.0, install_time; captured 2026-08-23 on the
+#               holy-qcow Ubuntu 26.04 KVM golden image; treadmark 0.11.0.
+#               application slug 'apache2'. apt auto-started apache2 at
+#               install, so the footprint includes first-start side effects:
+#               the ssl-cert dependency landed here — group 'ssl-cert'
+#               (gid 109) created, snakeoil pair generated
+#               (/etc/ssl/private/ssl-cert-snakeoil.key root:ssl-cert 0640)
+#               — plus the two enablement symlinks.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/apache/ops.md  (review reasoning, §2)
+#
+# Two capture notes vs ubuntu-24.04:
+#   * 26.04's apache2 also ships httpd.service / httpd@.service — compat
+#     ALIAS SYMLINKS to apache2.service / apache2@.service (15/16-byte
+#     symlinks in the footprint). The exporter surfaced 'httpd' as a fourth
+#     service; the review drops it (see REVIEW-DROP below).
+#   * the raw grants the config root /etc/apache2 directly (this image's
+#     clean baseline had no /etc/apache2; on the 24.04 golden image an
+#     /etc/apache2 skeleton pre-existed, so its raw enumerated leaf dirs and
+#     the review consolidated them). Reviewed shape matches ubuntu-24.04's.
+#   * 26.04's vendor apache2 units ship hardened (ProtectSystem=full,
+#     ProtectHome=read-only, PrivateTmp, InaccessiblePaths incl. sudoers and
+#     /etc/ssh — noted in ops §1; changes nothing in a read-only-units
+#     profile).
+#
+# ACCESS MODEL: webserver — pam_group into the service group 'www-data'
+# (identity/read baseline) + setgid content dir /var/www/html + config write
+# ACL on /etc/apache2 + log read ACL on /var/log/apache2. Read-only-units
+# profile. Debian uses the a2ensite/a2enmod symlink model and www-data is
+# SHARED by other Debian web services (see REVIEW-KEEP caveat).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/apache/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+# REVIEW-CHANGE: profile_name 'apache2' -> 'apache' — normalized to the
+# library app slug (check_profiles requires profile_name == the app dir).
+declarative_access_profile_name: 'apache'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'apache2'
+  # REVIEW-DROP: 'httpd' — compat alias symlink of apache2.service (new in
+  # 26.04's apache2 package); same unit, second sudoers spelling. The team
+  # operates 'apache2'; granting the alias doubles the surface for nothing.
+  # REVIEW-DROP: 'apache-htcacheclean' — mod_cache_disk cache cleaner
+  # (User=www-data), off by default; not the web server.
+  # REVIEW-DROP: 'ssl-cert' — a one-shot (make-ssl-cert generate-default-
+  # snakeoil) that ran once at apt auto-start to write the self-signed test
+  # pair. Not a service the team operates; it regenerates a throwaway cert.
+
+# REVIEW-DROP: declarative_access_files_modify [16 entries: apache2.service,
+# apache2@.service, apache-htcacheclean{,@}.service, ssl-cert.service, the
+# httpd{,@}.service alias symlinks under /lib + /usr/lib, plus the two
+# /etc/systemd/system/multi-user.target.wants enablement symlinks apt created
+# on auto-start] — vendor units + enablement symlinks; unit-file write is
+# root-equivalent. Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — Debian apache2 runs as www-data.
+  # REVIEW-KEEP caveat: www-data is SHARED by other Debian web services
+  # (nginx, php-fpm). Single-app servers only; on a shared box drop these two
+  # keys and use an ACL-only profile (config write ACL + log read ACL) with a
+  # per-team setgid content subtree instead of the www-data group.
+  - 'www-data'
+
+declarative_access_folders_modify:
+  # kept as captured: one write ACL + default ACL on the config root covers
+  # editing *-available and creating the *-enabled symlinks the
+  # a2ensite/a2enmod model needs (the shape ubuntu-24.04's review had to
+  # consolidate to; this raw already grants it).
+  - '/etc/apache2'
+  # REVIEW-DROP: '/etc/ufw/applications.d/apache2' — firewall/ufw is ops,
+  # never an app grant (dependency-pulled onto this box).
+  # REVIEW-DROP: '/var/lib/apache2' — apache2 maintainer/module state
+  # (root:root); the service and a2* maintainer scripts write here, the team
+  # does not. Operators create enable-symlinks directly under the ACL'd
+  # /etc/apache2/*-enabled dirs; `a2ensite`/`a2enmod` themselves stay sudo
+  # (they also touch this dir) — see dev §3.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default.
+  - '/var/log/apache2'
+
+declarative_access_ownership:
+  # REVIEW-ADD: setgid content dir — Debian web root; team writes via
+  # www-data (pam_group), new files inherit the group. Not in the footprint
+  # (/var/www/html ships/pre-exists empty and is uncategorized). Accept-list
+  # for dpkg --verify. (No ownership entry in the raw — apt/www-data
+  # pre-exists.)
+  - {path: '/var/www/html', owner: 'root', group: 'www-data', mode: '2775'}

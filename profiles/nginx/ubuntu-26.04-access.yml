@@ -1,0 +1,59 @@
+---
+# declarative-access-profiles :: nginx on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-nginx.json
+#               (schema 1.0, captured 2026-08-23 on the Ubuntu 26.04 KVM
+#               golden image; treadmark 0.11.0. apt auto-started nginx at
+#               install, so the footprint includes first-start side effects.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/nginx/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to ubuntu-24.04 as of this capture — the raw
+# grant set is byte-identical; only packaged file contents moved (nginx.conf,
+# mime.types), which changes no grant.
+#
+# ACCESS MODEL: webserver — pam_group + setgid content dir + config write
+# ACL + log read ACL. Read-only-units profile. Debian: the service group is
+# www-data (SHARED by other Debian web services — see REVIEW-KEEP below),
+# content root is /var/www/html.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/nginx/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+declarative_access_profile_name: 'nginx'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'nginx'
+
+# REVIEW-DROP: declarative_access_files_modify [multi-user.target.wants
+# symlink + /lib + /usr/lib .../nginx.service] — vendor unit + the enablement
+# symlink apt created on auto-start; unit-file write is root-equivalent.
+# Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — Debian nginx runs as www-data.
+  # REVIEW-KEEP caveat: www-data is shared by other Debian web services
+  # (apache2, php-fpm). Single-app servers only; on a shared box drop these
+  # two keys and use an ACL-only profile.
+  - 'www-data'
+
+declarative_access_folders_modify:
+  - '/etc/nginx'
+  # REVIEW-DROP: '/var/lib/nginx' — service runtime cache, not team space.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log excluded from footprints by default.
+  - '/var/log/nginx'
+
+declarative_access_ownership:
+  # REVIEW-ADD: setgid content dir — Debian web root; team writes via
+  # www-data (pam_group), new files inherit the group. Accept-list for
+  # dpkg --verify. (No ownership entry in the raw — apt/www-data pre-exists.)
+  - {path: '/var/www/html', owner: 'root', group: 'www-data', mode: '2775'}
