@@ -53,11 +53,12 @@ declarative_access_local_groups:
   - 'www-data'
 
 declarative_access_folders_modify:
-  # REVIEW-CHANGE: raw enumerated the leaf dirs (conf-enabled, mods-available,
-  # mods-enabled, sites-available, sites-enabled); grant the config root
-  # /etc/apache2 instead — one write ACL + default ACL covers editing
-  # *-available and creating the *-enabled symlinks the a2ensite/a2enmod
-  # model needs (matches EL's single /etc/httpd grant).
+  # kept as captured: one write ACL + default ACL on the config root covers
+  # editing *-available and creating the *-enabled symlinks the
+  # a2ensite/a2enmod model needs (matches EL's single /etc/httpd grant).
+  # (Before the harness fix of 2026-08-23 the bootstrap pre-created
+  # /etc/apache2 via javascript-common, so the raw enumerated the leaf dirs
+  # and this review had to consolidate them; the raw now grants the root.)
   - '/etc/apache2'
   # REVIEW-DROP: '/etc/ufw/applications.d/apache2' — firewall/ufw is ops,
   # never an app grant (dependency-pulled onto this box).
