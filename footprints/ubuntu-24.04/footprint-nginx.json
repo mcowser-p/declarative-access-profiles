@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:33:00.136800+00:00",
+  "generated_at": "2026-08-23T22:57:49.951689+00:00",
   "application": "nginx",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "06342e97130b1234ec556bc96a33b72eebbacc15f0bfb5fc6a886c5a0e6a0238",
-    "created_at": "2026-08-23T21:32:22.975773+00:00",
+    "db_sha256": "8a4d3df0756fd586a9555e6c00e54543f3ab8c0b99c47ed8b224e1cc524aceae",
+    "created_at": "2026-08-23T22:57:14.890396+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
@@ -1208,7 +1208,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 20480,
         "sha256": null
       },
       {

@@ -62,9 +62,20 @@ export TMPDIR=/root/.dap-tmp
 if command -v apt-get >/dev/null 2>&1; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get update -qq
-  apt-get install -qq -y python3-venv python3-pip >/dev/null
+  # --no-install-recommends is load-bearing, not tidiness. This bootstrap runs
+  # BEFORE the per-app `files init` below, so anything it drags in lands in the
+  # clean baseline. python3-pip's *recommends* closure (python3-dev ->
+  # python3.12-dev -> libpython3.12-dev -> libjs-sphinxdoc) pulls
+  # javascript-common, which ships /etc/apache2/conf-available/ and
+  # /etc/lighttpd/conf-available/. With those dirs pre-existing, the later
+  # apache2 install reports /etc/apache2 under filesystem.modified instead of
+  # filesystem.added (observed on ubuntu-24.04, 2026-08-23). Slimming the
+  # closure 145 -> 24 packages keeps the baseline app-neutral.
+  apt-get install -qq -y --no-install-recommends python3-venv python3-pip >/dev/null
 else
-  dnf install -qy python3-pip >/dev/null
+  # same reasoning on the rpm side: weak deps are not part of the app under
+  # test, so keep them out of the pre-baseline state.
+  dnf install -qy --setopt=install_weak_deps=False python3-pip >/dev/null
 fi
 python3 -m venv /opt/treadmark-venv
 if [ -d /tmp/treadmark-src ]; then

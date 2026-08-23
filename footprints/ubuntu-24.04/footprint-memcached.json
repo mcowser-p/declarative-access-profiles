@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:36:13.337624+00:00",
+  "generated_at": "2026-08-23T23:00:33.341387+00:00",
   "application": "memcached",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "079dff4e887343e72b3e542e53665581d75e6a063267718b72ae69ef504f70c7",
-    "created_at": "2026-08-23T21:35:38.082018+00:00",
+    "db_sha256": "963c4392d0bc79288105ee2172161ec6787f4a3a6d04aa982a2ecbe8fa3f108f",
+    "created_at": "2026-08-23T23:00:01.236152+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
@@ -1062,7 +1062,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 36864,
+        "size": 28672,
         "sha256": null
       },
       {
