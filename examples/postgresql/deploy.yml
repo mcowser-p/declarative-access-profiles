@@ -1,0 +1,22 @@
+---
+# Deploy PostgreSQL with geerlingguy.postgresql configured
+# least-priv-compatibly (docs/role-evals/postgresql.md §6b). Setup-window
+# play — runs before capture (§6a).
+#
+# Database-class posture (the profile side never grants the data dir):
+# the role keeps packaged paths and the postgres service account; config
+# lives where the distro puts it (Ubuntu: /etc/postgresql/<ver>/main —
+# grantable without touching the data dir; EL/AL2023: inside the 0700
+# data dir, so config edits stay ops-or-ALTER-SYSTEM, ops.md §3).
+- name: Deploy PostgreSQL (least-privilege posture)
+  hosts: "{{ target | default('postgresql_hosts') }}"
+  become: true
+  roles:
+    - role: geerlingguy.postgresql
+      vars:
+        # stay on the distro package + packaged data dir; no auth widening
+        postgresql_hba_entries: "{{ postgresql_hba_entries_default | default(omit) }}"
+        # secrets: never inline plaintext here — the role's user vars take
+        # vaulted values (role-eval §6b / R5)
+        postgresql_users: []
+        postgresql_databases: []

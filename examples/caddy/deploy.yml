@@ -1,0 +1,33 @@
+---
+# Deploy caddy from distro packages — the "build (thin)" install the
+# role-eval names (docs/role-evals/caddy.md): EPEL on EL, universe on
+# Ubuntu, N/A on Amazon Linux 2023 (no EPEL support; matrix.yml records
+# the decision). Setup-window play — runs before capture.
+- name: Deploy caddy (packaged, least-privilege posture)
+  hosts: "{{ target | default('caddy_hosts') }}"
+  become: true
+  tasks:
+    - name: Refuse unsupported distro
+      ansible.builtin.fail:
+        msg: "caddy is N/A on Amazon Linux 2023 — no EPEL support (matrix.yml)"
+      when: ansible_distribution == 'Amazon'
+
+    - name: Enable EPEL (EL family ships caddy only there)
+      ansible.builtin.package:
+        name: epel-release
+        state: present
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install caddy
+      ansible.builtin.package:
+        name: caddy
+        state: present
+
+    # config stays root-owned — the profile grants the team an ACL on
+    # /etc/caddy; caddy's own cert storage (/var/lib/caddy) is never
+    # granted (docs/apps/caddy/ops.md §9: self-issued, self-rotating keys)
+    - name: Enable and start caddy
+      ansible.builtin.systemd_service:
+        name: caddy.service
+        enabled: true
+        state: started

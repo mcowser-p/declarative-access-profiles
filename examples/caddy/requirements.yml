@@ -1,0 +1,6 @@
+---
+# No public role: the caddy role-eval verdict is BUILD (thin) — no
+# candidate reproduces the packaged, distro-repo install our footprints
+# capture (docs/role-evals/caddy.md §5). deploy.yml is that thin build.
+collections:
+  - name: mcowser_p.declarative_access

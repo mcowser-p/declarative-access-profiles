@@ -1,0 +1,19 @@
+---
+# Apply the reviewed nginx access profile to this host's restricted team
+# group — the same mechanics as the collection's playbook 5
+# (5_apply_access_profile.yml), with the profile resolved from THIS
+# checkout so example and profile cannot version-skew.
+#
+#   ansible-playbook -i <inv> lockdown.yml -e distro_slug=almalinux-9
+#   revoke: same command + --tags cleanup
+- name: Lock down nginx admin surface
+  hosts: "{{ target | default('nginx_hosts') }}"
+  become: true
+  vars:
+    # almalinux-9 | almalinux-10 | ubuntu-24.04 | ubuntu-26.04 | amazonlinux-2023
+    distro_slug: almalinux-9
+    group_name: "{{ ansible_hostname }}-app_restricted"
+  vars_files:
+    - "../../profiles/nginx/{{ distro_slug }}-access.yml"
+  roles:
+    - mcowser_p.declarative_access.declarative_access
