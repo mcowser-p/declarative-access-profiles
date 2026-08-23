@@ -5,7 +5,9 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/ubuntu-24.04-access.yml)).
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/ubuntu-26.04-access.yml),
+[al2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/nginx/amazonlinux-2023-access.yml)).
 
 ## 0. First command: `sudo -l`
 
@@ -119,16 +121,22 @@ the profile. See
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / unit | `nginx` / `nginx.service` | `nginx` / `nginx.service` | `nginx` / `nginx.service` |
-| Service account:group | `nginx:nginx` | `nginx:nginx` | `www-data:www-data` |
-| Config root | `/etc/nginx` (+`conf.d`) | `/etc/nginx` (+`conf.d`) | `/etc/nginx` (`sites-available` + `sites-enabled` symlink model also works; `conf.d` is simpler) |
-| Content root | `/usr/share/nginx/html` | `/usr/share/nginx/html` | `/var/www/html` |
-| Log dir | `/var/log/nginx` | `/var/log/nginx` | `/var/log/nginx` |
-| Validator | `nginx -t` | `nginx -t` | `nginx -t` |
-| TLS paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` |
-| pam_group group | `nginx` | `nginx` | `www-data` (shared with other Debian web services — see the profile's REVIEW-KEEP) |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | al2023 |
+| --- | --- | --- | --- | --- | --- |
+| Package / unit | `nginx` / `nginx.service` | `nginx` / `nginx.service` | `nginx` / `nginx.service` | `nginx` / `nginx.service` | `nginx` / `nginx.service` |
+| Service account:group | `nginx:nginx` | `nginx:nginx` | `www-data:www-data` | `www-data:www-data` | `nginx:nginx` |
+| Config root | `/etc/nginx` (+`conf.d`) | `/etc/nginx` (+`conf.d`) | `/etc/nginx` (`sites-available` + `sites-enabled` symlink model also works; `conf.d` is simpler) | `/etc/nginx` (same layout as 24.04, `sites-*` included) | `/etc/nginx` (+`conf.d`) |
+| Content root | `/usr/share/nginx/html` | `/usr/share/nginx/html` | `/var/www/html` | `/var/www/html` | `/usr/share/nginx/html` |
+| Log dir | `/var/log/nginx` | `/var/log/nginx` | `/var/log/nginx` | `/var/log/nginx` | `/var/log/nginx` |
+| Validator | `nginx -t` | `nginx -t` | `nginx -t` | `nginx -t` | `nginx -t` |
+| TLS paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` | `/etc/ssl/{certs,private}` | `/etc/pki/tls/{certs,private}` |
+| pam_group group | `nginx` | `nginx` | `www-data` (shared with other Debian web services — see the profile's REVIEW-KEEP) | `www-data` (same shared-group caveat as 24.04) | `nginx` |
+
+Ubuntu 26.04's install is layout-identical to 24.04 — same config tree, same
+content root, same `www-data` account; only packaged file contents moved.
+AL2023 follows the EL layout exactly: same `nginx` account and the same
+paths as alma9/alma10, so everything above in this guide reads the same on
+all three EL-family distros.
 
 ## 9. Cheat sheet
 

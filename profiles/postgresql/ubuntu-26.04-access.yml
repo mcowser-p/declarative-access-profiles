@@ -1,0 +1,90 @@
+---
+# declarative-access-profiles :: postgresql on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-postgresql.json
+#               (schema 1.0, captured 2026-08-23 on a holy-qcow Ubuntu 26.04
+#               KVM golden image, host ansible@192.168.1.238; treadmark 0.11.0.
+#               The `postgresql` meta-package pulls postgresql-18 — one major
+#               ahead of 24.04's 16 — and apt ran initdb + auto-started the
+#               cluster at install, so the footprint includes the live
+#               /etc/postgresql/18/main config tree and the 18/main data dir.
+#               New on 26.04: the ssl-cert dependency now ships an enabled
+#               ssl-cert.service oneshot that regenerates the snakeoil pair.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/postgresql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped, NOT group-scoped. NO pam_group into
+# the 'postgres' group (it owns the raw data). As on 24.04, Debian splits
+# config OUT of the data dir to /etc/postgresql/18/main, so a config write ACL
+# is grantable WITHOUT touching /var/lib/postgresql/18/main (the 0700 data
+# dir). Never the data dir. Read-only-units profile. Log read via
+# /var/log/postgresql.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/postgresql/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+declarative_access_profile_name: 'postgresql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'postgresql'
+  # REVIEW-DROP: 'ssl-cert' — dependency noise, not the app. The ssl-cert
+  # package's root oneshot (ExecStart=-/usr/sbin/make-ssl-cert
+  # generate-default-snakeoil --force-overwrite, enabled at install on 26.04,
+  # guarded by ConditionPathExists=!/etc/ssl/private/ssl-cert-snakeoil.key)
+  # (re)creates the HOST-WIDE snakeoil TLS pair when the key is absent; key
+  # material shared by every service on the host is never a team surface.
+  # System-owned; would the team ever legitimately restart it? No.
+  # REVIEW-ADD: 'postgresql@18-main' — Debian's postgresql.service is an
+  # umbrella oneshot (ExecStart=/bin/true) that fans out to per-cluster
+  # instances of the postgresql@.service template; postgresql@18-main is the
+  # actual 18/main cluster unit (evidence: the postgresql@.service template +
+  # the captured /etc/postgresql/18/main config and /var/lib/postgresql/18/main
+  # data dir). Granting it lets the team restart/reload just their cluster
+  # instead of the host-wide umbrella.
+  - 'postgresql@18-main'
+
+# REVIEW-DROP: declarative_access_files_modify [22 vendor unit paths — the
+# postgresql.service umbrella + postgresql@.service template + the backup
+# automation units (pg_basebackup@/pg_compresswal@/pg_dump@/pg_receivewal@
+# .service and .timer) + ssl-cert.service, under /lib and /usr/lib, plus the
+# two multi-user.target enablement symlinks apt created on auto-start
+# (postgresql.service, ssl-cert.service)] — vendor units; unit-file write is
+# root-equivalent. The backup automation is opt-in and ops-owned; ssl-cert is
+# another package's unit entirely. Read-only-units profile.
+
+# DATABASE class: pam_group is deliberately NOT set (the raw did not add it
+# for Ubuntu either). The 'postgres' group owns the raw data; membership
+# bypasses every SQL GRANT. Apply-time opt-in documented in ops §3.
+
+declarative_access_folders_modify:
+  # REVIEW-CHANGE: narrowed from the raw's '/etc/postgresql' to the cluster
+  # config dir only. Debian splits config out of the data dir, so this write
+  # ACL (+ default ACL for new conf.d drop-ins) grants config edits without
+  # reaching /var/lib/postgresql/18/main. Config files here are
+  # postgres:postgres — the ACL grants the TEAM, not the service account.
+  # See ops §2.
+  - '/etc/postgresql/18/main'
+  # REVIEW-DROP: '/etc/postgresql-common' — root:root postgresql-common
+  # package tooling (pg_upgradecluster.d, the logrotate fragment, pg_ctl
+  # defaults); system tooling, not team config.
+  # REVIEW-DROP: '/var/lib/postgresql' — the data-dir root; it contains the
+  # 0700 18/main data dir. NEVER grant the data dir (DB class).
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default. Debian's
+  # cluster logs to /var/log/postgresql/postgresql-18-main.log — grant read.
+  # See ops §10 for the log_file_mode / logrotate mask caveat.
+  - '/var/log/postgresql'
+
+declarative_access_ownership:
+  # REVIEW-KEEP: install-time config-tree ownership; an assertion, not an ACL.
+  - {path: '/etc/postgresql', owner: 'postgres', group: 'postgres', mode: '0755'}
+  # REVIEW-KEEP: install-time data-root ownership; grants nothing. The 0700
+  # 18/main data dir beneath it is untouched and stays out of every grant.
+  - {path: '/var/lib/postgresql', owner: 'postgres', group: 'postgres', mode: '0755'}

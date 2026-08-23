@@ -1,0 +1,62 @@
+---
+# declarative-access-profiles :: nginx on amazonlinux-2023
+#
+# PROVENANCE
+#   footprint : footprints/amazonlinux-2023/footprint-nginx.json
+#               (schema 1.0, captured 2026-08-23 on the Amazon Linux 2023 KVM
+#               golden image, SELinux permissive — the AL2023 default;
+#               treadmark 0.11.0)
+#   raw       : ./amazonlinux-2023-raw.yml (diff against this file = the review)
+#   docs      : ../../docs/apps/nginx/ops.md  (review reasoning, §2)
+#
+# Reviewed result is IDENTICAL to almalinux-9 as of this capture — the raw
+# grant set is byte-identical (same EL package layout, same nginx account,
+# same /var/lib/nginx state dir). AL2023's extra dependency payload
+# (gperftools-libs) adds libraries only, no grants.
+#
+# ACCESS MODEL: webserver — pam_group into the service group (identity/read
+# baseline) + setgid content dir (write via group) + config write ACL +
+# log read ACL. Read-only-units profile: no unit-file write anywhere.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/nginx/amazonlinux-2023-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
+
+declarative_access_profile_name: 'nginx'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'nginx'
+
+# REVIEW-DROP: declarative_access_files_modify [/lib, /usr/lib .../nginx.service]
+# — vendor unit files; a write ACL on a unit file is root-equivalent for that
+# unit (ExecStart + granted daemon-reload/restart). Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-ADD: webserver class — pam_group puts the team into the
+  # install-created 'nginx' group at SSH login (read/traverse baseline and
+  # the group that owns the content dir below).
+  - 'nginx'
+
+declarative_access_folders_modify:
+  - '/etc/nginx'
+  # REVIEW-DROP: '/etc/systemd/system/nginx.service.d' — unit drop-in dir;
+  # root-equivalent with the granted daemon-reload + restart.
+  # REVIEW-DROP: '/var/lib/nginx' — nginx's own runtime cache; the service
+  # writes here, the team does not. Install-time state kept via ownership.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; log read is
+  # still wanted (ACL + default ACL keeps rotated files readable).
+  - '/var/log/nginx'
+
+declarative_access_ownership:
+  - {path: '/var/lib/nginx', owner: 'nginx', group: 'root', mode: '0770'}
+  # REVIEW-ADD: content dir — group-owned + setgid so the team (in 'nginx'
+  # via pam_group) writes content and new files inherit the group. The one
+  # intentional deviation from vendor permissions; accept-list for rpm -V.
+  - {path: '/usr/share/nginx/html', owner: 'root', group: 'nginx', mode: '2775'}

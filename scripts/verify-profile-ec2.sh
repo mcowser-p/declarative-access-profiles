@@ -4,13 +4,17 @@
 # The real OS carries authselect + SELinux enforcing + real sshd+PAM, so the
 # behavioral pam_group login is genuine — the point of using AMIs.
 #
+# LEGACY: verify-profile-kvm.sh on holy-qcow images is the authoritative
+# path now; this AWS driver is kept as a fallback and only knows the
+# original three distros.
+#
 # Usage:
 #   scripts/verify-profile-ec2.sh --dry-run
 #   scripts/verify-profile-ec2.sh sweep [--hours N]
 #   scripts/verify-profile-ec2.sh [distro ...]        # default: all distros
 #   scripts/verify-profile-ec2.sh --app <app> [distro ...]   # one app only
 # Env:
-#   ACCESS_SRC (required) — ansible-declarative-access checkout (feat branch).
+#   ACCESS_SRC (required) — ansible-declarative-access checkout (main).
 #   AWS_REGION (us-west-2), DAP_ITYPE (t3.small), DAP_MAX_MINUTES (30)
 #
 # Writes results to out/verify/<distro>.log; on success stamps the profile's

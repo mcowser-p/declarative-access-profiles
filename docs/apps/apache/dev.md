@@ -1,12 +1,15 @@
 # Apache HTTP Server — your life after lockdown
 
-You deployed Apache (`httpd` on EL, `apache2` on Ubuntu); you're now in
-`<hostname>-app_restricted`. This page is everything you can still do, and
-how. What ops decided and why is in the [ops runbook](ops.md); your grants
-come from the reviewed profile for your distro
+You deployed Apache (`httpd` on the EL family — AlmaLinux and Amazon Linux
+2023 — `apache2` on Ubuntu); you're now in `<hostname>-app_restricted`. This
+page is everything you can still do, and how. What ops decided and why is in
+the [ops runbook](ops.md); your grants come from the reviewed profile for
+your distro
 ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/ubuntu-24.04-access.yml)).
+[al2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/amazonlinux-2023-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/ubuntu-26.04-access.yml)).
 
 ## 0. First command: `sudo -l`
 
@@ -42,6 +45,11 @@ changes — Apache's reload is a **graceful** restart (`apachectl graceful`):
 workers finish in-flight requests and new config is picked up without
 dropping connections. `restart` drops them; use it only when a module load
 or a change reload can't apply requires it.
+
+Ubuntu 26.04 spelling trap: the package also installs `httpd.service` as a
+**compat alias symlink** of `apache2.service`. The grant is spelled
+`apache2` — `sudo systemctl reload httpd` is a different command string and
+will be **denied**. Same unit, one granted name.
 
 `daemon-reload` is in your list because unit changes need it; it is
 host-global by design — running it is harmless but re-reads *every* unit's
@@ -181,19 +189,22 @@ not something you broke.
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / unit | `httpd` / `httpd.service` | `httpd` / `httpd.service` | `apache2` / `apache2.service` |
-| Service account:group | `apache:apache` | `apache:apache` | `www-data:www-data` |
-| Config root | `/etc/httpd` (+`conf.d` drop-ins) | `/etc/httpd` (+`conf.d`) | `/etc/apache2` (`sites-available` + `sites-enabled` symlink model) |
-| Drop-in dir | `/etc/httpd/conf.d/*.conf` | `/etc/httpd/conf.d/*.conf` | `/etc/apache2/{sites,conf}-available` + enable symlink |
-| Content root | `/var/www/html` | `/var/www/html` | `/var/www/html` |
-| Log dir | `/var/log/httpd` | `/var/log/httpd` | `/var/log/apache2` |
-| Validator | `apachectl configtest` / `httpd -t` | `apachectl configtest` / `httpd -t` | `apache2ctl configtest` |
-| TLS config | `/etc/httpd/conf.d/ssl.conf` (needs `mod_ssl` pkg) | same | `mods-available/ssl.conf` (`a2enmod ssl`) + vhost |
-| TLS paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` (`ssl-cert` group) |
-| suexec (privileged CGI) | present (`/usr/sbin/suexec`) | present | **N/A on ubuntu 24.04 — `apache2-suexec-*` not installed by default** |
-| pam_group group | `apache` | `apache` | `www-data` (shared with other Debian web services — see the profile's REVIEW-KEEP) |
+Amazon Linux 2023 (`al2023`) is the EL shape throughout — same package,
+units, account, and paths as alma9/10.
+
+| | alma9 | alma10 | al2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package / unit | `httpd` / `httpd.service` | `httpd` / `httpd.service` | `httpd` / `httpd.service` | `apache2` / `apache2.service` | `apache2` / `apache2.service` (+ `httpd.service` compat alias symlink — the grant is spelled `apache2`, see §2) |
+| Service account:group | `apache:apache` | `apache:apache` | `apache:apache` | `www-data:www-data` | `www-data:www-data` |
+| Config root | `/etc/httpd` (+`conf.d` drop-ins) | `/etc/httpd` (+`conf.d`) | `/etc/httpd` (+`conf.d`) | `/etc/apache2` (`sites-available` + `sites-enabled` symlink model) | `/etc/apache2` (same symlink model) |
+| Drop-in dir | `/etc/httpd/conf.d/*.conf` | `/etc/httpd/conf.d/*.conf` | `/etc/httpd/conf.d/*.conf` | `/etc/apache2/{sites,conf}-available` + enable symlink | `/etc/apache2/{sites,conf}-available` + enable symlink |
+| Content root | `/var/www/html` | `/var/www/html` | `/var/www/html` | `/var/www/html` | `/var/www/html` |
+| Log dir | `/var/log/httpd` | `/var/log/httpd` | `/var/log/httpd` | `/var/log/apache2` | `/var/log/apache2` |
+| Validator | `apachectl configtest` / `httpd -t` | `apachectl configtest` / `httpd -t` | `apachectl configtest` / `httpd -t` | `apache2ctl configtest` | `apache2ctl configtest` |
+| TLS config | `/etc/httpd/conf.d/ssl.conf` (needs `mod_ssl` pkg) | same | same | `mods-available/ssl.conf` (`a2enmod ssl`) + vhost | same as 24.04 |
+| TLS paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` (`ssl-cert` group) | `/etc/ssl/{certs,private}` (`ssl-cert` group) |
+| suexec (privileged CGI) | present (`/usr/sbin/suexec`) | present | present (same file-capability xattr — [ops §11](ops.md)) | **N/A on ubuntu 24.04 — `apache2-suexec-*` not installed by default** | **N/A on ubuntu 26.04 — same** |
+| pam_group group | `apache` | `apache` | `apache` | `www-data` (shared with other Debian web services — see the profile's REVIEW-KEEP) | `www-data` (same caveat) |
 
 ## 9. Cheat sheet
 

@@ -1,0 +1,4391 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-23T21:35:33.667761+00:00",
+  "application": "php8.5-fpm",
+  "host": "dap-ubuntu2604",
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
+    "db_sha256": "6f2f51e65518934aca7f6a77aaf75723d4b4d21b6ccee6d56f02f3fda2b70723",
+    "created_at": "2026-08-23T21:34:49.082252+00:00",
+    "source_host": "dap-ubuntu2604",
+    "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
+  },
+  "summary": {
+    "files_added": 285,
+    "files_modified": 34,
+    "files_deleted": 0,
+    "systemd_units": 8,
+    "quadlets": 0,
+    "cron_jobs": 1,
+    "users_added": 0,
+    "groups_added": 0,
+    "membership_changes": 0,
+    "sudo_rules": 0,
+    "executables": 21,
+    "risks": 5,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [],
+    "groups_added": [],
+    "membership_changes": []
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "php8.5-fpm.service",
+        "path": "/etc/systemd/system/multi-user.target.wants/php8.5-fpm.service",
+        "unit_type": "service",
+        "description": "The PHP 8.5 FastCGI Process Manager",
+        "exec_start": [
+          "/usr/sbin/php-fpm8.5 --nodaemonize --fpm-config /etc/php/8.5/fpm/php-fpm.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:php-fpm8.5(8)"
+          ],
+          "Unit.After": [
+            "network.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecStartPost": [
+            "-/usr/lib/php/php-fpm-socket-helper install /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecStopPost": [
+            "-/usr/lib/php/php-fpm-socket-helper remove /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecReload": [
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.Restart": [
+            "on-failure"
+          ]
+        }
+      },
+      {
+        "name": "phpsessionclean.timer",
+        "path": "/etc/systemd/system/timers.target.wants/phpsessionclean.timer",
+        "unit_type": "timer",
+        "description": "Clean PHP session files every 30 mins",
+        "exec_start": [],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "timers.target"
+        ],
+        "on_calendar": [
+          "*-*-* *:09,39:00"
+        ],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": true,
+        "activates": "phpsessionclean.service",
+        "other_directives": {}
+      },
+      {
+        "name": "phpsessionclean.service",
+        "path": "/usr/lib/systemd/system/phpsessionclean.service",
+        "unit_type": "service",
+        "description": "Clean php session files",
+        "exec_start": [
+          "/usr/lib/php/sessionclean"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "true",
+        "protect_home": "true",
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Service.Type": [
+            "oneshot"
+          ]
+        }
+      },
+      {
+        "name": "php8.5-fpm.service",
+        "path": "/usr/lib/systemd/system/php8.5-fpm.service",
+        "unit_type": "service",
+        "description": "The PHP 8.5 FastCGI Process Manager",
+        "exec_start": [
+          "/usr/sbin/php-fpm8.5 --nodaemonize --fpm-config /etc/php/8.5/fpm/php-fpm.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:php-fpm8.5(8)"
+          ],
+          "Unit.After": [
+            "network.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecStartPost": [
+            "-/usr/lib/php/php-fpm-socket-helper install /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecStopPost": [
+            "-/usr/lib/php/php-fpm-socket-helper remove /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecReload": [
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.Restart": [
+            "on-failure"
+          ]
+        }
+      },
+      {
+        "name": "phpsessionclean.timer",
+        "path": "/usr/lib/systemd/system/phpsessionclean.timer",
+        "unit_type": "timer",
+        "description": "Clean PHP session files every 30 mins",
+        "exec_start": [],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "timers.target"
+        ],
+        "on_calendar": [
+          "*-*-* *:09,39:00"
+        ],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": true,
+        "activates": "phpsessionclean.service",
+        "other_directives": {}
+      },
+      {
+        "name": "phpsessionclean.service",
+        "path": "/lib/systemd/system/phpsessionclean.service",
+        "unit_type": "service",
+        "description": "Clean php session files",
+        "exec_start": [
+          "/usr/lib/php/sessionclean"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": "true",
+        "protect_home": "true",
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Service.Type": [
+            "oneshot"
+          ]
+        }
+      },
+      {
+        "name": "php8.5-fpm.service",
+        "path": "/lib/systemd/system/php8.5-fpm.service",
+        "unit_type": "service",
+        "description": "The PHP 8.5 FastCGI Process Manager",
+        "exec_start": [
+          "/usr/sbin/php-fpm8.5 --nodaemonize --fpm-config /etc/php/8.5/fpm/php-fpm.conf"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.Documentation": [
+            "man:php-fpm8.5(8)"
+          ],
+          "Unit.After": [
+            "network.target"
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.ExecStartPost": [
+            "-/usr/lib/php/php-fpm-socket-helper install /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecStopPost": [
+            "-/usr/lib/php/php-fpm-socket-helper remove /run/php/php-fpm.sock /etc/php/8.5/fpm/pool.d/www.conf 85"
+          ],
+          "Service.ExecReload": [
+            "/bin/kill -USR2 $MAINPID"
+          ],
+          "Service.Restart": [
+            "on-failure"
+          ]
+        }
+      },
+      {
+        "name": "phpsessionclean.timer",
+        "path": "/lib/systemd/system/phpsessionclean.timer",
+        "unit_type": "timer",
+        "description": "Clean PHP session files every 30 mins",
+        "exec_start": [],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "timers.target"
+        ],
+        "on_calendar": [
+          "*-*-* *:09,39:00"
+        ],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": true,
+        "activates": "phpsessionclean.service",
+        "other_directives": {}
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": [
+      {
+        "source_path": "/etc/cron.d/php",
+        "kind": "cron_d",
+        "schedule": "09,39 * * * *",
+        "run_as": "root",
+        "command": "[ -x /usr/lib/php/sessionclean ] && if [ ! -d /run/systemd/system ]; then /usr/lib/php/sessionclean; fi",
+        "raw_line": "09,39 *     * * *     root   [ -x /usr/lib/php/sessionclean ] && if [ ! -d /run/systemd/system ]; then /usr/lib/php/sessionclean; fi"
+      }
+    ]
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/php8.5-fpm",
+      "category": "logrotate",
+      "change": "added"
+    },
+    {
+      "path": "/etc/init.d/php8.5-fpm",
+      "category": "init_script",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/tmpfiles.d/php8.5-fpm.conf",
+      "category": "tmpfiles",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/etc/init.d/php8.5-fpm",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/phar8.5.phar",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/php8.5",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/phpenmod",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/phpquery",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/php-fpm8.5",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/phar8.5.phar",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/php8.5",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/phpenmod",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/phpquery",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/php-fpm8.5",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib/php/sessionclean",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib/php/php8.5-fpm-reopenlogs",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib/php/php-fpm-socket-helper",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib/php/sessionclean",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib/php/php8.5-fpm-reopenlogs",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib/php/php-fpm-socket-helper",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/bug/php8.5-fpm/script",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/bug/php8.5-common/script",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/bug/php8.5-cli/script",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/share/bug/php8.5-readline/script",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "config": [
+        {
+          "path": "/etc/php",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/mods-available",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/posix.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "e1a5a7c827fc17ff94cf87beed916be62d6b025346b4a274adb8d835785109b0"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/ftp.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "464d61d9d251d63efb02af8698c21125962a18992470080bf8929770292302f9"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/iconv.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "922d70e6a207418f4bf87c4dda8685cd19c278c50cf1332b0a11a33e7c32d893"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/fileinfo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 74,
+          "sha256": "c8a2d1dd0161a50e0ddd031f0abc7a5acfe8559f5ec18423e567f519c456dfcc"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/pdo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "b072d1e70a5173af7e968b4abf908e017f5f8675d30dda36ea7443dc410d2e5d"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/phar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70,
+          "sha256": "fd62472e0bf8b260ed712068086a2a55b9dd71bf13b1f0e07897eeea3bf723e2"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/calendar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 74,
+          "sha256": "0fbe835f25a303eb942760930f734275c2a5e60049835b0d9bd9f97c9b996d7d"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/sockets.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "eb31eeb6aeb34f31c1c695dbac0c9a69f909874f01341679382da0646641318c"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/sysvshm.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "4218981bb40ed218b01846cbdc85b436133859b2b051f740f992db14a702b2fc"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/sysvmsg.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "ab104d16fcb223c3fff2af1880490f879e940561732d66571f69a15d498321d8"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/readline.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 76,
+          "sha256": "fa6d93d1de1704dd7b40708204dec039308bd867d549c4cf4aef597d40d4394f"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/ffi.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "005d8a46015f79bc5e03e393e7c455eeb675e456515740537317235fa12458f9"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/tokenizer.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 75,
+          "sha256": "5915e8a8256d4ba7b8b021ce1bcb9456ae86cd98e1100b6b57e098ccf169e6a9"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/exif.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70,
+          "sha256": "e7bbc905937019e082d5ad1dd6482b3bb9eaebc47c3939066e5099c1b7b5e9f5"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/sysvsem.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "2f7f5db8fddca372e034f3c7bb34f5abd861621fa5282bd0808bd320e2867e85"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/shmop.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "134aafee92de1f650b7eb500cd6336bd33149bdd3fab4fba939894fc7ffc8193"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/gettext.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "f502d4781c78fff2b7db83e1f37db6c8bb4648ec0d2ce00decdc079a9b551738"
+        },
+        {
+          "path": "/etc/php/8.5/mods-available/ctype.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "05e736f9509116eec00fe4fa1b4e0fea51a2fb311262cd46a35ea1f177eb9ff9"
+        },
+        {
+          "path": "/etc/php/8.5/fpm",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/php.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70628,
+          "sha256": "689d61bcb1fdbe1abb0a38cc30df7cfd2c274e419ef13f1b163a76e596d2bcf0"
+        },
+        {
+          "path": "/etc/php/8.5/fpm/php-fpm.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5427,
+          "sha256": "6fee12a0ca2a7b9e9e875d591bc1a6394e5682ce30cad8b4ce34e76be849e19b"
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-shmop.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-sysvshm.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-phar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-sysvmsg.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-exif.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-ctype.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-tokenizer.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 41,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-sysvsem.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/10-pdo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-fileinfo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-iconv.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-sockets.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-ftp.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-gettext.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-ffi.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-calendar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-readline.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/conf.d/20-posix.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/pool.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/fpm/pool.d/www.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22110,
+          "sha256": "43cce654a64ec79ca184754406e6be733ba6bb43cb20a7e80ea0b3047b7c7dc8"
+        },
+        {
+          "path": "/etc/php/8.5/cli",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/php.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70624,
+          "sha256": "0217f6cd449eff88b8db04e48dee4f341d059f00d8a904a706b4ef0a99fc413d"
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-shmop.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-sysvshm.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-phar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-sysvmsg.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-exif.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-ctype.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-tokenizer.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 41,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-sysvsem.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/10-pdo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-fileinfo.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-iconv.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-sockets.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-ftp.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-gettext.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 39,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-ffi.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 35,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-calendar.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-readline.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/etc/php/8.5/cli/conf.d/20-posix.ini",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 37,
+          "sha256": null
+        },
+        {
+          "path": "/etc/apache2/conf-available/php8.5-fpm.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1426,
+          "sha256": "b1bbbe85c726cdf7047e9b87ada759300645a4c30735c3ea64282adb18dd4ed0"
+        },
+        {
+          "path": "/etc/alternatives/php",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/alternatives/php-fpm.sock",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 24,
+          "sha256": null
+        },
+        {
+          "path": "/etc/alternatives/phar",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 16,
+          "sha256": null
+        },
+        {
+          "path": "/etc/alternatives/phar.phar",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc5.d/S01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc0.d/K01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc2.d/S01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc1.d/K01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc3.d/S01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc6.d/K01php8.5-fpm",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/etc/systemd/system/multi-user.target.wants/php8.5-fpm.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": null
+        },
+        {
+          "path": "/etc/systemd/system/timers.target.wants/phpsessionclean.timer",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 45,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/phpsessionclean.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 155,
+          "sha256": "949d6a1eaba44bdce1b1f866cd76ce85e894098c3a6e8b7b10144da2331ae63d"
+        },
+        {
+          "path": "/usr/lib/systemd/system/php8.5-fpm.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 542,
+          "sha256": "1d1160c044bbbc0dfd1ce36bb5feb1accd95d045f54c42cc39400d15f9d4a81e"
+        },
+        {
+          "path": "/usr/lib/systemd/system/phpsessionclean.timer",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 144,
+          "sha256": "9fb4a1ad365956a5e6aed6b3c88c5c0cbb3ca8e8fa07b748b5ce73675afa054d"
+        },
+        {
+          "path": "/lib/systemd/system/phpsessionclean.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 155,
+          "sha256": "949d6a1eaba44bdce1b1f866cd76ce85e894098c3a6e8b7b10144da2331ae63d"
+        },
+        {
+          "path": "/lib/systemd/system/php8.5-fpm.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 542,
+          "sha256": "1d1160c044bbbc0dfd1ce36bb5feb1accd95d045f54c42cc39400d15f9d4a81e"
+        },
+        {
+          "path": "/lib/systemd/system/phpsessionclean.timer",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 144,
+          "sha256": "9fb4a1ad365956a5e6aed6b3c88c5c0cbb3ca8e8fa07b748b5ce73675afa054d"
+        }
+      ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/php8.5-fpm",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 215,
+          "sha256": "ec27cdc5eecfac27afaad672aa1facc92d1be7be09f26b7931dc81c7a43136ad"
+        }
+      ],
+      "cron_d": [
+        {
+          "path": "/etc/cron.d/php",
+          "category": "cron_d",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 712,
+          "sha256": "cde3e914bfaf28862ca4a00bdf972a7ebe57676c895df86e7a5f105fb59155c7"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/php8.5-fpm",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4294,
+          "sha256": "a61ad781caa6531c267e985e589d526c8eb9fb94409d8dade87f8e8610f823f1"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/phar.phar8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/bin/phar8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/bin/php",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/bin/phar8.5.phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15252,
+          "sha256": "e6aab62ec501cdf7c282e3d656834973be0d328de70c70a9b730588a6c6432ad"
+        },
+        {
+          "path": "/bin/phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/bin/phar.phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/bin/php8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 12183176,
+          "sha256": "9962dfda7edf70d781fe10752cd6afec3c26529ee93db3c5aee7490786be2baf"
+        },
+        {
+          "path": "/sbin/phpenmod",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 7278,
+          "sha256": "6387761716172daa06f6732fcc41997ee640ec7c2c4da6907ac62d9153983986"
+        },
+        {
+          "path": "/sbin/phpquery",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6389,
+          "sha256": "0e9daa717d1af9b4e069c1976e0aad9cb07141b26b7b9a680009fe322e1e0c89"
+        },
+        {
+          "path": "/sbin/php-fpm8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 12163072,
+          "sha256": "7a2b72869594e17a009bc167c47b91632e5e8bf8221516fd9aefd19213b88c3a"
+        },
+        {
+          "path": "/sbin/phpdismod",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 8,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/phar.phar8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/phar8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 12,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/php",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/phar8.5.phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15252,
+          "sha256": "e6aab62ec501cdf7c282e3d656834973be0d328de70c70a9b730588a6c6432ad"
+        },
+        {
+          "path": "/usr/bin/phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/phar.phar",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/php8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 12183176,
+          "sha256": "9962dfda7edf70d781fe10752cd6afec3c26529ee93db3c5aee7490786be2baf"
+        },
+        {
+          "path": "/usr/sbin/phpenmod",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 7278,
+          "sha256": "6387761716172daa06f6732fcc41997ee640ec7c2c4da6907ac62d9153983986"
+        },
+        {
+          "path": "/usr/sbin/phpquery",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6389,
+          "sha256": "0e9daa717d1af9b4e069c1976e0aad9cb07141b26b7b9a680009fe322e1e0c89"
+        },
+        {
+          "path": "/usr/sbin/php-fpm8.5",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 12163072,
+          "sha256": "7a2b72869594e17a009bc167c47b91632e5e8bf8221516fd9aefd19213b88c3a"
+        },
+        {
+          "path": "/usr/sbin/phpdismod",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 8,
+          "sha256": null
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/php",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/php/php-maintscript-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9217,
+          "sha256": "9a6e7736ba7f69bcbc7fb57bffe1db599b0786d0da03d9b52ccdbae436169dfa"
+        },
+        {
+          "path": "/usr/lib/php/sessionclean",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2976,
+          "sha256": "872504901353a3d8291c0980b43e8490580c7aa62ce7607983436a4d9c767649"
+        },
+        {
+          "path": "/usr/lib/php/php-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 4845,
+          "sha256": "72445eb0e4d94093f9f5b78038370b01741222cb7498f15ccb5cf8d476dbd83a"
+        },
+        {
+          "path": "/usr/lib/php/php8.5-fpm-reopenlogs",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 309,
+          "sha256": "7931645f13079d4db15d1af57524e37c184d282e0fa38ecf3c45e1e222088fdb"
+        },
+        {
+          "path": "/usr/lib/php/php-fpm-socket-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 514,
+          "sha256": "b4fc5477b325153c765cfc9fdcfb8a185d9582626bfcda06a4d4f8e1b8e9a6d6"
+        },
+        {
+          "path": "/usr/lib/php/20250925",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/php/20250925/ftp.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 72024,
+          "sha256": "f5e2e074b4b0d8a0bed37968142d272faafef2efa52e51a1e3ff6665244ba259"
+        },
+        {
+          "path": "/usr/lib/php/20250925/calendar.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 43352,
+          "sha256": "5dab711c2c3c227f8f5a6c2b5047962f7ff8699e0b6e54de3b150bc0a50c5901"
+        },
+        {
+          "path": "/usr/lib/php/20250925/sysvsem.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14680,
+          "sha256": "b319785acea7ab7ef1361d2f39fa756f98a04ff050af15bd1ad1357e25b39331"
+        },
+        {
+          "path": "/usr/lib/php/20250925/iconv.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 55640,
+          "sha256": "20d60897abc273a18b79d95ca354781146698ccccbc2b0856d93cdb2d34fba91"
+        },
+        {
+          "path": "/usr/lib/php/20250925/tokenizer.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 35160,
+          "sha256": "7604299fc80e816b8578114c8b66f1934efc92c9fd39bee4d8b1829d8ecb30cb"
+        },
+        {
+          "path": "/usr/lib/php/20250925/shmop.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18776,
+          "sha256": "16bebbe45e79734883cc90fabded018dfd55c81092fb766220d7a52388a3835c"
+        },
+        {
+          "path": "/usr/lib/php/20250925/gettext.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "003dd076257d93048f50002c36a999e7d4c1b7283d6ff582d2e223da9d2e43f5"
+        },
+        {
+          "path": "/usr/lib/php/20250925/readline.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 39256,
+          "sha256": "e0bac98472c9d85880a9031a924e98af1dec7ddb983f70ed1220e617dc60fd92"
+        },
+        {
+          "path": "/usr/lib/php/20250925/sysvshm.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "4693d750e4374579b39eaecccb37b44ffa5f5705ddfde1e537e0bae2dfc148c1"
+        },
+        {
+          "path": "/usr/lib/php/20250925/sysvmsg.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "f680734cfa6185ecd17a9d5d2e5c007a4a22109ba5b4a5014f4661b5ca17d765"
+        },
+        {
+          "path": "/usr/lib/php/20250925/posix.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 47448,
+          "sha256": "ebeef9dd0391ccb5d6585824f616d2bd849d5d3422fea692ece23edf97caf862"
+        },
+        {
+          "path": "/usr/lib/php/20250925/pdo.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 137560,
+          "sha256": "a8b773a3eb36e4d5e22ce3a9d878c84c178fd5cb9d0a92ffefc6f00fb7970cd9"
+        },
+        {
+          "path": "/usr/lib/php/20250925/ctype.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14680,
+          "sha256": "feb1f3de8b9b7f25612889ca3817a967e1baf66834546ce48587cdd687e8ae12"
+        },
+        {
+          "path": "/usr/lib/php/20250925/exif.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 100696,
+          "sha256": "b3a1e15d71f661a4e8efb9e0199945230fadbe922cd821c1d65165ba783cb150"
+        },
+        {
+          "path": "/usr/lib/php/20250925/sockets.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 121176,
+          "sha256": "62c22061a6b431a4ceb9e8bb3d8efd660595edfaa0abd7893ac0ec47adc26e22"
+        },
+        {
+          "path": "/usr/lib/php/20250925/fileinfo.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10500440,
+          "sha256": "1092068b59d69d5179fbed23726cd7413d359b7a0e99fb2d93c17259c100309f"
+        },
+        {
+          "path": "/usr/lib/php/20250925/ffi.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 186712,
+          "sha256": "8aadbc419f41373123e332d45fada5a48a1681d3cb2bec5a177fb389fd252570"
+        },
+        {
+          "path": "/usr/lib/php/20250925/phar.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 297304,
+          "sha256": "8218550e5894293cb87b732c62f66ab50950732803f766dcb7c3b3ed37871969"
+        },
+        {
+          "path": "/usr/lib/php/8.5",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/php/8.5/php.ini-development",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70747,
+          "sha256": "63a7312cbbec629c08096513e7d91f0e2984c9e9e2e64832a1aad310d00f4f43"
+        },
+        {
+          "path": "/usr/lib/php/8.5/php.ini-production.cli",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70624,
+          "sha256": "0217f6cd449eff88b8db04e48dee4f341d059f00d8a904a706b4ef0a99fc413d"
+        },
+        {
+          "path": "/usr/lib/php/8.5/php.ini-production",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70628,
+          "sha256": "689d61bcb1fdbe1abb0a38cc30df7cfd2c274e419ef13f1b163a76e596d2bcf0"
+        },
+        {
+          "path": "/usr/lib/php/8.5/sapi",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/php/8.5/sapi/fpm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/usr/lib/php/8.5/sapi/cli",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libargon2.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 34888,
+          "sha256": "d79add76456f3424c13ae06f0a20f02601ef82eddb2ac0576626e115eb9e05d7"
+        },
+        {
+          "path": "/lib/php",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/php/php-maintscript-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9217,
+          "sha256": "9a6e7736ba7f69bcbc7fb57bffe1db599b0786d0da03d9b52ccdbae436169dfa"
+        },
+        {
+          "path": "/lib/php/sessionclean",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2976,
+          "sha256": "872504901353a3d8291c0980b43e8490580c7aa62ce7607983436a4d9c767649"
+        },
+        {
+          "path": "/lib/php/php-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 4845,
+          "sha256": "72445eb0e4d94093f9f5b78038370b01741222cb7498f15ccb5cf8d476dbd83a"
+        },
+        {
+          "path": "/lib/php/php8.5-fpm-reopenlogs",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 309,
+          "sha256": "7931645f13079d4db15d1af57524e37c184d282e0fa38ecf3c45e1e222088fdb"
+        },
+        {
+          "path": "/lib/php/php-fpm-socket-helper",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 514,
+          "sha256": "b4fc5477b325153c765cfc9fdcfb8a185d9582626bfcda06a4d4f8e1b8e9a6d6"
+        },
+        {
+          "path": "/lib/php/20250925",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/php/20250925/ftp.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 72024,
+          "sha256": "f5e2e074b4b0d8a0bed37968142d272faafef2efa52e51a1e3ff6665244ba259"
+        },
+        {
+          "path": "/lib/php/20250925/calendar.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 43352,
+          "sha256": "5dab711c2c3c227f8f5a6c2b5047962f7ff8699e0b6e54de3b150bc0a50c5901"
+        },
+        {
+          "path": "/lib/php/20250925/sysvsem.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14680,
+          "sha256": "b319785acea7ab7ef1361d2f39fa756f98a04ff050af15bd1ad1357e25b39331"
+        },
+        {
+          "path": "/lib/php/20250925/iconv.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 55640,
+          "sha256": "20d60897abc273a18b79d95ca354781146698ccccbc2b0856d93cdb2d34fba91"
+        },
+        {
+          "path": "/lib/php/20250925/tokenizer.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 35160,
+          "sha256": "7604299fc80e816b8578114c8b66f1934efc92c9fd39bee4d8b1829d8ecb30cb"
+        },
+        {
+          "path": "/lib/php/20250925/shmop.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18776,
+          "sha256": "16bebbe45e79734883cc90fabded018dfd55c81092fb766220d7a52388a3835c"
+        },
+        {
+          "path": "/lib/php/20250925/gettext.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "003dd076257d93048f50002c36a999e7d4c1b7283d6ff582d2e223da9d2e43f5"
+        },
+        {
+          "path": "/lib/php/20250925/readline.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 39256,
+          "sha256": "e0bac98472c9d85880a9031a924e98af1dec7ddb983f70ed1220e617dc60fd92"
+        },
+        {
+          "path": "/lib/php/20250925/sysvshm.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "4693d750e4374579b39eaecccb37b44ffa5f5705ddfde1e537e0bae2dfc148c1"
+        },
+        {
+          "path": "/lib/php/20250925/sysvmsg.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22872,
+          "sha256": "f680734cfa6185ecd17a9d5d2e5c007a4a22109ba5b4a5014f4661b5ca17d765"
+        },
+        {
+          "path": "/lib/php/20250925/posix.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 47448,
+          "sha256": "ebeef9dd0391ccb5d6585824f616d2bd849d5d3422fea692ece23edf97caf862"
+        },
+        {
+          "path": "/lib/php/20250925/pdo.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 137560,
+          "sha256": "a8b773a3eb36e4d5e22ce3a9d878c84c178fd5cb9d0a92ffefc6f00fb7970cd9"
+        },
+        {
+          "path": "/lib/php/20250925/ctype.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14680,
+          "sha256": "feb1f3de8b9b7f25612889ca3817a967e1baf66834546ce48587cdd687e8ae12"
+        },
+        {
+          "path": "/lib/php/20250925/exif.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 100696,
+          "sha256": "b3a1e15d71f661a4e8efb9e0199945230fadbe922cd821c1d65165ba783cb150"
+        },
+        {
+          "path": "/lib/php/20250925/sockets.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 121176,
+          "sha256": "62c22061a6b431a4ceb9e8bb3d8efd660595edfaa0abd7893ac0ec47adc26e22"
+        },
+        {
+          "path": "/lib/php/20250925/fileinfo.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10500440,
+          "sha256": "1092068b59d69d5179fbed23726cd7413d359b7a0e99fb2d93c17259c100309f"
+        },
+        {
+          "path": "/lib/php/20250925/ffi.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 186712,
+          "sha256": "8aadbc419f41373123e332d45fada5a48a1681d3cb2bec5a177fb389fd252570"
+        },
+        {
+          "path": "/lib/php/20250925/phar.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 297304,
+          "sha256": "8218550e5894293cb87b732c62f66ab50950732803f766dcb7c3b3ed37871969"
+        },
+        {
+          "path": "/lib/php/8.5",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/php/8.5/php.ini-development",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70747,
+          "sha256": "63a7312cbbec629c08096513e7d91f0e2984c9e9e2e64832a1aad310d00f4f43"
+        },
+        {
+          "path": "/lib/php/8.5/php.ini-production.cli",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70624,
+          "sha256": "0217f6cd449eff88b8db04e48dee4f341d059f00d8a904a706b4ef0a99fc413d"
+        },
+        {
+          "path": "/lib/php/8.5/php.ini-production",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70628,
+          "sha256": "689d61bcb1fdbe1abb0a38cc30df7cfd2c274e419ef13f1b163a76e596d2bcf0"
+        },
+        {
+          "path": "/lib/php/8.5/sapi",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/php/8.5/sapi/fpm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/lib/php/8.5/sapi/cli",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/lib/tmpfiles.d/php8.5-fpm.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 121,
+          "sha256": "eaf6dd6f6089a66215c4cf470a8d47e9e98b137dd144fdf3015ca528bfb7d2ac"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libargon2.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 34888,
+          "sha256": "d79add76456f3424c13ae06f0a20f02601ef82eddb2ac0576626e115eb9e05d7"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/php8.5-fpm.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 121,
+          "sha256": "eaf6dd6f6089a66215c4cf470a8d47e9e98b137dd144fdf3015ca528bfb7d2ac"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/php",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php/8.5",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php/8.5/fpm",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php/8.5/fpm/status.html",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 22250,
+          "sha256": "e198a42dbf19655d9ec3f93ad74f09538b7fe8211ec7d1b5f13bec2f4569ea14"
+        },
+        {
+          "path": "/usr/share/php8.5-common",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php8.5-common/common",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/posix.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "e1a5a7c827fc17ff94cf87beed916be62d6b025346b4a274adb8d835785109b0"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/ftp.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "464d61d9d251d63efb02af8698c21125962a18992470080bf8929770292302f9"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/iconv.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "922d70e6a207418f4bf87c4dda8685cd19c278c50cf1332b0a11a33e7c32d893"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/fileinfo.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 74,
+          "sha256": "c8a2d1dd0161a50e0ddd031f0abc7a5acfe8559f5ec18423e567f519c456dfcc"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/pdo.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "b072d1e70a5173af7e968b4abf908e017f5f8675d30dda36ea7443dc410d2e5d"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/phar.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70,
+          "sha256": "fd62472e0bf8b260ed712068086a2a55b9dd71bf13b1f0e07897eeea3bf723e2"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/calendar.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 74,
+          "sha256": "0fbe835f25a303eb942760930f734275c2a5e60049835b0d9bd9f97c9b996d7d"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/sockets.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "eb31eeb6aeb34f31c1c695dbac0c9a69f909874f01341679382da0646641318c"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/sysvshm.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "4218981bb40ed218b01846cbdc85b436133859b2b051f740f992db14a702b2fc"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/sysvmsg.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "ab104d16fcb223c3fff2af1880490f879e940561732d66571f69a15d498321d8"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/ffi.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 69,
+          "sha256": "005d8a46015f79bc5e03e393e7c455eeb675e456515740537317235fa12458f9"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/tokenizer.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 75,
+          "sha256": "5915e8a8256d4ba7b8b021ce1bcb9456ae86cd98e1100b6b57e098ccf169e6a9"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/exif.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 70,
+          "sha256": "e7bbc905937019e082d5ad1dd6482b3bb9eaebc47c3939066e5099c1b7b5e9f5"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/sysvsem.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "2f7f5db8fddca372e034f3c7bb34f5abd861621fa5282bd0808bd320e2867e85"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/shmop.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "134aafee92de1f650b7eb500cd6336bd33149bdd3fab4fba939894fc7ffc8193"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/gettext.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "f502d4781c78fff2b7db83e1f37db6c8bb4648ec0d2ce00decdc079a9b551738"
+        },
+        {
+          "path": "/usr/share/php8.5-common/common/ctype.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 71,
+          "sha256": "05e736f9509116eec00fe4fa1b4e0fea51a2fb311262cd46a35ea1f177eb9ff9"
+        },
+        {
+          "path": "/usr/share/php8.5-readline",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php8.5-readline/readline",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/php8.5-readline/readline/readline.ini",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 76,
+          "sha256": "fa6d93d1de1704dd7b40708204dec039308bd867d549c4cf4aef597d40d4394f"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/php8.5-fpm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 210,
+          "sha256": "7f710c307e12304cd27c8613f8fdf99b6b867bab269836ac1f15861ab8592504"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/php8.5-common",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 302,
+          "sha256": "5a75fb31933d891fee86fa33ad0a374ca6df01ef039040055454b8520236a757"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/php8.5-cli",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 135,
+          "sha256": "6919ea29b084b26c8badd316156d55af4101ba3619b65767e916e72e920820c8"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/php8.5-readline",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 47,
+          "sha256": "a4b11ca111b33ffb8b036812283bf1a7020c66702feb2a3c97b7475018d0b7ab"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/php-common",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 490,
+          "sha256": "bd6936ecdd5697e2edc0a57deed431c2fad703a42767bb746fa6d18434217e0d"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-fpm",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/bug/php8.5-fpm/control",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": "c8a64e7733ddbad8685a1bb201d89af1455a1a02ba37829952a68db755500487"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-fpm/script",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 598,
+          "sha256": "057743c170e37d2d1a1cda836016b9f0bcc2c45bc05f87db2aca46b55c18b710"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-common",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/bug/php8.5-common/control",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 126,
+          "sha256": "f19b74424428b6c500ee22d1947683b7af4c55eafe0703103d456a67fb20681d"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-common/script",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 669,
+          "sha256": "75b1316860102b96c9d4fabc8d8b3d36bc1495079a1ab7787458986b8a02048f"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-cli",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/bug/php8.5-cli/control",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": "c8a64e7733ddbad8685a1bb201d89af1455a1a02ba37829952a68db755500487"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-cli/script",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 598,
+          "sha256": "7714676051245b052c1d70c4bf2f3388b590e57698b2863bb19ed46c25edfef5"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-readline",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/bug/php8.5-readline/control",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 126,
+          "sha256": "f19b74424428b6c500ee22d1947683b7af4c55eafe0703103d456a67fb20681d"
+        },
+        {
+          "path": "/usr/share/bug/php8.5-readline/script",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 564,
+          "sha256": "791522e5f0fd81ed055787a397f413ae4e24dd51185e5f2ca6025ff01d49993e"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/php",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/sessions",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o1733",
+          "mode_symbolic": "drwx-wx-wt",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/sockets",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/gettext",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/ftp",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/phar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/tokenizer",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/ffi",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/calendar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/ctype",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/shmop",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/fileinfo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/pdo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/iconv",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/sysvshm",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/sysvmsg",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/readline",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/sysvsem",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/posix",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/fpm/enabled_by_maint/exif",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/sockets",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/gettext",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/ftp",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/phar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/tokenizer",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/ffi",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/calendar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/ctype",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/shmop",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/fileinfo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/pdo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/iconv",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/sysvshm",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/sysvmsg",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/readline",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/sysvsem",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/posix",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/registry/exif",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/sockets",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/gettext",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/ftp",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/phar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/tokenizer",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/ffi",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/calendar",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/ctype",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/shmop",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/fileinfo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/pdo",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/iconv",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/sysvshm",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/sysvmsg",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/readline",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/sysvsem",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/posix",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/php/modules/8.5/cli/enabled_by_maint/exif",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/timers.target.wants",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/apache2/conf-available",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/alternatives",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc5.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc2.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc1.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc3.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/cron.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc4.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/sbin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 20480,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 57344,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 57344,
+        "sha256": null
+      },
+      {
+        "path": "/lib/tmpfiles.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/lintian/overrides",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 12288,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/bug",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/ucf",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/update-notifier",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/treadmark",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "php8.5-fpm.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/sbin/php-fpm8.5",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "phpsessionclean.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "true",
+        "protect_home": "true",
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/lib/php/sessionclean",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "php8.5-fpm.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/sbin/php-fpm8.5",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "phpsessionclean.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": "true",
+        "protect_home": "true",
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/lib/php/sessionclean",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "php8.5-fpm.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/sbin/php-fpm8.5",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "cron_job",
+      "unit": "/etc/cron.d/php",
+      "schedule": "09,39 * * * *",
+      "needs": []
+    }
+  ],
+  "group_access": [],
+  "risks": [
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "php8.5-fpm.service has no User= directive; runs as root",
+      "path": "/etc/systemd/system/multi-user.target.wants/php8.5-fpm.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "phpsessionclean.service has no User= directive; runs as root",
+      "path": "/usr/lib/systemd/system/phpsessionclean.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "php8.5-fpm.service has no User= directive; runs as root",
+      "path": "/usr/lib/systemd/system/php8.5-fpm.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "phpsessionclean.service has no User= directive; runs as root",
+      "path": "/lib/systemd/system/phpsessionclean.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "php8.5-fpm.service has no User= directive; runs as root",
+      "path": "/lib/systemd/system/php8.5-fpm.service"
+    }
+  ],
+  "scan_errors": []
+}

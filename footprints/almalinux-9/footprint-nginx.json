@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:01:57.489939+00:00",
+  "generated_at": "2026-08-23T21:31:48.985239+00:00",
   "application": "nginx",
-  "host": "ip-172-31-20-9.us-west-2.compute.internal",
-  "platform": "Linux-5.14.0-687.29.1.el9_8.x86_64-x86_64-with-glibc2.34",
+  "host": "dap-alma9",
+  "platform": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "12f530de796e5df7b76f03458f5284408e15d3efa01a223464f0e62c856dd3f2",
-    "created_at": "2026-08-09T17:01:19.422275+00:00",
-    "source_host": "ip-172-31-20-9.us-west-2.compute.internal",
-    "source_os": "Linux-5.14.0-687.29.1.el9_8.x86_64-x86_64-with-glibc2.34"
+    "db_sha256": "8359449c4c296b6a032cb9185d147f7d0d0e4d880822218b2262c93c6375bc17",
+    "created_at": "2026-08-23T21:31:31.663260+00:00",
+    "source_host": "dap-alma9",
+    "source_os": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34"
   },
   "summary": {
     "files_added": 69,
-    "files_modified": 31,
+    "files_modified": 29,
     "files_deleted": 0,
     "systemd_units": 2,
     "quadlets": 0,
@@ -276,6 +276,19 @@
   ],
   "filesystem": {
     "added_by_category": {
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/nginx",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 261,
+          "sha256": "68b98f5bd1f22ca1fb2322cf9119db76fb4ab9c028522206844215eeec4fdd89"
+        }
+      ],
       "config": [
         {
           "path": "/etc/systemd/system/nginx.service.d",
@@ -487,19 +500,6 @@
           "sha256": null
         }
       ],
-      "logrotate": [
-        {
-          "path": "/etc/logrotate.d/nginx",
-          "category": "logrotate",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 261,
-          "sha256": "68b98f5bd1f22ca1fb2322cf9119db76fb4ab9c028522206844215eeec4fdd89"
-        }
-      ],
       "binary": [
         {
           "path": "/bin/nginx-upgrade",
@@ -544,6 +544,19 @@
           "group": "root",
           "size": 1337744,
           "sha256": "8ee9166e4162451b44318fb7b14794852b7d166a0048333c0422500df176ea2a"
+        }
+      ],
+      "tmpfiles": [
+        {
+          "path": "/usr/lib/tmpfiles.d/nginx.conf",
+          "category": "tmpfiles",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 115,
+          "sha256": "2e25384b39f0f6d20feeb80f4a0548ab1581de4c5501774cb166ba49678631c9"
         }
       ],
       "systemd_unit": [
@@ -616,17 +629,6 @@
           "sha256": null
         },
         {
-          "path": "/lib/systemd/system/nginx.service.d",
-          "category": "library",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 6,
-          "sha256": null
-        },
-        {
           "path": "/lib/tmpfiles.d/nginx.conf",
           "category": "library",
           "is_dir": false,
@@ -636,6 +638,17 @@
           "group": "root",
           "size": 115,
           "sha256": "2e25384b39f0f6d20feeb80f4a0548ab1581de4c5501774cb166ba49678631c9"
+        },
+        {
+          "path": "/lib/systemd/system/nginx.service.d",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
         },
         {
           "path": "/lib/.build-id/0a/9dea702d529b016e23a9e8b017c38fda519c8a",
@@ -680,19 +693,6 @@
           "group": "root",
           "size": 6,
           "sha256": null
-        }
-      ],
-      "tmpfiles": [
-        {
-          "path": "/usr/lib/tmpfiles.d/nginx.conf",
-          "category": "tmpfiles",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 115,
-          "sha256": "2e25384b39f0f6d20feeb80f4a0548ab1581de4c5501774cb166ba49678631c9"
         }
       ],
       "sysusers": [
@@ -1074,52 +1074,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 455,
-        "sha256": "be87ebfd8ecc78dc87c2c11bf61e4e108270c09c47accb30b183bd3ff55f36fe"
-      },
-      {
-        "path": "/etc/group",
-        "category": "group",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 586,
-        "sha256": "40ed1d0f0ac66243da1e2410c009bb22f14653294e1e47cf7bbb336c6d0ffa00"
-      },
-      {
-        "path": "/etc/gshadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o0",
-        "mode_symbolic": "----------",
-        "owner": "root",
-        "group": "root",
-        "size": 465,
-        "sha256": "123bc9d2d08587d41815f4d0bc92b8f4e8b2299e4971f4289dee17a133ef124a"
-      },
-      {
-        "path": "/etc/passwd",
-        "category": "passwd",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 1296,
-        "sha256": "d7cf8995801b0e55a3dec68ab733be434a7c1f85ce306245cd1eba9ec3999804"
-      },
-      {
-        "path": "/etc/shadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o0",
-        "mode_symbolic": "----------",
-        "owner": "root",
-        "group": "root",
-        "size": 662,
-        "sha256": "fb8921fed0a5a0ebff85c4e9dcc7be353ae5d4942fc067c133d28bbe2c6e6752"
+        "size": 448,
+        "sha256": "de855c9552b1d72988335fc47bebe8a622c14c14ae766a29e7ac3eb59087ff74"
       },
       {
         "path": "/etc/group-",
@@ -1129,8 +1085,63 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 573,
-        "sha256": "3a32a956aad41e23ca8c0694b1511d21a240b65bc126fdf63aa1ae9a17363aa8"
+        "size": 570,
+        "sha256": "96969fc7c4f619499797413573225b157c9ea821d9ae5b835a1fe01e2ebd6d97"
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 583,
+        "sha256": "5d4ea5c4fef1f41dbf269e6969883090edb6d9bdc0f36a1982a4e0ec3ba34434"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 458,
+        "sha256": "fa1264e7712175621b808e0f1e1c2dbdad71d196da2bffc894a19329ebc64a03"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1279,
+        "sha256": "94cd223402fa01ed8f1f8a04df111cdd29f7c15502ecbf5c0177800c2f8623da"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 659,
+        "sha256": "ffa772e2d777760e86ecff236d9619d6e3d621d6ee069c3cc10fa3e135c4c819"
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 140,
+        "sha256": null
       },
       {
         "path": "/etc/systemd/system",
@@ -1144,17 +1155,6 @@
         "sha256": null
       },
       {
-        "path": "/etc/logrotate.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 111,
-        "sha256": null
-      },
-      {
         "path": "/usr/bin",
         "category": "other",
         "is_dir": true,
@@ -1162,7 +1162,7 @@
         "mode_symbolic": "dr-xr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 20480,
+        "size": 24576,
         "sha256": null
       },
       {
@@ -1177,17 +1177,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/systemd/system",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 16384,
-        "sha256": null
-      },
-      {
         "path": "/usr/lib/tmpfiles.d",
         "category": "library",
         "is_dir": true,
@@ -1196,6 +1185,17 @@
         "owner": "root",
         "group": "root",
         "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
         "sha256": null
       },
       {
@@ -1243,17 +1243,6 @@
         "sha256": null
       },
       {
-        "path": "/lib/systemd/system",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 16384,
-        "sha256": null
-      },
-      {
         "path": "/lib/tmpfiles.d",
         "category": "library",
         "is_dir": true,
@@ -1262,6 +1251,17 @@
         "owner": "root",
         "group": "root",
         "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
         "sha256": null
       },
       {
@@ -1309,7 +1309,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/share/licenses",
+        "path": "/usr/share/doc",
         "category": "share_data",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1320,7 +1320,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/share/doc",
+        "path": "/usr/share/licenses",
         "category": "share_data",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1364,33 +1364,11 @@
         "sha256": null
       },
       {
-        "path": "/var/lib/rsyslog",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "root",
-        "group": "root",
-        "size": 29,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/rsyslog/imjournal.state",
-        "category": "state_dir",
-        "is_dir": false,
-        "mode_octal": "0o600",
-        "mode_symbolic": "-rw-------",
-        "owner": "root",
-        "group": "root",
-        "size": 119,
-        "sha256": "98f415d8044f38d795e04b1f63b7ad9847a5c9bad01486e4e6306397b40f5929"
-      },
-      {
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 31,

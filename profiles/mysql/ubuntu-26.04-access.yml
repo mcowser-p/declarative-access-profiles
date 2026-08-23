@@ -1,0 +1,110 @@
+---
+# declarative-access-profiles :: mysql on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-mysql.json
+#               (schema 1.0, captured 2026-08-23 on the Ubuntu 26.04 KVM golden
+#               image, host dap-ubuntu2604, AppArmor; treadmark 0.11.0. Wave-2
+#               flip: the wave-1 "mariadb covers Ubuntu" cut is over. apt
+#               auto-started mysql on install and — unlike the 24.04 capture,
+#               whose baseline still carried a leftover data dir — the postinst
+#               initialized /var/lib/mysql (mysql:mysql 0700): 192 state files
+#               including the system tablespace, binlog.000001 (binary logging
+#               live from first boot), and the auto-generated self-signed TLS
+#               set — ca.pem / server-cert.pem 0644, server-key.pem / ca-key.pem
+#               0600, all mysql:mysql, INSIDE the data dir. This is the
+#               clean-host shape of mysql-on-Ubuntu evidence.)
+#   raw       : ./ubuntu-26.04-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/mysql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped. Config write ACL on the Debian server
+# drop-in dir (/etc/mysql/mysql.conf.d) + log read ACL (/var/log/mysql). NO
+# pam_group into the 'mysql' group (that group owns the raw data files — and on
+# this distro also the in-datadir TLS keys — so membership = filesystem access
+# that bypasses every SQL GRANT). The data dir (/var/lib/mysql) and its
+# mysql-files / mysql-keyring siblings are NEVER granted. The /etc/mysql TREE
+# is deliberately not granted either — /etc/mysql/debian.cnf (root:root 0600,
+# captured; the historical debian-sys-maint credential file) lives one level up
+# from the granted drop-in dir. Read-only-units profile.
+#
+# The effective grant set (service 'mysql', /etc/mysql/mysql.conf.d,
+# /var/log/mysql) is identical to ubuntu-24.04 as of this capture; this file
+# additionally asserts the captured data-dir state the 24.04 footprint could
+# not evidence.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mysql/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+declarative_access_profile_name: 'mysql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mysql'
+
+# REVIEW-DROP: declarative_access_files_modify [mysql.service under /lib and
+# /usr/lib — the same vendor unit through the usr-merge symlink — plus
+# /etc/systemd/system/multi-user.target.wants/mysql.service, the enablement
+# symlink apt created on auto-start] — a write ACL on a unit file is
+# root-equivalent for that unit (edit ExecStart, then the granted daemon-reload
+# + restart), and a writable enablement symlink lets the team repoint what
+# boots at multi-user.target. enable/disable are already granted as systemctl
+# verbs. Read-only-units profile.
+
+# NOTE (pam_group): there is no declarative_access_pam_group in the raw to DROP.
+# Database class grants none, and the exporter emitted none here because the
+# 'mysql' user/group already existed at capture (summary users_added = 0,
+# groups_added = 0: the account was created by the earlier mariadb capture on
+# this shared golden image, so mysql-server's postinst adduser was a no-op). On
+# a clean host the exporter WOULD emit pam_group + local_groups: ['mysql'], and
+# this review would DROP it for the same database-class reason as
+# mariadb/postgresql — the group owns the raw data files. The apply-time opt-in
+# for a team that knowingly accepts data-dir exposure is documented in ops §3.
+
+declarative_access_folders_modify:
+  - '/etc/mysql/mysql.conf.d'
+  # REVIEW-DROP: '/var/lib/mysql' — the data directory (mysql:mysql 0700 as
+  # captured — Debian ships it tighter than EL9's 0755). Database class NEVER
+  # grants it in any list; filesystem access to the raw tables bypasses every
+  # SQL GRANT, and on this capture the dir also holds the auto-generated TLS
+  # material (server-key.pem / ca-key.pem 0600) and live binlogs. Install-time
+  # state is kept visible via the ownership entries below (assertions, not
+  # grants).
+  # REVIEW-DROP: '/var/lib/mysql-files' — the secure_file_priv import/export
+  # dir (mysql:mysql 0700 here; EL9 ships 0750); data-adjacent, holds bulk
+  # LOAD DATA / SELECT ... INTO OUTFILE payloads. Never granted for a database.
+  # REVIEW-DROP: '/var/lib/mysql-keyring' — the keyring dir (mysql:mysql 0700)
+  # holding InnoDB tablespace-encryption master keys. Granting it hands the
+  # team the at-rest encryption keys; never granted, more sensitive than the
+  # data dir.
+  # REVIEW-DROP: '/var/lib/mysql-upgrade' — Debian packaging's upgrade
+  # bookkeeping dir (root:root 0755). Data-adjacent packaging state, not team
+  # space.
+
+declarative_access_folders_read:
+  # REVIEW-ADD: /var/log is excluded from footprints by default; file-log read
+  # is still wanted (ACL + default ACL keeps rotated files readable). Unlike
+  # mariadb-on-Ubuntu (log_error unset → journald only), the mysql-server
+  # packaging points log_error at /var/log/mysql/error.log in the shipped
+  # mysqld.cnf and creates the directory (mysql:adm) at install
+  # [app-knowledge] — the captured /etc/logrotate.d/mysql-server rotates
+  # exactly that file. Existence on this substrate is
+  # [needs-runtime-confirmation] until the first KVM verify pass.
+  - '/var/log/mysql'
+
+declarative_access_ownership:
+  # REVIEW-ADD: assert the captured install-time state of the data +
+  # data-adjacent dirs and make drift visible. NOT an access grant — no
+  # membership or ACL on these paths is created; the entries only chown/chmod
+  # them back to the captured state_dir evidence on apply, re-tightening the
+  # 0700 modes if drift ever loosens them. Note the all-0700 Debian posture
+  # (EL9: 0755 data dir, 0750 mysql-files). The raw omitted ownership only
+  # because the mysql account pre-existed in this shared-image capture
+  # (users_added/groups_added = 0); the paths themselves were captured added,
+  # owner/mode as asserted here.
+  - {path: '/var/lib/mysql', owner: 'mysql', group: 'mysql', mode: '0700'}
+  - {path: '/var/lib/mysql-files', owner: 'mysql', group: 'mysql', mode: '0700'}
+  - {path: '/var/lib/mysql-keyring', owner: 'mysql', group: 'mysql', mode: '0700'}

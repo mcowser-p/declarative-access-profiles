@@ -2,17 +2,17 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:27:16.941438+00:00",
+  "generated_at": "2026-08-23T21:40:44.649036+00:00",
   "application": "redis",
-  "host": "ip-172-31-18-169",
-  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "host": "dap-ubuntu2404",
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "879c23f0356d22dbceab25fea12a3e2e647ffbb86f7f6aa44cc36e08f5f09ff8",
-    "created_at": "2026-08-09T17:25:31.394398+00:00",
-    "source_host": "ip-172-31-18-169",
-    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+    "db_sha256": "7a0bfe1dd07bf1deb66d95681879d2065a33a01eedaba3fcb812843315267a3f",
+    "created_at": "2026-08-23T21:40:05.196784+00:00",
+    "source_host": "dap-ubuntu2404",
+    "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
     "files_added": 36,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "redis",
-        "uid": 115,
-        "gid": 117,
+        "uid": 114,
+        "gid": 118,
         "gecos": "",
         "home": "/var/lib/redis",
         "shell": "/usr/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "redis",
-        "gid": 117,
+        "gid": 118,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "redis",
-        "gid": 117,
+        "gid": 118,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -951,7 +951,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/redis-check-aof",
+      "path": "/bin/redis-cli",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -962,7 +962,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/redis-cli",
+      "path": "/bin/redis-check-aof",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -995,7 +995,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/redis-check-aof",
+      "path": "/usr/bin/redis-cli",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1006,7 +1006,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/redis-cli",
+      "path": "/usr/bin/redis-check-aof",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1031,61 +1031,6 @@
   "filesystem": {
     "added_by_category": {
       "config": [
-        {
-          "path": "/etc/redis",
-          "category": "config",
-          "is_dir": true,
-          "mode_octal": "0o2770",
-          "mode_symbolic": "drwxrws---",
-          "owner": "redis",
-          "group": "redis",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/etc/redis/redis.conf",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o640",
-          "mode_symbolic": "-rw-r-----",
-          "owner": "redis",
-          "group": "redis",
-          "size": 106604,
-          "sha256": "f558f95397acc98423d3521b4c59af5ab8c36264e43c58c7e97419e0d4fcbbdf"
-        },
-        {
-          "path": "/etc/rc1.d/K01redis-server",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 22,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc5.d/S01redis-server",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 22,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc4.d/S01redis-server",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 22,
-          "sha256": null
-        },
         {
           "path": "/etc/rc3.d/S01redis-server",
           "category": "config",
@@ -1120,7 +1065,51 @@
           "sha256": null
         },
         {
-          "path": "/etc/rc2.d/S01redis-server",
+          "path": "/etc/rc5.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/redis",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o2770",
+          "mode_symbolic": "drwxrws---",
+          "owner": "redis",
+          "group": "redis",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/redis/redis.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "redis",
+          "group": "redis",
+          "size": 106604,
+          "sha256": "f558f95397acc98423d3521b4c59af5ab8c36264e43c58c7e97419e0d4fcbbdf"
+        },
+        {
+          "path": "/etc/rc4.d/S01redis-server",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 22,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc1.d/K01redis-server",
           "category": "config",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -1140,32 +1129,17 @@
           "group": "root",
           "size": 271,
           "sha256": "f4c22acc046ddbfe13b615608a55706f7563c0fdec710bef923c3e173a74b870"
-        }
-      ],
-      "logrotate": [
+        },
         {
-          "path": "/etc/logrotate.d/redis-server",
-          "category": "logrotate",
+          "path": "/etc/rc2.d/S01redis-server",
+          "category": "config",
           "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 146,
-          "sha256": "fdf1d4461183c190594bd95e665eb3486ba3e11b93f9668cb7537b2d8944a4b4"
-        }
-      ],
-      "init_script": [
-        {
-          "path": "/etc/init.d/redis-server",
-          "category": "init_script",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 1610,
-          "sha256": "f68aa56069d5846e5550949771da3ab668ab3c488144464e7c63c1b858561150"
+          "size": 22,
+          "sha256": null
         }
       ],
       "systemd_unit": [
@@ -1236,6 +1210,32 @@
           "sha256": "638211a92bf860f096003559005d7f54d51b16ebd1036d76c408c6ac3e081e8a"
         }
       ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/redis-server",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 146,
+          "sha256": "fdf1d4461183c190594bd95e665eb3486ba3e11b93f9668cb7537b2d8944a4b4"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/redis-server",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1610,
+          "sha256": "f68aa56069d5846e5550949771da3ab668ab3c488144464e7c63c1b858561150"
+        }
+      ],
       "binary": [
         {
           "path": "/bin/redis-benchmark",
@@ -1249,15 +1249,15 @@
           "sha256": "708b81a94b20b7879f467eecf8a7479d4ca1cc2d10ff39fe62f729a317625fe7"
         },
         {
-          "path": "/bin/redis-server",
+          "path": "/bin/redis-cli",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 15,
-          "sha256": null
+          "size": 395720,
+          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
         },
         {
           "path": "/bin/redis-check-aof",
@@ -1271,15 +1271,15 @@
           "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
         },
         {
-          "path": "/bin/redis-cli",
+          "path": "/bin/redis-server",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 395720,
-          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
+          "size": 15,
+          "sha256": null
         },
         {
           "path": "/bin/redis-check-rdb",
@@ -1304,15 +1304,15 @@
           "sha256": "708b81a94b20b7879f467eecf8a7479d4ca1cc2d10ff39fe62f729a317625fe7"
         },
         {
-          "path": "/usr/bin/redis-server",
+          "path": "/usr/bin/redis-cli",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 15,
-          "sha256": null
+          "size": 395720,
+          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
         },
         {
           "path": "/usr/bin/redis-check-aof",
@@ -1326,15 +1326,15 @@
           "sha256": "1b2950213684d355e0e49fe6702c7bfb9d40b78f0da9ce289fc0e8f2a295e540"
         },
         {
-          "path": "/usr/bin/redis-cli",
+          "path": "/usr/bin/redis-server",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 395720,
-          "sha256": "e3222f743fce0bdbfdae16f06a00dd47002e8a9ce4a5b6a3eae8d2dfa9196a9d"
+          "size": 15,
+          "sha256": null
         },
         {
           "path": "/usr/bin/redis-check-rdb",
@@ -1361,17 +1361,6 @@
           "sha256": null
         },
         {
-          "path": "/usr/lib/x86_64-linux-gnu/libjemalloc.so.2",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 830656,
-          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
-        },
-        {
           "path": "/usr/lib/x86_64-linux-gnu/liblzf.so.1.5",
           "category": "library",
           "is_dir": false,
@@ -1381,6 +1370,17 @@
           "group": "root",
           "size": 18424,
           "sha256": "db8105cdc5b50e7ea043050d4050354365f7a3e993facd2c5ee4bad1afc6b24c"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libjemalloc.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 830656,
+          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
         },
         {
           "path": "/lib/x86_64-linux-gnu/liblzf.so.1",
@@ -1394,17 +1394,6 @@
           "sha256": null
         },
         {
-          "path": "/lib/x86_64-linux-gnu/libjemalloc.so.2",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 830656,
-          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
-        },
-        {
           "path": "/lib/x86_64-linux-gnu/liblzf.so.1.5",
           "category": "library",
           "is_dir": false,
@@ -1414,6 +1403,17 @@
           "group": "root",
           "size": 18424,
           "sha256": "db8105cdc5b50e7ea043050d4050354365f7a3e993facd2c5ee4bad1afc6b24c"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libjemalloc.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 830656,
+          "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
         }
       ],
       "share_data": [
@@ -1456,15 +1456,15 @@
         "sha256": null
       },
       {
-        "path": "/etc/group-",
-        "category": "config",
+        "path": "/etc/group",
+        "category": "group",
         "is_dir": false,
         "mode_octal": "0o644",
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 926,
-        "sha256": "ff62b06a574c84b17277b9fdf94f4adbbc9ea188c201e3bcea3f4a56cf0fbdd7"
+        "size": 936,
+        "sha256": "15dc0aa4b08e941e868929f0027160f0fe3000da67ffa2d1f046132810504fc3"
       },
       {
         "path": "/etc/passwd-",
@@ -1474,52 +1474,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2153,
-        "sha256": "a37457a866b1af2cbddff36bfaa394cc37820be80511ddf0d2f7890908833c02"
-      },
-      {
-        "path": "/etc/gshadow-",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 780,
-        "sha256": "a066ac217439f7dec3344f8b6a266c0e3adc64b38fe45f0e9855fd98d1be87fd"
-      },
-      {
-        "path": "/etc/group",
-        "category": "group",
-        "is_dir": false,
-        "mode_octal": "0o644",
-        "mode_symbolic": "-rw-r--r--",
-        "owner": "root",
-        "group": "root",
-        "size": 939,
-        "sha256": "cbb1eaa7dc5bffbe70989df91e4bf3a95d43175b80415914f9a8768619232b36"
-      },
-      {
-        "path": "/etc/shadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 1028,
-        "sha256": "5784d86f23b4a3c2b5dc6c3552c6df5164183df0f7c77f12d390a9653a9596db"
-      },
-      {
-        "path": "/etc/gshadow",
-        "category": "shadow",
-        "is_dir": false,
-        "mode_octal": "0o640",
-        "mode_symbolic": "-rw-r-----",
-        "owner": "root",
-        "group": "shadow",
-        "size": 790,
-        "sha256": "dde0842b1687de3213507c3fe146e47410df8246e7e8c7b483ecebf7e1498101"
+        "size": 2105,
+        "sha256": "96d4031a77270564fe0aee5bc7c3b7fe97abe63e0cfa57a2a47fe09fc2c5258c"
       },
       {
         "path": "/etc/shadow-",
@@ -1529,8 +1485,30 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 1008,
-        "sha256": "ff89d7d3c6295497d31b8bd9f46d160ca3ddbd7e44bae021187082b4e87022e2"
+        "size": 969,
+        "sha256": "55abb26cad201db3a2c108af4947a42e713c8fe77fa972046b090fe8b5042f34"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 923,
+        "sha256": "33764d0f81ff32a66d6d0b7e7905ed8bdbe01999d6ab24d2d8482d31c5729e34"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 989,
+        "sha256": "ba73384e340ef8616ca5ab79d8f85b45105765cf0b77f1fc103f4bce2d7a6e16"
       },
       {
         "path": "/etc/passwd",
@@ -1540,52 +1518,30 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2203,
-        "sha256": "56a16299ca4d4e4b6aced1b5bc0f4578f5d876f69a7f43af2a21adf86fd610cb"
+        "size": 2155,
+        "sha256": "e7f59baaf3efb80744e49bb9331dd289f698cf55cc3564df0f575e65bc54ceb8"
       },
       {
-        "path": "/etc/rc1.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
         "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
+        "group": "shadow",
+        "size": 780,
+        "sha256": "f3d34a965a8859b910a37588c8ae2f195294824000edbf81f30eb35215a45e33"
       },
       {
-        "path": "/etc/logrotate.d",
+        "path": "/etc/gshadow-",
         "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
         "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc5.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc4.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
+        "group": "shadow",
+        "size": 770,
+        "sha256": "8746f227f8086f9b7401778358211feb17a99b1e40cb72a95d1b9554b764a976"
       },
       {
         "path": "/etc/rc3.d",
@@ -1600,28 +1556,6 @@
       },
       {
         "path": "/etc/rc0.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc6.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/init.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1654,7 +1588,62 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc2.d",
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc5.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc4.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc1.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1676,19 +1665,19 @@
         "sha256": null
       },
       {
-        "path": "/usr/bin",
-        "category": "other",
+        "path": "/etc/rc2.d",
+        "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 36864,
+        "size": 4096,
         "sha256": null
       },
       {
-        "path": "/usr/lib/x86_64-linux-gnu",
-        "category": "library",
+        "path": "/usr/bin",
+        "category": "other",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
@@ -1709,7 +1698,7 @@
         "sha256": null
       },
       {
-        "path": "/lib/x86_64-linux-gnu",
+        "path": "/usr/lib/x86_64-linux-gnu",
         "category": "library",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1731,6 +1720,17 @@
         "sha256": null
       },
       {
+        "path": "/lib/x86_64-linux-gnu",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 36864,
+        "sha256": null
+      },
+      {
         "path": "/usr/share/bash-completion/completions",
         "category": "share_data",
         "is_dir": true,
@@ -1749,12 +1749,23 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 32768,
+        "size": 36864,
         "sha256": null
       },
       {
         "path": "/var/lib",
         "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
@@ -1778,19 +1789,8 @@
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/apt",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 4096,
@@ -2259,7 +2259,7 @@
   "group_access": [
     {
       "group": "redis",
-      "gid": 117,
+      "gid": 118,
       "writable": [
         "/etc/redis/"
       ],

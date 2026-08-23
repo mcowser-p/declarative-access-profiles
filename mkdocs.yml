@@ -56,6 +56,7 @@ nav:
       - mysql: [apps/mysql/dev.md, apps/mysql/ops.md]
       - redis: [apps/redis/dev.md, apps/redis/ops.md]
       - memcached: [apps/memcached/dev.md, apps/memcached/ops.md]
+      - caddy: [apps/caddy/dev.md, apps/caddy/ops.md]
   - Role evaluations:
       - Method & index: role-evals/index.md
       - nginx: role-evals/nginx.md
@@ -68,5 +69,6 @@ nav:
       - mysql: role-evals/mysql.md
       - redis: role-evals/redis.md
       - memcached: role-evals/memcached.md
+      - caddy: role-evals/caddy.md
   - Windows plan: windows-plan.md
   - Conventions: conventions.md

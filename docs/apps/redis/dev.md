@@ -1,12 +1,15 @@
 # redis — your life after lockdown
 
-You deployed redis (AlmaLinux 10 ships **valkey**, the drop-in fork — the same
-commands with `valkey` names); you're now in `<hostname>-app_restricted`. This
-page is everything you can still do, and how. What ops decided and why is in the
+You deployed redis — or **valkey**, the drop-in fork: alma10, AL2023 and
+ubuntu 26.04 package valkey instead, and everything here works the same with
+`valkey` names; you're now in `<hostname>-app_restricted`. This page is
+everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your distro
 ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/ubuntu-24.04-access.yml)).
+[AL2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/amazonlinux-2023-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/redis/ubuntu-26.04-access.yml)).
 
 redis is locked down as a **cache**: you control the service, edit its config
 file, and read its logs — but there is **no pam_group and no data-dir grant**.
@@ -25,7 +28,8 @@ password. Copy from `sudo -l` output, not from memory.
 ## 1. Your grants at a glance
 
 Generated from the reviewed profile. Substitute your distro's unit/paths from §8
-(`valkey` on alma10, `redis-server` on Ubuntu).
+(`valkey` on alma10/AL2023, `redis-server` on ubuntu 24.04, `valkey-server` on
+ubuntu 26.04).
 
 | What | How it's granted | Example |
 | --- | --- | --- |
@@ -40,7 +44,7 @@ Generated from the reviewed profile. Substitute your distro's unit/paths from §
 ## 2. Administering your systemd unit
 
 The full verb set is granted for your one unit (`redis` / `valkey` /
-`redis-server`). Sentinel is **not** in your grant — see §7.
+`redis-server` / `valkey-server`). Sentinel is **not** in your grant — see §7.
 
 Reload vs restart matters more here than for a web server: **redis has no
 zero-downtime config reload.** `systemctl reload` only nudges the running
@@ -111,15 +115,16 @@ anything touching key file permissions.
 Two log worlds, split by distro — this is the one place redis and valkey differ
 from the web-server pattern:
 
-- **EL (redis / valkey):** logs go to the **systemd journal** by default
-  (`logfile` is unset in the shipped config, so output is captured by
-  journald). Read it with the granted `sudo journalctl -e -u redis`
+- **EL (alma9 redis; alma10/AL2023 valkey):** logs go to the **systemd
+  journal** by default (`logfile` is unset in the shipped config, so output is
+  captured by journald). Read it with the granted `sudo journalctl -e -u redis`
   (`-u valkey`) spellings, verbatim in `sudo -l`. Your `/var/log/redis`
   (`/var/log/valkey`) read ACL is in the profile for when an operator sets
   `logfile` to a path there — until then the dir may be empty
   [needs-runtime-confirmation].
-- **Ubuntu (redis-server):** logs go to a **file**,
-  `/var/log/redis/redis-server.log`, read via your ACL — no sudo:
+- **Ubuntu (24.04 redis-server; 26.04 valkey-server):** logs go to a **file** —
+  `/var/log/redis/redis-server.log` on 24.04, the configured `logfile` under
+  `/var/log/valkey` on 26.04 — read via your ACL, no sudo:
   `tail -f /var/log/redis/redis-server.log`. Startup/crash messages also reach
   the journal.
 
@@ -128,8 +133,9 @@ directory — tomorrow's log and the `.gz` archives inherit your read grant. If 
 rotated file is ever unreadable, `getfacl` it and look for `#effective:---`
 lines — the logrotate `create`-mode mask interaction, explained in
 [Logs & rotation](../../concepts/logging.md). `/etc/logrotate.d/redis`
-(`/etc/logrotate.d/valkey`, `/etc/logrotate.d/redis-server`) is outside your
-grant: retention or frequency changes are a request to ops.
+(`/etc/logrotate.d/valkey`, `/etc/logrotate.d/redis-server`,
+`/etc/logrotate.d/valkey-server`) is outside your grant: retention or frequency
+changes are a request to ops.
 
 ## 6. Storage: what fills up, and what you can do about it
 
@@ -140,7 +146,7 @@ roughly **double** the AOF size [app-knowledge]; your lever is `maxmemory` from
 §3, which caps both. With persistence off, redis is memory-only and writes
 nothing — `redis-cli CONFIG GET save appendonly` tells you which you have
 [needs-runtime-confirmation]. Logs are the slower burn: a file under
-`/var/log/redis` on Ubuntu, the journal on EL (§5).
+`/var/log/redis` (`/var/log/valkey`) on Ubuntu, the journal on EL (§5).
 
 You can **look** — `df -h`, and `du -sh` inside your granted paths. You cannot
 **fix**: `mount`, `mkfs`, `/etc/fstab`, `chown` on a mount point, and edits to
@@ -155,16 +161,19 @@ sized and sequenced for redis in [ops §12](ops.md#12-storage-and-growth)).
 
 ## 7. Everything else you'll eventually need
 
-- **Redis Sentinel** (`redis-sentinel` / `valkey-sentinel`): shipped by the
-  package but **dropped from your profile** — it is the optional HA
-  failover-monitor daemon, disabled by default and unused on a single-node
+- **Redis Sentinel** (`redis-sentinel` / `valkey-sentinel`): on the EL distros
+  it is shipped by the package but **dropped from your profile** — the optional
+  HA failover-monitor daemon, disabled by default and unused on a single-node
   cache. If your deployment actually runs Sentinel, that is a profile-review
   request (its `sentinel.conf` already sits inside your config ACL; only the
-  service grant is missing).
-- **Env files / daemon options**: EL redis has none; alma10 valkey reads an
-  optional `/etc/sysconfig/valkey` (may not exist); Ubuntu ships
-  `/etc/default/redis-server` (`root:root`). None are in a granted path —
-  changing `$DAEMON_ARGS` or `$OPTIONS` is ops.
+  service grant is missing). On ubuntu 24.04/26.04 the package ships no
+  Sentinel at all — it is a separate package [app-knowledge], and installing it
+  is a change window.
+- **Env files / daemon options**: alma9 redis has none; alma10/AL2023 valkey
+  reads an optional `/etc/sysconfig/valkey` (may not exist); ubuntu 24.04 ships
+  `/etc/default/redis-server` and ubuntu 26.04 `/etc/default/valkey-server`
+  (both `root:root`). None are in a granted path — changing `$DAEMON_ARGS` or
+  `$OPTIONS` is ops.
 - **Secrets**: the redis password (`requirepass` / an ACL `user`) lives inside
   `redis.conf` in your granted tree, so you can rotate it there — but keep it
   out of anything world-readable and prefer an `include`d file with tight
@@ -179,26 +188,26 @@ sized and sequenced for redis in [ops §12](ops.md#12-storage-and-growth)).
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / app | `redis` | **`valkey`** (redis fork; EL10 dropped redis) | `redis-server` |
-| Unit | `redis.service` | `valkey.service` | `redis-server.service` (`redis.service` is a vendor alias — use the canonical name) |
-| Service account:group | `redis:redis` | `valkey:valkey` | `redis:redis` |
-| Config root | `/etc/redis` (`redis.conf`) | `/etc/valkey` (`valkey.conf`) | `/etc/redis` (`redis.conf`) |
-| Config perms | `redis:root 0750` (ACL needed) | `valkey:root 0750` (ACL needed) | `redis:redis 2770` (ACL granted anyway — see the profile's REVIEW-ADD) |
-| Data dir (NOT granted) | `/var/lib/redis` | `/var/lib/valkey` | `/var/lib/redis` |
-| Logs | journal by default; `/var/log/redis` if `logfile` set | journal by default; `/var/log/valkey` if `logfile` set | **file**: `/var/log/redis/redis-server.log` + journal |
-| Config validator | N/A — no offline validator; restart + check status/journal | N/A — same | N/A — same |
-| Env file (ops, not granted) | N/A on alma9 — none shipped | `/etc/sysconfig/valkey` (optional) | `/etc/default/redis-server` |
-| pam_group | N/A — cache class, no pam_group | N/A — same | N/A — same |
-| Content dir | N/A — redis has none | N/A — same | N/A — same |
-| TLS paths | `/etc/pki/tls/{certs,private}` (key readable by `redis`) | `/etc/pki/tls/{certs,private}` (key readable by `valkey`) | `/etc/ssl/{certs,private}` (key readable by `redis`) |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package / app | `redis` | **`valkey`** (redis fork; EL10 dropped redis) | **`valkey`** (AL2023 also ships `redis6`; this row packages valkey) | `redis-server` | **`valkey`** (26.04 also ships `redis-server`; this row packages valkey) |
+| Unit | `redis.service` | `valkey.service` | `valkey.service` | `redis-server.service` (`redis.service` is a vendor alias — use the canonical name) | `valkey-server.service` (`valkey.service` is a vendor alias — use the canonical name) |
+| Service account:group | `redis:redis` | `valkey:valkey` | `valkey:valkey` | `redis:redis` | `valkey:valkey` |
+| Config root | `/etc/redis` (`redis.conf`) | `/etc/valkey` (`valkey.conf`) | `/etc/valkey` (`valkey.conf`) | `/etc/redis` (`redis.conf`) | `/etc/valkey` (`valkey.conf`) |
+| Config perms | `redis:root 0750` (ACL needed) | `valkey:root 0750` (ACL needed) | `valkey:root 0750` (ACL needed) | `redis:redis 2770` (ACL granted anyway — see the profile's REVIEW-ADD) | `valkey:valkey 2770` (ACL granted anyway — same REVIEW-ADD) |
+| Data dir (NOT granted) | `/var/lib/redis` | `/var/lib/valkey` | `/var/lib/valkey` | `/var/lib/redis` | `/var/lib/valkey` |
+| Logs | journal by default; `/var/log/redis` if `logfile` set | journal by default; `/var/log/valkey` if `logfile` set | journal by default; `/var/log/valkey` if `logfile` set | **file**: `/var/log/redis/redis-server.log` + journal | **file** under `/var/log/valkey` + journal |
+| Config validator | N/A — no offline validator; restart + check status/journal | N/A — same | N/A — same | N/A — same | N/A — same |
+| Env file (ops, not granted) | N/A on alma9 — none shipped | `/etc/sysconfig/valkey` (optional) | `/etc/sysconfig/valkey` (optional) | `/etc/default/redis-server` | `/etc/default/valkey-server` |
+| pam_group | N/A — cache class, no pam_group | N/A — same | N/A — same | N/A — same | N/A — same |
+| Content dir | N/A — redis has none | N/A — same | N/A — same | N/A — same | N/A — same |
+| TLS paths | `/etc/pki/tls/{certs,private}` (key readable by `redis`) | `/etc/pki/tls/{certs,private}` (key readable by `valkey`) | `/etc/pki/tls/{certs,private}` (key readable by `valkey`) | `/etc/ssl/{certs,private}` (key readable by `redis`) | `/etc/ssl/{certs,private}` (key readable by `valkey`) |
 
 ## 9. Cheat sheet
 
 ```bash
 sudo -l                                    # your exact grants — start here
-sudo systemctl status redis                # health (valkey / redis-server per distro)
+sudo systemctl status redis                # health (valkey / redis-server / valkey-server per distro)
 sudo journalctl -e -u redis                # recent journal (granted spelling)
 redis-cli CONFIG SET maxmemory 512mb       # trial a live value (redis auth, no sudo)
 vi /etc/redis/redis.conf                    # durable config change (ACL)

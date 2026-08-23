@@ -1,0 +1,2355 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-23T21:32:49.870486+00:00",
+  "application": "nginx",
+  "host": "dap-al2023",
+  "platform": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
+    "db_sha256": "47e3a355183264514587e96bae76cd2df538552f073417385b07f8faed717746",
+    "created_at": "2026-08-23T21:32:13.369223+00:00",
+    "source_host": "dap-al2023",
+    "source_os": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34"
+  },
+  "summary": {
+    "files_added": 114,
+    "files_modified": 48,
+    "files_deleted": 0,
+    "systemd_units": 2,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 23,
+    "risks": 2,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "nginx",
+        "uid": 994,
+        "gid": 994,
+        "gecos": "Nginx web server",
+        "home": "/var/lib/nginx",
+        "shell": "/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "nginx",
+        "gid": 994,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "nginx",
+        "gid": 994,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "nginx.service",
+        "path": "/usr/lib/systemd/system/nginx.service",
+        "unit_type": "service",
+        "description": "The nginx HTTP and reverse proxy server",
+        "exec_start": [
+          "/usr/sbin/nginx"
+        ],
+        "exec_start_pre": [
+          "/usr/bin/rm -f /run/nginx.pid",
+          "/usr/sbin/nginx -t"
+        ],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network-online.target remote-fs.target nss-lookup.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "forking"
+          ],
+          "Service.PIDFile": [
+            "/run/nginx.pid"
+          ],
+          "Service.ExecReload": [
+            "/usr/sbin/nginx -s reload"
+          ],
+          "Service.KillSignal": [
+            "SIGQUIT"
+          ],
+          "Service.TimeoutStopSec": [
+            "5"
+          ],
+          "Service.KillMode": [
+            "mixed"
+          ]
+        }
+      },
+      {
+        "name": "nginx.service",
+        "path": "/lib/systemd/system/nginx.service",
+        "unit_type": "service",
+        "description": "The nginx HTTP and reverse proxy server",
+        "exec_start": [
+          "/usr/sbin/nginx"
+        ],
+        "exec_start_pre": [
+          "/usr/bin/rm -f /run/nginx.pid",
+          "/usr/sbin/nginx -t"
+        ],
+        "exec_stop": [],
+        "user": null,
+        "group": null,
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [],
+        "configuration_directory": [],
+        "environment_files": [],
+        "private_tmp": true,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network-online.target remote-fs.target nss-lookup.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Type": [
+            "forking"
+          ],
+          "Service.PIDFile": [
+            "/run/nginx.pid"
+          ],
+          "Service.ExecReload": [
+            "/usr/sbin/nginx -s reload"
+          ],
+          "Service.KillSignal": [
+            "SIGQUIT"
+          ],
+          "Service.TimeoutStopSec": [
+            "5"
+          ],
+          "Service.KillMode": [
+            "mixed"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/nginx",
+      "category": "logrotate",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/bin/nginx-upgrade",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/nginx",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/nginx-upgrade",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/nginx",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libunwind-coredump.so.0.0.0",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libunwind-x86_64.so.8.0.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libunwind.so.8.0.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libprofiler.so.0.5.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libtcmalloc.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libtcmalloc_and_profiler.so.4.6.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libtcmalloc_debug.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libtcmalloc_minimal.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libtcmalloc_minimal_debug.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/libexec/nginx-ssl-pass-dialog",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libunwind-coredump.so.0.0.0",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libunwind-x86_64.so.8.0.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libunwind.so.8.0.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libprofiler.so.0.5.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libtcmalloc.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libtcmalloc_and_profiler.so.4.6.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libtcmalloc_debug.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libtcmalloc_minimal.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libtcmalloc_minimal_debug.so.4.5.9",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/nginx",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 261,
+          "sha256": "68b98f5bd1f22ca1fb2322cf9119db76fb4ab9c028522206844215eeec4fdd89"
+        }
+      ],
+      "config": [
+        {
+          "path": "/etc/systemd/system/nginx.service.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/etc/nginx",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 16384,
+          "sha256": null
+        },
+        {
+          "path": "/etc/nginx/mime.types",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 35272,
+          "sha256": "4f1b69f658bb3568d0abc6615fded407b8eaea82b348abed55e4e718a4dcbd3b"
+        },
+        {
+          "path": "/etc/nginx/fastcgi.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1077,
+          "sha256": "b2c3d480a58f61f3a7dc61850b461e892e36f236317765a4f2f6d558c928fa57"
+        },
+        {
+          "path": "/etc/nginx/fastcgi.conf.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1077,
+          "sha256": "b2c3d480a58f61f3a7dc61850b461e892e36f236317765a4f2f6d558c928fa57"
+        },
+        {
+          "path": "/etc/nginx/fastcgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1007,
+          "sha256": "f37852d0113de30fa6bfc3d9b180ef99383c06739530dd482a8538503afd5a58"
+        },
+        {
+          "path": "/etc/nginx/fastcgi_params.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1007,
+          "sha256": "f37852d0113de30fa6bfc3d9b180ef99383c06739530dd482a8538503afd5a58"
+        },
+        {
+          "path": "/etc/nginx/koi-utf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2837,
+          "sha256": "b5f8a6d411db5e5d11d151d50cd1e962444732593adec0e1ef0a8c6eebec63ee"
+        },
+        {
+          "path": "/etc/nginx/koi-win",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2223,
+          "sha256": "de518a9eafe86c8bc705e296d0ef26135835b46bdc0de01d1d50a630fa5d341e"
+        },
+        {
+          "path": "/etc/nginx/mime.types.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5349,
+          "sha256": "6f95d1d7d75e3c072907d845622a69d23110d1266c16ff122b3109b8b21f3ae9"
+        },
+        {
+          "path": "/etc/nginx/nginx.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2317,
+          "sha256": "ddb11315ef7e5ddc1f409048895adc6b95d960ca29489e61340a6d14e3f8b35a"
+        },
+        {
+          "path": "/etc/nginx/nginx.conf.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2630,
+          "sha256": "28924d8c868aedb98e996bd4af1e3c4342d532e59f0ed7bd0e406905e0fb2fa0"
+        },
+        {
+          "path": "/etc/nginx/scgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 636,
+          "sha256": "f27b2027c571ccafcfb0fbb3f54d7aeee11a984e3a0f5a1fdf14629030fc9011"
+        },
+        {
+          "path": "/etc/nginx/scgi_params.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 636,
+          "sha256": "f27b2027c571ccafcfb0fbb3f54d7aeee11a984e3a0f5a1fdf14629030fc9011"
+        },
+        {
+          "path": "/etc/nginx/uwsgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 664,
+          "sha256": "015cb581c2eb84b1a1ac9b575521d5881f791f632bfa62f34b26ba97d70c0d4f"
+        },
+        {
+          "path": "/etc/nginx/uwsgi_params.default",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 664,
+          "sha256": "015cb581c2eb84b1a1ac9b575521d5881f791f632bfa62f34b26ba97d70c0d4f"
+        },
+        {
+          "path": "/etc/nginx/win-utf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3611,
+          "sha256": "0f221e54163907249b5397cb7357a4a9c946907ed4839c262dd09d8c9f9ca185"
+        },
+        {
+          "path": "/etc/nginx/conf.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/etc/nginx/default.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/nginx-upgrade",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 564,
+          "sha256": "06494f47efa34a773697f1701af0ce1ed4f6559fa99d47118ae78b9d6d1c2ca3"
+        },
+        {
+          "path": "/sbin/nginx",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1689520,
+          "sha256": "55e7058576653d5eb2c854cafa09123f3da316a4cf7e9e57ba5c28d4d9e6f1c5"
+        },
+        {
+          "path": "/usr/bin/nginx-upgrade",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 564,
+          "sha256": "06494f47efa34a773697f1701af0ce1ed4f6559fa99d47118ae78b9d6d1c2ca3"
+        },
+        {
+          "path": "/usr/sbin/nginx",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1689520,
+          "sha256": "55e7058576653d5eb2c854cafa09123f3da316a4cf7e9e57ba5c28d4d9e6f1c5"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/.build-id/ee/5cb847dd342a2d3962820d0d396166e87a36b2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 50,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/b5/197ab49b534acd88d8abc44e4c96c06ddf7037",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 56,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/ec/16ba72aaf0c22b72fa308fd39955982c60814d",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 48,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/3d/e52fcd8f804f2cdb26e113de85f31d654ab441",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/59/4b878586b3b3dac5f080187fd107f60643d067",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 49,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/64/92fb35969872f72c8f76cdf4f28f20d8520e9e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 55,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/97/69e6ea28e4c93d8b1fab995890af40fed9100c",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/b2/5f88a6ae9592c0b548eb2ca5e7ab77963465ea",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/4c/8ae6273ca0535f43228ddf2cbd20b06901534c",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/4f/28b80dda257d84e73fb8784271528922599f3e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 47,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/systemd/system/nginx.service.d",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libunwind-coredump.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libunwind-coredump.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 19240,
+          "sha256": "827ed42e2e30824b59a53054ebc8200192ba005c13a8597a1968ed01a631d5a6"
+        },
+        {
+          "path": "/usr/lib64/libunwind-x86_64.so.8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 25,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libunwind-x86_64.so.8.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 69240,
+          "sha256": "db19dabe829d8faf858c636cb65551d938321061a52564dad1f9c518d209e8a1"
+        },
+        {
+          "path": "/usr/lib64/libunwind.so.8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libunwind.so.8.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 61144,
+          "sha256": "ec358b5208f3759af726abe66f200cfc183a64d9243de201c6a2ce1d61a4ae47"
+        },
+        {
+          "path": "/usr/lib64/libprofiler.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libprofiler.so.0.5.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 73968,
+          "sha256": "fbcb9a05c039a9efc2c1cf587efb2744be6db3f642b6abadddde0395c49eb3c3"
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 327232,
+          "sha256": "aff323d20fb52f4cf3332d9a343f9d16bb759fd762304b573539d9f1ee46389c"
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_and_profiler.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 33,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_and_profiler.so.4.6.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 348360,
+          "sha256": "a6f3f85e080a4fb1bb0ab3916fc59be3ad4faf7d65cb333024f893ff6f55debc"
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_debug.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_debug.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 356344,
+          "sha256": "5cd50b70c531d7238e7267a8deb1797321e25a13d703fd1e0f6a6678df1a6555"
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_minimal.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_minimal.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 176784,
+          "sha256": "ba59f8edd533866ac1387ad9f32130d9377756ef8111a07eac75f2a990fdb0c1"
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_minimal_debug.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 34,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libtcmalloc_minimal_debug.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 205856,
+          "sha256": "1e5f430035e94d1926df039b8e4103414f9ff2e6f9e280174e768538b6e63bff"
+        },
+        {
+          "path": "/usr/lib64/nginx",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/nginx/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/usr/libexec/nginx-ssl-pass-dialog",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 96,
+          "sha256": "ef7a43a7751ae5a75f533407c38e933c8bfce6cad3c9d37aff4b4a2a16a843ba"
+        },
+        {
+          "path": "/lib/.build-id/ee/5cb847dd342a2d3962820d0d396166e87a36b2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 50,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/b5/197ab49b534acd88d8abc44e4c96c06ddf7037",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 56,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/ec/16ba72aaf0c22b72fa308fd39955982c60814d",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 48,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/3d/e52fcd8f804f2cdb26e113de85f31d654ab441",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/59/4b878586b3b3dac5f080187fd107f60643d067",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 49,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/64/92fb35969872f72c8f76cdf4f28f20d8520e9e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 55,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/97/69e6ea28e4c93d8b1fab995890af40fed9100c",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 42,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/b2/5f88a6ae9592c0b548eb2ca5e7ab77963465ea",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/4c/8ae6273ca0535f43228ddf2cbd20b06901534c",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 40,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/4f/28b80dda257d84e73fb8784271528922599f3e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 47,
+          "sha256": null
+        },
+        {
+          "path": "/lib/systemd/system/nginx.service.d",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libunwind-coredump.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libunwind-coredump.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 19240,
+          "sha256": "827ed42e2e30824b59a53054ebc8200192ba005c13a8597a1968ed01a631d5a6"
+        },
+        {
+          "path": "/lib64/libunwind-x86_64.so.8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 25,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libunwind-x86_64.so.8.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 69240,
+          "sha256": "db19dabe829d8faf858c636cb65551d938321061a52564dad1f9c518d209e8a1"
+        },
+        {
+          "path": "/lib64/libunwind.so.8",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libunwind.so.8.0.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 61144,
+          "sha256": "ec358b5208f3759af726abe66f200cfc183a64d9243de201c6a2ce1d61a4ae47"
+        },
+        {
+          "path": "/lib64/libprofiler.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libprofiler.so.0.5.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 73968,
+          "sha256": "fbcb9a05c039a9efc2c1cf587efb2744be6db3f642b6abadddde0395c49eb3c3"
+        },
+        {
+          "path": "/lib64/libtcmalloc.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libtcmalloc.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 327232,
+          "sha256": "aff323d20fb52f4cf3332d9a343f9d16bb759fd762304b573539d9f1ee46389c"
+        },
+        {
+          "path": "/lib64/libtcmalloc_and_profiler.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 33,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libtcmalloc_and_profiler.so.4.6.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 348360,
+          "sha256": "a6f3f85e080a4fb1bb0ab3916fc59be3ad4faf7d65cb333024f893ff6f55debc"
+        },
+        {
+          "path": "/lib64/libtcmalloc_debug.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libtcmalloc_debug.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 356344,
+          "sha256": "5cd50b70c531d7238e7267a8deb1797321e25a13d703fd1e0f6a6678df1a6555"
+        },
+        {
+          "path": "/lib64/libtcmalloc_minimal.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 28,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libtcmalloc_minimal.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 176784,
+          "sha256": "ba59f8edd533866ac1387ad9f32130d9377756ef8111a07eac75f2a990fdb0c1"
+        },
+        {
+          "path": "/lib64/libtcmalloc_minimal_debug.so.4",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 34,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libtcmalloc_minimal_debug.so.4.5.9",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 205856,
+          "sha256": "1e5f430035e94d1926df039b8e4103414f9ff2e6f9e280174e768538b6e63bff"
+        },
+        {
+          "path": "/lib64/nginx",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/nginx/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/usr/lib/systemd/system/nginx.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 651,
+          "sha256": "62752586e949073d48c59d0f63f7a96c134014ad90f76ebdcabadd8f84390e3c"
+        },
+        {
+          "path": "/lib/systemd/system/nginx.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 651,
+          "sha256": "62752586e949073d48c59d0f63f7a96c134014ad90f76ebdcabadd8f84390e3c"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/licenses/nginx-mimetypes",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/nginx-mimetypes/COPYING",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 901,
+          "sha256": "f4919b78cae0a7a027881b32e513f7ce29e9fcfe56db7896e51e72c61255c717"
+        },
+        {
+          "path": "/usr/share/licenses/libunwind",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/libunwind/COPYING",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1063,
+          "sha256": "6a0dbbdaec2b3136b7bf045586f4212bdf74e7af688bf9dfe9154607cf5ec156"
+        },
+        {
+          "path": "/usr/share/licenses/nginx-core",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/nginx-core/LICENSE",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1319,
+          "sha256": "08845fe39e06b51dad7685c28140ab49577a86e947523e16b536a46caf89ad5c"
+        },
+        {
+          "path": "/usr/share/licenses/generic-logos-httpd",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/generic-logos-httpd/COPYING",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18256,
+          "sha256": "4a61ef4fff2d5cf3d0d0446d45a20e8350efbcc02b4924cfeb77061f1e4300df"
+        },
+        {
+          "path": "/usr/share/vim/vimfiles/ftdetect/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 198,
+          "sha256": "3ce32b22f5c741f95ec432aad87cce5ec02b6e41eecc0a5e1177018ca455a043"
+        },
+        {
+          "path": "/usr/share/vim/vimfiles/ftplugin/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 29,
+          "sha256": "ed7a438f9238b4054ed58a88a15625e5a3984fb07f6ed0395b062c04545adea8"
+        },
+        {
+          "path": "/usr/share/vim/vimfiles/indent/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 250,
+          "sha256": "983c89c6ebcd4b6f61dcba4424608890d0deae79a21c0830441917e1eb54b358"
+        },
+        {
+          "path": "/usr/share/vim/vimfiles/syntax/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 113553,
+          "sha256": "8bbbcddc95401f3b85cbd07f80fe37daff42599e4e71fed4be625cf77168c5f5"
+        },
+        {
+          "path": "/usr/share/pixmaps/poweredby.png",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3412,
+          "sha256": "6c2c6cc36b61ddf8d51744df8392caf6076b3a04ea980b931d1a3b6cc9cb6f29"
+        },
+        {
+          "path": "/usr/share/nginx",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 33,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 112,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html/404.html",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3464,
+          "sha256": "d7017e1c7ecb685f442d141eb1b5290e5704263b6593934dc200733172631ca3"
+        },
+        {
+          "path": "/usr/share/nginx/html/50x.html",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3507,
+          "sha256": "2cef49c73295cf97377ffeed2830290d96d86d859cab8a4e4481ef1d9f696154"
+        },
+        {
+          "path": "/usr/share/nginx/html/index.html",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 896,
+          "sha256": "201cd1bf3d32e7f5fd8aa22c6de5370852fe03fb654ee22d345dd82f16a246a0"
+        },
+        {
+          "path": "/usr/share/nginx/html/nginx-logo.png",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 368,
+          "sha256": "b8b4d1d77597b691918c850953b70c98fa178be28faf756a5aa0dddf8b96ab33"
+        },
+        {
+          "path": "/usr/share/nginx/html/poweredby.png",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 14,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html/icons",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 27,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html/icons/poweredby.png",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 30,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/modules",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/nginx",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o770",
+          "mode_symbolic": "drwxrwx---",
+          "owner": "nginx",
+          "group": "root",
+          "size": 17,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/nginx/tmp",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o770",
+          "mode_symbolic": "drwxrwx---",
+          "owner": "nginx",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 697,
+        "sha256": "d51984738f3ec9ac8d2aede5ca40b06d8dfd09d6d3bb4b26d9a3d70ffec99114"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 573,
+        "sha256": "61f5d49c3ef4511df47f6556d4463746918eedc4f6ed556f202e41a26baaa46a"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1486,
+        "sha256": "de30027f38ae857c0c77511a84999593f0fe24add8ccb61b59297ca6c1120f2a"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 734,
+        "sha256": "f264f30127e4a9310e6ffd00b23dd89598b49f382117bc5c2dd6cd47e4a6b746"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 684,
+        "sha256": "8baf9daa0c8c45e9615c708d61f63e4754baad87c893f9a507177750e95df992"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 563,
+        "sha256": "12c3763e62595af387d95258b6bfd6b285c459853feda93cfb5716560222447d"
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 126,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/sbin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/ee",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 282,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/b5",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/ec",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/3d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/59",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/64",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/97",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/b2",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/4c",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/4f",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib64",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/libexec",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/ee",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 282,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/b5",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/ec",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/3d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/59",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/64",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/97",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/b2",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/4c",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/4f",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/licenses",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/vim/vimfiles/ftdetect",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 23,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/vim/vimfiles/ftplugin",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 23,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/vim/vimfiles/indent",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 23,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/vim/vimfiles/syntax",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 23,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/pixmaps",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 27,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dnf",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 80,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/treadmark",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
+        "owner": "root",
+        "group": "root",
+        "size": 31,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "nginx.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/rm",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/sbin/nginx",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "root",
+      "principal_type": "systemd_service",
+      "unit": "nginx.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": true,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/usr/bin/rm",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/usr/sbin/nginx",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [],
+  "risks": [
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "nginx.service has no User= directive; runs as root",
+      "path": "/usr/lib/systemd/system/nginx.service"
+    },
+    {
+      "severity": "medium",
+      "kind": "service_runs_as_root",
+      "detail": "nginx.service has no User= directive; runs as root",
+      "path": "/lib/systemd/system/nginx.service"
+    }
+  ],
+  "scan_errors": []
+}

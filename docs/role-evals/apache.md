@@ -1,4 +1,4 @@
-# Ansible role evaluation: apache (AlmaLinux 9/10 + Ubuntu 24.04)
+# Ansible role evaluation: apache (AlmaLinux 9/10, Amazon Linux 2023, Ubuntu 24.04/26.04)
 
 ## 1. Method
 
@@ -6,7 +6,9 @@ The reviewed profiles and the [dev](../apps/apache/dev.md)/[ops](../apps/apache/
 docs are the requirement rubric; a public role is scored (R1–R10) on how
 much of it the role delivers, read from the role's **code**, not its README.
 What no role delivers becomes the spec for the org overlay. Evaluated
-**2026-08-09** (web-search findings decay — dates are load-bearing).
+**2026-08-09** (web-search findings decay — dates are load-bearing);
+re-scoped **2026-08-23** to the five-distro matrix (al2023 + ubuntu 26.04
+KVM captures added) — candidate research unchanged from 2026-08-09.
 
 ## 2. Candidates
 
@@ -28,16 +30,16 @@ Scored from `tasks/`, `vars/`, `templates/`, `meta/main.yml`, and
 
 | # | Requirement | Score | Evidence (from code) |
 |---|---|---|---|
-| R1 | Covers both distro families (paths/units/accounts correct) | ✅ | `tasks/main.yml` includes `{{ os_family }}.yml`; `vars/RedHat.yml`/`Debian.yml` set `apache_service` (`httpd`/`apache2`) and `apache_conf_path` (`/etc/httpd/conf.d` vs `/etc/apache2`). Accounts come from the package (`apache`/`www-data`) — the role adds none, which is correct. |
+| R1 | Covers both distro families across all five distros (paths/units/accounts correct) | ✅ | `tasks/main.yml` includes `{{ os_family }}.yml`; `vars/RedHat.yml`/`Debian.yml` set `apache_service` (`httpd`/`apache2`) and `apache_conf_path` (`/etc/httpd/conf.d` vs `/etc/apache2`). The family switch is all it needs: our 2026-08-23 captures show al2023's on-disk shape identical to alma9/10 (RedHat vars apply as-is) and ubuntu 26.04's identical to 24.04 (the new `httpd.service` alias symlinks change nothing the role touches). Accounts come from the package (`apache`/`www-data`) — the role adds none, which is correct. |
 | R2 | Installs + configures via native package/config mechanisms | ✅ | `package` module + version detection (`apache-24.yml`); EL vhost templated into `conf.d` (drop-in), Debian into `sites-available` + a `sites-enabled` symlink; ports templated; modules/configs enabled/disabled. |
 | R3 | Drop-in discipline / whole-file determinism (FIM) | ✅ | Templates **one** managed `vhosts.conf` into the drop-in dir (not the vendor main file). `templates/vhosts.conf.j2` carries **no `ansible_managed` timestamp header** → deterministic render, FIM-clean (the chrony worked example's whole-file-under-config-mgmt reasoning applies — see §4). |
 | R4 | systemd hardening drop-ins | ❌ | No `*.service.d` drop-ins. Leaves vendor units as-is (they run as root; EL10's vendor units already ship `ProtectSystem=yes`/`ProtectHome=read-only`, but the role contributes nothing). |
 | R5 | Env / secret file management | ❌ | Does not manage `/etc/sysconfig/httpd` (`$OPTIONS`) or `/etc/apache2/envvars`. |
 | R6 | **Access model** (scoped sudoers, pam_group, ACLs) | ❌ | None — no sudoers, no pam/sssd, no ACLs, no ownership. The standing all-roles-fail row; that gap is this library's job. |
-| R7 | Verification / idempotence quality | ⚠️ | Molecule exists but the matrix is **Rocky 9, Ubuntu 22.04, Debian 11/12** — not Alma 10 or Ubuntu 24.04 (noble). Role is idempotent; our exact targets are untested upstream. |
+| R7 | Verification / idempotence quality | ⚠️ | Molecule exists but the matrix is **Rocky 9, Ubuntu 22.04, Debian 11/12** — of our five targets only alma9 is proxied (Rocky 9); Alma 10, Amazon Linux 2023, and Ubuntu 24.04/26.04 are untested upstream. Role is idempotent. |
 | R8 | TLS wiring | ⚠️ | `vhosts.conf.j2` emits `SSLCertificateFile`/`SSLCertificateKeyFile` + `listen 443` from `apache_vhosts_ssl`, and `configure-*` `stat`s the cert before use. It correctly **does not place key material** (aligns with our model) — but it does **not** ensure `mod_ssl` is installed on EL (a separate package) and does not manage the cert lifecycle. |
 | R9 | logrotate policy management | ❌ | No logrotate handling; relies on the package fragment. |
-| R10 | Maintenance & platform assurance for OUR versions | ⚠️ | Actively maintained (v4.2.1, 2026-05), but `meta/main.yml` platforms are stale (Ubuntu `trusty/xenial/bionic`; no noble) and CI omits EL10 + 24.04. **Verify Alma 10 and Ubuntu 24.04 in molecule before rollout.** |
+| R10 | Maintenance & platform assurance for OUR versions (EL9/10, AL2023, Ubuntu 24.04/26.04) | ⚠️ | Actively maintained (v4.2.1, 2026-05), but `meta/main.yml` platforms are stale (Ubuntu `trusty/xenial/bionic`; no noble, no Amazon Linux) and CI covers none of our five directly (Rocky 9 proxies alma9 at best). **Verify Alma 10, AL2023, and Ubuntu 24.04/26.04 in molecule before rollout.** |
 
 ## 4. Nuances found
 
@@ -71,9 +73,10 @@ neither the role nor our profile touches it.
    official Red Hat role for Apache). Its vhost templating is drop-in and
    FIM-deterministic, and it correctly leaves key material and accounts to
    the platform/package. **Pin `v4.2.1`.** Action item before rollout:
-   run molecule on **AlmaLinux 10 and Ubuntu 24.04** — upstream CI is
-   Rocky 9 / Ubuntu 22.04 / Debian; if EL10 or noble misbehave, patch a
-   thin per-distro task overlay rather than forking the role.
+   run molecule on **AlmaLinux 10, Amazon Linux 2023, and Ubuntu
+   24.04/26.04** — upstream CI is Rocky 9 / Ubuntu 22.04 / Debian; if a
+   target misbehaves, patch a thin per-distro task overlay rather than
+   forking the role.
 2. **Build a thin org overlay** carrying exactly the rubric rows the role
    fails: R4 (systemd hardening drop-in), R5 (env-file templates), R6
    (**the access model — already delivered by this repo's reviewed profiles
@@ -84,7 +87,14 @@ neither the role nor our profile touches it.
    least-privilege." One reusable overlay parameterized per service covers
    it fleet-wide; the apache profiles here are its R6 payload.
 
-## 6. Running the adopted role inside our access lifecycle
+## 6. Implementing least privilege with this role
+
+From "we picked geerlingguy.apache" to "the team is locked down and knows
+how to operate": where the role runs (6a), how to configure the deployment
+so it stays least-priv-compatible (6b), the lockdown step itself (6c), and
+who owns what afterwards (6d).
+
+### 6a. Where the role runs in the lifecycle
 
 The role runs during the **setup window** (executor in `<hostname>-app_full`)
 or via platform automation — **always before capture**, so its outputs land
@@ -93,26 +103,81 @@ normal raw→reviewed step.
 
 | Role output | Lands in footprint as | Profile key it maps to |
 |---|---|---|
-| `apache_service` state/enabled (vendor unit) | `httpd.service` / `apache2.service` | `declarative_access_services: ['httpd'/'apache2']` (read-only-units — the role emits **no** units of its own) |
+| `apache_service` state/enabled (vendor unit) | `httpd.service` / `apache2.service` | `declarative_access_services: ['httpd'/'apache2']` (read-only-units — the role emits **no** units of its own; on ubuntu 26.04 the package's `httpd.service` alias symlink is captured too and dropped in review) |
 | Templated vhost (`conf.d/vhosts.conf` / `sites-available/*.conf`) | config-tree files `root:root` | config **write ACL** — `folders_modify: ['/etc/httpd'/'/etc/apache2']` |
 | `sites-enabled` symlink (Debian) | symlink in the config tree | same `/etc/apache2` ACL |
 | DocumentRoot content (role does **not** manage content) | — (not created by the role) | setgid `ownership: /var/www/html 2775 root:<group>` (hand-added) |
 | `reload apache` handler | — (runtime verb) | the granted `systemctl reload` in the `_services` sudoers — the verb that matters for cert/config pickup |
-| `mod_ssl` package (only if TLS) | extra `binary`/`config` files | **re-capture + re-review** (new footprint) |
+| `mod_ssl` package (only if TLS, EL family) | extra `binary`/`config` files | **re-capture + re-review** (new footprint) |
 
 **Wrap notes.**
 
 - **Pin the role version.** A bump can change the templated output or add
   files → re-capture, re-review, re-verify. `v4.2.1` is the pinned baseline.
-- **Disable nothing that fights the model — it already doesn't fight it.**
-  The role never chowns config to the service account and never writes
-  sudoers/users/groups (confirmed in `tasks/`), so the read-only-units +
-  config-ACL posture holds. Keep `apache_vhosts_template` timestamp-free
-  (the default is) so FIM stays quiet.
 - **Re-running post-lockdown is a platform act.** If a later role run
   replaces an ACL'd file (e.g. rewrites `vhosts.conf`), the file's ACL is
   shed with the replace — **re-run playbook 5 afterward** (idempotent) to
   reassert the config ACL and setgid content dir.
+
+### 6b. Configuring the deployment for least privilege
+
+Scored from the role's own code (v4.2.1, read 2026-08-09) — the vars and
+posture that keep the install compatible with the reviewed profile:
+
+- **Config stays root-owned: nothing to disable.** The role never chowns
+  config to the service account and never writes sudoers/users/groups
+  (confirmed in `tasks/`), so the read-only-units + config-ACL posture
+  holds as shipped. Keep `apache_vhosts_template` at its timestamp-free
+  default so the rendered file stays FIM-deterministic (R3).
+- **Service account: the packaged system user, and only that.** The role
+  exposes **no run-user var** — the service runs as the package's
+  `apache`/`www-data`, which is exactly right. Changing the run user would
+  be an `/etc/sysconfig/httpd`/`envvars` edit the role does not manage
+  (R5 ❌): not expressible with this role, and not wanted.
+- **Port/capability posture.** Defaults `apache_listen_port: 80` /
+  `apache_listen_port_ssl: 443` keep the master-as-root privileged-port
+  pattern our [ops §11](../apps/apache/ops.md) accepts as design. An
+  unprivileged >1024 posture needs the port var **plus** a `User=` /
+  capability hardening drop-in the role cannot emit (R4 ❌) — org-overlay
+  work, not a role var.
+- **Logs where the profile expects them.** The role manages no log config
+  or logrotate (R9 ❌); keep any per-vhost `CustomLog`/`ErrorLog` inside
+  `/var/log/httpd` (Ubuntu: `/var/log/apache2`) so the profile's log-read
+  ACL and default ACL keep covering rotated files.
+- **Secrets: not expressible with this role** (R5 ❌). Env/secret files are
+  the org overlay's job — root-owned, never world-readable, never inlined
+  into `apache_vhosts` template input.
+
+### 6c. Applying the access profile
+
+Once the role has deployed and capture/review is done, lockdown is
+playbook 5 with this app's reviewed profile, then the verify pass and the
+flip out of `<hostname>-app_full` — the full runbook is
+[ops §4–§6](../apps/apache/ops.md):
+
+```bash
+ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+  -e @profiles/apache/<distro>-access.yml \
+  -e "group_name=<hostname>-app_restricted"
+```
+
+`<distro>` is one of `almalinux-9`, `almalinux-10`, `amazonlinux-2023`,
+`ubuntu-24.04`, `ubuntu-26.04`.
+
+### 6d. Who does what after lockdown
+
+**Application team** — your admin surface is the
+[dev guide](../apps/apache/dev.md), "your life after lockdown": the granted
+`systemctl` verbs and `journalctl` spellings (§1–§2), config editing under
+the `/etc/httpd` / `/etc/apache2` ACL with drop-in discipline (§3), content
+via the setgid `/var/www/html`, TLS reloads without key access (§4), and
+the denied-command playbook (§7).
+
+**Operations team** — your reference is the
+[ops runbook](../apps/apache/ops.md): footprint evidence (§1), the
+raw→reviewed decision record (§2), apply/verify/flip/revoke (§4–§7), drift
+and patching (§8), TLS key custody (§9), and the risk triage incl. the
+EL-family suexec file-capability (§11).
 
 ## 7. If nothing fits
 
@@ -120,9 +185,9 @@ Not applicable — geerlingguy.apache fits as the engine. The only unbuilt
 piece is the shared **`org.web_baseline`** overlay (R4/R5/R6/R9 for every
 web server, apache included): scope = hardening drop-in + env-file template
 + this repo's access profile apply + logrotate policy; distro matrix =
-Alma 9/10 + Ubuntu 24.04; molecule = apply-then-assert on all three. Two
-paragraphs of spec, **not scheduled** — the access-model half (R6) already
-ships here as the reviewed profiles.
+Alma 9/10 + Amazon Linux 2023 + Ubuntu 24.04/26.04; molecule =
+apply-then-assert on all five. Two paragraphs of spec, **not scheduled** —
+the access-model half (R6) already ships here as the reviewed profiles.
 
 ## 8. Sources
 

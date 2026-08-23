@@ -1,0 +1,12 @@
+---
+# Pin the adopted role (role-eval: adopt geerlingguy.postgresql on Ubuntu —
+# its CI covers 24.04/26.04; EL/AL2023 adoption is gated on local molecule,
+# see docs/role-evals/postgresql.md §5). Pinned at adoption, 2026-08.
+roles:
+  - name: geerlingguy.postgresql
+    version: "3.5.2"
+
+collections:
+  - name: mcowser_p.declarative_access
+  # geerlingguy.postgresql's user/database tasks use these modules
+  - name: community.postgresql

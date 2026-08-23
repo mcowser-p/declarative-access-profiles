@@ -1,0 +1,83 @@
+---
+# declarative-access-profiles :: mariadb on ubuntu-26.04
+#
+# PROVENANCE
+#   footprint : footprints/ubuntu-26.04/footprint-mariadb.json
+#               (schema 1.0, captured 2026-08-23 on the ubuntu-26.04 holy-qcow
+#               KVM golden image; treadmark 0.11.0. apt auto-started mariadb at
+#               install, so the footprint includes first-start side effects —
+#               the initialised data dir. NOTE: even with the daemon started,
+#               no TLS material was generated — see ops.md §9.)
+#   raw       : ./ubuntu-26.04-raw.yml  (diff against this file = the review)
+#   docs      : ../../docs/apps/mariadb/ops.md  (review reasoning, §2)
+#
+# NEW CELL — first 26.04 capture, MariaDB 11.8.6. THE 26.04 DIVERGENCE: the
+# default data directory is /var/lib/mariadb — not /var/lib/mysql as on every
+# other cell. The capture shows the initialised InnoDB files (ibdata1,
+# ib_logfile0, undo001-003) under /var/lib/mariadb, mysql:mysql 0755, and no
+# /var/lib/mysql at all (the mysql account's home is /nonexistent). Everything
+# else keeps the ubuntu-24.04 review shape: config tree /etc/mysql, drop-ins
+# in /etc/mysql/mariadb.conf.d, error log to journald.
+#
+# ACCESS MODEL: database — config-scoped. Config write ACL on the drop-in dir;
+# logs via the granted journalctl spellings (no file-log dir — see the
+# REVIEW note below). NO pam_group (the mysql group owns the raw data). Data
+# dir (/var/lib/mariadb on this distro) NEVER granted. Read-only-units
+# profile.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mariadb/ubuntu-26.04-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+
+declarative_access_profile_name: 'mariadb'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mariadb'
+  # REVIEW-DROP: 'mysql', 'mysqld' — Debian compat units that resolve to
+  # mariadb.service (same daemon). Grant the canonical name. See dev.md §8.
+
+# REVIEW-DROP: declarative_access_files_modify [/etc/systemd/system/
+# multi-user.target.wants/mariadb.service enablement symlink + /lib + /usr/lib
+# .../mariadb.service, mariadb@.service, mariadb.socket, mariadb@.socket,
+# mariadb-extra.socket, mariadb-extra@.socket, mysql.service, mysqld.service, and
+# the galera bootstrap drop-in — 19 entries] — vendor unit files + the enablement
+# symlink apt created on auto-start; unit-file write is root-equivalent.
+# Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_pam_group + declarative_access_local_groups ['mysql']
+# — database class: the mysql group owns the raw data files, so pam_group into it =
+# filesystem access to the data dir, which bypasses every SQL GRANT. Config-scoped
+# profile instead; the group option is an apply-time opt-in (ops.md §3).
+
+declarative_access_folders_modify:
+  # REVIEW-ADD: '/etc/mysql/mariadb.conf.d' — the Debian drop-in dir the team edits
+  # (parallels EL's /etc/my.cnf.d). Narrowed from the raw's whole-tree '/etc/mysql'
+  # (see REVIEW-DROP) so the recursive config ACL stops at the drop-ins.
+  - '/etc/mysql/mariadb.conf.d'
+  # REVIEW-DROP: '/etc/mysql' — too broad. folders_modify is a RECURSIVE rw ACL, and
+  # /etc/mysql/debian.cnf (0600 root:root, present on 26.04 too) holds the
+  # debian-sys-maint DB credentials; a tree-wide ACL would hand the team that file.
+  # Grant the drop-in dir only.
+  # REVIEW-DROP: '/var/lib/mariadb' — the data directory (its 26.04 home; see the
+  # header). Database class NEVER grants it in any list.
+  # REVIEW-DROP: '/etc/logcheck/ignore.d.paranoid', '/etc/logcheck/ignore.d.workstation'
+  # — owned by the logcheck package; the dirs only appear because mariadb-server
+  # drops logcheck ignore fragments into them. Not mariadb config, not team space
+  # (dependency noise).
+
+# REVIEW-DROP: '/var/log/mysql' — the "always add /var/log/<app>" rule does NOT
+# hold on Debian-family mariadb: 50-server.cnf leaves log_error commented out, so
+# the error log goes to journald and no log directory is packaged. On ubuntu-24.04
+# this was proven on a real instance (the apply failed with "not a directory or
+# regular file"); the 26.04 package keeps the same layout, so the same call is
+# made here — re-check at verify time, and re-review if log_error is set.
+
+declarative_access_ownership:
+  # REVIEW-KEEP: asserts install-time state (mysql:mysql 0755) on the 26.04 data
+  # dir path; makes drift visible. NOT an access grant — no membership or ACL on
+  # the data dir is created.
+  - {path: '/var/lib/mariadb', owner: 'mysql', group: 'mysql', mode: '0755'}

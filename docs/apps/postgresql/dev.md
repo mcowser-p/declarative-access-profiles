@@ -5,7 +5,13 @@ is everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/ubuntu-24.04-access.yml)).
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/ubuntu-26.04-access.yml),
+[al2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/postgresql/amazonlinux-2023-access.yml)).
+Two families, five distros: Amazon Linux 2023 (package `postgresql17-server`)
+behaves exactly like alma9/alma10 — everything below that says "EL" includes
+it — and Ubuntu 26.04 is 24.04's model with PostgreSQL **18** in place of 16
+(`postgresql@18-main`, `/etc/postgresql/18/main`).
 
 The one thing to internalize first: PostgreSQL is a **database**, so this
 profile is deliberately narrower than a web server's. You are **not** put
@@ -26,17 +32,17 @@ prompt for a password. Copy from `sudo -l` output, not from memory.
 
 | What | How it's granted | Example |
 | --- | --- | --- |
-| Service control | sudoers: `start stop restart reload status enable disable mask unmask`, bare and `.service` spellings, for `postgresql` (Ubuntu also `postgresql@16-main`) | `sudo systemctl reload postgresql` |
-| Its journal | sudoers: `journalctl -u postgresql`, `-e -u`, `-ef -u`, `--since -5m/-10m/-15m` variants (bare + `.service`; Ubuntu also for `postgresql@16-main`) | `sudo journalctl -e -u postgresql@16-main` |
+| Service control | sudoers: `start stop restart reload status enable disable mask unmask`, bare and `.service` spellings, for `postgresql` (Ubuntu also the cluster unit: 24.04 `postgresql@16-main`, 26.04 `postgresql@18-main`) | `sudo systemctl reload postgresql` |
+| Its journal | sudoers: `journalctl -u postgresql`, `-e -u`, `-ef -u`, `--since -5m/-10m/-15m` variants (bare + `.service`; Ubuntu also for the cluster unit) | `sudo journalctl -e -u postgresql@16-main` |
 | `daemon-reload` | sudoers (global — see §2) | `sudo systemctl daemon-reload` |
-| Config: `/etc/postgresql/16/main` (**Ubuntu only**) | write **ACL** for your team group (+ default ACL for new `conf.d` drop-ins) | edit `conf.d/*.conf`, `pg_hba.conf` |
-| Config on EL | **not a filesystem grant** — config lives in the 0700 data dir; you change it with `ALTER SYSTEM` (SQL) or it is an ops task (see §3) | `ALTER SYSTEM SET work_mem = '32MB';` |
-| Logs: `/var/log/postgresql` (**Ubuntu only**) | read ACL + default ACL | `less /var/log/postgresql/postgresql-16-main.log` |
+| Config: `/etc/postgresql/16/main` on 24.04, `/etc/postgresql/18/main` on 26.04 (**Ubuntu only**) | write **ACL** for your team group (+ default ACL for new `conf.d` drop-ins) | edit `conf.d/*.conf`, `pg_hba.conf` |
+| Config on EL (alma9, alma10, al2023) | **not a filesystem grant** — config lives in the 0700 data dir; you change it with `ALTER SYSTEM` (SQL) or it is an ops task (see §3) | `ALTER SYSTEM SET work_mem = '32MB';` |
+| Logs: `/var/log/postgresql` (**Ubuntu only**) | read ACL + default ACL | `less /var/log/postgresql/postgresql-16-main.log` (26.04: `postgresql-18-main.log`) |
 | Logs on EL | the journal only (file logs, if enabled, land in the closed data dir) | `sudo journalctl -e -u postgresql` |
 
 There is **no** `pam_group` grant and **no** access to the data directory
-(`/var/lib/pgsql` on EL, `/var/lib/postgresql/16/main` on Ubuntu) — by
-design, for a database.
+(`/var/lib/pgsql` on EL, `/var/lib/postgresql/16/main` or `/18/main` on
+Ubuntu) — by design, for a database.
 
 ## 2. Administering your systemd units
 
@@ -53,10 +59,14 @@ are specific to PostgreSQL:
   a restart — plan those for a maintenance window. `[app-knowledge]`
 
 On **Ubuntu**, `postgresql.service` is an umbrella oneshot that starts/stops
-*all* clusters on the host; `postgresql@16-main.service` is your actual
-cluster. Both are granted — prefer `postgresql@16-main` so you act only on
-your cluster (`sudo systemctl restart postgresql@16-main`). On **EL** there
-is a single `postgresql.service`.
+*all* clusters on the host; the actual cluster is `postgresql@16-main.service`
+(24.04) or `postgresql@18-main.service` (26.04). Both are granted — prefer
+the cluster unit so you act only on your cluster
+(`sudo systemctl restart postgresql@16-main`). On **EL** there is a single
+`postgresql.service`. On 26.04 the host also has an `ssl-cert.service`
+oneshot that (re)creates the system snakeoil TLS pair when the key is
+absent — it is **not** in your profile (it is another package's unit, and
+host-wide key material is never a team surface).
 
 `daemon-reload` is in your list because unit changes need it; it is
 host-global by design — running it is harmless but affects every unit's
@@ -70,7 +80,8 @@ This is where EL and Ubuntu genuinely differ, because the two packages put
 the config in different places.
 
 **Ubuntu — you have a config write ACL.** The config is split out of the
-data directory into `/etc/postgresql/16/main`, so you can edit it directly:
+data directory into `/etc/postgresql/16/main` (26.04: `/etc/postgresql/18/main`
+— substitute `18` for `16` in everything below), so you can edit it directly:
 
 ```bash
 # drop-in discipline: one intention per file, never hand-edit the vendor
@@ -156,15 +167,16 @@ apps — see [Logs & rotation](../../concepts/logging.md).
 **The journal** carries startup/shutdown/crash messages on both distros; read
 it with the granted `journalctl` spellings (verbatim in `sudo -l`). On Ubuntu
 the interesting log is under the cluster unit:
-`sudo journalctl -e -u postgresql@16-main`.
+`sudo journalctl -e -u postgresql@16-main` (26.04: `postgresql@18-main`).
 
 **File logs:**
 
 - **Ubuntu** writes detailed logs to
-  `/var/log/postgresql/postgresql-16-main.log`, granted by your read ACL — no
+  `/var/log/postgresql/postgresql-16-main.log` (26.04: `postgresql-18-main.log`),
+  granted by your read ACL — no
   sudo: `tail -f /var/log/postgresql/postgresql-16-main.log`. Rotated files
   stay readable because the profile set a **default ACL** on the directory.
-- **EL** has no `/var/log/postgresql`. With the default config the server
+- **EL** (al2023 included) has no `/var/log/postgresql`. With the default config the server
   logs to stderr, which systemd captures into the journal (so `journalctl` is
   your path). If a cluster later turns on the logging collector, its files
   land *inside the 0700 data dir* and are unreadable to you — that is an ops
@@ -191,7 +203,8 @@ while the dataset sits still. `[app-knowledge]` A base backup or `pg_dump`
 needs headroom about equal to the dataset, all at once.
 
 You **can** watch it — `df -h`, plus `du -sh` inside your granted paths
-(Ubuntu's `/var/log/postgresql` and `/etc/postgresql/16/main`; on EL the
+(Ubuntu's `/var/log/postgresql` and `/etc/postgresql/16/main` — `18/main` on
+26.04; on EL the
 profile grants no filesystem paths, so `df -h` is your whole view). You
 **cannot** `mount`, `mkfs`, edit `/etc/fstab`, `chown` a mount point, or
 touch `/etc/logrotate.d/postgresql-common` or journald's limits: none of it
@@ -224,28 +237,28 @@ sized and sequenced for this app in [ops §12](ops.md#12-storage-and-growth)).
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package | `postgresql-server` | `postgresql-server` | `postgresql` (meta → `postgresql-16`) |
-| Unit(s) | `postgresql.service` | `postgresql.service` | `postgresql.service` (umbrella) + `postgresql@16-main.service` (cluster) |
-| Service account:group | `postgres:postgres` | `postgres:postgres` | `postgres:postgres` (also in `ssl-cert`) |
-| Config location | inside data dir `/var/lib/pgsql/data/*.conf` (0700 — **not** granted) | same | split out to `/etc/postgresql/16/main` (**write ACL**) |
-| Config drop-in dir | N/A on alma9 — no on-disk config until `initdb`; use `ALTER SYSTEM` | N/A on alma10 — same | `/etc/postgresql/16/main/conf.d` |
-| Data dir (never granted) | `/var/lib/pgsql/data` | `/var/lib/pgsql/data` | `/var/lib/postgresql/16/main` |
-| Log dir | N/A on alma9 — journal only (collector logs into the 0700 data dir) | N/A on alma10 — journal only | `/var/log/postgresql` (**read ACL**) |
-| Config validator | N/A — validate via `pg_file_settings` after reload | N/A — same | N/A — same |
-| TLS key location | inside `0700` data dir — ops only | same | `/etc/ssl/private` via `ssl-cert` group — ops only |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | al2023 |
+| --- | --- | --- | --- | --- | --- |
+| Package | `postgresql-server` | `postgresql-server` | `postgresql` (meta → `postgresql-16`) | `postgresql` (meta → `postgresql-18`) | `postgresql17-server` (versioned stream, unversioned paths) |
+| Unit(s) | `postgresql.service` | `postgresql.service` | `postgresql.service` (umbrella) + `postgresql@16-main.service` (cluster) | `postgresql.service` (umbrella) + `postgresql@18-main.service` (cluster) | `postgresql.service` |
+| Service account:group | `postgres:postgres` | `postgres:postgres` | `postgres:postgres` (also in `ssl-cert`) | `postgres:postgres` (also in `ssl-cert`) | `postgres:postgres` |
+| Config location | inside data dir `/var/lib/pgsql/data/*.conf` (0700 — **not** granted) | same | split out to `/etc/postgresql/16/main` (**write ACL**) | split out to `/etc/postgresql/18/main` (**write ACL**) | same as alma9 |
+| Config drop-in dir | N/A on alma9 — no on-disk config until `initdb`; use `ALTER SYSTEM` | N/A on alma10 — same | `/etc/postgresql/16/main/conf.d` | `/etc/postgresql/18/main/conf.d` | N/A on al2023 — same as alma9 |
+| Data dir (never granted) | `/var/lib/pgsql/data` | `/var/lib/pgsql/data` | `/var/lib/postgresql/16/main` | `/var/lib/postgresql/18/main` | `/var/lib/pgsql/data` |
+| Log dir | N/A on alma9 — journal only (collector logs into the 0700 data dir) | N/A on alma10 — journal only | `/var/log/postgresql` (**read ACL**) | `/var/log/postgresql` (**read ACL**) | N/A on al2023 — journal only |
+| Config validator | N/A — validate via `pg_file_settings` after reload | N/A — same | N/A — same | N/A — same | N/A — same |
+| TLS key location | inside `0700` data dir — ops only | same | `/etc/ssl/private` via `ssl-cert` group — ops only | `/etc/ssl/private` via `ssl-cert` group — ops only | inside `0700` data dir — ops only |
 
 ## 9. Cheat sheet
 
 ```bash
 sudo -l                                        # your exact grants — start here
-sudo systemctl status postgresql               # health (Ubuntu: @16-main)
+sudo systemctl status postgresql               # health (Ubuntu: @16-main / @18-main)
 sudo systemctl reload postgresql               # apply config, no downtime (SIGHUP)
 sudo journalctl -e -u postgresql               # recent journal (granted spelling)
-# Ubuntu — config via ACL:
+# Ubuntu — config via ACL (24.04 shown; substitute 18 for 16 on 26.04):
 vi /etc/postgresql/16/main/conf.d/10-tuning.conf && sudo systemctl reload postgresql@16-main
 tail -f /var/log/postgresql/postgresql-16-main.log
-# EL — config via SQL:
+# EL (alma9/alma10/al2023) — config via SQL:
 #   psql -c "ALTER SYSTEM SET work_mem='32MB'; SELECT pg_reload_conf();"
 ```

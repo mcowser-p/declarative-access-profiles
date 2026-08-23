@@ -5,14 +5,18 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/tomcat/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/tomcat/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/tomcat/ubuntu-24.04-access.yml)).
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/tomcat/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/tomcat/ubuntu-26.04-access.yml)).
 
 Tomcat is the application where **pam_group does the most**: the package ships
 your deploy dirs group-writable to `tomcat`, so being in that group at login is
 what lets you deploy webapps — no ACL, no ownership change. The rest of this
 page uses the EL names (`tomcat`, `/etc/tomcat`, `/var/lib/tomcat`); the Ubuntu
-equivalents are `tomcat10`, `/etc/tomcat10`, `/var/lib/tomcat10` — see the
-[per-distro table](#8-per-distro-differences).
+equivalents are `tomcat10`, `/etc/tomcat10`, `/var/lib/tomcat10` on 24.04 and
+`tomcat11`, `/etc/tomcat11`, `/var/lib/tomcat11` on 26.04 — see the
+[per-distro table](#8-per-distro-differences). There is no Tomcat profile for
+amazonlinux-2023: N/A — tomcat is not packaged in AL2023 core repos and AL2023
+has no EPEL support.
 
 ## 0. First command: `sudo -l`
 
@@ -25,7 +29,7 @@ a password. Copy from `sudo -l` output, not from memory.
 
 | What | How it's granted | Example |
 | --- | --- | --- |
-| Service control on `tomcat` (Ubuntu: `tomcat10`) | sudoers: `start stop restart reload status enable disable mask unmask`, bare and `.service` spellings | `sudo systemctl restart tomcat` |
+| Service control on `tomcat` (Ubuntu: `tomcat10`/`tomcat11`) | sudoers: `start stop restart reload status enable disable mask unmask`, bare and `.service` spellings | `sudo systemctl restart tomcat` |
 | Its journal | sudoers: `journalctl -u tomcat`, `-e -u`, `-ef -u`, `--since -5m/-10m/-15m` variants (bare + `.service`) | `sudo journalctl -e -u tomcat` |
 | `daemon-reload` | sudoers (global — see §2) | `sudo systemctl daemon-reload` |
 | Config: `/etc/tomcat` | write **ACL** for your team group (+ default ACL for new files) | edit `server.xml`, add `conf.d/*.conf` |
@@ -41,8 +45,8 @@ for the four mechanisms.
 
 ## 2. Administering your systemd unit
 
-The full verb set is granted for `tomcat.service` (Ubuntu: `tomcat10.service`).
-There are no timers or quadlets in this profile.
+The full verb set is granted for `tomcat.service` (Ubuntu: `tomcat10.service` /
+`tomcat11.service`). There are no timers or quadlets in this profile.
 
 **Tomcat has no graceful reload.** The packaged unit defines no `ExecReload`, so
 `sudo systemctl reload tomcat` is in your granted set but returns an error / does
@@ -156,8 +160,8 @@ Tomcat logs in two places:
 **Rotation is app-specific here.** Tomcat's juli handler writes **one file per
 day** and rotates itself — so on EL the package ships logrotate *disabled*
 (`/etc/logrotate.d/tomcat.disabled`) and juli owns rotation; on Ubuntu logrotate
-(`/etc/logrotate.d/tomcat10`, run from `cron.daily`) rotates `catalina.out`
-while juli still self-rotates the dated files. Either way your read grant
+(`/etc/logrotate.d/tomcat10` / `tomcat11`, run from `cron.daily`) rotates
+`catalina.out` while juli still self-rotates the dated files. Either way your read grant
 survives because the profile set a **default ACL** on the log dir — tomorrow's
 dated files inherit it (see [Logs & rotation](../../concepts/logging.md)).
 
@@ -197,11 +201,13 @@ restore the deploy directory's group-write by hand
 - **Env / JVM options.** EL: the unit reads `/etc/tomcat/tomcat.conf` (inside
   your config ACL — set `JAVA_OPTS`, `CATALINA_OPTS` there) and optionally
   `-/etc/sysconfig/tomcat` (outside your grant; leave it to ops or use
-  `conf.d`). Ubuntu: the unit sets `JAVA_OPTS` inline and reads no
-  `EnvironmentFile`, so JVM tuning goes through `/etc/tomcat10` config (your ACL)
-  or is an ops unit change. No file in any profile contains secrets by default;
-  keep DB passwords in a webapp's own config, not world-readable under
-  `/etc/tomcat`.
+  `conf.d`). Ubuntu (both releases): the unit sets `JAVA_OPTS` inline and reads
+  no `EnvironmentFile`; the packaged env file is `/etc/default/tomcat10` /
+  `tomcat11` (root-owned, **outside your grant** — an ops request), read by the
+  start script `[app-knowledge]`, so self-service JVM tuning is limited to what
+  `/etc/tomcat10` / `/etc/tomcat11` config (your ACL) can express. No file in
+  any profile contains secrets by default; keep DB passwords in a webapp's own
+  config, not world-readable under `/etc/tomcat`.
 - **Timers you own:** none.
 - **A bigger change** (install a JDBC driver into `CATALINA_HOME/lib`, add a
   connector on a privileged port, upgrade the package, edit the unit): that is a
@@ -212,24 +218,28 @@ restore the deploy directory's group-write by hand
 
 ## 8. Per-distro differences
 
-Tomcat applies on all three distros — no N/A cells — but the divergence is the
-widest of any app in the library.
+Tomcat applies on four of the five distros; the divergence among those four is
+the widest of any app in the library. Ubuntu 26.04 ships **Tomcat 11**
+(`tomcat11`) — same access model as 24.04's `tomcat10`, but the Security
+Manager machinery is gone (no `policy.d`, no `/var/lib/tomcat11/policy`, no
+policy build step in the unit; Tomcat 11 removed Security Manager support
+`[app-knowledge]`).
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package / unit | `tomcat` / `tomcat.service` | `tomcat` / `tomcat.service` | `tomcat10` / `tomcat10.service` |
-| Service account:group | `tomcat:tomcat` (uid/gid 53) | `tomcat:tomcat` (53) | `tomcat:tomcat` (uid/gid 988) |
-| Config root | `/etc/tomcat` | `/etc/tomcat` | `/etc/tomcat10` |
-| Drop-in dir | `/etc/tomcat/conf.d` | `/etc/tomcat/conf.d` | `/etc/tomcat10/conf.d` (+ `policy.d`) |
-| Context descriptors | `/etc/tomcat/Catalina/localhost` | same | `/etc/tomcat10/Catalina/localhost` |
-| Webapps (deploy) | `/var/lib/tomcat/webapps` (`0775 root:tomcat`) | same + `webapps-javaee` | `/var/lib/tomcat10/webapps` (`0775 tomcat:tomcat`) |
-| CATALINA_HOME | `/usr/share/tomcat` | `/usr/share/tomcat` | `/usr/share/tomcat10` |
-| Log dir | `/var/log/tomcat` | `/var/log/tomcat` | `/var/log/tomcat10` |
-| Rotation | juli self-rotate; logrotate **disabled** | same | logrotate (cron.daily) + juli |
-| Config validator | none — restart + journal | none | none |
-| TLS keystore | `/etc/tomcat/keystore.p12` (config ACL) | same | `/etc/tomcat10/keystore.p12` |
-| pam_group group | `tomcat` | `tomcat` | `tomcat` |
-| Unit ambient caps | none | none | `CAP_NET_BIND_SERVICE` |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| Package / unit | `tomcat` / `tomcat.service` | `tomcat` / `tomcat.service` | `tomcat10` / `tomcat10.service` | `tomcat11` / `tomcat11.service` | N/A on amazonlinux-2023 — tomcat not packaged in AL2023 core repos and no EPEL support |
+| Service account:group | `tomcat:tomcat` (uid/gid 53) | `tomcat:tomcat` (53) | `tomcat:tomcat` (987 — allocated at install) | `tomcat:tomcat` (982 — allocated at install) | N/A on amazonlinux-2023 |
+| Config root | `/etc/tomcat` | `/etc/tomcat` | `/etc/tomcat10` | `/etc/tomcat11` | N/A on amazonlinux-2023 |
+| Drop-in dir | `/etc/tomcat/conf.d` | `/etc/tomcat/conf.d` | none — `policy.d` only (Security Manager policy); JVM flags are an ops request (`/etc/default/tomcat10`) | none — and no `policy.d` either (Security Manager removed) | N/A on amazonlinux-2023 |
+| Context descriptors | `/etc/tomcat/Catalina/localhost` | same | `/etc/tomcat10/Catalina/localhost` | `/etc/tomcat11/Catalina/localhost` | N/A on amazonlinux-2023 |
+| Webapps (deploy) | `/var/lib/tomcat/webapps` (`0775 root:tomcat`) | same + `webapps-javaee` | `/var/lib/tomcat10/webapps` (`0775 tomcat:tomcat`) | `/var/lib/tomcat11/webapps` (`0775 tomcat:tomcat`) | N/A on amazonlinux-2023 |
+| CATALINA_HOME | `/usr/share/tomcat` | `/usr/share/tomcat` | `/usr/share/tomcat10` | `/usr/share/tomcat11` | N/A on amazonlinux-2023 |
+| Log dir | `/var/log/tomcat` | `/var/log/tomcat` | `/var/log/tomcat10` | `/var/log/tomcat11` | N/A on amazonlinux-2023 |
+| Rotation | juli self-rotate; logrotate **disabled** | same | logrotate (cron.daily) + juli | logrotate (cron.daily) + juli | N/A on amazonlinux-2023 |
+| Config validator | none — restart + journal | none | none | none | N/A on amazonlinux-2023 |
+| TLS keystore | `/etc/tomcat/keystore.p12` (config ACL) | same | `/etc/tomcat10/keystore.p12` | `/etc/tomcat11/keystore.p12` | N/A on amazonlinux-2023 |
+| pam_group group | `tomcat` | `tomcat` | `tomcat` | `tomcat` | N/A on amazonlinux-2023 |
+| Unit ambient caps | none | none | `CAP_NET_BIND_SERVICE` | `CAP_NET_BIND_SERVICE` | N/A on amazonlinux-2023 |
 
 ## 9. Cheat sheet
 

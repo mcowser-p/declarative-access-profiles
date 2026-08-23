@@ -8,10 +8,11 @@ install actually put on the server — and the parts that make it work end to
 end.
 
 Everything below is real and tested: the profiles in this repo were
-generated from footprints captured on live AlmaLinux 9/10 and Ubuntu 24.04
-EC2 instances (SELinux enforcing, real PAM stack), reviewed by hand, and
-verified — apply, allow/deny probes, a behavioral SSH login, revoke — on
-those same instances.
+generated from footprints captured on live KVM guests provisioned from our
+own holy-qcow golden images — AlmaLinux 9/10, Ubuntu 24.04/26.04, and
+Amazon Linux 2023, the same CIS-hardened images the fleet runs (SELinux or
+AppArmor, real PAM stack) — reviewed by hand, and verified — apply,
+allow/deny probes, a behavioral SSH login, revoke — on those same guests.
 
 ## The problem: root during setup, root forever
 
@@ -95,7 +96,7 @@ authselect, SELinux, and the PAM stack are all live.
 
 ## Worked example: nginx
 
-The raw export (from a real AlmaLinux 9 AMI) grants the nginx service, its
+The raw export (from a real AlmaLinux 9 KVM guest) grants the nginx service, its
 vendor unit files, and its config, cache, and unit drop-in directories. The
 review tightens it to this shape (the full file, with the reasoning, is in
 [the nginx profiles](https://github.com/mcowser-p/declarative-access-profiles/tree/main/profiles/nginx)):

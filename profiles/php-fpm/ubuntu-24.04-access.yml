@@ -29,7 +29,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-23 (KVM ubuntu2404-20260823, AppArmor, real PAM, CIS L1)
 
 # REVIEW-CHANGE: profile_name 'php8.3-fpm' -> 'php-fpm' — normalized to the
 # library app slug (check_profiles requires profile_name == the app dir).

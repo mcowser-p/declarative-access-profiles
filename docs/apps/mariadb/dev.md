@@ -5,12 +5,15 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/ubuntu-24.04-access.yml)).
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/ubuntu-26.04-access.yml),
+[amazonlinux 2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/mariadb/amazonlinux-2023-access.yml)).
 
 The one thing to internalise up front: this is a **database** profile, and it
 is deliberately **config-scoped**. You can control the service, edit config
 drop-ins, and read logs — but you get **no filesystem access to the data
-directory** (`/var/lib/mysql`), and no service-group membership. That is not an
+directory** (`/var/lib/mysql`; `/var/lib/mariadb` on Ubuntu 26.04), and no
+service-group membership. That is not an
 oversight: the `mysql` group owns the raw table files, and reading them from
 disk bypasses every `GRANT` the database enforces. Database administration
 happens through the **SQL client**, not the filesystem. See
@@ -30,10 +33,10 @@ prompt for a password. Copy from `sudo -l` output, not from memory.
 | Service control on `mariadb` | sudoers: `start stop restart reload status enable disable mask unmask`, bare and `.service` spellings | `sudo systemctl restart mariadb` |
 | Its journal | sudoers: `journalctl -u mariadb`, `-e -u`, `-ef -u`, `--since`/`--until` variants (bare + `.service`) | `sudo journalctl -e -u mariadb` |
 | `daemon-reload` | sudoers (global — see §2) | `sudo systemctl daemon-reload` |
-| Config drop-ins: `/etc/my.cnf.d` (EL) / `/etc/mysql/mariadb.conf.d` (Ubuntu) | write **ACL** for your team group (+ default ACL for new files) | edit `zz-tuning.cnf` |
-| Logs: `/var/log/mariadb` (EL only) | read **ACL** + default ACL | `less /var/log/mariadb/mariadb.log` |
-| Logs on Ubuntu | journald only — granted `journalctl` spellings (no log dir exists) | `sudo journalctl -e -u mariadb` |
-| Data directory `/var/lib/mysql` | **NOT granted** — by design (database class) | use the SQL client instead |
+| Config drop-ins: `/etc/my.cnf.d` (EL + AL2023) / `/etc/mysql/mariadb.conf.d` (Ubuntu) | write **ACL** for your team group (+ default ACL for new files) | edit `zz-tuning.cnf` |
+| Logs: `/var/log/mariadb` (EL + AL2023) | read **ACL** + default ACL | `less /var/log/mariadb/mariadb.log` |
+| Logs on Ubuntu (both releases) | journald only — granted `journalctl` spellings (no log dir exists) | `sudo journalctl -e -u mariadb` |
+| Data directory `/var/lib/mysql` (26.04: `/var/lib/mariadb`) | **NOT granted** — by design (database class) | use the SQL client instead |
 | Service group at login | **NOT granted** — no pam_group (database class) | — |
 
 There is **no content directory** and **no pam_group** in this profile — those
@@ -65,8 +68,8 @@ Drop-in discipline: never edit the vendor main file (`/etc/my.cnf` on EL,
 `/etc/mysql/mariadb.cnf` on Ubuntu). Put changes in a drop-in, **one intention
 per file**:
 
-- **EL:** `/etc/my.cnf.d/zz-<intention>.cnf`
-- **Ubuntu:** `/etc/mysql/mariadb.conf.d/zz-<intention>.cnf`
+- **EL (incl. Amazon Linux 2023):** `/etc/my.cnf.d/zz-<intention>.cnf`
+- **Ubuntu (24.04 and 26.04):** `/etc/mysql/mariadb.conf.d/zz-<intention>.cnf`
 
 Your write ACL covers exactly that drop-in directory. Prefix with `zz-` so your
 file is read last and wins over the packaged drop-ins. Each file needs a section
@@ -122,15 +125,16 @@ Two places, two mechanisms (the general pattern is in
   stream go here. Read it with the granted `journalctl` spellings, verbatim in
   `sudo -l`: `sudo journalctl -e -u mariadb`, `-ef -u mariadb` to follow live.
 - **The error-log file** — if `log_error` points at a file, it lands in
-  `/var/log/mariadb/` (EL), which you read
+  `/var/log/mariadb/` (EL + AL2023), which you read
   directly via your log ACL, **no sudo**:
   `tail -f /var/log/mariadb/mariadb.log`. Whether MariaDB writes a file here or
   only to the journal depends on the `log_error` setting
   `[needs-runtime-confirmation]`.
 
 One database-specific trap: the **general query log and slow query log can be
-stored as SQL tables** inside the data directory (the capture shows
-`general_log.CSV` / `slow_log.CSV` under `/var/lib/mysql/mysql/`), not as files.
+stored as SQL tables** inside the data directory (the Ubuntu captures show
+`general_log.CSV` / `slow_log.CSV` under `/var/lib/mysql/mysql/` — on 26.04,
+`/var/lib/mariadb/mysql/`), not as files.
 Table-based logs are **not** reachable through your log ACL — the data dir isn't
 granted — so read them with the SQL client (`SELECT * FROM mysql.slow_log`) or
 ask ops to switch `log_output=FILE` if you need them on disk.
@@ -145,13 +149,14 @@ outside your grant: retention or frequency changes are a request to ops.
 ## 6. Storage: what fills up, and what you can do about it
 
 What grows here is the **data directory**, and it's the one thing you can't see.
-`/var/lib/mysql` holds the dataset plus — if anyone turns on `log_bin` — the
-binlogs, which expire on `binlog_expire_logs_seconds` and are **never touched by
-log rotation** `[app-knowledge]`. No grant of yours reaches that path, so
-measure it from the SQL client (`information_schema.tables`), not with `du`.
+`/var/lib/mysql` (26.04: `/var/lib/mariadb`) holds the dataset plus — if anyone
+turns on `log_bin` — the binlogs, which expire on `binlog_expire_logs_seconds`
+and are **never touched by log rotation** `[app-knowledge]`. No grant of yours
+reaches that path, so measure it from the SQL client
+(`information_schema.tables`), not with `du`.
 
 You **can** watch the disk: `df -h`, and `du -sh` inside your granted paths (the
-config drop-in dir; `/var/log/mariadb` on EL). You **cannot** `mount`, `mkfs`,
+config drop-in dir; `/var/log/mariadb` on EL + AL2023). You **cannot** `mount`, `mkfs`,
 edit `/etc/fstab`, `chown` a mount point, or change `/etc/logrotate.d/mariadb`
 or journald's limits — none of it is grantable, all of it is ops, all of it
 needs a change window. Flag growth early; a full data volume at 3am is not
@@ -189,18 +194,20 @@ vi /etc/mysql/debian.cnf                     # DENY (Ubuntu) — credential file
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package | `mariadb-server` | `mariadb-server` | `mariadb-server` |
-| Unit (canonical) | `mariadb.service` | `mariadb.service` | `mariadb.service` |
-| Unit aliases (not granted) | `mysql`, `mysqld` (Install.Alias) | `mysql`, `mysqld` (Install.Alias) | `mysql`, `mysqld` (Debian compat units) |
-| Service account:group | `mysql:mysql` | `mysql:mysql` | `mysql:mysql` |
-| Config main file (do not edit) | `/etc/my.cnf` | `/etc/my.cnf` | `/etc/mysql/mariadb.cnf` |
-| Config drop-in dir (**your ACL**) | `/etc/my.cnf.d` | `/etc/my.cnf.d` | `/etc/mysql/mariadb.conf.d` |
-| Log dir (**your ACL**) | `/var/log/mariadb` | `/var/log/mariadb` | N/A on ubuntu-24.04 — logs go to journald |
-| Config validator | none built-in — `mariadbd --print-defaults` + restart + journal | same | same |
-| TLS cert/key paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` |
-| pam_group | N/A on all — database class grants no service-group membership | N/A | N/A |
+| | alma9 | alma10 | ubuntu 24.04 | ubuntu 26.04 | amazonlinux 2023 |
+| --- | --- | --- | --- | --- | --- |
+| Package | `mariadb-server` | `mariadb-server` | `mariadb-server` | `mariadb-server` | `mariadb1011-server` (the 10.11 dnf stream) |
+| Captured version | 10.5 | 10.11 | 10.11.14 | 11.8.6 | 10.11.18 |
+| Unit (canonical) | `mariadb.service` | `mariadb.service` | `mariadb.service` | `mariadb.service` | `mariadb.service` |
+| Unit aliases (not granted) | `mysql`, `mysqld` (Install.Alias) | `mysql`, `mysqld` (shipped alias symlinks) | `mysql`, `mysqld` (Debian compat symlink units) | `mysql`, `mysqld` (Debian compat symlink units) | `mysql`, `mysqld` (Install.Alias — no separate unit files) |
+| Service account:group | `mysql:mysql` | `mysql:mysql` | `mysql:mysql` | `mysql:mysql` | `mysql:mysql` |
+| Config main file (do not edit) | `/etc/my.cnf` | `/etc/my.cnf` | `/etc/mysql/mariadb.cnf` | `/etc/mysql/mariadb.cnf` | `/etc/my.cnf` |
+| Config drop-in dir (**your ACL**) | `/etc/my.cnf.d` | `/etc/my.cnf.d` | `/etc/mysql/mariadb.conf.d` | `/etc/mysql/mariadb.conf.d` | `/etc/my.cnf.d` |
+| Data dir (**never granted**) | `/var/lib/mysql` | `/var/lib/mysql` | `/var/lib/mysql` | **`/var/lib/mariadb`** | `/var/lib/mysql` |
+| Log dir (**your ACL**) | `/var/log/mariadb` | `/var/log/mariadb` | N/A on ubuntu-24.04 — logs go to journald | N/A on ubuntu-26.04 — logs go to journald | `/var/log/mariadb` |
+| Config validator | none built-in — `mariadbd --print-defaults` + restart + journal | same | same | same | same |
+| TLS cert/key paths | `/etc/pki/tls/{certs,private}` | `/etc/pki/tls/{certs,private}` | `/etc/ssl/{certs,private}` | `/etc/ssl/{certs,private}` | `/etc/pki/tls/{certs,private}` |
+| pam_group | N/A on all five — database class grants no service-group membership | N/A | N/A | N/A | N/A |
 
 ## 9. Cheat sheet
 

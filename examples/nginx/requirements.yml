@@ -1,0 +1,10 @@
+---
+# Pin the adopted role (role-eval verdict: adopt+wrap). A version bump can
+# change the install footprint → re-capture, re-review (6a wrap note).
+# Pinned at adoption, 2026-08.
+roles:
+  - name: geerlingguy.nginx
+    version: "3.2.0"
+
+collections:
+  - name: mcowser_p.declarative_access

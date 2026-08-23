@@ -1,0 +1,87 @@
+---
+# declarative-access-profiles :: caddy on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-caddy.json
+#               (schema 1.0, captured 2026-08-23 on an AlmaLinux 9 KVM
+#               golden image, SELinux enforcing; treadmark 0.11.0.
+#               Package source: EPEL — matrix cell `repos: [epel]`; the
+#               repo was enabled before the baseline, so the capture
+#               window holds caddy and its direct deps only.)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/caddy/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: webserver — pam_group into the install-created 'caddy'
+# group (identity/read baseline + the content group) + setgid content dir
+# + config write ACL on /etc/caddy + service control. Read-only-units
+# profile. NO /var/log grant (caddy is journald-only at install) and NO
+# grant on /var/lib/caddy — caddy's automatic-HTTPS storage (ACME account
+# keys, site private keys, certs, OCSP state) lives there; see the
+# REVIEW-DROP below and ops §9.
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/caddy/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM alma9-20260823, SELinux enforcing, real PAM, CIS L1)
+
+declarative_access_profile_name: 'caddy'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'caddy'
+  # REVIEW-DROP: 'caddy-api' — the package's alternate config-by-API unit
+  # (ExecStart `caddy run --environ --resume`: config arrives via the admin
+  # API and persists to autosave.json inside /var/lib/caddy, a path this
+  # profile deliberately does not grant). Operating it moves config
+  # administration outside the reviewed /etc/caddy ACL surface, and it
+  # conflicts with caddy.service over the same listeners. Ships disabled.
+  # A team adopting API-driven config needs a re-review, not a quiet
+  # grant. See ops §2.
+
+# REVIEW-DROP: declarative_access_files_modify [/lib + /usr/lib
+# .../caddy.service + caddy-api.service] — vendor unit files (the /lib
+# entries are usr-merge aliases of the same two units); a write ACL on a
+# unit file is root-equivalent for that unit with the granted
+# daemon-reload + restart. Read-only-units profile.
+
+declarative_access_pam_group: true
+declarative_access_local_groups:
+  # REVIEW-KEEP: webserver class — pam_group puts the team into the
+  # install-created 'caddy' group at SSH login: the group that owns the
+  # content dir below, plus the read/traverse baseline. Side effect to
+  # know: 'caddy' group-owns /var/lib/caddy (0750), so members can LIST
+  # its top level. Key material is not exposed: caddy creates its runtime
+  # subdirs 0700 and files 0600 (observed in the Ubuntu first-start
+  # capture; [app-knowledge] on EL, where dnf does not start services), so
+  # group members cannot descend into the cert store. See ops §3.
+  - 'caddy'
+
+declarative_access_folders_modify:
+  # config write ACL: Caddyfile + the EL Caddyfile.d drop-in dir.
+  - '/etc/caddy'
+  # REVIEW-DROP: '/var/lib/caddy' — caddy's home/storage dir and the
+  # anchor of its automatic HTTPS: ACME account keys, site private
+  # keys/certs and OCSP state land here at runtime. The data-dir rule
+  # applies: a team write ACL here would hand over TLS private keys and
+  # the live cert store — never granted in any list. The service writes
+  # it; install-time state is enforced via ownership below. See ops §9.
+
+# REVIEW-DROP: '/var/log/caddy' read grant (webserver-class default) —
+# the package creates no log dir and ships no logrotate or rsyslog
+# fragment: caddy is journald-only at install, and the service grant's
+# journalctl -u caddy spellings cover it. If a team configures file
+# access logs, ops creates the dir and adds it to folders_read at
+# review. See ops §10.
+
+declarative_access_ownership:
+  # as captured — enforces install-time state and keeps drift visible.
+  - {path: '/var/lib/caddy', owner: 'caddy', group: 'caddy', mode: '0750'}
+  # REVIEW-ADD: content dir — the packaged default site root
+  # (/usr/share/caddy, shipped with index.html; the stock Caddyfile's
+  # file_server serves it [app-knowledge]). Group-owned + setgid so the
+  # team (in 'caddy' via pam_group) writes content and new files inherit
+  # the group. The one intentional vendor-permission deviation —
+  # accept-list it for rpm -V. See ops §8.
+  - {path: '/usr/share/caddy', owner: 'root', group: 'caddy', mode: '2775'}

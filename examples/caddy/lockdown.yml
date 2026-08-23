@@ -1,0 +1,17 @@
+---
+# Apply the reviewed caddy access profile — playbook-5 mechanics with the
+# profile resolved from THIS checkout.
+#
+#   ansible-playbook -i <inv> lockdown.yml -e distro_slug=ubuntu-24.04
+#   revoke: same command + --tags cleanup
+- name: Lock down caddy admin surface
+  hosts: "{{ target | default('caddy_hosts') }}"
+  become: true
+  vars:
+    # almalinux-9 | almalinux-10 | ubuntu-24.04 | ubuntu-26.04  (al2023: N/A)
+    distro_slug: ubuntu-24.04
+    group_name: "{{ ansible_hostname }}-app_restricted"
+  vars_files:
+    - "../../profiles/caddy/{{ distro_slug }}-access.yml"
+  roles:
+    - mcowser_p.declarative_access.declarative_access

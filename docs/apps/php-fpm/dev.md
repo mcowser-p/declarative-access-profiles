@@ -5,7 +5,9 @@ everything you can still do, and how. What ops decided and why is in the
 [ops runbook](ops.md); your grants come from the reviewed profile for your
 distro ([alma9](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/almalinux-9-access.yml),
 [alma10](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/almalinux-10-access.yml),
-[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/ubuntu-24.04-access.yml)).
+[AL2023](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/amazonlinux-2023-access.yml),
+[ubuntu 24.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/ubuntu-24.04-access.yml),
+[ubuntu 26.04](https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/php-fpm/ubuntu-26.04-access.yml)).
 
 One thing to get straight first: **php-fpm is the PHP engine, not the web
 server.** A browser talks to nginx or Apache; the web server hands PHP
@@ -23,8 +25,12 @@ for a password. Copy from `sudo -l` output, not from memory.
 
 ## 1. Your grants at a glance
 
-Generated from the reviewed profile. EL unit/paths shown first; Ubuntu in
-parentheses (see [§8](#8-per-distro-differences) for the full table).
+Generated from the reviewed profile. EL unit/paths shown first — identical
+on alma9, alma10, and AL2023 (AL2023's *package* is versioned `php8.4-fpm`,
+but everything it installs is unversioned, so the grants match EL exactly).
+Ubuntu in parentheses using the 24.04 spelling; on **ubuntu 26.04 substitute
+`8.5` for `8.3`** throughout (see [§8](#8-per-distro-differences) for the
+full table).
 
 | What | How it's granted | Example |
 | --- | --- | --- |
@@ -46,7 +52,7 @@ matters.
 The full verb set is granted for `php-fpm.service` (Ubuntu:
 `php8.3-fpm.service`). There are **no timers or quadlets** in this profile —
 on Ubuntu the `phpsessionclean.timer` session garbage collector was left as
-host housekeeping (ops [§2](ops.md#2-raw--reviewed-the-decisions)).
+host housekeeping (ops [§2](ops.md#2-raw-reviewed-the-decisions)).
 
 Reload vs restart, for THIS app:
 
@@ -79,9 +85,10 @@ Your write ACL is on the **pool dir** only —`/etc/php-fpm.d` (Ubuntu:
 Validate before reloading:
 
 ```bash
-php-fpm -t            # EL: syntax-checks the config (pool files are world-
-                      # readable, so this runs as your user — no sudo needed)
-php-fpm8.3 -t         # Ubuntu
+php-fpm -t            # EL/AL2023: syntax-checks the config (pool files are
+                      # world-readable, so this runs as your user — no sudo)
+php-fpm8.3 -t         # Ubuntu 24.04
+php-fpm8.5 -t         # Ubuntu 26.04
 sudo systemctl reload php-fpm
 ```
 
@@ -136,8 +143,8 @@ php-fpm writes to two places:
     files stay readable because the profile set a **default ACL** on the
     dir; tomorrow's log and the `.gz` archives inherit your read grant. This
     is the canonical mechanism in [Logs & rotation](../../concepts/logging.md).
-  - **Ubuntu:** the master log is the single file `/var/log/php8.3-fpm.log`,
-    not a directory. Your read ACL covers that file and its renamed
+  - **Ubuntu:** the master log is the single file `/var/log/php8.3-fpm.log`
+    (26.04: `/var/log/php8.5-fpm.log`), not a directory. Your read ACL covers that file and its renamed
     successors, but the **fresh** file logrotate creates after rotation gets
     no ACL (there's no default ACL on `/var/log` itself). So for durable FPM
     health, lean on `journalctl -u php8.3-fpm`; if you want default-ACL'd
@@ -187,26 +194,32 @@ access disappears with no error — ops must re-apply the profile. See
   workers, not you — it's **not** in your grant, and it holds live user
   session data. Change session behavior with `php_value[session.*]` in your
   pool, not by touching that directory.
-- **Installing a PHP extension** (`dnf install php-<ext>` / `apt install
-  php8.3-<ext>`), enabling a module in the shared `/etc/php.d`, or a **PHP
-  version upgrade**: change window — ops re-adds you to `<hostname>-app_full`,
+- **Installing a PHP extension** (`dnf install php-<ext>`; AL2023:
+  `php8.4-<ext>`; `apt install php8.3-<ext>` / `php8.5-<ext>`), enabling a
+  module in the shared `/etc/php.d`, or a **PHP version upgrade**: change
+  window — ops re-adds you to `<hostname>-app_full`,
   you work, you hand over again (see [lifecycle](../../concepts/lifecycle.md)).
 - **A command is denied.** Read the denial, run `sudo -l`, and if the need
   is real, request either the exact command grant or a change window.
 
 ## 8. Per-distro differences
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Package | `php-fpm` | `php-fpm` | `php8.3-fpm` |
-| Unit | `php-fpm.service` | `php-fpm.service` | `php8.3-fpm.service` |
-| Runs as (pool) | `apache` | `apache` | `www-data` |
-| Config root | `/etc/php-fpm.conf` + `/etc/php.ini` | same | `/etc/php/8.3/fpm/php-fpm.conf` + `php.ini` |
-| Pool dir (**your ACL**) | `/etc/php-fpm.d` | `/etc/php-fpm.d` | `/etc/php/8.3/fpm/pool.d` |
-| Log path (**your read**) | `/var/log/php-fpm/` (dir) | `/var/log/php-fpm/` (dir) | `/var/log/php8.3-fpm.log` (single file — §5 caveat) |
-| Validator | `php-fpm -t` | `php-fpm -t` | `php-fpm8.3 -t` |
-| Session GC timer | N/A on EL — session GC is `session.gc_probability` in `php.ini`, not a unit | N/A on EL — same | `phpsessionclean.timer` (host housekeeping — not in your profile) |
-| TLS | N/A — terminated by the web server in front, not php-fpm | N/A — same | N/A — same |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package | `php-fpm` | `php-fpm` | **`php8.4-fpm`** (versioned streams 8.2–8.4; newest wins) | `php8.3-fpm` | `php8.5-fpm` |
+| Unit | `php-fpm.service` | `php-fpm.service` | `php-fpm.service` (**unversioned**, despite the versioned package) | `php8.3-fpm.service` | `php8.5-fpm.service` |
+| Runs as (pool) | `apache` | `apache` | `apache` | `www-data` | `www-data` |
+| Config root | `/etc/php-fpm.conf` + `/etc/php.ini` | same | same (unversioned) | `/etc/php/8.3/fpm/php-fpm.conf` + `php.ini` | `/etc/php/8.5/fpm/php-fpm.conf` + `php.ini` |
+| Pool dir (**your ACL**) | `/etc/php-fpm.d` | `/etc/php-fpm.d` | `/etc/php-fpm.d` | `/etc/php/8.3/fpm/pool.d` | `/etc/php/8.5/fpm/pool.d` |
+| Log path (**your read**) | `/var/log/php-fpm/` (dir) | `/var/log/php-fpm/` (dir) | `/var/log/php-fpm/` (dir) | `/var/log/php8.3-fpm.log` (single file — §5 caveat) | `/var/log/php8.5-fpm.log` (single file — §5 caveat) |
+| Validator | `php-fpm -t` | `php-fpm -t` | `php-fpm -t` | `php-fpm8.3 -t` | `php-fpm8.5 -t` |
+| Session GC timer | N/A on EL — session GC is `session.gc_probability` in `php.ini`, not a unit | N/A on EL — same | N/A on AL2023 — same | `phpsessionclean.timer` (host housekeeping — not in your profile) | `phpsessionclean.timer` (same) |
+| TLS | N/A — terminated by the web server in front, not php-fpm | N/A — same | N/A — same | N/A — same | N/A — same |
+
+The AL2023 column is the split worth remembering: the **package** name
+carries the PHP version (`php8.4-fpm`), but the unit, config tree, log dir,
+and binary are all unversioned — day-to-day it behaves exactly like alma9/10,
+and your grants name no versioned path at all.
 
 ## 9. Cheat sheet
 

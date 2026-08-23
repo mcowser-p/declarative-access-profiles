@@ -1,0 +1,64 @@
+# main.tf.tmpl — root module for one throwaway harness VM on a holy-qcow
+# golden image. kvm-lib.sh renders this into out/kvm/<distro>/main.tf,
+# substituting @@VM_MODULE_SOURCE@@ with $HOLY_QCOW_SRC/tofu/modules/vm
+# (tofu module sources cannot interpolate variables). Everything else is a
+# plain -var. Pattern follows holy-qcow's tofu/smoke/main.tf.
+terraform {
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "~> 0.8.0"
+    }
+  }
+}
+
+provider "libvirt" {
+  uri = var.libvirt_uri
+}
+
+variable "libvirt_uri" {
+  type    = string
+  default = "qemu:///system"
+}
+
+variable "image" {
+  type        = string
+  description = "Golden image volume, e.g. alma9-20260823.qcow2"
+}
+
+variable "name" {
+  type        = string
+  description = "Domain name for the harness VM (dap-<distro>)."
+}
+
+variable "ssh_authorized_keys" {
+  type = list(string)
+}
+
+variable "network_mode" {
+  type    = string
+  default = "nat"
+}
+
+module "vm" {
+  source = "@@VM_MODULE_SOURCE@@"
+
+  name       = var.name
+  base_image = var.image
+  vcpu       = 2
+  memory_mb  = 2048
+  # Must exceed every image's backing size (al2023 ships a 30G virtual
+  # disk); CoW keeps the real cost near zero.
+  disk_gb             = 40
+  network_mode        = var.network_mode
+  username            = "ops"
+  ssh_authorized_keys = var.ssh_authorized_keys
+}
+
+output "ip" {
+  value = module.vm.ipv4
+}
+
+output "name" {
+  value = module.vm.name
+}

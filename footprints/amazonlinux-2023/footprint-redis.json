@@ -1,0 +1,1472 @@
+{
+  "schema_version": "1.0",
+  "footprint_type": "install_time",
+  "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
+  "generated_at": "2026-08-23T21:38:04.142962+00:00",
+  "application": "valkey",
+  "host": "dap-al2023",
+  "platform": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34",
+  "root_prefix": "/",
+  "baseline": {
+    "db_path": "/var/lib/treadmark/clean-baseline.db",
+    "db_sha256": "b3b0a4d07e9710f226a12811e56bfaa3a817dfb87afb6464e2b838291e03157c",
+    "created_at": "2026-08-23T21:37:34.360654+00:00",
+    "source_host": "dap-al2023",
+    "source_os": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34"
+  },
+  "summary": {
+    "files_added": 41,
+    "files_modified": 28,
+    "files_deleted": 0,
+    "systemd_units": 4,
+    "quadlets": 0,
+    "cron_jobs": 0,
+    "users_added": 1,
+    "groups_added": 1,
+    "membership_changes": 1,
+    "sudo_rules": 0,
+    "executables": 6,
+    "risks": 0,
+    "scan_errors": 0
+  },
+  "principals": {
+    "users_added": [
+      {
+        "name": "valkey",
+        "uid": 994,
+        "gid": 994,
+        "gecos": "Valkey Database Server",
+        "home": "/dev/null",
+        "shell": "/sbin/nologin",
+        "is_system_account": true,
+        "login_disabled": true
+      }
+    ],
+    "groups_added": [
+      {
+        "name": "valkey",
+        "gid": 994,
+        "members": []
+      }
+    ],
+    "membership_changes": [
+      {
+        "group": "valkey",
+        "gid": 994,
+        "users_added": [],
+        "users_removed": [],
+        "group_is_new": true
+      }
+    ]
+  },
+  "services": {
+    "systemd_units": [
+      {
+        "name": "valkey-sentinel.service",
+        "path": "/usr/lib/systemd/system/valkey-sentinel.service",
+        "unit_type": "service",
+        "description": "Valkey Sentinel",
+        "exec_start": [
+          "/usr/bin/valkey-sentinel /etc/valkey/sentinel.conf --daemonize no --supervised systemd $OPTIONS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "valkey",
+        "group": "valkey",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "valkey"
+        ],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/sysconfig/valkey-sentinel"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Environment": [
+            "OPTIONS="
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ],
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      },
+      {
+        "name": "valkey.service",
+        "path": "/usr/lib/systemd/system/valkey.service",
+        "unit_type": "service",
+        "description": "Valkey persistent key-value database",
+        "exec_start": [
+          "/usr/bin/valkey-server /etc/valkey/valkey.conf --daemonize no --supervised systemd $OPTIONS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "valkey",
+        "group": "valkey",
+        "working_directory": "/var/lib/valkey",
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "valkey"
+        ],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/sysconfig/valkey"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Environment": [
+            "OPTIONS="
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ],
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      },
+      {
+        "name": "valkey-sentinel.service",
+        "path": "/lib/systemd/system/valkey-sentinel.service",
+        "unit_type": "service",
+        "description": "Valkey Sentinel",
+        "exec_start": [
+          "/usr/bin/valkey-sentinel /etc/valkey/sentinel.conf --daemonize no --supervised systemd $OPTIONS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "valkey",
+        "group": "valkey",
+        "working_directory": null,
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "valkey"
+        ],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/sysconfig/valkey-sentinel"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Environment": [
+            "OPTIONS="
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ],
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      },
+      {
+        "name": "valkey.service",
+        "path": "/lib/systemd/system/valkey.service",
+        "unit_type": "service",
+        "description": "Valkey persistent key-value database",
+        "exec_start": [
+          "/usr/bin/valkey-server /etc/valkey/valkey.conf --daemonize no --supervised systemd $OPTIONS"
+        ],
+        "exec_start_pre": [],
+        "exec_stop": [],
+        "user": "valkey",
+        "group": "valkey",
+        "working_directory": "/var/lib/valkey",
+        "capabilities": [],
+        "ambient_capabilities": [],
+        "read_write_paths": [],
+        "read_only_paths": [],
+        "inaccessible_paths": [],
+        "state_directory": [],
+        "cache_directory": [],
+        "logs_directory": [],
+        "runtime_directory": [
+          "valkey"
+        ],
+        "configuration_directory": [],
+        "environment_files": [
+          "-/etc/sysconfig/valkey"
+        ],
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null,
+        "supplementary_groups": [],
+        "wanted_by": [
+          "multi-user.target"
+        ],
+        "on_calendar": [],
+        "on_boot_sec": null,
+        "on_unit_active_sec": null,
+        "on_active_sec": null,
+        "persistent": null,
+        "activates": null,
+        "other_directives": {
+          "Unit.After": [
+            "network.target",
+            "network-online.target"
+          ],
+          "Unit.Wants": [
+            "network-online.target"
+          ],
+          "Service.Environment": [
+            "OPTIONS="
+          ],
+          "Service.Type": [
+            "notify"
+          ],
+          "Service.RuntimeDirectoryMode": [
+            "0755"
+          ],
+          "Service.LimitNOFILE": [
+            "10240"
+          ]
+        }
+      }
+    ],
+    "quadlets": []
+  },
+  "scheduled": {
+    "cron_jobs": []
+  },
+  "privilege": {
+    "sudo_rules": [],
+    "sudoers_files": [],
+    "setuid_binaries": [],
+    "setgid_binaries": [],
+    "file_capabilities": [],
+    "pam_files_touched": []
+  },
+  "security_relevant_files": [
+    {
+      "path": "/etc/logrotate.d/valkey",
+      "category": "logrotate",
+      "change": "added"
+    },
+    {
+      "path": "/usr/lib/sysusers.d/valkey.conf",
+      "category": "sysusers",
+      "change": "added"
+    }
+  ],
+  "executables": [
+    {
+      "path": "/bin/valkey-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/valkey-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/valkey-server",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/valkey-benchmark",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/valkey-cli",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/valkey-server",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    }
+  ],
+  "filesystem": {
+    "added_by_category": {
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/valkey",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 128,
+          "sha256": "9c038514d93df59ec739f1c4fc96e52cefab3d45583d8354aca1b871ea20ad65"
+        }
+      ],
+      "config": [
+        {
+          "path": "/etc/valkey",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "valkey",
+          "group": "root",
+          "size": 46,
+          "sha256": null
+        },
+        {
+          "path": "/etc/valkey/sentinel.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "valkey",
+          "group": "root",
+          "size": 14748,
+          "sha256": "79cdfadde18fa2abb2e80c7e55a9b08d015bffd8143b5f3c500134cb03332232"
+        },
+        {
+          "path": "/etc/valkey/valkey.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o640",
+          "mode_symbolic": "-rw-r-----",
+          "owner": "valkey",
+          "group": "root",
+          "size": 125550,
+          "sha256": "8d98273f94b1d9b4b54a53910a8ea5b77b8f9841f6eda53dc03185e3d7d2bb52"
+        }
+      ],
+      "binary": [
+        {
+          "path": "/bin/valkey-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 997184,
+          "sha256": "668c149facfde82f8b4aeba76aff7e080e0650e1e36e6d4b6c680e2cf16af871"
+        },
+        {
+          "path": "/bin/valkey-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/bin/valkey-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/bin/valkey-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1359976,
+          "sha256": "86c79e5524f76c89f50a77326228e26f19ddb988edce2e4cabc9d588dd8ed097"
+        },
+        {
+          "path": "/bin/valkey-sentinel",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/bin/valkey-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3951928,
+          "sha256": "488ea38d24548dcc8bcb15516cc368126d57d73a610c5c6c75c20d6061f4cba5"
+        },
+        {
+          "path": "/usr/bin/valkey-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 997184,
+          "sha256": "668c149facfde82f8b4aeba76aff7e080e0650e1e36e6d4b6c680e2cf16af871"
+        },
+        {
+          "path": "/usr/bin/valkey-check-aof",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/valkey-check-rdb",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/valkey-cli",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1359976,
+          "sha256": "86c79e5524f76c89f50a77326228e26f19ddb988edce2e4cabc9d588dd8ed097"
+        },
+        {
+          "path": "/usr/bin/valkey-sentinel",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 13,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/valkey-server",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 3951928,
+          "sha256": "488ea38d24548dcc8bcb15516cc368126d57d73a610c5c6c75c20d6061f4cba5"
+        }
+      ],
+      "library": [
+        {
+          "path": "/usr/lib/.build-id/d7/387559a943eb5c9eecc2a7e367be3afe1fc73e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/fd/285473d292c3666329674ac56fe42a05eea335",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 30,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/.build-id/ce/2bbff5a8f3f3b2fe3029febb97093779e3d371",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 33,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/valkey",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/valkey/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/d7/387559a943eb5c9eecc2a7e367be3afe1fc73e",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 36,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/fd/285473d292c3666329674ac56fe42a05eea335",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 30,
+          "sha256": null
+        },
+        {
+          "path": "/lib/.build-id/ce/2bbff5a8f3f3b2fe3029febb97093779e3d371",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 33,
+          "sha256": null
+        },
+        {
+          "path": "/lib/sysusers.d/valkey.conf",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "10ae7b445f9dbd1bc8c7543aa7c5724f65959932039e614b147f0c39b87e52fe"
+        },
+        {
+          "path": "/lib64/valkey",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 21,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/valkey/modules",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6,
+          "sha256": null
+        }
+      ],
+      "systemd_unit": [
+        {
+          "path": "/usr/lib/systemd/system/valkey-sentinel.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1031,
+          "sha256": "a3854171899efcadf05278a7db011986d82b23731522882e87a602ddbb5426e1"
+        },
+        {
+          "path": "/usr/lib/systemd/system/valkey.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1063,
+          "sha256": "89034baee514d2f89c46414f7d4dbca98e0b2fea35d3cdb20ecc661c12cfb4a2"
+        },
+        {
+          "path": "/lib/systemd/system/valkey-sentinel.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1031,
+          "sha256": "a3854171899efcadf05278a7db011986d82b23731522882e87a602ddbb5426e1"
+        },
+        {
+          "path": "/lib/systemd/system/valkey.service",
+          "category": "systemd_unit",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1063,
+          "sha256": "89034baee514d2f89c46414f7d4dbca98e0b2fea35d3cdb20ecc661c12cfb4a2"
+        }
+      ],
+      "sysusers": [
+        {
+          "path": "/usr/lib/sysusers.d/valkey.conf",
+          "category": "sysusers",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 73,
+          "sha256": "10ae7b445f9dbd1bc8c7543aa7c5724f65959932039e614b147f0c39b87e52fe"
+        }
+      ],
+      "share_data": [
+        {
+          "path": "/usr/share/licenses/valkey",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 182,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/licenses/valkey/COPYING",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3091,
+          "sha256": "1a53dca3aab7ce048e91e77b03c0342f3075366f9dede8ec4d19d0cf229e12a0"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/COPYING-hdrhistogram",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 7048,
+          "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/COPYING-jemalloc",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1709,
+          "sha256": "94aa2caa98c25d942f58b956c71dba6a99ff98fc3a31cbc669fe2a4cd0268b53"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/COPYING-libvalkey-BSD-3-Clause",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3469,
+          "sha256": "0efc9de6403982e1794b5e4c932b94f809f875c24c00e4a4473fe325abe71c7a"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/COPYRIGHT-lua",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1528,
+          "sha256": "ee5e3e82af1e1b543c4f216e399d7c8cfee797711913f349e385101c4ae60a79"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/LICENSE-fpconv",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1338,
+          "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"
+        },
+        {
+          "path": "/usr/share/licenses/valkey/LICENSE-hdrhistogram",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2161,
+          "sha256": "c124afa369aae960fa33f6944c82e161e482f2e998d6f07b37ae2c018f3c6c69"
+        }
+      ],
+      "state_dir": [
+        {
+          "path": "/var/lib/valkey",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o750",
+          "mode_symbolic": "drwxr-x---",
+          "owner": "valkey",
+          "group": "valkey",
+          "size": 6,
+          "sha256": null
+        }
+      ]
+    },
+    "modified": [
+      {
+        "path": "/etc",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/etc/group",
+        "category": "group",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 725,
+        "sha256": "388e884b80a1804a7779831e2d8aeb8a0b5c8b1ddc94e8123eaf3fe75c9464b0"
+      },
+      {
+        "path": "/etc/gshadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 597,
+        "sha256": "4f5b4d9d7c1673728f0116c86993ec9409bea186af62c02c542f63c3914f2cae"
+      },
+      {
+        "path": "/etc/passwd",
+        "category": "passwd",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1604,
+        "sha256": "9343852291f8d9e7228508e758992c022dcb917aae5ce63c2fe4a5279ecf9dac"
+      },
+      {
+        "path": "/etc/shadow",
+        "category": "shadow",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 780,
+        "sha256": "dec4ad18cc05ef1d2e8d6a0f9fd714324e5a6b5d24d51b0095610932db958b0e"
+      },
+      {
+        "path": "/etc/passwd-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 1540,
+        "sha256": "a841fa25533a9bf7d2adbc65b30208b58834c43b49db889c853fa35741c3f7e2"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 758,
+        "sha256": "237f4f90c744968d8cf059ae7631ee6b4db2c32e3a8a44d88984573b00779af4"
+      },
+      {
+        "path": "/etc/group-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o644",
+        "mode_symbolic": "-rw-r--r--",
+        "owner": "root",
+        "group": "root",
+        "size": 711,
+        "sha256": "83d83b2edfd4bbb49077e8b0f27e635b16175bb82951d125d922200c495f0f27"
+      },
+      {
+        "path": "/etc/gshadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 586,
+        "sha256": "8a1cef68ac06f4b97f89d77868e3f4c6901dcf398703b050560975e519c3b15d"
+      },
+      {
+        "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 142,
+        "sha256": null
+      },
+      {
+        "path": "/usr/bin",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/d7",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/fd",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/.build-id/ce",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 282,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/sysusers.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib64",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o555",
+        "mode_symbolic": "dr-xr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 32768,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/d7",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/fd",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/.build-id/ce",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 282,
+        "sha256": null
+      },
+      {
+        "path": "/lib/systemd/system",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/lib/sysusers.d",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/usr/share/licenses",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib",
+        "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 16384,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/dnf",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 80,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/treadmark",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
+        "owner": "root",
+        "group": "root",
+        "size": 31,
+        "sha256": null
+      }
+    ],
+    "deleted": []
+  },
+  "access_hints": [
+    {
+      "principal": "valkey",
+      "principal_type": "systemd_service",
+      "unit": "valkey-sentinel.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/sysconfig/valkey-sentinel",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/valkey.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/valkey-sentinel",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "valkey",
+      "principal_type": "systemd_service",
+      "unit": "valkey.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/sysconfig/valkey",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/valkey.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/valkey-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:WorkingDirectory",
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "valkey",
+      "principal_type": "systemd_service",
+      "unit": "valkey-sentinel.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/sysconfig/valkey-sentinel",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/valkey.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/valkey-sentinel",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    },
+    {
+      "principal": "valkey",
+      "principal_type": "systemd_service",
+      "unit": "valkey.service",
+      "supplementary_groups": [],
+      "declared_capabilities": [],
+      "hardening": {
+        "private_tmp": null,
+        "protect_system": null,
+        "protect_home": null,
+        "no_new_privileges": null
+      },
+      "needs": [
+        {
+          "path": "/etc/sysconfig/valkey",
+          "access": "read",
+          "sources": [
+            "systemd:EnvironmentFile"
+          ]
+        },
+        {
+          "path": "/etc/valkey",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/sentinel.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/etc/valkey/valkey.conf",
+          "access": "read,write",
+          "sources": [
+            "file-owner"
+          ]
+        },
+        {
+          "path": "/run/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:RuntimeDirectory"
+          ]
+        },
+        {
+          "path": "/usr/bin/valkey-server",
+          "access": "read,execute",
+          "sources": [
+            "systemd:ExecStart"
+          ]
+        },
+        {
+          "path": "/var/lib/valkey",
+          "access": "read,write",
+          "sources": [
+            "systemd:WorkingDirectory",
+            "file-owner",
+            "file-group"
+          ]
+        }
+      ]
+    }
+  ],
+  "group_access": [
+    {
+      "group": "valkey",
+      "gid": 994,
+      "writable": [],
+      "readable": [
+        "/var/lib/valkey/"
+      ]
+    }
+  ],
+  "risks": [],
+  "scan_errors": []
+}

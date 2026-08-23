@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-09T17:16:14.725704+00:00",
+  "generated_at": "2026-08-23T21:33:00.136800+00:00",
   "application": "nginx",
-  "host": "ip-172-31-18-169",
-  "platform": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39",
+  "host": "dap-ubuntu2404",
+  "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "829df31350b08fe0a0524e02860d26114b814bd794b9c066a14f49d38ff49c1c",
-    "created_at": "2026-08-09T17:14:34.722226+00:00",
-    "source_host": "ip-172-31-18-169",
-    "source_os": "Linux-6.17.0-1019-aws-x86_64-with-glibc2.39"
+    "db_sha256": "06342e97130b1234ec556bc96a33b72eebbacc15f0bfb5fc6a886c5a0e6a0238",
+    "created_at": "2026-08-23T21:32:22.975773+00:00",
+    "source_host": "dap-ubuntu2404",
+    "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
     "files_added": 56,
-    "files_modified": 27,
+    "files_modified": 29,
     "files_deleted": 0,
     "systemd_units": 3,
     "quadlets": 0,
@@ -317,50 +317,6 @@
     "added_by_category": {
       "config": [
         {
-          "path": "/etc/ufw/applications.d/nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 374,
-          "sha256": "8c61dc47a0c85496256c66369e5c89b793b7bc19ac5d02b8a4fe1407d3727ebc"
-        },
-        {
-          "path": "/etc/rc1.d/K01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc5.d/S01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc4.d/S01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
           "path": "/etc/rc3.d/S01nginx",
           "category": "config",
           "is_dir": false,
@@ -370,50 +326,6 @@
           "group": "root",
           "size": 15,
           "sha256": null
-        },
-        {
-          "path": "/etc/rc0.d/K01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc6.d/K01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
-          "path": "/etc/rc2.d/S01nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 15,
-          "sha256": null
-        },
-        {
-          "path": "/etc/default/nginx",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 389,
-          "sha256": "97106f4c380619c45d8a9091a17bb9bb7cbd96b51ef55dea50ddb88b92d36f1a"
         },
         {
           "path": "/etc/nginx",
@@ -438,17 +350,6 @@
           "sha256": "36c77daa2d85803e87c91ba723dd2bc6aaa6543ae4bd4a569034a7bf8bce464d"
         },
         {
-          "path": "/etc/nginx/fastcgi_params",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 1055,
-          "sha256": "4e0945432e68d9d7cac62356766fbea8652790c15a7332a42af1a78877225c32"
-        },
-        {
           "path": "/etc/nginx/win-utf",
           "category": "config",
           "is_dir": false,
@@ -458,39 +359,6 @@
           "group": "root",
           "size": 3071,
           "sha256": "400bc5c78ad9e194069f8ce65db4284378fc95a89a70b17f4b0150a9af54b05b"
-        },
-        {
-          "path": "/etc/nginx/uwsgi_params",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 664,
-          "sha256": "015cb581c2eb84b1a1ac9b575521d5881f791f632bfa62f34b26ba97d70c0d4f"
-        },
-        {
-          "path": "/etc/nginx/fastcgi.conf",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 1125,
-          "sha256": "dc4a3e6f16eb08000fb4a4ba6aaf9faeb50d55a3eaf152907938632f5b85b3aa"
-        },
-        {
-          "path": "/etc/nginx/scgi_params",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 636,
-          "sha256": "f27b2027c571ccafcfb0fbb3f54d7aeee11a984e3a0f5a1fdf14629030fc9011"
         },
         {
           "path": "/etc/nginx/koi-utf",
@@ -537,7 +405,51 @@
           "sha256": "48c6a4ec1e1fd28ccf968490f07e34a1d7f755793b2108a3ed8670b1ee2a0aa2"
         },
         {
-          "path": "/etc/nginx/sites-available",
+          "path": "/etc/nginx/scgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 636,
+          "sha256": "f27b2027c571ccafcfb0fbb3f54d7aeee11a984e3a0f5a1fdf14629030fc9011"
+        },
+        {
+          "path": "/etc/nginx/uwsgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 664,
+          "sha256": "015cb581c2eb84b1a1ac9b575521d5881f791f632bfa62f34b26ba97d70c0d4f"
+        },
+        {
+          "path": "/etc/nginx/fastcgi.conf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1125,
+          "sha256": "dc4a3e6f16eb08000fb4a4ba6aaf9faeb50d55a3eaf152907938632f5b85b3aa"
+        },
+        {
+          "path": "/etc/nginx/fastcgi_params",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1055,
+          "sha256": "4e0945432e68d9d7cac62356766fbea8652790c15a7332a42af1a78877225c32"
+        },
+        {
+          "path": "/etc/nginx/modules-available",
           "category": "config",
           "is_dir": true,
           "mode_octal": "0o755",
@@ -546,17 +458,6 @@
           "group": "root",
           "size": 4096,
           "sha256": null
-        },
-        {
-          "path": "/etc/nginx/sites-available/default",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 2412,
-          "sha256": "ce0901350a021608139b5639cf4ccd7717bef8c3a9e4f79031eb46386b67b03f"
         },
         {
           "path": "/etc/nginx/sites-enabled",
@@ -581,7 +482,7 @@
           "sha256": null
         },
         {
-          "path": "/etc/nginx/snippets",
+          "path": "/etc/nginx/conf.d",
           "category": "config",
           "is_dir": true,
           "mode_octal": "0o755",
@@ -592,15 +493,15 @@
           "sha256": null
         },
         {
-          "path": "/etc/nginx/snippets/fastcgi-php.conf",
+          "path": "/etc/nginx/snippets",
           "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 423,
-          "sha256": "a9dd98bf9631d727f0a846a9c7f4fe6193468a714c782df26d5cc9a7756411f2"
+          "size": 4096,
+          "sha256": null
         },
         {
           "path": "/etc/nginx/snippets/snakeoil.conf",
@@ -614,15 +515,15 @@
           "sha256": "69de463039725a6636b5a3ca87a0968dde646279bc8bb4419d200f547448a55a"
         },
         {
-          "path": "/etc/nginx/modules-available",
+          "path": "/etc/nginx/snippets/fastcgi-php.conf",
           "category": "config",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 4096,
-          "sha256": null
+          "size": 423,
+          "sha256": "a9dd98bf9631d727f0a846a9c7f4fe6193468a714c782df26d5cc9a7756411f2"
         },
         {
           "path": "/etc/nginx/modules-enabled",
@@ -636,7 +537,7 @@
           "sha256": null
         },
         {
-          "path": "/etc/nginx/conf.d",
+          "path": "/etc/nginx/sites-available",
           "category": "config",
           "is_dir": true,
           "mode_octal": "0o755",
@@ -645,32 +546,105 @@
           "group": "root",
           "size": 4096,
           "sha256": null
-        }
-      ],
-      "logrotate": [
+        },
         {
-          "path": "/etc/logrotate.d/nginx",
-          "category": "logrotate",
+          "path": "/etc/nginx/sites-available/default",
+          "category": "config",
           "is_dir": false,
           "mode_octal": "0o644",
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 329,
-          "sha256": "c6f585f3a98e424c30c5208f2f52c8e39665b76744cd5bcc523efdee0a7d69ee"
-        }
-      ],
-      "init_script": [
+          "size": 2412,
+          "sha256": "ce0901350a021608139b5639cf4ccd7717bef8c3a9e4f79031eb46386b67b03f"
+        },
         {
-          "path": "/etc/init.d/nginx",
-          "category": "init_script",
+          "path": "/etc/rc0.d/K01nginx",
+          "category": "config",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 4579,
-          "sha256": "d856e15d5604ac0f430afe70b90ead159314049c431292f0c6a07238d0717627"
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc6.d/K01nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc5.d/S01nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc4.d/S01nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/rc1.d/K01nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/default/nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 389,
+          "sha256": "97106f4c380619c45d8a9091a17bb9bb7cbd96b51ef55dea50ddb88b92d36f1a"
+        },
+        {
+          "path": "/etc/rc2.d/S01nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 15,
+          "sha256": null
+        },
+        {
+          "path": "/etc/ufw/applications.d/nginx",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 374,
+          "sha256": "8c61dc47a0c85496256c66369e5c89b793b7bc19ac5d02b8a4fe1407d3727ebc"
         }
       ],
       "systemd_unit": [
@@ -708,6 +682,32 @@
           "sha256": "6c759c229d4dacf65c1f98c1733646f8b979d3e75e13a98bfbcfe26f8a2f793c"
         }
       ],
+      "logrotate": [
+        {
+          "path": "/etc/logrotate.d/nginx",
+          "category": "logrotate",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 329,
+          "sha256": "c6f585f3a98e424c30c5208f2f52c8e39665b76744cd5bcc523efdee0a7d69ee"
+        }
+      ],
+      "init_script": [
+        {
+          "path": "/etc/init.d/nginx",
+          "category": "init_script",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4579,
+          "sha256": "d856e15d5604ac0f430afe70b90ead159314049c431292f0c6a07238d0717627"
+        }
+      ],
       "binary": [
         {
           "path": "/sbin/nginx",
@@ -718,7 +718,7 @@
           "owner": "root",
           "group": "root",
           "size": 1314168,
-          "sha256": "c523c312dea0feaa5f318edb58d58c4123cb70739a7324d222a8ab213ad42cde"
+          "sha256": "1f16b72bea2f44e5d04fe6cf9e3e4b0dec53a82c50c7c1533c302a8ecaeccacf"
         },
         {
           "path": "/usr/sbin/nginx",
@@ -729,23 +729,12 @@
           "owner": "root",
           "group": "root",
           "size": 1314168,
-          "sha256": "c523c312dea0feaa5f318edb58d58c4123cb70739a7324d222a8ab213ad42cde"
+          "sha256": "1f16b72bea2f44e5d04fe6cf9e3e4b0dec53a82c50c7c1533c302a8ecaeccacf"
         }
       ],
       "share_data": [
         {
-          "path": "/usr/share/vim/addons/syntax/nginx.vim",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 115540,
-          "sha256": "e257c681947b1ef19759a24725e0d4383d80653293ed4d2dd61ba27c0343efc2"
-        },
-        {
-          "path": "/usr/share/vim/addons/ftdetect",
+          "path": "/usr/share/nginx",
           "category": "share_data",
           "is_dir": true,
           "mode_octal": "0o755",
@@ -756,15 +745,37 @@
           "sha256": null
         },
         {
-          "path": "/usr/share/vim/addons/ftdetect/nginx.vim",
+          "path": "/usr/share/nginx/modules",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 23,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/nginx/html/index.html",
           "category": "share_data",
           "is_dir": false,
           "mode_octal": "0o644",
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 198,
-          "sha256": "3ce32b22f5c741f95ec432aad87cce5ec02b6e41eecc0a5e1177018ca455a043"
+          "size": 615,
+          "sha256": "fb47468a2cd3953c7131431991afcc6a2703f14640520102eea0a685a7e8d6de"
         },
         {
           "path": "/usr/share/vim/addons/ftplugin",
@@ -811,6 +822,39 @@
           "sha256": "983c89c6ebcd4b6f61dcba4424608890d0deae79a21c0830441917e1eb54b358"
         },
         {
+          "path": "/usr/share/vim/addons/ftdetect",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/vim/addons/ftdetect/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 198,
+          "sha256": "3ce32b22f5c741f95ec432aad87cce5ec02b6e41eecc0a5e1177018ca455a043"
+        },
+        {
+          "path": "/usr/share/vim/addons/syntax/nginx.vim",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 115540,
+          "sha256": "e257c681947b1ef19759a24725e0d4383d80653293ed4d2dd61ba27c0343efc2"
+        },
+        {
           "path": "/usr/share/vim/registry/nginx.yaml",
           "category": "share_data",
           "is_dir": false,
@@ -820,50 +864,6 @@
           "group": "root",
           "size": 156,
           "sha256": "a6fd3a5a51f1b55b36e496e30bafbeca89fd576ba7c33df3b689e7d69df02eb2"
-        },
-        {
-          "path": "/usr/share/nginx",
-          "category": "share_data",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/nginx/modules",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 23,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/nginx/html",
-          "category": "share_data",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/nginx/html/index.html",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 615,
-          "sha256": "fb47468a2cd3953c7131431991afcc6a2703f14640520102eea0a685a7e8d6de"
         },
         {
           "path": "/usr/share/apport/package-hooks/source_nginx.py",
@@ -901,17 +901,6 @@
           "sha256": null
         },
         {
-          "path": "/var/lib/nginx/body",
-          "category": "state_dir",
-          "is_dir": true,
-          "mode_octal": "0o700",
-          "mode_symbolic": "drwx------",
-          "owner": "www-data",
-          "group": "root",
-          "size": 4096,
-          "sha256": null
-        },
-        {
           "path": "/var/lib/nginx/uwsgi",
           "category": "state_dir",
           "is_dir": true,
@@ -923,7 +912,7 @@
           "sha256": null
         },
         {
-          "path": "/var/lib/nginx/scgi",
+          "path": "/var/lib/nginx/proxy",
           "category": "state_dir",
           "is_dir": true,
           "mode_octal": "0o700",
@@ -934,7 +923,18 @@
           "sha256": null
         },
         {
-          "path": "/var/lib/nginx/proxy",
+          "path": "/var/lib/nginx/body",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o700",
+          "mode_symbolic": "drwx------",
+          "owner": "www-data",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/nginx/scgi",
           "category": "state_dir",
           "is_dir": true,
           "mode_octal": "0o700",
@@ -955,11 +955,11 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 4096,
+        "size": 12288,
         "sha256": null
       },
       {
-        "path": "/etc/ufw/applications.d",
+        "path": "/etc/rc3.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -970,7 +970,18 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc1.d",
+        "path": "/etc/rc0.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/systemd/system/multi-user.target.wants",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -982,6 +993,28 @@
       },
       {
         "path": "/etc/logrotate.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/init.d",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/etc/rc6.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1014,7 +1047,7 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc3.d",
+        "path": "/etc/rc1.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1025,40 +1058,7 @@
         "sha256": null
       },
       {
-        "path": "/etc/rc0.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/rc6.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/init.d",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/systemd/system/multi-user.target.wants",
+        "path": "/etc/default",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1080,7 +1080,29 @@
         "sha256": null
       },
       {
-        "path": "/etc/default",
+        "path": "/etc/ufw/user.rules",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "root",
+        "size": 1702,
+        "sha256": "08bda94a80d3aa6a78748adcdbe5319a8c494a8aa4e1bf47dbb11d3dc218b0e9"
+      },
+      {
+        "path": "/etc/ufw/user6.rules",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "root",
+        "size": 1679,
+        "sha256": "c88f9a62260083499e93ab1bc9bef69438e71a7b6695f91a34bceceb01d742aa"
+      },
+      {
+        "path": "/etc/ufw/applications.d",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -1168,17 +1190,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/share/doc",
-        "category": "share_data",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 28672,
-        "sha256": null
-      },
-      {
         "path": "/usr/share/apport/package-hooks",
         "category": "share_data",
         "is_dir": true,
@@ -1190,8 +1201,30 @@
         "sha256": null
       },
       {
+        "path": "/usr/share/doc",
+        "category": "share_data",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 28672,
+        "sha256": null
+      },
+      {
         "path": "/var/lib",
         "category": "other",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/apt",
+        "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",
         "mode_symbolic": "drwxr-xr-x",
@@ -1215,19 +1248,8 @@
         "path": "/var/lib/treadmark",
         "category": "state_dir",
         "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/apt",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
+        "mode_octal": "0o750",
+        "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
         "size": 4096,

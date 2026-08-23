@@ -1,8 +1,8 @@
 # php-fpm — lockdown runbook (ops)
 
 Companion to the [dev guide](dev.md). Profiles:
-`profiles/php-fpm/{almalinux-9,almalinux-10,ubuntu-24.04}-access.yml` with
-their untouched `-raw.yml` siblings. Lifecycle mechanics:
+`profiles/php-fpm/{almalinux-9,almalinux-10,amazonlinux-2023,ubuntu-24.04,ubuntu-26.04}-access.yml`
+with their untouched `-raw.yml` siblings. Lifecycle mechanics:
 [concepts/lifecycle.md](../../concepts/lifecycle.md).
 
 php-fpm is an **app-server** but its reviewed profile comes out
@@ -15,45 +15,63 @@ default**. See §2/§3.
 ## 1. Footprint summary (evidence)
 
 From `footprints/<distro>/footprint-php-fpm.json` (schema 1.0,
-`footprint_type: install_time`, captured 2026-08-09 on EC2 AMIs; treadmark
-0.10.0 feature branch):
+`footprint_type: install_time`, captured 2026-08-23 on KVM golden-image VMs;
+treadmark 0.11.0):
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Files added / modified | 102 / 50 | 98 / 54 | 298 / 32 |
-| Units installed | `php-fpm.service` (+ vendor `httpd`/`nginx` integration drop-ins) | same | `php8.3-fpm.service` + `phpsessionclean.service`/`.timer` (apt auto-started; enablement symlinks captured) |
-| Accounts created | **none** — reuses pre-existing `apache` | none — `apache` | none — reuses `www-data` |
-| Pool dir | `/etc/php-fpm.d` `root:root 0755` (`www.conf`) | same | `/etc/php/8.3/fpm/pool.d` `root:root 0755` (`www.conf`) |
-| Runtime state | `/var/lib/php/{session,opcache,wsdlcache}` `0770 root:apache` | same | `/var/lib/php/sessions` `1733 root:root` (GC'd by `phpsessionclean`) |
-| logrotate | `/etc/logrotate.d/php-fpm` | same | `/etc/logrotate.d/php8.3-fpm` |
-| Other | — | ships `tmpfiles.d/php.conf` | `/etc/cron.d/php` (CLI session GC), `/etc/init.d/php8.3-fpm` SysV shim |
-| Vendor sudoers shipped | none (`privilege.sudoers_files` empty) | none | none |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Package installed | `php-fpm` | `php-fpm` | **`php8.4-fpm`** (versioned streams 8.2–8.4; newest wins) | `php8.3-fpm` | `php8.5-fpm` |
+| Files added / modified | 102 / 48 | 98 / 54 | 103 / 48 | 298 / 32 | 285 / 34 |
+| Units installed | `php-fpm.service` (+ vendor `httpd`/`nginx` integration drop-ins) | same | same — **unit unversioned** despite the versioned package | `php8.3-fpm.service` + `phpsessionclean.service`/`.timer` (apt auto-started; enablement symlinks captured) | `php8.5-fpm.service` + `phpsessionclean` pair (same shape as 24.04) |
+| Accounts created | **none** — reuses pre-existing `apache` | none — `apache` | none — `apache` | none — reuses `www-data` | none — `www-data` |
+| Pool dir | `/etc/php-fpm.d` `root:root 0755` (`www.conf`) | same | same | `/etc/php/8.3/fpm/pool.d` `root:root 0755` (`www.conf`) | `/etc/php/8.5/fpm/pool.d` `root:root 0755` (`www.conf`) |
+| Runtime state | `/var/lib/php/{session,opcache,wsdlcache}` `0770 root:apache` | same | same | `/var/lib/php/sessions` `1733 root:root` (GC'd by `phpsessionclean`) | same as 24.04 |
+| logrotate | `/etc/logrotate.d/php-fpm` | same | same | `/etc/logrotate.d/php8.3-fpm` | `/etc/logrotate.d/php8.5-fpm` |
+| Other | — | ships `tmpfiles.d/php.conf` | modules in **versioned** `/usr/lib64/php8.4/modules` — the only on-disk trace of the stream | `/etc/cron.d/php` (CLI session GC), `/etc/init.d/php8.3-fpm` SysV shim | `/etc/cron.d/php`, `/etc/init.d/php8.5-fpm` |
+| Vendor sudoers shipped | none (`privilege.sudoers_files` empty) | none | none | none | none |
+
+**The AL2023 split.** Amazon Linux 2023 versions the *package name*
+(`php8.4-fpm` — there is no unversioned `php-fpm` package) but nothing else:
+unit, config tree, state dirs, and `/usr/sbin/php-fpm` are all identical to
+alma9/10, and its raw profile came out **byte-identical to alma9's**. The
+PHP version appears on disk only in the module dir `/usr/lib64/php8.4/modules`,
+which no grant touches — the reviewed grants are stream-independent.
 
 **Runs-as evidence.** No unit sets `User=`, so the **master runs as root**
-(the source of every `risks[]` entry — §11). The workers drop to the pool
-account set in `www.conf`: `apache` on EL (proven by the `root:apache`
-state dirs), `www-data` on Debian [app-knowledge on the exact `www.conf`
-value; the state-dir group is the captured evidence].
+(the source of every `risks[]` entry — §11) — on all five distros. The
+workers drop to the pool account set in `www.conf`: `apache` on the EL
+family (proven by the `root:apache` state dirs), `www-data` on Debian
+[app-knowledge on the exact `www.conf` value; the state-dir group is the
+captured evidence].
 
-Ubuntu's footprint is larger and includes first-start side effects (apt
-auto-starts services); EL captures do not. That's evidence, not noise — but
-raw profiles are not line-comparable across distros.
+The Ubuntu footprints are larger and include first-start side effects (apt
+auto-starts services); EL-family captures do not. That's evidence, not
+noise — but raw profiles are not line-comparable across distro families.
+Within each family the grant sets are byte-identical apart from version
+paths (Ubuntu) and drop-in locations (alma10 puts the `httpd`/`nginx`
+integration drop-ins under `/etc/systemd/system`; alma9/AL2023 under
+`/usr/lib`).
 
 ## 2. Raw → reviewed: the decisions
 
 | Change | Tag | Why |
 | --- | --- | --- |
-| Drop all `files_modify` (6 / 4 / 8 entries) | REVIEW-DROP | Vendor `php-fpm.service`, the `httpd`/`nginx` integration drop-ins (which target *other* apps' units), and Ubuntu's enablement symlinks. A unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
+| Drop all `files_modify` (alma9/AL2023 6, alma10 4, each Ubuntu 8 entries) | REVIEW-DROP | Vendor `php-fpm.service`, the `httpd`/`nginx` integration drop-ins (which target *other* apps' units), and Ubuntu's enablement symlinks. A unit-file write ACL is root-equivalent for that unit. Read-only-units profile. |
 | Do **not** add `pam_group` + `local_groups: ['apache'/'www-data']` | REVIEW-DROP | The webserver-class default (nginx/apache REVIEW-ADD it), refused here. php-fpm owns no content dir; the shared web-root setgid grant lives in the web server's profile. The group's only local reach is `/var/lib/php/{session,opcache}` (EL `0770 root:apache`, live session state) — and on Debian `www-data` owns *none* of php-fpm's state (sessions dir is `root:root 1733`). Apply-time opt-in kept (§3). |
-| Keep `/etc/php-fpm.d` (Ubuntu: narrow `/etc/php` → `/etc/php/8.3/fpm/pool.d`) | REVIEW-KEEP / REVIEW-CHANGE | Config **write ACL** on the FPM pool dir — the team's real knob. Per-pool `php_admin_value` covers PHP tuning, so the shared `php.ini`/`php.d` need not be granted. Ubuntu's raw granted the whole `/etc/php` tree (CLI SAPI + `mods-available` included); narrowed to the FPM pool dir to match EL. |
+| Keep `/etc/php-fpm.d` (Ubuntu: narrow `/etc/php` → `/etc/php/8.3/fpm/pool.d`, 26.04 `/etc/php/8.5/fpm/pool.d`) | REVIEW-KEEP / REVIEW-CHANGE | Config **write ACL** on the FPM pool dir — the team's real knob. Per-pool `php_admin_value` covers PHP tuning, so the shared `php.ini`/`php.d` need not be granted. Ubuntu's raw granted the whole `/etc/php` tree (CLI SAPI + `mods-available` included); narrowed to the FPM pool dir to match EL. |
 | Drop `/etc/php.d` (EL) | REVIEW-DROP | php-common's shared extension dir, used by the PHP **CLI** SAPI too — enabling/tuning a module there is host-wide, an ops/change-window act. |
 | Drop `/etc/systemd/system/php-fpm.service.d` (EL) | REVIEW-DROP | Unit drop-in dir — root-equivalent with the granted `daemon-reload` + `restart`. |
 | Drop `/var/lib/php` (all) | REVIEW-DROP | Service runtime state (session/opcache/wsdlcache). The workers write here, not the team; the session dir holds live user data. Left at vendor defaults, not granted (mirrors nginx's `/var/lib/nginx`). |
-| Drop `phpsessionclean` service + timer (Ubuntu) | REVIEW-DROP | php-common's session GC — a timer-driven oneshot, host housekeeping the team never operates. EL has no equivalent unit (session GC is `php.ini` probability), so dropping it keeps the surface parallel. |
-| Normalize `profile_name` `php8.3-fpm` → `php-fpm` (Ubuntu) | REVIEW-CHANGE | The library app slug; `check_profiles` requires `profile_name == the app dir`. |
-| Add `/var/log/php-fpm` read (EL) | REVIEW-ADD | `/var/log` excluded from footprints by default; the dir gets a read + default ACL. |
-| Add `/var/log/php8.3-fpm.log` read (Ubuntu) | REVIEW-ADD | Debian's master log is a single file, not a dir — granted via `files_read`, with the rotation caveat in §10. |
+| Drop `phpsessionclean` service + timer (each Ubuntu) | REVIEW-DROP | php-common's session GC — a timer-driven oneshot, host housekeeping the team never operates. EL has no equivalent unit (session GC is `php.ini` probability), so dropping it keeps the surface parallel. |
+| Normalize `profile_name` `php8.3-fpm`/`php8.5-fpm` → `php-fpm` (Ubuntu 24.04/26.04) | REVIEW-CHANGE | The library app slug; `check_profiles` requires `profile_name == the app dir`. (AL2023 needs no rename: its matrix cell keeps the row slug, so the exporter already emitted `php-fpm`.) |
+| Add `/var/log/php-fpm` read (EL family) | REVIEW-ADD | `/var/log` excluded from footprints by default; the dir gets a read + default ACL. |
+| Add `/var/log/php8.3-fpm.log` / `/var/log/php8.5-fpm.log` read (Ubuntu 24.04/26.04) | REVIEW-ADD | Debian's master log is a single file, not a dir — granted via `files_read`, with the rotation caveat in §10. |
 | No `ownership` entries | as reviewed | Unlike nginx/apache there is **no setgid content dir** and **no created account** to pin — so, like the DB profiles, this makes zero vendor-permission deviation (§8). |
+
+Family identity: the AL2023 reviewed profile is **identical to alma9's**
+(its raw was byte-identical); alma10 differs from alma9 only in the dropped
+drop-in locations. The ubuntu-26.04 reviewed profile is the 24.04 one with
+`8.5` substituted for `8.3` in every path — same raw shape, same decisions.
 
 ## 3. Access model for this app class
 
@@ -95,10 +113,10 @@ Artifacts to eyeball afterwards:
 - `/etc/sudoers.d/php-fpm-rg-<host>-app-restricted` — `visudo -cf` it.
 - **No `group.conf` line** — this profile has no pam_group (unless the §3
   opt-in was passed).
-- `getfacl /etc/php-fpm.d` (Ubuntu: `/etc/php/8.3/fpm/pool.d`) — team group
-  `rwx` + a `default:` entry.
-- `getfacl /var/log/php-fpm` (EL) / `getfacl /var/log/php8.3-fpm.log`
-  (Ubuntu) — team group read.
+- `getfacl /etc/php-fpm.d` (Ubuntu: `/etc/php/8.3/fpm/pool.d`, 26.04:
+  `/etc/php/8.5/fpm/pool.d`) — team group `rwx` + a `default:` entry.
+- `getfacl /var/log/php-fpm` (EL family) / `getfacl /var/log/php8.3-fpm.log`
+  (26.04: `php8.5-fpm.log`) — team group read.
 - **No ownership changes / no setgid dir** — nothing to accept-list.
 
 Applying is non-breaking while the team still holds app-full (group
@@ -106,9 +124,11 @@ nesting).
 
 ## 5. Verify
 
-Verify with `scripts/verify-profile.sh php-fpm <distro>` (init container,
-real playbook apply, probes, real `--tags cleanup`). On a live host, as a
-user holding **only** app-restricted:
+Verify with `scripts/verify-profile.sh php-fpm <distro>` (init container) or
+`scripts/verify-profile-kvm.sh --app php-fpm` (real KVM golden-image guests —
+the substrate the `# VERIFIED:` stamps name); both do a real playbook apply,
+probes, and a real `--tags cleanup`. On a live host, as a user holding
+**only** app-restricted:
 
 ```bash
 sudo -l -U <pilot>                                # exactly the scoped grants
@@ -155,18 +175,24 @@ this profile sets none, so there is nothing to re-chown.
 
 A nice property of the config-scoped php-fpm profile: like the DB profiles
 it makes **no vendor-permission deviation** — no setgid dir, no ownership
-entry — so `rpm -V php-fpm` / `dpkg --verify php8.3-fpm` stay clean with
-respect to *this* profile. ACLs are invisible to rpm/dpkg verification
+entry — so `rpm -V php-fpm` (AL2023: `rpm -V php8.4-fpm`) / `dpkg --verify
+php8.3-fpm` (26.04: `php8.5-fpm`) stay clean with respect to *this* profile. ACLs are invisible to rpm/dpkg verification
 either way.
 
 - **Package updates shed file ACLs.** A `dnf update php-fpm` / `apt upgrade`
   replaces `www.conf` and the pool dir and drops their ACLs — re-run
   playbook 5 (idempotent) after patching; verify with `getfacl`.
-- **A PHP *version* bump on Ubuntu is not just a re-apply.** 8.3 → 8.4
-  changes the unit name (`php8.4-fpm.service`) **and** the config path
-  (`/etc/php/8.4/fpm/pool.d`) — that's a new footprint: **re-capture and
-  re-review**, don't just re-run. EL tracks a single `php-fpm` across the
-  distro's PHP stream, so a minor bump is a re-apply.
+- **A PHP *version* bump on Ubuntu is not just a re-apply.** A new PHP
+  minor (as when 26.04 moved 8.3 → 8.5) changes the unit name
+  (`php8.5-fpm.service`) **and** the config path (`/etc/php/8.5/fpm/pool.d`)
+  — that's a new footprint: **re-capture and re-review**, don't just re-run.
+  Alma tracks a single `php-fpm` package across the distro's PHP stream, so
+  a minor bump there is a re-apply. **AL2023 sits between the two:**
+  switching streams (`php8.4-fpm` → a future release's newer stream) renames
+  the *package* and the module dir (`/usr/lib64/php8.X/modules`) but leaves
+  the unit and every granted path unversioned — the grants survive, but the
+  package set changed: re-capture so the evidence chain stays honest, and
+  expect a no-op review.
 - **authselect** (EL) can drop a pam_group line from `/etc/pam.d/sshd` — not
   a concern for *this* profile (no pam_group unless opted in), but it still
   affects the host `app-full → wheel` mapping, so re-run the host access
@@ -203,7 +229,8 @@ group membership (host-global journal read). See
   php-fpm ships its fragment with a root-based `create` mode; confirm the
   group-class bits allow read `[needs-runtime-confirmation on any host whose
   fragment or pool `error_log` mode was customized]`.
-- **Ubuntu** — the master log is the single file `/var/log/php8.3-fpm.log`.
+- **Ubuntu** — the master log is the single file `/var/log/php8.3-fpm.log`
+  (26.04: `/var/log/php8.5-fpm.log`; substitute throughout this bullet).
   A `files_read` ACL travels with the file across logrotate's rename, but the
   **fresh** file logrotate creates carries no ACL (there is no default ACL on
   `/var/log` itself), so the grant does not self-heal across rotation the way
@@ -213,15 +240,15 @@ group membership (host-global journal read). See
   (set in the granted pool file) and add that dir to `folders_read` so the
   default-ACL mechanism applies.
 
-`/etc/logrotate.d/php-fpm` (Ubuntu: `php8.3-fpm`) is outside the grant —
-retention/frequency changes are an ops request.
+`/etc/logrotate.d/php-fpm` (Ubuntu: `php8.3-fpm` / `php8.5-fpm`) is outside
+the grant — retention/frequency changes are an ops request.
 
 ## 11. Known risks (from `risks[]`)
 
 | Risk | Sev | Distros | Decision |
 | --- | --- | --- | --- |
-| `php-fpm.service` has no `User=` — master runs as root | medium | all (2 entries EL, via `/lib` + `/usr/lib` unit copies) | **Accept.** This is php-fpm's design: the master runs as root to create the listen socket and manage pools, then forks workers that drop to the pool user (`apache`/`www-data` per `www.conf`). Same pattern as the nginx/httpd master. `[app-knowledge]` |
-| `phpsessionclean.service` runs as root | medium | ubuntu (2 entries) | **Accept.** Short-lived session-GC oneshot that must traverse the sticky `1733` sessions dir; not a long-running root daemon. It is also **dropped from the profile** (§2), so the team gets no control over it regardless. |
+| `php-fpm.service` has no `User=` — master runs as root | medium | all five (2 entries per EL-family distro via the `/lib` + `/usr/lib` unit copies; 3 on each Ubuntu — those two plus the enablement symlink) | **Accept.** This is php-fpm's design: the master runs as root to create the listen socket and manage pools, then forks workers that drop to the pool user (`apache`/`www-data` per `www.conf`). Same pattern as the nginx/httpd master. `[app-knowledge]` |
+| `phpsessionclean.service` runs as root | medium | ubuntu 24.04 + 26.04 (2 entries each) | **Accept.** Short-lived session-GC oneshot that must traverse the sticky `1733` sessions dir; not a long-running root daemon. It is also **dropped from the profile** (§2), so the team gets no control over it regardless. |
 
 No high/critical `risks[]` entries. No setuid/setgid binaries, file
 capabilities, or vendor sudoers were captured on any distro
@@ -234,19 +261,21 @@ bytes the installer wrote. Treat it as an install **floor, not a forecast**:
 it answers "will it fit," never "how fast will it fill"
 ([storage.md](../../concepts/storage.md#sizing-the-footprint-is-a-floor-not-a-forecast)).
 
-| | alma9 | alma10 | ubuntu 24.04 |
-| --- | --- | --- | --- |
-| Install floor (all added files) | **30.9 MB** | **26.8 MB** | **42.6 MB** |
-| Dominated by | binaries 16.2 MB + libs 14.6 MB | libs 16.9 MB + binaries 9.8 MB | binaries 22.1 MB + libs 20.2 MB |
-| Largest single file | `/sbin/php-fpm` 8.1 MB | `fileinfo.so` 7.7 MB | `fileinfo.so` 7.7 MB |
-| State dirs created | `/var/lib/php/{session,opcache,wsdlcache}` — empty | same | `/var/lib/php/sessions` — empty |
+| | alma9 | alma10 | AL2023 | ubuntu 24.04 | ubuntu 26.04 |
+| --- | --- | --- | --- | --- | --- |
+| Install floor (all added files) | **32.4 MB** | **28.1 MB** | **36.3 MB** | **44.5 MB** | **73.0 MB** |
+| Dominated by | binaries 16.9 MB + libs 15.3 MB | libs 17.7 MB + binaries 10.3 MB | libs 19.2 MB + binaries 17.0 MB | binaries 23.1 MB + libs 21.1 MB | binaries 48.8 MB + libs 24.0 MB |
+| Largest single file | `/sbin/php-fpm` 8.5 MB | `fileinfo.so` 8.1 MB | `fileinfo.so` 8.7 MB (in versioned `/usr/lib64/php8.4/modules`) | `fileinfo.so` 8.1 MB | `/bin/php8.5` (CLI) 12.2 MB |
+| State dirs created | `/var/lib/php/{session,opcache,wsdlcache}` — empty | same | same | `/var/lib/php/sessions` — empty | same as 24.04 |
 
 Two honest caveats on those numbers. The capture enumerates **both
 merged-`/usr` path views** (`/sbin/php-fpm` *and* `/usr/sbin/php-fpm`,
 `/lib/...` *and* `/usr/lib/...`, identical `sha256`), so each figure roughly
-double-counts real blocks — de-duplicated they are ~15.5 / 13.5 / 21.4 MB.
-Budget the table's number; it is conservative in the right direction. And
-alma10's `files_modified` total is dominated by `rpmdb.sqlite` (32 MB,
+double-counts real blocks — de-duplicated they are
+~16.3 / 14.1 / 18.2 / 22.2 / 36.5 MB. Budget the table's number; it is
+conservative in the right direction. (26.04's eye-catching floor is real but
+mostly the dependency CLI: `php8.5-cli`'s 12.2 MB binary, counted twice.)
+And alma10's `files_modified` total is dominated by `rpmdb.sqlite` (62 MB,
 counted twice) — package-manager bookkeeping, not php-fpm payload, which is
 why the floor is added-files only. `/var/log` is excluded from footprints,
 so no log volume is priced in here either.
@@ -257,11 +286,11 @@ dataset, no transaction log, no content directory of its own.
 | Driver | Grows | Bounded by | Who acts |
 | --- | --- | --- | --- |
 | Journal (`php-fpm.service`) | slowly — master lifecycle + fatals | journald `SystemMaxUse` | ops |
-| FPM error log: `/var/log/php-fpm/` (EL) / `/var/log/php8.3-fpm.log` (Ubuntu) | slowly | the shipped logrotate fragment | ops |
+| FPM error log: `/var/log/php-fpm/` (EL family) / `/var/log/php8.3-fpm.log`, `/var/log/php8.5-fpm.log` (Ubuntu 24.04 / 26.04) | slowly | the shipped logrotate fragment | ops |
 | Per-pool `access.log` / `slowlog`, when a pool enables them | **per request** — the only log here that surprises people | the fragment, *if* its glob matches the path the pool writes to `[needs-runtime-confirmation]` | dev enables it, ops sizes for it |
-| `/var/lib/php/session` (EL, `0770 root:apache`) | **unbounded if GC is misconfigured** | no GC unit and no cron job captured on EL (`scheduled.cron_jobs` empty) — only `session.gc_probability` / `gc_maxlifetime` `[app-knowledge]` | dev, via `php_value[session.gc_*]` in the granted pool file |
-| `/var/lib/php/sessions` (Ubuntu, `1733 root:root`) | bounded in practice | `phpsessionclean.timer`, with `/etc/cron.d/php` (`09,39 * * * *`) as the non-systemd fallback — both **dropped from the profile** (§2) | ops |
-| `/var/lib/php/{opcache,wsdlcache}` (EL) | negligible | only written when `opcache.file_cache` / SOAP caching is enabled `[app-knowledge]` | — |
+| `/var/lib/php/session` (EL family, `0770 root:apache`) | **unbounded if GC is misconfigured** | no GC unit and no cron job captured on any EL-family distro (`scheduled.cron_jobs` empty) — only `session.gc_probability` / `gc_maxlifetime` `[app-knowledge]` | dev, via `php_value[session.gc_*]` in the granted pool file |
+| `/var/lib/php/sessions` (each Ubuntu, `1733 root:root`) | bounded in practice | `phpsessionclean.timer`, with `/etc/cron.d/php` (`09,39 * * * *`) as the non-systemd fallback — both **dropped from the profile** (§2) | ops |
+| `/var/lib/php/{opcache,wsdlcache}` (EL family) | negligible | only written when `opcache.file_cache` / SOAP caching is enabled `[app-knowledge]` | — |
 | The document root PHP executes from | **the real growth on a PHP box** | not php-fpm's path — sized under the web server's profile | [nginx ops](../nginx/ops.md) / [apache ops](../apache/ops.md) |
 
 **Separate volume: normally no.** php-fpm owns no data path worth a volume.
@@ -276,8 +305,9 @@ exceptions, both mounted at the app's own existing path, never a new one:
   ACL.
 
 **Ordering, whenever a mount lands on or above a granted path.** The granted
-paths are `/etc/php-fpm.d` (Ubuntu: `/etc/php/8.3/fpm/pool.d`) and the log
-path in §4: mount → restore ownership/mode and, on EL, the SELinux label →
+paths are `/etc/php-fpm.d` (Ubuntu: `/etc/php/8.3/fpm/pool.d`, 26.04:
+`/etc/php/8.5/fpm/pool.d`) and the log path in §4: mount → restore
+ownership/mode and, on EL, the SELinux label →
 **re-apply playbook 5** (§4) → `getfacl` the path to confirm the team entry
 is back. Full procedure:
 [separate volumes: when and where](../../concepts/storage.md#separate-volumes-when-and-where);
@@ -285,9 +315,9 @@ why skipping it silently revokes the team:
 [the mount-hides-ACLs trap](../../concepts/storage.md#the-trap-a-mount-hides-the-acls-underneath-it).
 Same re-apply reflex as after `dnf update` / `apt upgrade` (§8).
 
-**Log retention.** All three distros ship a fragment — `/etc/logrotate.d/php-fpm`
-(EL), `/etc/logrotate.d/php8.3-fpm` (Ubuntu) — so file logs are bounded out
-of the box; the fragment's retention values are not captured in the
+**Log retention.** All five distros ship a fragment — `/etc/logrotate.d/php-fpm`
+(EL family), `/etc/logrotate.d/php8.3-fpm` / `php8.5-fpm` (Ubuntu) — so file
+logs are bounded out of the box; the fragment's retention values are not captured in the
 footprint `[needs-runtime-confirmation]`. Journal volume is bounded by
 journald, not by that fragment. Both are outside the profile: retention or
 frequency changes are an **ops request**, and after any fragment edit re-run

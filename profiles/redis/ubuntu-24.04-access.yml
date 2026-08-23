@@ -23,7 +23,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-09   VERIFIED: 2026-08-09 (EC2 ubuntu-24.04 ami-0ac74609c6396bed3, SELinux/authselect real)
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-23 (KVM ubuntu2404-20260823, AppArmor, real PAM, CIS L1)
 
 declarative_access_profile_name: 'redis'
 declarative_access_sudo: true
