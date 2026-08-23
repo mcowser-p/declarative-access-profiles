@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # capture-matrix-ec2.sh — capture treadmark footprints + raw access profiles on
 # REAL EC2 instances (one per distro; apps sequential with re-baseline).
-# Authoritative substrate — captures the OS auth surface containers miss.
+#
+# LEGACY: capture-matrix-kvm.sh on holy-qcow images is the authoritative
+# path now; this AWS driver is kept as a fallback and only knows the
+# original three distros.
 #
 # Usage:
 #   scripts/capture-matrix-ec2.sh --dry-run            # resolve AMIs + estimate
 #   scripts/capture-matrix-ec2.sh sweep [--hours N]    # reap strays
 #   scripts/capture-matrix-ec2.sh [distro ...]         # default: all distros
 # Env:
-#   TREADMARK_SRC (required) — treadmark checkout with --access-vars (feature branch
-#             until merged). POST-MERGE: install treadmark from a release instead.
+#   TREADMARK_SRC (required) — treadmark checkout with --access-vars (now on
+#             main; treadmark also ships on PyPI — the KVM driver installs it
+#             from there).
 #   AWS_REGION (default us-west-2), DAP_ITYPE (default t3.small),
 #   DAP_MAX_MINUTES (default 30, per-instance watchdog)
 set -euo pipefail

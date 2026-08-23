@@ -21,7 +21,7 @@ jobs:
         run: pip install yamllint pyyaml mkdocs-material
 
       - name: yamllint
-        run: yamllint -c .yamllint matrix.yml profiles/ .github/
+        run: yamllint -c .yamllint matrix.yml profiles/ examples/ .github/
 
       - name: Profile contract check
         run: python tools/check_profiles.py
@@ -31,3 +31,26 @@ jobs:
 
       - name: Build site (strict — broken links fail)
         run: mkdocs build --strict
+
+  lint-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install ansible-lint
+        run: pip install ansible-lint ansible-core
+
+      # the lockdown plays reference the collection's role by FQCN; install
+      # it (and the examples' pinned public roles) so lint can resolve them
+      - name: Install example requirements
+        run: |
+          for r in examples/*/requirements.yml; do
+            ansible-galaxy install -r "$r" || exit 1
+          done
+
+      - name: ansible-lint examples
+        run: ansible-lint examples/

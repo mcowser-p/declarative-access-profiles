@@ -7,8 +7,8 @@
 # Usage:  scripts/verify-profile.sh <app> <distro>
 #         (app/distro exactly as in matrix.yml, e.g. nginx almalinux-9)
 # Env:    ACCESS_SRC  (required) path to an ansible-declarative-access
-#                     checkout on branch feat/pam-group-support.
-#                     POST-RELEASE: replace with
+#                     checkout (main). Alternative once pinned versions
+#                     matter here:
 #                     `ansible-galaxy collection install mcowser_p.declarative_access`.
 #         DOCKER_HOST as needed (macOS Docker Desktop).
 #
@@ -53,6 +53,28 @@ RUN apt-get update && apt-get install -y systemd systemd-sysv && \
 CMD ["/sbin/init"]
 DOCKERFILE
     fi ;;
+  ubuntu-26.04)
+    IMG="dap/ubuntu-26.04-init"
+    if ! docker image inspect "$IMG" >/dev/null 2>&1; then
+      echo "[*] building $IMG (no official ubuntu systemd image)"
+      docker build -t "$IMG" - <<'DOCKERFILE'
+FROM ubuntu:26.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y systemd systemd-sysv && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+CMD ["/sbin/init"]
+DOCKERFILE
+    fi ;;
+  amazonlinux-2023)
+    IMG="dap/amazonlinux-2023-init"
+    if ! docker image inspect "$IMG" >/dev/null 2>&1; then
+      echo "[*] building $IMG (no official AL2023 systemd image)"
+      docker build -t "$IMG" - <<'DOCKERFILE'
+FROM amazonlinux:2023
+RUN dnf -y install systemd && dnf clean all
+CMD ["/sbin/init"]
+DOCKERFILE
+    fi ;;
   *) echo "unknown distro $DISTRO" >&2; exit 1 ;;
 esac
 
@@ -83,7 +105,9 @@ if [ "$FAMILY" = "debian" ]; then
   apt-get update -qq
   apt-get install -qq -y $PKG ansible-core acl sudo python3 openssh-server >/dev/null
 else
-  dnf install -qy $PKG ansible-core acl sudo openssh-server >/dev/null
+  # AL2023 packages ansible as `ansible`; EL9/10 ship `ansible-core`
+  dnf install -qy $PKG ansible-core acl sudo openssh-server >/dev/null 2>&1 \
+    || dnf install -qy $PKG ansible acl sudo openssh-server >/dev/null
 fi
 ansible-galaxy collection install community.general ansible.posix >/dev/null 2>&1
 

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # ec2-lib.sh — shared EC2 launch/teardown for the capture and verify drivers.
 #
+# LEGACY: the authoritative substrate is now KVM (kvm-lib.sh + the *-kvm.sh
+# drivers) on holy-qcow golden images. This tier is kept runnable as the AWS
+# fallback; new distros are wired into the KVM tier only.
+#
 # Why EC2 and not containers: a real AlmaLinux/Ubuntu AMI carries the OS auth
 # surface containers miss — authselect, real /etc/pam.d/sshd, SELinux
 # ENFORCING, systemd-logind, real sshd+PAM. That surface is the whole point

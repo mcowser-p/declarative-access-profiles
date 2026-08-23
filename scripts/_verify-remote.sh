@@ -13,10 +13,24 @@ export ANSIBLE_ROLES_PATH=/tmp/linux-access/roles
 # below silently fails and every probe afterwards lies).
 if [ -n "${CONFLICTS:-}" ]; then
   if command -v apt-get >/dev/null 2>&1; then
-    DEBIAN_FRONTEND=noninteractive apt-get remove -qq -y $CONFLICTS >/dev/null 2>&1 || true
+    # purge + autoremove --purge: removing the meta alone strands the core/
+    # common packages and their conffiles (/etc/mysql, /var/lib/mysql), and
+    # the incoming package's postinst then skips data-dir initialization
+    DEBIAN_FRONTEND=noninteractive apt-get purge -qq -y $CONFLICTS >/dev/null 2>&1 || true
+    DEBIAN_FRONTEND=noninteractive apt-get autoremove --purge -qq -y >/dev/null 2>&1 || true
   else
     dnf remove -qy $CONFLICTS >/dev/null 2>&1 || true
   fi
+  # The MySQL/MariaDB pair (the only CONFLICTS users) shares datadir paths,
+  # and even a purge preserves a populated datadir (Debian debconf policy;
+  # rpm keeps non-empty dirs). The incoming server's postinst then skips
+  # initialization and its -files/-keyring siblings never appear. Verify
+  # simulates a CLEAN install, so clear the conflicting server's state.
+  case " $CONFLICTS " in
+    *" mariadb-server "*|*" mysql-server "*|*mariadb*server*)
+      rm -rf /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring \
+             /var/lib/mariadb /etc/mysql /etc/my.cnf.d /etc/my.cnf ;;
+  esac
 fi
 
 # install the app so its units/paths exist (idempotent; apt auto-starts)
