@@ -174,13 +174,21 @@ win_run_ps1() {
   win_ssh "$ip" "powershell -NoProfile -ExecutionPolicy Bypass -File $remote"
 }
 
-# Same, with DAP_GROUP / DAP_PROFILE exported into the guest session so a
-# probe body can be reused across apps and entities.
+# Same, with the DAP_* probe variables exported into the guest session so a
+# probe body can be reused across apps, entities and identities. Forward the
+# whole set, not a hand-picked pair: a probe that silently receives an empty
+# username fails in a confusing place (New-Object PSCredential throws) rather
+# than saying what is missing.
 win_run_ps1_env() {
   local ip="$1" script="$2" remote
   remote="C:/Windows/Temp/$(basename "$script")"
   win_scp_to "$script" "$ip" "$remote"
-  win_ssh "$ip" "\$env:DAP_GROUP='${DAP_GROUP:-}'; \$env:DAP_PROFILE='${DAP_PROFILE:-}'; powershell -NoProfile -ExecutionPolicy Bypass -File $remote"
+  win_ssh "$ip" "\
+\$env:DAP_GROUP='${DAP_GROUP:-}'; \
+\$env:DAP_PROFILE='${DAP_PROFILE:-}'; \
+\$env:DAP_USER='${DAP_USER:-}'; \
+\$env:DAP_USER_PW='${DAP_USER_PW:-}'; \
+powershell -NoProfile -ExecutionPolicy Bypass -File $remote"
 }
 
 win_destroy_platform() {

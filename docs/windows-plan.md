@@ -233,11 +233,45 @@ of the specific blockers we hit do not apply to it:
 
 Known limits of the SYSTEM route even when it works: no user-scope
 packages, the `msstore` source is unavailable, `--accept-source-agreements`
-is required, and Microsoft does not formally support it. If the Windows
-corpus is picked back up, **test that path before adopting Chocolatey** —
-it would keep the corpus on the same package ecosystem the plan originally
-wanted, and 2025-core (where App Installer *is* provisioned) is the host to
-try it on.
+is required, and Microsoft does not formally support it.
+
+### The SYSTEM route was then tested — and found the real problem
+
+`scripts/winget-escalate.ps1` ran both remaining routes on a 2025-core
+clone. Evidence:
+[`evidence/windows-2025/winget-escalation.json`](https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2025/winget-escalation.json).
+
+**The mechanism works. The package is missing.** The SYSTEM scheduled task
+ran exactly as intended and reported:
+
+```
+identity: nt authority\system
+windowsapps: enumerable but NO DesktopAppInstaller dir
+```
+
+Two things follow. First, the approach is sound: SYSTEM *can* enumerate
+`C:\Program Files\WindowsApps`, which the elevated SSH session could not —
+so the ACL blocker named above is real and the scheduled task genuinely
+clears it. Second, and decisively, **there is no App Installer payload on
+the deployed clone at all** — not unregistered, absent. The same holds on
+2022 Desktop, where `Get-AppxProvisionedPackage`, `Get-AppxPackage` and
+`Get-AppxPackage -AllUsers` all came back empty.
+
+So the honest verdict is narrower and more useful than "MSIX can't work
+over SSH": **no holy-qcow Windows image currently delivers a usable winget
+to a deployed clone.** That contradicts `install-winget.ps1`'s "2025 ships
+it" assumption and the smoke test's provisioned-package assertion, and is
+filed as a holy-qcow issue. Until an image actually carries the package,
+winget cannot be evaluated further on this substrate — and once one does,
+the SYSTEM scheduled task is the route to use, because its only failure
+here was the missing payload.
+
+(The `runas` equivalent, `Start-Process -Credential`, was tested in the
+same run and produced no output — inconclusive, and moot while the package
+is absent. It remains theoretically interesting because
+`CreateProcessWithLogonW` performs an *interactive-type* logon rather than
+SSH's network logon; note `/noprofile` would defeat it, since MSIX
+registration writes into the user profile.)
 
 ### What to use instead
 
