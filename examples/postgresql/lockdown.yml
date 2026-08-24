@@ -2,7 +2,8 @@
 # Apply the reviewed postgresql access profile — playbook-5 mechanics with
 # the profile resolved from THIS checkout.
 #
-#   ansible-playbook -i <inv> lockdown.yml -e distro_slug=ubuntu-24.04
+#   AD-joined:  ansible-playbook -i <inv> lockdown.yml -e distro_slug=ubuntu-24.04
+#   non-joined: ... -e group_name=<local-group> -e ad_domain=''
 #   revoke: same command + --tags cleanup
 - name: Lock down postgresql admin surface
   hosts: "{{ target | default('postgresql_hosts') }}"
@@ -11,6 +12,25 @@
     # almalinux-9 | almalinux-10 | ubuntu-24.04 | ubuntu-26.04 | amazonlinux-2023
     distro_slug: ubuntu-24.04
     group_name: "{{ ansible_hostname }}-app_restricted"
+    # group_name stays the knob (the collection README, playbook 5 and every
+    # profile header document `-e group_name=...`), but it must be MAPPED here.
+    # playbooks/5_apply_access_profile.yml does this mapping itself; calling the
+    # role directly, as this example does, skips it, and the role then fails its
+    # own guard: "Either 'declarative_access_group' or 'declarative_access_user'
+    # must be set when pam_group is enabled." Verified on a live alma10 host,
+    # 2026-08-24. The IIS example next door never had this bug -- it sets the
+    # role's real variable directly.
+    declarative_access_group: "{{ group_name }}"
+    # Explicit rather than inherited. The role defaults
+    # declarative_access_ad_domain to "example.com" (defaults/main.yml:105), so
+    # every entity silently becomes <group>@example.com -- correct on a host
+    # joined to that realm, and invisible until it is not. On a non-joined host
+    # (the "local group" case these examples contemplate) the ACL entity then
+    # matches nothing and setfacl rejects it outright with a message that names
+    # neither the group nor the domain:
+    #     setfacl: Option -m: Invalid argument near character 7
+    # Naming it here makes the AD assumption visible and the local case a flag.
+    declarative_access_ad_domain: "{{ ad_domain | default('example.com') }}"
   vars_files:
     - "../../profiles/postgresql/{{ distro_slug }}-access.yml"
   roles:
