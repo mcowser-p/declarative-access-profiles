@@ -2,8 +2,8 @@
 # Apply the reviewed postgresql access profile — playbook-5 mechanics with
 # the profile resolved from THIS checkout.
 #
-#   AD-joined:  ansible-playbook -i <inv> lockdown.yml -e distro_slug=ubuntu-24.04
-#   non-joined: ... -e group_name=<local-group> -e ad_domain=''
+#   local:     ansible-playbook -i <inv> lockdown.yml -e distro_slug=ubuntu-24.04
+#   AD-joined: ... -e group_name=<AD-group> -e ad_domain=<realm>
 #   revoke: same command + --tags cleanup
 - name: Lock down postgresql admin surface
   hosts: "{{ target | default('postgresql_hosts') }}"
@@ -21,16 +21,17 @@
     # 2026-08-24. The IIS example next door never had this bug -- it sets the
     # role's real variable directly.
     declarative_access_group: "{{ group_name }}"
-    # Explicit rather than inherited. The role defaults
-    # declarative_access_ad_domain to "example.com" (defaults/main.yml:105), so
-    # every entity silently becomes <group>@example.com -- correct on a host
-    # joined to that realm, and invisible until it is not. On a non-joined host
-    # (the "local group" case these examples contemplate) the ACL entity then
-    # matches nothing and setfacl rejects it outright with a message that names
-    # neither the group nor the domain:
-    #     setfacl: Option -m: Invalid argument near character 7
-    # Naming it here makes the AD assumption visible and the local case a flag.
-    declarative_access_ad_domain: "{{ ad_domain | default('example.com') }}"
+    # Empty means a LOCAL principal with no @realm suffix, matching the role
+    # default since ce863b1 in ansible-declarative-access. Named here anyway,
+    # because since b5145ba this value is consumed by setfacl AND sudoers, not
+    # just group.conf -- so a wrong realm no longer merely fails loudly. On an
+    # AD-joined host with use_fully_qualified_names, a BARE group resolves to
+    # nothing: setfacl dies with "Option -m: Invalid argument near character 7"
+    # (its way of saying "unresolvable principal", naming a character offset
+    # rather than the group), and sudo writes a %group rule that looks perfect
+    # and grants nobody anything, silently. So on such a host pass the realm:
+    #     -e ad_domain=corp.example
+    declarative_access_ad_domain: "{{ ad_domain | default('') }}"
   vars_files:
     - "../../profiles/postgresql/{{ distro_slug }}-access.yml"
   roles:
