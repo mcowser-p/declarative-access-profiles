@@ -1,0 +1,17 @@
+[i] WinGet.Client bootstrap failed: Exception calling "ShouldContinue" with "2" argument(s): "Object reference not set to an instance of an object."
+{
+    "schema":  "1.0-winget-recon",
+    "evidence_type":  "winget_probe",
+    "generated_at":  "2026-08-24T01:20:28.4173563Z",
+    "host":  "DAP-2025",
+    "image":  "windows2025-core-20260823",
+    "os":  "Microsoft Windows Server 2025 Standard Evaluation",
+    "edition":  79,
+    "winget_available":  false,
+    "winget_path":  null,
+    "winget_version":  null,
+    "bootstrap_note":  "unavailable: winget could not be resolved on this host",
+    "packages":  [
+
+                 ]
+}

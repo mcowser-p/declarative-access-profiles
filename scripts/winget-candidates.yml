@@ -1,0 +1,101 @@
+---
+# winget-candidates.yml — the candidate corpus for Windows Server, probed by
+# scripts/winget-recon.ps1.
+#
+# WHY THIS LIST EXISTS: IIS is a Windows Feature, and Feature installs are
+# invisible to a baseline diff (pre-staged payload => zero services captured),
+# which is why its evidence had to be a live inventory. winget/MSI is the
+# channel WITH footprint visibility — treadmark's own workflow doc says so —
+# so growing the Windows corpus past IIS means finding out which packages
+# actually resolve on Windows Server. Nobody has ever checked on these images.
+#
+# Every `id` here is a HYPOTHESIS. Entries marked `uncertain: true` are ones
+# whose exact winget ID is a guess; a miss is data, not a bug. The `service`
+# flag is likewise a hypothesis about whether the install registers a Windows
+# service — it decides which packages are worth treadmarking first, because an
+# access profile only has substance when an install creates something to lock
+# down (a service, a config tree, a data dir, an account).
+#
+# Version-pinned IDs follow the ecosystem's own convention (PostgreSQL ships
+# major-versioned IDs); treadmark never uses `--version`, it pins in the ID.
+
+categories:
+  web:
+    description: Web servers and reverse proxies — the closest Windows analog to the Linux wave-1 set
+    packages:
+      - {id: nginx.nginx, service: true}
+      - {id: CaddyServer.Caddy, service: true}
+      - {id: Apache.HTTPServer, service: true, uncertain: true}
+      - {id: Apache.Tomcat.10, service: true, uncertain: true}
+
+  database:
+    description: Databases — the config-scoped access class (data dir never granted)
+    packages:
+      - {id: PostgreSQL.PostgreSQL.17, service: true}
+      - {id: PostgreSQL.PostgreSQL.16, service: true}
+      - {id: Oracle.MySQL, service: true}
+      - {id: MariaDB.Server, service: true, uncertain: true}
+      - {id: MongoDB.Server, service: true}
+      - {id: Microsoft.SQLServer.2022.Express, service: true}
+      - {id: Memurai.MemuraiDeveloper, service: true, uncertain: true}
+      - {id: tporadowski.Redis, service: true, uncertain: true}
+
+  broker:
+    description: Message brokers and caches — RabbitMQ needs Erlang, which is its own footprint
+    packages:
+      - {id: RabbitMQ.RabbitMQ, service: true, uncertain: true}
+      - {id: Erlang.ErlangOTP, service: false, uncertain: true}
+      - {id: Memcached.Memcached, service: true, uncertain: true}
+
+  observability:
+    description: Agents — Datadog is treadmark's known-good positive control for Windows service capture
+    packages:
+      - {id: Datadog.Agent, service: true}
+      - {id: Grafana.Grafana, service: true, uncertain: true}
+      - {id: InfluxData.Telegraf, service: true, uncertain: true}
+      - {id: Prometheus.Prometheus, service: false, uncertain: true}
+      - {id: Zabbix.Agent2, service: true, uncertain: true}
+
+  search_storage:
+    description: Search and object storage
+    packages:
+      - {id: Elastic.Elasticsearch, service: true, uncertain: true}
+      - {id: MinIO.Server, service: false, uncertain: true}
+      - {id: MinIO.Client, service: false, uncertain: true}
+
+  runtime:
+    description: Language runtimes — no service, but real Program Files trees and sometimes updater tasks
+    packages:
+      - {id: Microsoft.DotNet.SDK.8, service: false}
+      - {id: Microsoft.DotNet.AspNetCore.8, service: false}
+      - {id: EclipseAdoptium.Temurin.21.JDK, service: false}
+      - {id: OpenJS.NodeJS.LTS, service: false}
+      # NOT Python.Python.3.12 by accident: treadmark hit this live — installing
+      # the same product/minor as the interpreter running the loop performs an
+      # upgrade that first UNINSTALLS it. Harmless for a read-only probe, but the
+      # ID stays deliberate so the capture round inherits the right choice.
+      - {id: Python.Python.3.12, service: false}
+      - {id: GoLang.Go, service: false}
+
+  infra_cli:
+    description: >-
+      The contrast group. CLI tools install files but register no service, so they
+      should yield near-empty access profiles — probing them tests that assumption
+      rather than assuming it.
+    packages:
+      - {id: Git.Git, service: false}
+      - {id: 7zip.7zip, service: false}
+      - {id: Kubernetes.kubectl, service: false}
+      - {id: Helm.Helm, service: false, uncertain: true}
+      - {id: Hashicorp.Vault, service: false}
+      - {id: Hashicorp.Consul, service: false}
+      - {id: Hashicorp.Terraform, service: false}
+      - {id: Jenkins.Jenkins, service: true, uncertain: true}
+      - {id: OpenVPNTechnologies.OpenVPN, service: true, uncertain: true}
+
+  control:
+    description: >-
+      Negative control. This ID is deliberately nonsense: if the probe reports it
+      as found, the probe is broken and every other result is suspect.
+    packages:
+      - {id: Dap.DefinitelyNotARealPackage, service: false, control: true}
