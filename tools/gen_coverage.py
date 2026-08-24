@@ -23,6 +23,8 @@ REPO = Path(__file__).resolve().parent.parent
 INDEX = REPO / "docs" / "index.md"
 START = "<!-- coverage:start -->"
 END = "<!-- coverage:end -->"
+WIN_START = "<!-- coverage-windows:start -->"
+WIN_END = "<!-- coverage-windows:end -->"
 
 
 def cell(app: str, distro: str, spec: dict) -> str:
@@ -37,6 +39,40 @@ def cell(app: str, distro: str, spec: dict) -> str:
             return "**verified**"
         return "reviewed"
     return "captured" if raw.exists() else "—"
+
+
+def windows_cell(app: str, platform: str, spec: dict) -> str:
+    if "na" in spec:
+        return f"N/A — {spec['na'].split('—')[0].strip()[:34]}"
+    reviewed = REPO / "profiles" / app / f"{platform}-access.yml"
+    evidence = REPO / "evidence" / platform / f"inventory-{app}.json"
+    if reviewed.exists():
+        head = reviewed.read_text()[:2500]
+        m = re.search(r"VERIFIED:\s*(\S+)", head)
+        if m and m.group(1) != "pending":
+            return "**verified**"
+        return "reviewed"
+    # Windows evidence is a live inventory, not a footprint + raw export
+    return "inventoried" if evidence.exists() else "—"
+
+
+def windows_table() -> str | None:
+    """The Windows half, rendered as its own table (separate matrix)."""
+    mpath = REPO / "matrix-windows.yml"
+    if not mpath.exists():
+        return None
+    matrix = yaml.safe_load(mpath.read_text())
+    platforms = list(matrix["platforms"])
+    rows = ["| App | " + " | ".join(platforms) + " | Dev doc | Ops doc |",
+            "| --- | " + " | ".join("---" for _ in platforms) + " | --- | --- |"]
+    for app, cells in matrix["apps"].items():
+        vals = [windows_cell(app, p, cells.get(p) or {}) for p in platforms]
+        def link(path: Path, label: str) -> str:
+            return f"[{label}]({path.relative_to(REPO / 'docs')})" if path.exists() else "—"
+        dev = link(REPO / "docs" / "apps" / app / "dev.md", "dev")
+        ops = link(REPO / "docs" / "apps" / app / "ops.md", "ops")
+        rows.append(f"| {app} | " + " | ".join(vals) + f" | {dev} | {ops} |")
+    return "\n".join(rows)
 
 
 def main() -> int:
@@ -60,6 +96,11 @@ def main() -> int:
         return 2
     new = re.sub(f"{re.escape(START)}.*?{re.escape(END)}",
                  f"{START}\n{table}\n{END}", text, flags=re.S)
+
+    wtable = windows_table()
+    if wtable and WIN_START in new:
+        new = re.sub(f"{re.escape(WIN_START)}.*?{re.escape(WIN_END)}",
+                     f"{WIN_START}\n{wtable}\n{WIN_END}", new, flags=re.S)
     if "--check" in sys.argv:
         if new != text:
             print("coverage table is stale — run tools/gen_coverage.py")

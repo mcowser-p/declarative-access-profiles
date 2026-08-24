@@ -1,0 +1,11 @@
+---
+# IIS is a Windows Feature, not a package — there is no public install role to
+# adopt (see docs/apps/iis/ops.md §1: the Feature channel is also why this
+# app's evidence is a live inventory rather than a footprint diff). deploy.yml
+# is the thin native install, mirroring holy-qcow tofu/roles/iis.
+collections:
+  - name: mcowser_p.declarative_access
+  # win_feature / win_acl / win_owner / win_group_membership / win_powershell
+  - name: ansible.windows
+  # win_firewall_rule
+  - name: community.windows

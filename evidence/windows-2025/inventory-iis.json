@@ -1,0 +1,424 @@
+{
+    "schema":  "1.0-iis-inventory",
+    "evidence_type":  "live_enumeration",
+    "evidence_note":  "IIS installs via the Windows Feature channel (pre-staged payload), so a baseline diff captures no services. This is a live read of the running host, not a footprint diff.",
+    "generated_at":  "2026-08-23T23:46:42.0574917Z",
+    "host":  "DAP-2025",
+    "image":  "windows2025-core-20260823",
+    "os":  "Microsoft Windows Server 2025 Standard Evaluation",
+    "sites":  [
+                  {
+                      "name":  "app",
+                      "id":  1,
+                      "state":  "Started",
+                      "physical_path":  "C:\\inetpub\\sites\\app",
+                      "app_pool":  "app",
+                      "bindings":  [
+                                       {
+                                           "protocol":  "http",
+                                           "binding":  "*:8080:",
+                                           "cert_hash":  null,
+                                           "cert_store":  "",
+                                           "sslflags":  0
+                                       }
+                                   ],
+                      "log_directory":  "C:\\inetpub\\logs\\LogFiles",
+                      "log_site_dir":  "C:\\inetpub\\logs\\LogFiles\\W3SVC1",
+                      "content_acl":  {
+                                          "path":  "C:\\inetpub\\sites\\app",
+                                          "owner":  "NT AUTHORITY\\SYSTEM",
+                                          "sddl":  "O:SYG:SYD:AI(A;ID;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;OICIIOID;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;ID;FA;;;SY)(A;OICIIOID;GA;;;SY)(A;ID;FA;;;BA)(A;OICIIOID;GA;;;BA)(A;ID;0x1200a9;;;BU)(A;OICIIOID;GXGR;;;BU)(A;OICIIOID;GA;;;CO)",
+                                          "inherits":  true,
+                                          "aces":  [
+                                                       {
+                                                           "identity":  "NT SERVICE\\TrustedInstaller",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "NT SERVICE\\TrustedInstaller",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "NT AUTHORITY\\SYSTEM",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "NT AUTHORITY\\SYSTEM",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Administrators",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Administrators",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Users",
+                                                           "rights":  "ReadAndExecute, Synchronize",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Users",
+                                                           "rights":  "-1610612736",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "CREATOR OWNER",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       }
+                                                   ]
+                                      }
+                  },
+                  {
+                      "name":  "www",
+                      "id":  2,
+                      "state":  "Started",
+                      "physical_path":  "C:\\inetpub\\sites\\www",
+                      "app_pool":  "www",
+                      "bindings":  [
+                                       {
+                                           "protocol":  "http",
+                                           "binding":  "*:80:",
+                                           "cert_hash":  null,
+                                           "cert_store":  "",
+                                           "sslflags":  0
+                                       }
+                                   ],
+                      "log_directory":  "C:\\inetpub\\logs\\LogFiles",
+                      "log_site_dir":  "C:\\inetpub\\logs\\LogFiles\\W3SVC2",
+                      "content_acl":  {
+                                          "path":  "C:\\inetpub\\sites\\www",
+                                          "owner":  "NT AUTHORITY\\SYSTEM",
+                                          "sddl":  "O:SYG:SYD:AI(A;ID;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;OICIIOID;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;ID;FA;;;SY)(A;OICIIOID;GA;;;SY)(A;ID;FA;;;BA)(A;OICIIOID;GA;;;BA)(A;ID;0x1200a9;;;BU)(A;OICIIOID;GXGR;;;BU)(A;OICIIOID;GA;;;CO)",
+                                          "inherits":  true,
+                                          "aces":  [
+                                                       {
+                                                           "identity":  "NT SERVICE\\TrustedInstaller",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "NT SERVICE\\TrustedInstaller",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "NT AUTHORITY\\SYSTEM",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "NT AUTHORITY\\SYSTEM",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Administrators",
+                                                           "rights":  "FullControl",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Administrators",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Users",
+                                                           "rights":  "ReadAndExecute, Synchronize",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "None"
+                                                       },
+                                                       {
+                                                           "identity":  "BUILTIN\\Users",
+                                                           "rights":  "-1610612736",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       },
+                                                       {
+                                                           "identity":  "CREATOR OWNER",
+                                                           "rights":  "268435456",
+                                                           "type":  "Allow",
+                                                           "inherited":  true,
+                                                           "inheritance":  "ContainerInherit, ObjectInherit"
+                                                       }
+                                                   ]
+                                      }
+                  }
+              ],
+    "app_pools":  [
+                      {
+                          "name":  ".NET v4.5",
+                          "state":  "Started",
+                          "identity_type":  "ApplicationPoolIdentity",
+                          "resolved_identity":  "IIS AppPool\\.NET v4.5",
+                          "runtime_version":  "v4.0",
+                          "pipeline_mode":  "Integrated"
+                      },
+                      {
+                          "name":  ".NET v4.5 Classic",
+                          "state":  "Started",
+                          "identity_type":  "ApplicationPoolIdentity",
+                          "resolved_identity":  "IIS AppPool\\.NET v4.5 Classic",
+                          "runtime_version":  "v4.0",
+                          "pipeline_mode":  "Classic"
+                      },
+                      {
+                          "name":  "app",
+                          "state":  "Started",
+                          "identity_type":  "ApplicationPoolIdentity",
+                          "resolved_identity":  "IIS AppPool\\app",
+                          "runtime_version":  "v4.0",
+                          "pipeline_mode":  "Integrated"
+                      },
+                      {
+                          "name":  "DefaultAppPool",
+                          "state":  "Started",
+                          "identity_type":  "ApplicationPoolIdentity",
+                          "resolved_identity":  "IIS AppPool\\DefaultAppPool",
+                          "runtime_version":  "v4.0",
+                          "pipeline_mode":  "Integrated"
+                      },
+                      {
+                          "name":  "www",
+                          "state":  "Started",
+                          "identity_type":  "ApplicationPoolIdentity",
+                          "resolved_identity":  "IIS AppPool\\www",
+                          "runtime_version":  "v4.0",
+                          "pipeline_mode":  "Integrated"
+                      }
+                  ],
+    "services":  [
+                     {
+                         "name":  "W3SVC",
+                         "status":  "Running",
+                         "start_type":  "Automatic",
+                         "run_as":  "localSystem",
+                         "sddl":  "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+                     },
+                     {
+                         "name":  "WAS",
+                         "status":  "Running",
+                         "start_type":  "Manual",
+                         "run_as":  "localSystem",
+                         "sddl":  "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+                     },
+                     {
+                         "name":  "WMSVC",
+                         "status":  "Running",
+                         "start_type":  "Automatic",
+                         "run_as":  "NT AUTHORITY\\LocalService",
+                         "sddl":  "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+                     }
+                 ],
+    "wmsvc":  {
+                  "feature_installed":  true,
+                  "enable_remote_mgmt":  1,
+                  "requires_windows_creds":  1,
+                  "authorized_users":  [
+
+                                       ]
+              },
+    "delegation":  {
+                       "raw":  [
+                                   "ERROR ( message:Unknown config section \"system.webServer/@delegation\".  Replace with ? for help. )"
+                               ],
+                       "sections":  [
+                                        {
+                                            "section":  "system.webServer/defaultDocument",
+                                            "override_mode":  "Inherit"
+                                        }
+                                    ]
+                   },
+    "certificates":  [
+                         {
+                             "thumbprint":  "614D1E4432737F0D1863CEAD4F92F1CD2FA82168",
+                             "subject":  "CN=WMSvc-SHA2-WIN-75EUI4PKSUK",
+                             "not_after":  "2036-08-20T23:45:23.0000000+00:00",
+                             "has_private":  true,
+                             "exportable":  true
+                         }
+                     ],
+    "local_groups":  [
+                         {
+                             "name":  "Administrators",
+                             "members":  [
+                                             "DAP-2025\\Administrator"
+                                         ]
+                         },
+                         {
+                             "name":  "Event Log Readers",
+                             "members":  [
+
+                                         ]
+                         },
+                         {
+                             "name":  "IIS_IUSRS",
+                             "members":  [
+
+                                         ]
+                         },
+                         {
+                             "name":  "Remote Management Users",
+                             "members":  [
+
+                                         ]
+                         }
+                     ],
+    "config_acl":  [
+                       {
+                           "path":  "C:\\WINDOWS\\system32\\inetsrv\\config\\applicationHost.config",
+                           "owner":  "NT AUTHORITY\\SYSTEM",
+                           "sddl":  "O:SYG:SYD:AI(A;;FR;;;S-1-5-80-257763619-1023834443-750927789-3464696139-1457670516)(A;ID;FR;;;S-1-5-80-257763619-1023834443-750927789-3464696139-1457670516)(A;ID;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;ID;FA;;;SY)(A;ID;FA;;;BA)",
+                           "inherits":  true,
+                           "aces":  [
+                                        {
+                                            "identity":  "NT SERVICE\\WMSVC",
+                                            "rights":  "Read, Synchronize",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\WMSVC",
+                                            "rights":  "Read, Synchronize",
+                                            "type":  "Allow",
+                                            "inherited":  true,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\TrustedInstaller",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  true,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "NT AUTHORITY\\SYSTEM",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  true,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "BUILTIN\\Administrators",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  true,
+                                            "inheritance":  "None"
+                                        }
+                                    ]
+                       },
+                       {
+                           "path":  "C:\\WINDOWS\\system32\\inetsrv\\config",
+                           "owner":  "NT AUTHORITY\\SYSTEM",
+                           "sddl":  "O:SYG:SYD:PAI(A;OICIIO;GA;;;CO)(A;OICIIO;GA;;;SY)(A;;FA;;;SY)(A;;FA;;;BA)(A;OICIIO;GA;;;BA)(A;OICIIO;GR;;;S-1-5-80-257763619-1023834443-750927789-3464696139-1457670516)(A;;FR;;;S-1-5-80-257763619-1023834443-750927789-3464696139-1457670516)(A;OICIIO;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)",
+                           "inherits":  false,
+                           "aces":  [
+                                        {
+                                            "identity":  "CREATOR OWNER",
+                                            "rights":  "268435456",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "ContainerInherit, ObjectInherit"
+                                        },
+                                        {
+                                            "identity":  "NT AUTHORITY\\SYSTEM",
+                                            "rights":  "268435456",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "ContainerInherit, ObjectInherit"
+                                        },
+                                        {
+                                            "identity":  "NT AUTHORITY\\SYSTEM",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "BUILTIN\\Administrators",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "BUILTIN\\Administrators",
+                                            "rights":  "268435456",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "ContainerInherit, ObjectInherit"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\WMSVC",
+                                            "rights":  "-2147483648",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "ContainerInherit, ObjectInherit"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\WMSVC",
+                                            "rights":  "Read, Synchronize",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "None"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\TrustedInstaller",
+                                            "rights":  "268435456",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "ContainerInherit, ObjectInherit"
+                                        },
+                                        {
+                                            "identity":  "NT SERVICE\\TrustedInstaller",
+                                            "rights":  "FullControl",
+                                            "type":  "Allow",
+                                            "inherited":  false,
+                                            "inheritance":  "None"
+                                        }
+                                    ]
+                       }
+                   ]
+}
