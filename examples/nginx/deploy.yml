@@ -13,6 +13,13 @@
         # root-owned (role default — do not chown it to the service user)
         nginx_user: "{{ 'www-data' if ansible_os_family == 'Debian' else 'nginx' }}"
         nginx_remove_default_vhost: true
+        # DISTRO package, not nginx.org's. The role defaults this to true on
+        # EL and installs F5's build (nginx-1.30.4-1.el10.ngx, no
+        # /var/lib/nginx) rather than the AppStream package this profile was
+        # captured from -- lockdown then fails on a path that build never
+        # creates. Ubuntu needs no equivalent: nginx_ppa_use already defaults
+        # to false. See docs/role-evals/nginx.md §6b.
+        nginx_yum_repo_enabled: false
         # content root = the packaged docroot the profile's setgid group
         # model covers; logs where the profile's /var/log/nginx read
         # grant expects them

@@ -46,8 +46,15 @@ config-write ACL then grants the team on top of.
 ## 5. Verdict: **adopt + wrap**
 
 Adopt `geerlingguy.nginx` for a simple deployment, or `nginxinc.nginx`
-(+ `nginx_config`) when you need NGINX Plus or fine-grained config. Wrap
-either with our access lifecycle — neither delivers R4/R6/R9, and that gap
+(+ `nginx_config`) when you need NGINX Plus or fine-grained config.
+
+**Mandatory action before rollout on EL: set `nginx_yum_repo_enabled: false`.**
+The role defaults it to `true` and installs F5's nginx.org build rather than
+the AppStream package these profiles were captured against; lockdown then
+fails on a path that build does not create. Ubuntu is unaffected
+(`nginx_ppa_use` already defaults to `false`) — see §6b.
+
+Wrap either with our access lifecycle — neither delivers R4/R6/R9, and that gap
 is not a role defect, it's the job this library does. As with every app so
 far, R6 (access model) is a clean miss across all public roles.
 
@@ -75,8 +82,25 @@ if it replaces ACL'd files, re-run playbook 5 afterward (it's idempotent).
 
 ### 6b. Configuring the deployment for least privilege
 
-From `geerlingguy.nginx`'s own defaults and templates (2026-08-09 check):
+From `geerlingguy.nginx`'s own defaults and templates (2026-08-09 check;
+install-source bullet added 2026-08-24 after a live lockdown failure):
 
+- **`nginx_yum_repo_enabled: false` — set it, on EL.** This one comes first
+  because it decides *which nginx you get*, and every other bullet here
+  assumes the distro package. The role's default is **`true`**
+  (`defaults/main.yml:6`), which adds F5's nginx.org repo in
+  `tasks/setup-RedHat.yml:9` and installs
+  `nginx-1.30.4-1.el10.ngx` (vendor "NGINX Packaging", 33 files) instead of
+  AppStream's `nginx-1.26.3`. That is a **different install shape**, and our
+  footprint was captured from the distro package — applying this profile to
+  the vendor build fails on `file (/var/lib/nginx) is absent, cannot
+  continue`, because the nginx.org package does not create it. Same hazard
+  the [caddy eval](caddy.md) §4 names for Cloudsmith/COPR, reached by a
+  default rather than a choice. Verified on alma10, 2026-08-24.
+  **Ubuntu needs nothing**: `nginx_ppa_use` already defaults to `false`
+  (`defaults/main.yml:12`), so the Debian family gets the archive package
+  out of the box. The asymmetry is the trap — a playbook that works on
+  Ubuntu will silently install a different nginx on EL.
 - **Keep config root-owned.** The role renders `nginx.conf` and vhost files
   as root and never chowns `/etc/nginx` to the service account or writes
   sudoers — there is nothing to disable; just don't add your own
