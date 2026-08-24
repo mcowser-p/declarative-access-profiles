@@ -142,6 +142,84 @@ at apply time for teams that accept that tradeoff knowingly.
 flag it. That is intentional, reviewed drift — record it in the golden-baseline
 accept-list ([lifecycle.md](lifecycle.md)) so it never reads as tampering.
 
+## Platform constraints: where a mechanism means something else, or nothing
+
+The decision matrix above says what each mechanism *grants*. These are the places
+where the platform decides it grants less than the profile says — or nothing —
+without the profile being wrong and without anything failing loudly.
+
+All three were found on the KVM AD fleet, 2026-08-24, during ad-lab access testing.
+They are platform facts rather than per-app ones, so they apply to every profile.
+
+### pam_group cannot confer sudo on Ubuntu 25.10+
+
+Ubuntu 25.10 and later ship **`sudo-rs`** in place of sudo (26.04: `0.2.13-0ubuntu1`,
+binary at `/usr/lib/cargo/bin/sudo`, package `sudo-rs`). **It does not honour
+pam_group-derived membership.** So the `admin_full`/`app_full` → `wheel`/`sudo` path
+**does not work on 26.04 at all**.
+
+What was measured, on Ubuntu 26.04 joined to `LAB.INTERNAL`:
+
+- `/etc/sudoers` carries the usual `%sudo ALL=(ALL:ALL) ALL`.
+- In an SSH session as the AD principal, `id -nG` **includes** `sudo` — pam_group did
+  its job.
+- sudo-rs refuses regardless: `sudo: I'm sorry <user>. I'm afraid I can't do that`.
+- `ops`, whose membership is *real* rather than session-granted, escalates on the same
+  host. That contrast is the discriminator: it rules out a wrong password and a missing
+  rule, and it means **a working `ops` proves nothing** about a pam_group-granted tier.
+- The same probes on AlmaLinux 10 with classic sudo escalate to uid 0 for both tiers.
+
+**The mechanism is inference, not measurement.** sudo-rs's source was not read.
+"Resolves membership through NSS rather than the calling process's supplementary
+groups" is the explanation that fits every observation above, and it may well be
+right — but what is established is the behaviour, not the cause.
+`[mechanism needs-verification 2026-08-24]`
+
+`app_restricted` is unaffected: its rights come from an explicit sudoers rule naming
+the group, not from membership of a local admin group. The useful generalisation is
+therefore **the restricted tier is platform-independent and the admin tier is not** —
+the application underneath is incidental, so this is not a reason to prefer one engine
+over another.
+
+**The refusal text is a trap of its own.** sudo-rs answers
+`I'm sorry <user>. I'm afraid I can't do that`. That string is a **refusal**, so a DENY
+probe grepping for sudo's traditional `not allowed to execute` finds no match and
+**passes for the wrong reason** — reporting a correctly-denied grant and a
+never-evaluated one identically.
+
+### The same group.conf line means different things per distro
+
+`*;*` for `admin_full` is written into `group.conf` correctly on EL — and is
+**latent**, because `pam_group.so` is wired only into `/etc/pam.d/sshd` there. The
+wider scope cannot reach `su` or the console. Ubuntu 26.04 has the module in `login`,
+`remote` and `sshd`, so the identical line genuinely means "all services".
+
+Measured with `grep -l pam_group /etc/pam.d/*`: AlmaLinux 10 returns `sshd` alone;
+Ubuntu 26.04 returns `login`, `remote`, `sshd`. `group.conf` was byte-for-byte
+equivalent on both.
+
+On EL, "all services" is therefore *unreachable* rather than merely unused — and an
+inspection of `group.conf` reads as applied when it is not. Verify the PAM stacks, not
+the config file.
+
+### `sudo -n` cannot test authorisation at all
+
+Against a password-requiring rule, `sudo -n` answers *"a password is required"* for a
+**permitted** command and a **forbidden** one alike. Any DENY probe built on `-n`
+therefore passes whether or not the grant is scoped — three probes in the ad-lab suite
+were green for exactly this reason before it was caught.
+
+`sudo -n` answers one question honestly — *is this passwordless?* — and that is a
+narrower claim than *can this account escalate*. To test authorisation, supply the
+password and assert on the refusal message. Where no password exists (key-only tenant
+accounts), pair the `-n` check with a structural one — the account is in no admin
+group and owns no sudoers entry — and state that it is a proxy.
+
+This is the same failure mode as asserting on `.failed` after `failed_when: false`:
+a probe that cannot distinguish the outcomes it is named for, reporting success either
+way. Prefer ground truth — the file is absent, the group does not contain them — over
+a return code whose meaning is overloaded.
+
 ## Security tradeoffs
 
 Read these before applying a profile; each is inherent to the mechanism, not a bug.

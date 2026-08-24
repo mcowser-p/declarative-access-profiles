@@ -25,7 +25,14 @@ Modeled on the chrony worked example in treadmark's runbook corpus.
    - R4 systemd hardening drop-ins
    - R5 env/secret file management
    - R6 **access model** (sudoers scoping, pam_group, ACLs) — the standing
-     all-roles-fail row; that gap is this library's job
+     all-roles-fail row; that gap is this library's job. Score the OVERLAY
+     against the platform constraints in
+     [access-model.md](../../../docs/concepts/access-model.md#platform-constraints-where-a-mechanism-means-something-else-or-nothing):
+     pam_group cannot confer sudo on Ubuntu 25.10+ (sudo-rs does not honour
+     pam_group-derived membership), `*;*` is latent on EL because
+     pam_group.so is only in the sshd stack, and `sudo -n` cannot test
+     authorisation at all. A row marked ✅ on a platform where the mechanism
+     is inert is worse than one marked ❌
    - R7 verification/idempotence quality (molecule? which platforms?)
    - R8 TLS wiring
    - R9 logrotate policy management
