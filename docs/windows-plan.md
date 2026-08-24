@@ -208,9 +208,36 @@ Three corollaries, each verified rather than assumed:
 Also observed: the 2022 images carry **no provisioned App Installer at
 all** (`provisioned`, `registered_current_user` and `registered_all_users`
 were all empty), consistent with `packer/common/windows/install-winget.ps1`
-skipping silently when `build/cache/winget/` is unpopulated. Not worth
-fixing for this purpose — provisioning would not make winget runnable over
-SSH anyway.
+skipping silently when `build/cache/winget/` is unpopulated.
+
+### Scope of this finding — what was NOT tested
+
+The result above is specific and should not be over-read. **Tested and
+failed:** deploying/registering MSIX from an SSH session, and reaching
+winget as Administrator over SSH on both editions. **Not tested:** invoking
+an *already provisioned* `winget.exe` by absolute path from a **SYSTEM
+scheduled task**.
+
+That distinction matters, because the SYSTEM route is the mainstream way
+winget is automated (Intune Win32 apps, ConfigMgr, PDQ all do it) and two
+of the specific blockers we hit do not apply to it:
+
+- SYSTEM can read `C:\Program Files\WindowsApps`, where our elevated
+  Administrator session got access-denied;
+- a scheduled task runs outside the SSH session's job object, which is
+  independently necessary for long installs (holy-qcow already uses this
+  pattern in `seal.ps1` and the firstboot agent);
+- provisioning itself *is* automatable non-interactively —
+  `Add-AppxProvisionedPackage -Online` is the DISM offline API, and is how
+  the packer build installs App Installer today.
+
+Known limits of the SYSTEM route even when it works: no user-scope
+packages, the `msstore` source is unavailable, `--accept-source-agreements`
+is required, and Microsoft does not formally support it. If the Windows
+corpus is picked back up, **test that path before adopting Chocolatey** —
+it would keep the corpus on the same package ecosystem the plan originally
+wanted, and 2025-core (where App Installer *is* provisioned) is the host to
+try it on.
 
 ### What to use instead
 
