@@ -1,4 +1,4 @@
-# winget-recon.ps1 — probe which winget packages resolve on this Windows host.
+# winget-recon.ps1 -- probe which winget packages resolve on this Windows host.
 #
 # READ-ONLY: uses `winget show`, never `winget install`. Nothing is installed,
 # so there is no disk-space or interpreter-loss risk here (both are real
@@ -6,7 +6,7 @@
 #
 # WHY A BOOTSTRAP IS NEEDED: holy-qcow's images PROVISION the App Installer
 # package (Add-AppxProvisionedPackage, which survives sysprep) but provisioning
-# only stages it — per-user registration happens at the first INTERACTIVE
+# only stages it -- per-user registration happens at the first INTERACTIVE
 # logon. Our automation path is SSH, a network logon, so winget may not be on
 # PATH even though the package is present. This is NOT a privilege problem:
 # sshd mints a full admin token for keys in administrators_authorized_keys.
@@ -18,7 +18,7 @@
 # scripts/winget-candidates.yml and stages it next to this script.
 #
 # Emits JSON on stdout. "winget unavailable" is a first-class RESULT, not a
-# crash — treadmark's own smoke test treats Server hosts the same way.
+# crash -- treadmark's own smoke test treats Server hosts the same way.
 $ErrorActionPreference = 'Stop'
 # treadmark's lesson: native tools legitimately exit non-zero here and we check
 # $LASTEXITCODE ourselves; without this, the first winget miss aborts the run.
@@ -34,7 +34,7 @@ $CandidatePath = Join-Path $PSScriptRoot 'winget-candidates.json'
 # found") that -ErrorAction SilentlyContinue does NOT suppress, because the
 # failure is in loading the servicing provider rather than in the cmdlet. With
 # $ErrorActionPreference = 'Stop' that kills the run before any evidence is
-# emitted — so each probe returns its error string as data instead.
+# emitted -- so each probe returns its error string as data instead.
 function Try-Or {
     param([scriptblock]$Block, $Fallback = $null)
     try { & $Block } catch { "error: $($_.Exception.Message)" }
@@ -53,7 +53,7 @@ function Resolve-Winget {
     Note 'path' 'not on PATH'
 
     # 2. registered for this user? Use the Appx API, NOT a glob of
-    #    C:\Program Files\WindowsApps — that directory is owned by
+    #    C:\Program Files\WindowsApps -- that directory is owned by
     #    TrustedInstaller and even an elevated admin gets access-denied
     #    enumerating it, which a silenced error turns into a phantom "absent".
     $pkg = Get-AppxPackage -Name Microsoft.DesktopAppInstaller -ErrorAction SilentlyContinue |
@@ -66,7 +66,7 @@ function Resolve-Winget {
         Note 'appx-current-user' 'not registered for this user'
     }
 
-    # 3. staged for other users / provisioned — register it for THIS user,
+    # 3. staged for other users / provisioned -- register it for THIS user,
     #    which is what an interactive logon would have done.
     $all = Get-AppxPackage -AllUsers -Name Microsoft.DesktopAppInstaller -ErrorAction SilentlyContinue |
            Select-Object -Last 1
@@ -100,7 +100,7 @@ function Resolve-Winget {
     }
 
     # 4. last resort: the official client module provisions/repairs winget.
-    #    Non-interactive hardening — Install-Module prompts for the NuGet
+    #    Non-interactive hardening -- Install-Module prompts for the NuGet
     #    provider and for untrusted-repo confirmation, and a prompt in an SSH
     #    session throws "ShouldContinue ... Object reference not set".
     try {
@@ -130,7 +130,7 @@ $result = [ordered]@{
     image         = (Get-ItemProperty HKLM:\SOFTWARE\ImageRelease -ErrorAction SilentlyContinue).IMAGE_NAME
     os            = (Get-CimInstance Win32_OperatingSystem).Caption
     edition       = (Get-CimInstance Win32_OperatingSystem).OperatingSystemSKU
-    # how winget was reached — the finding this whole round hinges on
+    # how winget was reached -- the finding this whole round hinges on
     winget_available = $false
     winget_path      = $null
     winget_version   = $null
@@ -205,14 +205,14 @@ foreach ($c in $candidates) {
         if ($out -match '(?m)^\s*Installer Type:\s*(.+?)\s*$') { $entry.installer_type = $Matches[1] }
         if ($out -match '(?m)^\s*Scope:\s*(.+?)\s*$')          { $entry.scope          = $Matches[1] }
         if (-not $entry.version) {
-            # parsed nothing but winget said yes — keep evidence for triage
+            # parsed nothing but winget said yes -- keep evidence for triage
             $entry.raw_tail = ($out -split "`n" | Select-Object -Last 8) -join ' | '
         }
     } elseif ($out -match 'No package found') {
         $entry.found = $false
     } else {
         # neither a clean hit nor a clean miss: a CDN hiccup must never be
-        # recorded as "not available" — that would silently shrink the corpus
+        # recorded as "not available" -- that would silently shrink the corpus
         $entry.found = 'unknown'
         $entry.raw_tail = ($out -split "`n" | Where-Object { $_.Trim() } | Select-Object -Last 6) -join ' | '
     }

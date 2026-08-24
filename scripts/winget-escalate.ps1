@@ -1,4 +1,4 @@
-# winget-escalate.ps1 — test the two non-interactive routes to winget that an
+# winget-escalate.ps1 -- test the two non-interactive routes to winget that an
 # SSH session cannot use directly.
 #
 # CONTEXT: scripts/winget-recon.ps1 established that winget is unreachable
@@ -12,7 +12,7 @@
 #            SYSTEM can read C:\Program Files\WindowsApps (an elevated
 #            Administrator over SSH cannot), and a scheduled task runs outside
 #            the SSH session's job object.
-#   route 2  Start-Process -Credential — the scriptable equivalent of
+#   route 2  Start-Process -Credential -- the scriptable equivalent of
 #            `runas /user:...`. Both call CreateProcessWithLogonW, which
 #            performs a LOGON32_LOGON_INTERACTIVE logon rather than the
 #            network logon SSH gives. The profile is deliberately LOADED

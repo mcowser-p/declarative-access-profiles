@@ -20,6 +20,19 @@ jobs:
       - name: Install tooling
         run: pip install yamllint pyyaml mkdocs-material
 
+      # Windows PowerShell 5.1 reads a BOM-less .ps1 as ANSI, so a UTF-8
+      # em-dash arrives as mojibake. In a comment that is ugly; in a string
+      # literal it breaks the PARSER and the script dies before its first
+      # line runs. Cost one full VM cycle to diagnose. Keep them pure ASCII.
+      - name: PowerShell scripts are pure ASCII
+        run: |
+          if LC_ALL=C grep -lP '[^\x00-\x7F]' scripts/*.ps1 2>/dev/null; then
+            echo "::error::non-ASCII in the .ps1 files above; PS 5.1 decodes them as ANSI"
+            LC_ALL=C grep -nP '[^\x00-\x7F]' scripts/*.ps1 | head -20
+            exit 1
+          fi
+          echo "all .ps1 files are pure ASCII"
+
       - name: yamllint
         run: yamllint -c .yamllint matrix.yml profiles/ examples/ .github/
 

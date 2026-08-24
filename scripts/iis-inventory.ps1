@@ -1,10 +1,10 @@
-# iis-inventory.ps1 — live enumeration of an IIS host's access surface.
+# iis-inventory.ps1 -- live enumeration of an IIS host's access surface.
 #
 # WHY THIS EXISTS INSTEAD OF A TREADMARK FOOTPRINT: IIS installs through the
 # Windows Feature channel, whose payload is pre-staged in the component store.
-# A baseline diff therefore captures ZERO services — W3SVC and WAS are already
+# A baseline diff therefore captures ZERO services -- W3SVC and WAS are already
 # in the baseline. treadmark says so itself ("absent services are not evidence
-# of absence — complete them from app knowledge and say so") and its IIS smoke
+# of absence -- complete them from app knowledge and say so") and its IIS smoke
 # test asserts only that no NOISE service appears, never that an IIS service
 # does. Diffing cannot produce an IIS principal model, so the evidence for an
 # IIS access profile is a LIVE READ of the running server instead: same
@@ -78,7 +78,7 @@ $pools = @(Get-ChildItem IIS:\AppPools | ForEach-Object {
 $services = @('W3SVC', 'WAS', 'WMSVC') | ForEach-Object {
   $svc = Get-Service -Name $_ -ErrorAction SilentlyContinue
   if ($svc) {
-    # sdshow is the rollback snapshot for any sdset grant — capture it as evidence
+    # sdshow is the rollback snapshot for any sdset grant -- capture it as evidence
     $sddl = (& sc.exe sdshow $_ 2>$null | Where-Object { $_ -match '^D:' }) -join ''
     [ordered]@{
       name        = $_
@@ -94,7 +94,7 @@ $wmsvc = [ordered]@{
   feature_installed      = [bool](Get-WindowsFeature -Name Web-Mgmt-Service -ErrorAction SilentlyContinue | Where-Object Installed)
   enable_remote_mgmt     = (Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name EnableRemoteManagement -ErrorAction SilentlyContinue).EnableRemoteManagement
   requires_windows_creds = (Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name RequiresWindowsCredentials -ErrorAction SilentlyContinue).RequiresWindowsCredentials
-  # who is authorized to connect, per site — empty means "local admins only",
+  # who is authorized to connect, per site -- empty means "local admins only",
   # which is the shipped default and precisely the gap a profile closes
   authorized_users       = @(
     $adminConfig = "$env:windir\system32\inetsrv\config\administration.config"
