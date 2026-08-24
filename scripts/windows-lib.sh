@@ -51,7 +51,21 @@ win_slug_for() {
   case "$1" in
     windows-2022) echo windows2022-core ;;
     windows-2025) echo windows2025-core ;;
+    # Desktop Experience: the full shell stack, where Appx/Store servicing
+    # behaves normally. The winget corpus fallback if Core cannot register
+    # the App Installer package for a network logon.
+    windows-2022-desktop) echo windows2022-desktop ;;
     *) echo "unknown windows platform $1" >&2; return 1 ;;
+  esac
+}
+
+# Domain name for a platform. NetBIOS truncates silently at 15 chars and
+# truncated clones then collide, so the desktop suffix is abbreviated rather
+# than spelled out (dap-2022-desktop would be 16).
+win_domain_for() {
+  case "$1" in
+    windows-2022-desktop) echo dap-2022d ;;
+    *) echo "dap-${1#windows-}" ;;
   esac
 }
 
@@ -82,8 +96,7 @@ win_setup_creds() {
 win_launch() {
   local platform="$1" vol name workdir ip
   vol="$(win_image_for "$platform")" || return 1
-  # <=15 chars: NetBIOS truncates silently and clones then collide
-  name="dap-${platform#windows-}"   # windows-2022 -> dap-2022
+  name="$(win_domain_for "$platform")"   # windows-2022 -> dap-2022
   workdir="$WIN_WORK_ROOT/$platform"
   mkdir -p "$workdir"
   sed "s|@@VM_MODULE_SOURCE@@|$HOLY_QCOW_SRC/tofu/modules/windows-vm|" \
@@ -222,7 +235,7 @@ win_dry_run() {
   [ -d "$HOLY_QCOW_SRC/tofu/modules/windows-vm" ] \
     || { log "MISSING: $HOLY_QCOW_SRC/tofu/modules/windows-vm"; fail=1; }
   jump="$(win_jump)"; [ -n "$jump" ] && log "guest ssh will ProxyJump via $jump"
-  for p in windows-2022 windows-2025; do
+  for p in windows-2022 windows-2025 windows-2022-desktop; do
     printf '  %-14s %s\n' "$p" "$(win_image_for "$p" 2>/dev/null || echo 'UNRESOLVED')" >&2
     win_image_for "$p" >/dev/null 2>&1 || fail=1
   done

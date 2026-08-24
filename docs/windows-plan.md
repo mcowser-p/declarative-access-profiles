@@ -151,28 +151,105 @@ Apply vehicle is an open question: `ansible.windows` (`win_acl`, `win_group`,
 `declarative_access_windows` role in the collection as the target, with the
 PowerShell stubs as the bridge.
 
-## 4. The winget corpus loop
+## 4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)
 
-Mirror the Linux container/EC2 loop on a Windows Server 2025 host (a CI
-`windows-2025` runner or an EC2 Windows AMI, `t3.medium`):
+The loop below was the plan. It does not work on our substrate, and the
+reason is structural rather than fixable by configuration. **winget cannot
+be used to build the corpus over SSH.** Evidence:
+[`evidence/windows-2025/winget-recon.json`](https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2025/winget-recon.json)
+and
+[`evidence/windows-2022-desktop/winget-recon.json`](https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2022-desktop/winget-recon.json),
+produced by `scripts/winget-recon.sh`.
 
-1. `treadmark all init` (files **and** registry baseline) against a
-   footprint-scoped config;
-2. `winget install --id <pkg> --silent --accept-package-agreements
-   --accept-source-agreements`;
-3. settle (services take longer to register than on Linux — a fixed delay);
+### What was tried
+
+The probe (`scripts/winget-recon.ps1`) walks four escalating paths to reach
+winget: PATH lookup → per-user Appx registration → register the staged or
+provisioned package → bootstrap via `Microsoft.WinGet.Client` +
+`Repair-WinGetPackageManager`. It ran on **Server 2025 Core** and, after
+that failed, on **Server 2022 Desktop Experience**.
+
+### The finding
+
+**MSIX deployment requires an interactive session.** The last bootstrap
+path fails with:
+
+```
+0x80073D19  An error occurred because a user was logged off.
+```
+
+That is the AppX Deployment Service refusing to deploy in a **network
+logon**, which is what SSH (and WinRM, and therefore Ansible over either)
+gives you. winget ships as an MSIX package (`Microsoft.DesktopAppInstaller`)
+that must be *registered into a user profile* before it can launch at all —
+so the failure is not "install denied", it is "`winget.exe` does not exist
+for this session".
+
+Three corollaries, each verified rather than assumed:
+
+- **It is not a privilege problem.** Keys land in
+  `administrators_authorized_keys`, so sshd mints a full unfiltered admin
+  token. On the same transport we ran `Install-WindowsFeature`,
+  `sc.exe sdset`, `Set-Acl` on `applicationHost.config`, and
+  `Register-PSSessionConfiguration` — all elevated operations, all
+  successful.
+- **It is not an edition problem.** Desktop Experience has a *healthy* Appx
+  stack where Core does not (`appx_module` and `dism_module` both present,
+  `C:\Program Files\WindowsApps` enumerable — on Core that directory is
+  ACL'd to TrustedInstaller and the DISM-backed `Get-AppxProvisionedPackage`
+  throws a COMException). Desktop still fails, because the blocker is the
+  session type. **There is therefore no reason to leave Server Core**, which
+  is what the fleet runs.
+- **Ansible does not change this.** Ansible connects over the same SSH
+  network logon and shells out to the same PowerShell; there is no winget
+  module in `ansible.windows`, so driving it would mean `win_shell` calling
+  an executable that is not present. Ansible would fail identically.
+
+Also observed: the 2022 images carry **no provisioned App Installer at
+all** (`provisioned`, `registered_current_user` and `registered_all_users`
+were all empty), consistent with `packer/common/windows/install-winget.ps1`
+skipping silently when `build/cache/winget/` is unpopulated. Not worth
+fixing for this purpose — provisioning would not make winget runnable over
+SSH anyway.
+
+### What to use instead
+
+The corpus goal is unchanged: capture real installs whose footprints show
+services, files, ACLs and registry keys — the thing the Feature channel
+cannot give us (§1). Any *ordinary* installer satisfies that; only MSIX is
+blocked. Both alternatives are Ansible-native and Appx-free:
+
+| Channel | Module | Notes |
+| --- | --- | --- |
+| Direct MSI/EXE | `ansible.windows.win_package` | No package manager at all; closest to how these apps are actually deployed. Each app needs a pinned URL and silent-install flags. |
+| Chocolatey | `chocolatey.chocolatey.win_chocolatey` | Plain PowerShell/.NET install, no Appx, works over SSH. Large server catalog (nginx, postgresql, mongodb, redis, rabbitmq, grafana, telegraf, jenkins). |
+
+The candidate list built for this round
+(`scripts/winget-candidates.yml`, 39 packages across 8 categories with a
+`service:` hypothesis per entry) is channel-agnostic and carries over
+unchanged — only the resolver changes. `scripts/winget-recon.sh` and the
+`windows-lib.sh` harness it uses are likewise reusable; re-point the probe
+at `choco search` or at URL reachability and the same evidence shape falls
+out.
+
+### The original loop, for whichever channel replaces winget
+
+1. `treadmark all init` — **`all`, not `files`**: without the registry
+   baseline the model still builds and still exits 1, but with
+   `services: []` and the reason buried in `registry.note`.
+2. install the package silently;
+3. settle ~20s — services keep registering after the installer returns;
 4. `treadmark footprint --app <pkg> --report footprint-<pkg>.json`;
-5. revert the VM snapshot (or re-baseline `--force`) before the next app.
+5. re-baseline `--force` before the next app.
 
-Add a `windows-2025` column to `matrix.yml`. Candidate cells must be honest
-about winget server coverage: **nginx and memcached exist on winget; most of
-the Linux wave-1 set does not** — pick Windows-native equivalents (IIS,
-SQL Server Express, PostgreSQL-for-Windows) instead of forcing parity.
-
-Two gotchas inherited from treadmark's existing Windows scripts: a winget
-install can uninstall the interpreter running the loop (pin it, avoid
-same-minor upgrades), and runner images pre-install some packages so winget
-exits "already installed" with no clean delta.
+Success is **exit code 1 AND the report file exists** — a crashed run also
+exits 1. Note exit 0 means "no *file* delta", which a registry-only change
+can produce; inspect the report rather than trusting the code. Add cells to
+`matrix-windows.yml` (not `matrix.yml` — Windows has its own matrix and
+vars contract, see §2a). Run treadmark from the **MSI-installed
+`treadmark.exe`**: there is no Python on these images, and the frozen
+binary cannot be uninstalled mid-loop by a package under test (a failure
+treadmark hit live with `Python.Python`).
 
 ## 5. Verification story
 

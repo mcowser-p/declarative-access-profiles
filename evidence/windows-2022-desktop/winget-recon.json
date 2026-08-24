@@ -1,0 +1,48 @@
+{
+    "schema":  "1.0-winget-recon",
+    "evidence_type":  "winget_probe",
+    "generated_at":  "2026-08-24T01:32:13.6493235Z",
+    "host":  "DAP-2022D",
+    "image":  "windows2022-desktop-20260823",
+    "os":  "Microsoft Windows Server 2022 Standard Evaluation",
+    "edition":  79,
+    "winget_available":  false,
+    "winget_path":  null,
+    "winget_version":  null,
+    "bootstrap_note":  "unavailable: winget could not be resolved on this host",
+    "bootstrap_attempts":  [
+                               {
+                                   "step":  "path",
+                                   "outcome":  "not on PATH"
+                               },
+                               {
+                                   "step":  "appx-current-user",
+                                   "outcome":  "not registered for this user"
+                               },
+                               {
+                                   "step":  "appx-all-users/provisioned",
+                                   "outcome":  "no staged or provisioned package found"
+                               },
+                               {
+                                   "step":  "winget-client-module",
+                                   "outcome":  "failed: Deployment failed with HRESULT: 0x80073D19, An error occurred because a user was logged off.\r\n\r\nDeployment Add operation with target volume C: on Package Microsoft.WindowsAppRuntime.1.8_8000.616.304.0_x64__8wekyb3d8bbwe from:  (Microsoft.WindowsAppRuntime.1.8_8000.616.304.0_x64.appx)  failed with error 0x80073D19. See http://go.microsoft.com/fwlink/?LinkId=235160 for help diagnosing app deployment issues.\n\nNOTE: For additional information, look for [ActivityId] 6c3eca3e-5789-0001-e290-d7596833dd01 in the Event Log or use the command line Get-AppPackageLog -ActivityID 6c3eca3e-5789-0001-e290-d7596833dd01\n"
+                               }
+                           ],
+    "appx_state":  {
+                       "provisioned":  {
+
+                                       },
+                       "registered_current_user":  {
+
+                                                   },
+                       "registered_all_users":  {
+
+                                                },
+                       "windowsapps_enumerable":  true,
+                       "appx_module":  true,
+                       "dism_module":  true
+                   },
+    "packages":  [
+
+                 ]
+}
