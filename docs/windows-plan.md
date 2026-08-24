@@ -8,8 +8,11 @@ evidence-based access model the Linux side uses.
 ## 1. Where capture stands today
 
 treadmark already produces a `1.0-windows` footprint — a file **and registry**
-diff against a clean baseline — and there are committed examples (IIS via
-the Windows Feature channel, Datadog via winget/MSI). It captures:
+diff against a clean baseline. Its CI smoke test exercises this on a Windows
+runner (IIS via the Windows Feature channel, Datadog via winget/MSI), but
+**those footprints are 1–7 day workflow artifacts, deliberately not release
+assets — no Windows footprint is committed anywhere in the corpus.** It
+captures:
 
 - **Windows services** reconstructed from `HKLM\System\CurrentControlSet\Services`
   (image path, start type, `run_as` identity, dependencies), with

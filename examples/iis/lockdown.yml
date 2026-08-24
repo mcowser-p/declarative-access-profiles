@@ -1,0 +1,22 @@
+---
+# Apply the reviewed IIS access profile to this host's team group.
+#
+#   ansible-playbook -i <inv> lockdown.yml -e platform=windows-2022
+#   revoke: same command + --tags cleanup
+#
+# Run the live inventory first if the deployment differs from the one the
+# profile was reviewed against (different site names, paths, or pools):
+#   ssh Administrator@host ... scripts/iis-inventory.ps1
+# The profile grants paths — if they do not exist, the grants are fiction.
+- name: Lock down IIS admin surface
+  hosts: "{{ target | default('iis_hosts') }}"
+  vars:
+    # windows-2022 | windows-2025
+    platform: windows-2022
+    # the AD group (or, on a non-joined pilot host, a local group).
+    # NEVER set in the profile — the entity is an apply-time decision.
+    declarative_access_windows_group: "{{ ansible_hostname }}-app_restricted"
+  vars_files:
+    - "../../profiles/iis/{{ platform }}-access.yml"
+  roles:
+    - mcowser_p.declarative_access.declarative_access_windows

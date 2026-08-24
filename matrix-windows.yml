@@ -1,0 +1,35 @@
+---
+# matrix-windows.yml — the Windows app × server-version matrix.
+#
+# Separate from matrix.yml on purpose. Windows is a different substrate with a
+# different vars contract (NTFS DACLs replace rather than merge; grants are
+# WMSVC/SDDL/JEA rather than sudoers/ACL/pam_group), a different evidence
+# instrument (live enumeration, not baseline diff — see `evidence:` below),
+# and a different verification vehicle. Folding Windows into the Linux matrix
+# would also force an "N/A — Linux-only" column onto all eleven Linux apps'
+# doc tables (conventions rule 6) for zero information.
+#
+# Cell fields:
+#   channel   how the app is installed: feature | winget | msi
+#   service   the Windows service the profile targets
+#   sites     the deployment contract's site names (holy-qcow tofu/roles/iis)
+#   na        reason this cell is not applicable (mutually exclusive with
+#             channel) — recorded, never silent
+#
+# evidence: feature-channel apps CANNOT be captured by baseline diff. The
+# Feature payload is pre-staged in the component store, so W3SVC/WAS are in
+# the baseline and the diff shows zero services (treadmark's own IIS smoke
+# test asserts only the absence of noise, never the presence of a service).
+# Evidence for those cells is `evidence/<platform>/inventory-<app>.json`,
+# produced by scripts/iis-inventory.ps1 — a live read of the running host.
+
+platforms:
+  windows-2022: {image: "windows2022-core", winrm: https, family: windows}
+  # WinRM is disabled at seal on 2025 images (holy-qcow cleanup.ps1); SSH is
+  # the automation path there until a listener is configured at deploy time.
+  windows-2025: {image: "windows2025-core", winrm: disabled, family: windows}
+
+apps:
+  iis:
+    windows-2022: {channel: feature, service: W3SVC, sites: [app, www]}
+    windows-2025: {channel: feature, service: W3SVC, sites: [app, www]}

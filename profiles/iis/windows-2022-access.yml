@@ -1,0 +1,176 @@
+---
+# declarative-access-profiles :: iis on windows-2022
+#
+# PROVENANCE
+#   evidence  : evidence/windows-2022/inventory-iis.json
+#               (schema 1.0-iis-inventory, LIVE ENUMERATION 2026-08-23 on
+#               KVM windows2022-core-20260823, host DAP-2022, Server 2022
+#               Standard. NOT a treadmark footprint: IIS installs through the
+#               Windows Feature channel, whose payload is pre-staged in the
+#               component store, so a baseline diff captures ZERO services —
+#               W3SVC and WAS are already in the baseline. treadmark's own IIS
+#               smoke test concedes this (it asserts only that no NOISE service
+#               appears, never that an IIS service does) and its exporter
+#               refuses Windows models outright. Diffing cannot produce an IIS
+#               principal model, so the evidence here is a live read of the
+#               running host: same discipline, different instrument.)
+#   deployment: holy-qcow tofu/roles/iis — sites 'app' (:8080) and 'www' (:80),
+#               one application pool per site, content under
+#               C:\inetpub\sites\<site>. The harness deploys that role
+#               faithfully, so this profile describes the deployment we ship.
+#   docs      : ../../docs/apps/iis/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: web server, SINGLE-TENANT host. The vendor-native delegation
+# path (WMSVC + IIS Manager Permissions + Feature Delegation) carries the
+# day-to-day surface; two things it structurally cannot delegate — application
+# pool recycle and certificate binding, both server-scope — are filled with a
+# service-SDDL grant and a two-function JEA endpoint. Whole-service control of
+# W3SVC/WAS is CORRECT here precisely because the host belongs to one team; on
+# a multi-tenant host, drop declarative_access_windows_services and widen the
+# JEA file instead.
+#
+# NEVER GRANTED, at any tenancy: applicationHost.config and the inetsrv\config
+# tree (write there is root-equivalent for every site on the host — any pool
+# identity, any physical path), certificate export, and WMSVC itself (it is
+# the delegation channel; restarting it is how a team locks itself out).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_windows_access_profile.yml \
+#     -e @profiles/iis/windows-2022-access.yml \
+#     -e "declarative_access_windows_group=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM windows2022-core-20260823,
+#           WMSVC+SDDL+JEA applied, probed, revoked)
+
+declarative_access_windows_profile_name: 'iis'
+
+# Primitive toggles. Each grant mechanism is opt-in, exactly as the POSIX role
+# gates sudo / pam_group / linger: listing sites without enabling wmsvc would
+# silently grant nothing. Verified 2026-08-23 — with these unset the role
+# skips WMSVC, SDDL and JEA and only the NTFS layer lands.
+declarative_access_windows_wmsvc: true
+declarative_access_windows_feature_delegation: true
+declarative_access_windows_service_sdset: true
+declarative_access_windows_jea: true
+
+# The team's sites: scope of the IIS Manager connection (WMSVC) and of site
+# start/stop. Evidence: sites 'app' (id 1) and 'www' (id 2), both Started.
+declarative_access_windows_sites:
+  - 'app'
+  - 'www'
+
+# Recycle targets for the JEA fill. Evidence: pool-per-site, each running as
+# the default ApplicationPoolIdentity virtual account (IIS AppPool\app,
+# IIS AppPool\www).
+# REVIEW-DROP: 'DefaultAppPool', '.NET v4.5', '.NET v4.5 Classic' — present in
+# the capture but shipped-with-IIS, not this team's. DefaultAppPool has no site
+# (the role removes Default Web Site), and the .NET pools are template pools.
+declarative_access_windows_app_pools:
+  - 'app'
+  - 'www'
+
+# Single-tenant service control. Evidence: W3SVC Automatic/Running as
+# localSystem, WAS Manual/Running as localSystem (WAS is W3SVC's activation
+# service — restarting W3SVC without it leaves the pools stopped, so both or
+# neither).
+# REVIEW-DROP: 'WMSVC' — the management service is the delegation channel
+# itself. Granting stop on it lets the team sever their own (and everyone's)
+# remote administration; there is no in-band way back.
+declarative_access_windows_services:
+  - 'W3SVC'
+  - 'WAS'
+
+# Feature delegation: which config sections a delegated IIS Manager connection
+# may WRITE. The split is deliberate and is the Windows analog of "config yes,
+# code no".
+declarative_access_windows_delegation:
+  read_write:
+    - 'system.webServer/defaultDocument'
+    - 'system.webServer/directoryBrowse'
+    - 'system.webServer/httpErrors'
+    - 'system.webServer/httpRedirect'
+    - 'system.webServer/staticContent'
+  read_only:
+    # REVIEW-KEEP read-only: handlers maps file extensions to executables —
+    # write access is arbitrary code execution in the pool identity's context.
+    # This is the single most important lock in the file.
+    - 'system.webServer/handlers'
+    # modules likewise loads native/managed code into the worker process.
+    - 'system.webServer/modules'
+    # authentication decides WHO reaches the app; changing it is a security
+    # posture change, not a content change.
+    - 'system.webServer/security/authentication/windowsAuthentication'
+    - 'system.webServer/security/authentication/anonymousAuthentication'
+
+# Content roots — the team's deliverable. NTFS Modify with (OI)(CI)
+# inheritance, the analog of a POSIX default ACL: files created later inherit
+# the grant, so the access does not decay to "only what existed on apply day".
+# Evidence: both roots inherit from C:\inetpub only (TrustedInstaller/SYSTEM/
+# Administrators FullControl, BUILTIN\Users ReadAndExecute) — no team ACE
+# exists today, which is exactly the gap this closes.
+declarative_access_windows_folders_modify:
+  - 'C:\inetpub\sites\app'
+  - 'C:\inetpub\sites\www'
+
+# Per-site W3C logs, read-only. Evidence: site id 1 -> W3SVC1, id 2 -> W3SVC2.
+# REVIEW-CHANGE: scoped to the per-site subdirectories rather than granting
+# C:\inetpub\logs\LogFiles wholesale — on a multi-tenant host the parent would
+# expose every other site's request logs, and scoping now costs nothing.
+declarative_access_windows_folders_read:
+  - 'C:\inetpub\logs\LogFiles\W3SVC1'
+  - 'C:\inetpub\logs\LogFiles\W3SVC2'
+
+# The service account must not be able to rewrite its own configuration: an
+# explicit deny-Write ACE for the pool identity on each site's web.config.
+# On Linux this is the config-via-ACL rule; on IIS it doubles as web-shell
+# persistence defense, since a compromised worker process that can write
+# web.config can add a handler mapping and make itself permanent.
+# [needs-runtime-confirmation]: the shipped deployment creates no web.config
+# (evidence shows index.html only), so the ACE lands when the team first
+# deploys one — the role skips absent paths and says so.
+declarative_access_windows_deny_pool_write:
+  - 'C:\inetpub\sites\app\web.config'
+  - 'C:\inetpub\sites\www\web.config'
+
+# REVIEW-DROP: declarative_access_windows_cert_keys — deliberately EMPTY on
+# this capture. Evidence shows no HTTPS binding on either site and no site
+# certificate in LocalMachine\My: the only certs present are the WMSVC
+# listener cert and the WinRM listener cert, neither of which is the team's.
+# Granting private-key read for a certificate that does not exist would be
+# guesswork. When a site cert is bound, add ONE entry naming that cert by
+# thumbprint — never the store — and import it non-exportable.
+declarative_access_windows_cert_keys: []
+
+# Application event log read (the journalctl analog). Evidence: Event Log
+# Readers is empty today.
+# NOTE: this builtin group is machine-wide read of the named channels, not
+# per-site. Acceptable on a single-tenant host; on a shared host use
+# per-channel `wevtutil sl <channel> /ca:` instead.
+declarative_access_windows_event_channels:
+  - 'Application'
+
+# The two operations a delegated IIS Manager connection structurally cannot
+# perform — both are server-scope in IIS, not site-scope. Exposed as
+# constrained proxy functions under a virtual account, with this profile's
+# site/pool names baked in as ValidateSet, so the endpoint fails closed the
+# same way an exact-command sudoers rule does.
+# Names come from the role's vetted catalogue (vars/main.yml); it asserts
+# against that list, so a typo or an invented name fails closed at apply
+# time rather than registering an endpoint that grants nothing.
+declarative_access_windows_jea_functions:
+  - 'Restart-AppPool'     # the day-2 operation IIS Manager cannot delegate
+  - 'Get-AppPoolStatus'   # read-only: confirm the recycle took
+  - 'Bind-SiteCert'       # the other server-scope gap: attach a renewed cert
+
+# REVIEW-DROP: local_groups — the team is deliberately NOT placed in
+# Administrators (that would defeat the entire exercise) nor in IIS_IUSRS
+# (which is for worker-process identities, not administrators). Evidence
+# confirms both groups are empty on a fresh deployment; they stay that way.
+declarative_access_windows_local_groups: []
+
+# REVIEW-DROP: ownership — content is owned by NT AUTHORITY\SYSTEM and that is
+# correct; the team gets an ACE, not the deed. Matching the Linux role,
+# ownership is never reverted on cleanup, so asserting it here would be a
+# one-way door for no benefit.
+declarative_access_windows_ownership: []

@@ -57,6 +57,7 @@ nav:
       - redis: [apps/redis/dev.md, apps/redis/ops.md]
       - memcached: [apps/memcached/dev.md, apps/memcached/ops.md]
       - caddy: [apps/caddy/dev.md, apps/caddy/ops.md]
+      - iis (Windows): [apps/iis/dev.md, apps/iis/ops.md]
   - Role evaluations:
       - Method & index: role-evals/index.md
       - nginx: role-evals/nginx.md

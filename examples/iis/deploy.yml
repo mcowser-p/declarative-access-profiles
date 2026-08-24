@@ -1,0 +1,141 @@
+---
+# Deploy IIS with the least-privilege-compatible posture the access profile
+# assumes (docs/apps/iis/ops.md §1-§2). Setup-window play — runs BEFORE the
+# live inventory is taken, so what it creates is what the profile describes.
+#
+# This mirrors holy-qcow tofu/roles/iis: one application pool per site, each
+# on its own default ApplicationPoolIdentity virtual account, content under
+# C:\inetpub\sites\<site>. Deploying something else and applying this profile
+# would grant paths that do not exist.
+- name: Deploy IIS (least-privilege posture)
+  hosts: "{{ target | default('iis_hosts') }}"
+  vars:
+    iis_sites:
+      app: {port: 8080}
+      www: {port: 80}
+  tasks:
+    - name: Install IIS and the remote-management surface
+      ansible.windows.win_feature:
+        name:
+          - Web-Server
+          - Web-Asp-Net45
+          - Web-Mgmt-Console
+          # WMSVC: the vendor-native delegation channel the profile grants on
+          - Web-Mgmt-Service
+          - Web-Http-Redirect
+        include_management_tools: true
+        state: present
+      register: iis_feature
+
+    - name: Reboot if the feature install asked for it
+      ansible.windows.win_reboot:
+      when: iis_feature.reboot_required
+
+    # Default Web Site holds port 80 and collides with the www binding
+    - name: Remove Default Web Site
+      ansible.windows.win_powershell:
+        script: |
+          Import-Module WebAdministration
+          if (Get-Website -Name 'Default Web Site' -ErrorAction SilentlyContinue) {
+            Remove-Website -Name 'Default Web Site'
+            $Ansible.Changed = $true
+          } else { $Ansible.Changed = $false }
+
+    - name: Create per-site content roots
+      ansible.windows.win_file:
+        path: 'C:\inetpub\sites\{{ item.key }}'
+        state: directory
+      loop: "{{ iis_sites | dict2items }}"
+
+    # A site's web.config is part of the site, and the access profile denies
+    # the pool identity Write on it (the service must not rewrite its own
+    # config). IIS does not create the file until an app needs it, so a
+    # deny-ACE at lockdown time would have nothing to attach to — ship a
+    # minimal one with the site instead of special-casing the enforcement.
+    - name: Ship a starter web.config per site
+      ansible.windows.win_copy:
+        dest: 'C:\inetpub\sites\{{ item.key }}\web.config'
+        force: false           # never clobber a real application's config
+        content: |
+          <?xml version="1.0" encoding="UTF-8"?>
+          <configuration>
+            <system.webServer>
+            </system.webServer>
+          </configuration>
+      loop: "{{ iis_sites | dict2items }}"
+
+    - name: Create one application pool and site per team site
+      ansible.windows.win_powershell:
+        parameters:
+          Name: "{{ item.key }}"
+          Port: "{{ item.value.port }}"
+        script: |
+          param($Name, $Port)
+          Import-Module WebAdministration
+          $Ansible.Changed = $false
+          # own pool per site: one site crashing cannot take the others down,
+          # and per-pool virtual accounts are the isolation boundary the
+          # profile's NTFS grants rely on
+          if (-not (Get-IISAppPool -Name $Name -ErrorAction SilentlyContinue)) {
+            New-WebAppPool -Name $Name | Out-Null; $Ansible.Changed = $true
+          }
+          if (-not (Get-Website -Name $Name -ErrorAction SilentlyContinue)) {
+            New-Website -Name $Name -PhysicalPath "C:\inetpub\sites\$Name" `
+              -ApplicationPool $Name -Port $Port | Out-Null
+            $Ansible.Changed = $true
+          }
+      loop: "{{ iis_sites | dict2items }}"
+
+    # IIS creates C:\inetpub\logs\LogFiles\W3SVC<id> lazily, on the site's
+    # FIRST REQUEST. The access profile grants the team Read on that
+    # directory, so at lockdown time it must already exist — otherwise the
+    # grant names a path the install did not create and fails (loudly, by
+    # design). Pre-create it; IIS uses the existing directory.
+    - name: Pre-create the per-site W3C log directory
+      ansible.windows.win_powershell:
+        parameters:
+          Name: "{{ item.key }}"
+        script: |
+          param($Name)
+          Import-Module WebAdministration
+          $site = Get-Website -Name $Name
+          $dir  = [Environment]::ExpandEnvironmentVariables($site.logFile.directory)
+          $path = Join-Path $dir ("W3SVC" + $site.Id)
+          if (-not (Test-Path $path)) {
+            New-Item -ItemType Directory -Path $path -Force | Out-Null
+            $Ansible.Changed = $true
+          } else { $Ansible.Changed = $false }
+      loop: "{{ iis_sites | dict2items }}"
+
+    - name: Enable remote management (delegated connections arrive here)
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\Microsoft\WebManagement\Server
+        name: "{{ item.name }}"
+        data: 1
+        type: dword
+      loop:
+        - {name: EnableRemoteManagement}
+        # AD/local credentials rather than IIS Manager's own credential store:
+        # the access model is built on real identities
+        - {name: RequiresWindowsCredentials}
+
+    - name: WMSVC automatic and running
+      ansible.windows.win_service:
+        name: WMSVC
+        start_mode: auto
+        state: started
+
+    - name: Open the site and management ports
+      community.windows.win_firewall_rule:
+        name: "{{ item.name }}"
+        localport: "{{ item.port }}"
+        action: allow
+        direction: in
+        protocol: tcp
+        state: present
+        enabled: true
+      loop:
+        - {name: 'IIS HTTP', port: 80}
+        - {name: 'IIS HTTPS', port: 443}
+        - {name: 'IIS Remote Mgmt', port: 8172}
+        - {name: 'IIS site app', port: 8080}

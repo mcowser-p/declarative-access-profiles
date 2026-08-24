@@ -1,0 +1,145 @@
+# main.tf.tmpl — root module for one throwaway Windows harness VM running the
+# IIS role exactly as holy-qcow's tofu/roles/iis deploys it. windows-lib.sh
+# renders this into out/windows/<platform>/main.tf, substituting
+# @@VM_MODULE_SOURCE@@ with $HOLY_QCOW_SRC/tofu/modules/windows-vm (tofu module
+# sources cannot interpolate variables).
+#
+# The provisioning below is a FAITHFUL COPY of
+# holy-qcow tofu/roles/iis/scripts/iis.ps1.tftpl + its sites_block locals, with
+# domain join omitted (single-tenant pilot: the team entity is a LOCAL group,
+# passed at apply time). Keeping it faithful is the point — the access profile
+# is evidence about the deployment we actually ship, so the harness must not
+# quietly deploy something else.
+terraform {
+  required_providers {
+    libvirt = {
+      source  = "dmacvicar/libvirt"
+      version = "~> 0.8.0"
+    }
+  }
+}
+
+provider "libvirt" {
+  uri = var.libvirt_uri
+}
+
+variable "libvirt_uri" {
+  type    = string
+  default = "qemu:///system"
+}
+
+variable "image" {
+  type        = string
+  description = "Golden image volume, e.g. windows2022-core-20260823.qcow2"
+}
+
+variable "name" {
+  type        = string
+  description = "Domain name for the harness VM (<=15 chars, NetBIOS)."
+}
+
+variable "admin_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "ssh_authorized_keys" {
+  type = list(string)
+}
+
+variable "sites" {
+  type = map(object({
+    port     = number
+    hostname = string
+    body     = string
+  }))
+  # Same defaults as the shipped role: each site gets its own application
+  # pool, so one site crashing cannot take the others down.
+  default = {
+    "app" = {
+      port     = 8080
+      hostname = ""
+      body     = "<h1>app</h1><p>Served by the app site.</p>"
+    }
+    "www" = {
+      port     = 80
+      hostname = ""
+      body     = "<h1>www</h1><p>Served by the www site.</p>"
+    }
+  }
+}
+
+locals {
+  sites_block = join("\n", [
+    for name, s in var.sites : <<-PS
+      $root = 'C:\inetpub\sites\${name}'
+      New-Item -ItemType Directory -Path $root -Force | Out-Null
+      Set-Content -Path "$root\index.html" -Encoding UTF8 -Value '<!doctype html><title>${name}</title>${s.body}'
+      if (-not (Get-IISAppPool -Name '${name}' -ErrorAction SilentlyContinue)) {
+        New-WebAppPool -Name '${name}' | Out-Null
+      }
+      if (-not (Get-Website -Name '${name}' -ErrorAction SilentlyContinue)) {
+        New-Website -Name '${name}' -PhysicalPath $root -ApplicationPool '${name}' `
+          -Port ${s.port} ${s.hostname == "" ? "" : "-HostHeader '${s.hostname}'"} | Out-Null
+      }
+      New-NetFirewallRule -Name 'iis-site-${name}' -DisplayName 'IIS site ${name}' -Enabled True `
+        -Direction Inbound -Protocol TCP -LocalPort ${s.port} -Action Allow -ErrorAction SilentlyContinue
+      # Two paths the access profile grants on that IIS does not create at
+      # install time: the per-site W3C log dir (created lazily on the first
+      # request) and the site's web.config (created when an app needs it).
+      # A grant naming a nonexistent path fails loudly by design, so the
+      # DEPLOYMENT creates them - see examples/iis/deploy.yml for the same
+      # two steps in the runnable form.
+      $siteObj = Get-Website -Name '${name}'
+      $logDir  = Join-Path ([Environment]::ExpandEnvironmentVariables($siteObj.logFile.directory)) ("W3SVC" + $siteObj.Id)
+      New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+      if (-not (Test-Path "$root\web.config")) {
+        Set-Content -Path "$root\web.config" -Encoding UTF8 -Value '<?xml version="1.0" encoding="UTF-8"?><configuration><system.webServer></system.webServer></configuration>'
+      }
+    PS
+  ])
+
+  iis_ps = <<-PS
+    Write-Host '=== installing IIS ==='
+    Install-WindowsFeature Web-Server, Web-Asp-Net45, Web-Mgmt-Console, Web-Mgmt-Service, Web-Http-Redirect -IncludeManagementTools
+    Import-Module WebAdministration
+
+    if (Get-Website -Name 'Default Web Site' -ErrorAction SilentlyContinue) {
+      Remove-Website -Name 'Default Web Site'
+    }
+
+    ${local.sites_block}
+
+    # Remote management, so IIS Manager on another box can connect.
+    Set-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1
+    Set-Service -Name WMSVC -StartupType Automatic
+    Start-Service WMSVC -ErrorAction SilentlyContinue
+    New-NetFirewallRule -Name iis-http  -DisplayName 'IIS HTTP'  -Enabled True -Direction Inbound -Protocol TCP -LocalPort 80    -Action Allow -ErrorAction SilentlyContinue
+    New-NetFirewallRule -Name iis-https -DisplayName 'IIS HTTPS' -Enabled True -Direction Inbound -Protocol TCP -LocalPort 443   -Action Allow -ErrorAction SilentlyContinue
+    New-NetFirewallRule -Name iis-wmsvc -DisplayName 'IIS Remote Mgmt' -Enabled True -Direction Inbound -Protocol TCP -LocalPort 8172 -Action Allow -ErrorAction SilentlyContinue
+
+    Set-Content -Path C:\bootstrap\iis.done -Value (Get-Date -Format o)
+    Write-Host '=== IIS configuration complete ==='
+  PS
+}
+
+module "vm" {
+  source = "@@VM_MODULE_SOURCE@@"
+
+  name                = var.name
+  base_image          = var.image
+  vcpu                = 2
+  memory_mb           = 4096
+  disk_gb             = 60
+  admin_password      = var.admin_password
+  ssh_authorized_keys = var.ssh_authorized_keys
+  extra_powershell    = local.iis_ps
+}
+
+output "name" {
+  value = module.vm.name
+}
+
+output "ip" {
+  value = module.vm.ipv4
+}
