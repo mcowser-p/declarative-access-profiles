@@ -35,8 +35,12 @@ ONLY_APP=""
 DISTROS="${*:-$(python3 -c "
 import yaml; print(' '.join(yaml.safe_load(open('$REPO/matrix.yml'))['distros']))")}"
 mkdir -p "$REPO/out/verify"
+# Consumed by kvm_teardown_scoped in the sourced kvm-lib.sh, which scopes
+# teardown to this run's distros so concurrent per-distro runs do not reap
+# each other's guests.
+# shellcheck disable=SC2034
 DAP_TRAP_DISTROS="$DISTROS"
-trap kvm_teardown_scoped EXIT INT TERM
+kvm_install_traps
 kvm_setup_key
 
 # apps with a reviewed profile for this distro (respects --app and the

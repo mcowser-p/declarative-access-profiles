@@ -1,13 +1,21 @@
 # main.tf.tmpl — root module for one throwaway harness VM on a holy-qcow
 # golden image. kvm-lib.sh renders this into out/kvm/<distro>/main.tf,
-# substituting @@VM_MODULE_SOURCE@@ with $HOLY_QCOW_SRC/tofu/modules/vm
-# (tofu module sources cannot interpolate variables). Everything else is a
-# plain -var. Pattern follows holy-qcow's tofu/smoke/main.tf.
+# substituting @@VM_MODULE_SOURCE@@ with $HOLY_QCOW_SRC/$DAP_VM_MODULE (tofu
+# module sources cannot interpolate variables). Everything else is a plain
+# -var. Pattern follows holy-qcow's tofu/smoke/main.tf.
 terraform {
   required_providers {
     libvirt = {
-      source  = "dmacvicar/libvirt"
-      version = "~> 0.8.0"
+      source = "dmacvicar/libvirt"
+      # Substituted too, and it MUST be: the module carries its own
+      # required_providers block, tofu intersects every constraint in the
+      # graph, and "~> 0.8.0, ~> 0.9.0" has no solution -- the run dies at
+      # init with "no available releases match the given constraints".
+      #
+      # Hardcoding it here is what made DAP_VM_MODULE a half-knob: pointing it
+      # at the 0.9 module left this pin behind and nothing resolved. Deriving
+      # both from one variable is what lets the next migration be one edit.
+      version = "@@PROVIDER_VERSION@@"
     }
   }
 }

@@ -21,6 +21,18 @@ set -euo pipefail
 
 _WINLIB_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${HOLY_QCOW_SRC:=$_WINLIB_REPO/../md}"
+# See the DAP_VM_MODULE note in kvm-lib.sh: this harness consumes holy-qcow's
+# modules in place, so it pins the frozen 0.8 copy until it is cut over.
+: "${DAP_WIN_MODULE:=tofu/modules/legacy08/windows-vm}"
+# Derived, not hardcoded in the template: the module ships its own
+# required_providers and tofu intersects every constraint in the graph, so a
+# template pinned to 0.8 while consuming the 0.9 module yields
+# "~> 0.8.0, ~> 0.9.0" and dies at init with no available releases. Keeping
+# both ends on one variable is what makes DAP_WIN_MODULE a whole knob.
+case "$DAP_WIN_MODULE" in
+  *legacy08*) : "${DAP_WIN_PROVIDER_VERSION:=~> 0.8.0}" ;;
+  *)          : "${DAP_WIN_PROVIDER_VERSION:=~> 0.9.0}" ;;
+esac
 WIN_WORK_ROOT="$_WINLIB_REPO/out/windows"
 
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) PATH="$HOME/.local/bin:$PATH" ;; esac
@@ -99,7 +111,8 @@ win_launch() {
   name="$(win_domain_for "$platform")"   # windows-2022 -> dap-2022
   workdir="$WIN_WORK_ROOT/$platform"
   mkdir -p "$workdir"
-  sed "s|@@VM_MODULE_SOURCE@@|$HOLY_QCOW_SRC/tofu/modules/windows-vm|" \
+  sed -e "s|@@VM_MODULE_SOURCE@@|$HOLY_QCOW_SRC/$DAP_WIN_MODULE|" \
+      -e "s|@@PROVIDER_VERSION@@|$DAP_WIN_PROVIDER_VERSION|" \
     "$_WINLIB_REPO/scripts/windows/main.tf.tmpl" > "$workdir/main.tf"
 
   log "launching $platform ($vol) as $name via $LIBVIRT_URI"
@@ -201,7 +214,13 @@ win_destroy_platform() {
   rm -rf "$workdir"
 }
 
+#
+# Idempotent, because win_install_traps' INT/TERM handlers exit and that fires
+# the EXIT trap too.
+_WIN_TORN_DOWN=0
 win_teardown() {
+  [ "$_WIN_TORN_DOWN" = 1 ] && return 0
+  _WIN_TORN_DOWN=1
   set +e
   local workdir
   for workdir in "$WIN_WORK_ROOT"/*/; do
@@ -215,6 +234,17 @@ win_teardown() {
   fi
   log "teardown done"
   set -e
+}
+
+# Install a driver's EXIT/INT/TERM traps. See kvm_install_traps in kvm-lib.sh
+# for the full account: INT and TERM must exit, because a trap handler is not an
+# exit path unless it says so, and a bare `trap win_teardown EXIT INT TERM` tears
+# the guest down and then lets the run continue against a VM that no longer
+# exists -- reporting the remaining work as failed rather than interrupted.
+win_install_traps() {
+  trap 'win_teardown' EXIT
+  trap 'win_teardown; exit 130' INT
+  trap 'win_teardown; exit 143' TERM
 }
 
 # --- sweep: reap stray dap-* windows domains/volumes ----------------------
@@ -240,8 +270,8 @@ win_dry_run() {
   log "DRY RUN — resolving Windows images at $LIBVIRT_URI, launching nothing"
   local fail=0 p jump
   [ -x "$TOFU" ] || command -v "$TOFU" >/dev/null 2>&1 || { log "MISSING: tofu ($TOFU)"; fail=1; }
-  [ -d "$HOLY_QCOW_SRC/tofu/modules/windows-vm" ] \
-    || { log "MISSING: $HOLY_QCOW_SRC/tofu/modules/windows-vm"; fail=1; }
+  [ -d "$HOLY_QCOW_SRC/$DAP_WIN_MODULE" ] \
+    || { log "MISSING: $HOLY_QCOW_SRC/$DAP_WIN_MODULE"; fail=1; }
   jump="$(win_jump)"; [ -n "$jump" ] && log "guest ssh will ProxyJump via $jump"
   for p in windows-2022 windows-2025 windows-2022-desktop; do
     printf '  %-14s %s\n' "$p" "$(win_image_for "$p" 2>/dev/null || echo 'UNRESOLVED')" >&2

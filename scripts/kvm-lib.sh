@@ -27,6 +27,23 @@ set -euo pipefail
 
 _KVMLIB_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${HOLY_QCOW_SRC:=$_KVMLIB_REPO/../md}"
+# Which module inside HOLY_QCOW_SRC to consume. This harness is the only
+# consumer that uses holy-qcow's modules IN PLACE rather than vendoring a frozen
+# copy, so it is the only one that breaks the moment tofu/modules/vm is rewritten
+# for a new provider major. Defaulting to the frozen legacy08 copy decouples the
+# two: holy-qcow can rewrite at will and this harness keeps working, then flips
+# by changing one variable. Keep the knob permanently -- it costs a line and buys
+# the next migration for free.
+: "${DAP_VM_MODULE:=tofu/modules/vm}"
+# The provider constraint has to agree with the module, because the module ships
+# its own required_providers block and tofu intersects every constraint in the
+# graph: "~> 0.8.0, ~> 0.9.0" resolves to nothing and init fails outright.
+# Derived rather than hardcoded so DAP_VM_MODULE stays a whole knob -- setting it
+# back to legacy08 pins 0.8 again with no second edit.
+case "$DAP_VM_MODULE" in
+  *legacy08*) : "${DAP_PROVIDER_VERSION:=~> 0.8.0}" ;;
+  *)          : "${DAP_PROVIDER_VERSION:=~> 0.9.0}" ;;
+esac
 KVM_WORK_ROOT="$_KVMLIB_REPO/out/kvm"
 
 # tofu and the mkisofs shim (exec'd by the libvirt provider for the seed
@@ -35,6 +52,32 @@ case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) PATH="$HOME/.local/bin:$PATH" ;;
 TOFU="${TOFU:-$(command -v tofu || echo "$HOME/.local/bin/tofu")}"
 
 log() { echo "[kvm] $*" >&2; }
+
+# --- 0.9 + remote URI is not a supported combination ----------------------
+# 0.9 dropped the `pool` argument on libvirt_cloudinit_disk. The seed ISO is now
+# written to the filesystem of whatever machine runs tofu and is NOT uploaded
+# through libvirt, so a remote qemu+ssh:// URI defines a domain whose seed does
+# not exist on the hypervisor. Best case the domain refuses to start; worst case
+# it boots with no cloud-init at all and the guest comes up with no ops user, no
+# key and no hostname -- which looks like a slow boot, not a broken one, and the
+# capture then blames ssh.
+#
+# The frozen legacy08 module is 0.8, which still uploads the ISO into a pool, so
+# it remains the only module that works from a workstation. Refuse the
+# combination rather than letting either failure happen.
+kvm_assert_module_matches_uri() {
+  case "$DAP_VM_MODULE:$LIBVIRT_URI" in
+    *legacy08*) return 0 ;;
+    *:qemu+ssh://*)
+      log "FATAL: DAP_VM_MODULE=$DAP_VM_MODULE (libvirt 0.9) cannot drive a remote URI"
+      log "  $LIBVIRT_URI"
+      log "  0.9 writes the cloud-init seed to LOCAL /tmp and never uploads it, so"
+      log "  the hypervisor cannot read it. Either:"
+      log "    - run this harness ON the hypervisor with LIBVIRT_URI=qemu:///system, or"
+      log "    - export DAP_VM_MODULE=tofu/modules/legacy08/vm to stay on 0.8 remotely."
+      return 1 ;;
+  esac
+}
 
 # --- guest ssh hop --------------------------------------------------------
 # qemu+ssh://user@host/system → NAT guests live behind user@host. Derive the
@@ -92,11 +135,13 @@ kvm_setup_key() {
 # --- launch one VM; echoes its IPv4; workdir is the teardown record -------
 kvm_launch() {
   local distro="$1" vol name workdir ip
+  kvm_assert_module_matches_uri || return 1
   vol="$(kvm_image_for "$distro")" || return 1
   name="dap-$(kvm_slug_for "$distro")"
   workdir="$KVM_WORK_ROOT/$distro"
   mkdir -p "$workdir"
-  sed "s|@@VM_MODULE_SOURCE@@|$HOLY_QCOW_SRC/tofu/modules/vm|" \
+  sed -e "s|@@VM_MODULE_SOURCE@@|$HOLY_QCOW_SRC/$DAP_VM_MODULE|" \
+      -e "s|@@PROVIDER_VERSION@@|$DAP_PROVIDER_VERSION|" \
     "$_KVMLIB_REPO/scripts/kvm/main.tf.tmpl" > "$workdir/main.tf"
 
   log "launching $distro ($vol) as $name via $LIBVIRT_URI"
@@ -188,7 +233,14 @@ kvm_teardown() {
 # and would reap a sibling run's VM). Drivers set DAP_TRAP_DISTROS before
 # installing the trap.
 DAP_TRAP_DISTROS=""
+#
+# Idempotent: the INT/TERM handlers installed by kvm_install_traps exit, which
+# fires the EXIT trap as well, so without this guard the body runs twice --
+# shredding an already-removed key dir and re-destroying distros.
+_KVM_TORN_DOWN=0
 kvm_teardown_scoped() {
+  [ "$_KVM_TORN_DOWN" = 1 ] && return 0
+  _KVM_TORN_DOWN=1
   set +e
   local d
   for d in $DAP_TRAP_DISTROS; do kvm_destroy_distro "$d"; done
@@ -197,6 +249,25 @@ kvm_teardown_scoped() {
     rmdir "$DAP_KEY_DIR" 2>/dev/null
   fi
   set -e
+}
+
+# Install a driver's EXIT/INT/TERM traps.
+#
+# INT and TERM MUST exit, and that is the whole point of this helper. A bare
+# `trap kvm_teardown_scoped EXIT INT TERM` runs the handler and then RESUMES the
+# script, because a trap handler is not an exit path unless it says so. The
+# result is worse than not trapping at all: the guest is destroyed and the run
+# keeps going against a VM that no longer exists.
+#
+# Observed 2026-08-26 -- a SIGTERM partway through a verify run tore down
+# ubuntu-24.04 and then reported the remaining five apps as FAIL, which reads as
+# five broken access profiles rather than one interrupted run. Signal exits also
+# have to be reported as signal exits (128+n), or a caller cannot tell an
+# interrupted run from a genuine failure.
+kvm_install_traps() {
+  trap 'kvm_teardown_scoped' EXIT
+  trap 'kvm_teardown_scoped; exit 130' INT
+  trap 'kvm_teardown_scoped; exit 143' TERM
 }
 
 # --- sweep: reap any dap-* domain/volume, tfstate or not ------------------
@@ -219,9 +290,10 @@ kvm_sweep() {
 kvm_dry_run() {
   log "DRY RUN — resolving images at $LIBVIRT_URI, launching nothing"
   local fail=0 d jump
+  kvm_assert_module_matches_uri || fail=1
   [ -x "$TOFU" ] || command -v "$TOFU" >/dev/null 2>&1 || { log "MISSING: tofu ($TOFU)"; fail=1; }
-  [ -d "$HOLY_QCOW_SRC/tofu/modules/vm" ] \
-    || { log "MISSING: HOLY_QCOW_SRC module dir $HOLY_QCOW_SRC/tofu/modules/vm"; fail=1; }
+  [ -d "$HOLY_QCOW_SRC/$DAP_VM_MODULE" ] \
+    || { log "MISSING: HOLY_QCOW_SRC module dir $HOLY_QCOW_SRC/$DAP_VM_MODULE"; fail=1; }
   virsh -c "$LIBVIRT_URI" pool-info "$DAP_GOLDEN_POOL" >/dev/null 2>&1 \
     || { log "MISSING: pool $DAP_GOLDEN_POOL at $LIBVIRT_URI"; fail=1; }
   virsh -c "$LIBVIRT_URI" pool-info "$DAP_VM_POOL" >/dev/null 2>&1 \

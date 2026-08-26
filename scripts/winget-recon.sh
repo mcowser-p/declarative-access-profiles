@@ -30,7 +30,7 @@ source "$REPO/scripts/windows-lib.sh"
 # makes Appx registration behave normally.
 PLATFORM="${1:-windows-2022-desktop}"
 mkdir -p "$REPO/evidence/$PLATFORM" "$REPO/out"
-trap win_teardown EXIT INT TERM
+win_install_traps
 win_setup_creds
 
 # The probe reads JSON; the candidate list is YAML so it stays commentable.

@@ -33,7 +33,7 @@ PLATFORMS="${*:-$(python3 -c "
 import yaml; print(' '.join(yaml.safe_load(open('$REPO/matrix-windows.yml'))['platforms']))")}"
 mkdir -p "$REPO/out/verify"
 DAP_TRAP_PLATFORMS="$PLATFORMS"
-trap win_teardown EXIT INT TERM
+win_install_traps
 win_setup_creds
 
 apps_for() {
