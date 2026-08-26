@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:32:40.420504+00:00",
+  "generated_at": "2026-08-26T20:01:16.068405+00:00",
   "application": "tomcat",
   "host": "dap-alma9",
   "platform": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "3ca9e8d0825a94e2dfa38d908a0a73e7cced1470861811dfcf86f95dacdfedf7",
-    "created_at": "2026-08-23T21:32:20.110222+00:00",
+    "db_sha256": "a51b3c0e6b274371b9a087912ef5735f81b2b547fb0fa457f145167756a704db",
+    "created_at": "2026-08-26T20:00:58.076366+00:00",
     "source_host": "dap-alma9",
     "source_os": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34"
   },
@@ -1357,17 +1357,6 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/lib64/libcupsimage.so.2",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/usr/lib64/libfreebl3.so",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -1456,7 +1445,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/lib64/libavahi-libevent.so.1.0.0",
+      "path": "/usr/lib64/libcups.so.2",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1467,7 +1456,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/lib64/libcups.so.2",
+      "path": "/usr/lib64/libcupsimage.so.2",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1490,6 +1479,17 @@
     },
     {
       "path": "/usr/lib64/libavahi-common.so.3.5.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libavahi-libevent.so.1.0.0",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -2490,17 +2490,6 @@
       "file_capabilities": null
     },
     {
-      "path": "/lib64/libcupsimage.so.2",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/lib64/libfreebl3.so",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -2589,7 +2578,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/lib64/libavahi-libevent.so.1.0.0",
+      "path": "/lib64/libcups.so.2",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -2600,7 +2589,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/lib64/libcups.so.2",
+      "path": "/lib64/libcupsimage.so.2",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -2623,6 +2612,17 @@
     },
     {
       "path": "/lib64/libavahi-common.so.3.5.4",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libavahi-libevent.so.1.0.0",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -6765,7 +6765,7 @@
           "owner": "root",
           "group": "root",
           "size": 22466560,
-          "sha256": "33a866ae6ebf6a78c6b9d505788d285bbee98e07516f05529478a0864aaad8d4"
+          "sha256": "76bf8bf54c14d5a7a2c2c39627325c0d7c03ef3200e00fc5c072f2e080b05777"
         },
         {
           "path": "/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.504.b01-1.2.el9.alma.1.x86_64/jre/lib/cmm",
@@ -7384,17 +7384,6 @@
           "sha256": "f90440ef9eebe155e752e20d1a6ac7945e8caf2cbd005a216f26ef867024e800"
         },
         {
-          "path": "/usr/lib64/libcupsimage.so.2",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15128,
-          "sha256": "1cede1e366a4211a58f175e138f69c2cb0d10f0b3a8dddf48097a371259544f7"
-        },
-        {
           "path": "/usr/lib64/libfreebl3.chk",
           "category": "library",
           "is_dir": false,
@@ -7527,28 +7516,6 @@
           "sha256": "20ee543f7d9b87ddcd55b876ac275feaeff514f996024552ae83efbdaf1508ad"
         },
         {
-          "path": "/usr/lib64/libavahi-libevent.so.1",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 26,
-          "sha256": null
-        },
-        {
-          "path": "/usr/lib64/libavahi-libevent.so.1.0.0",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15264,
-          "sha256": "930df33a4a9c7e27201e10693792b6074d041d15aea8992befb1695a4960b272"
-        },
-        {
           "path": "/usr/lib64/libcups.so.2",
           "category": "library",
           "is_dir": false,
@@ -7558,6 +7525,17 @@
           "group": "root",
           "size": 657336,
           "sha256": "41312f85c37a58d0071044f348cf7c71df75564433cb27527c621a6abe1353cc"
+        },
+        {
+          "path": "/usr/lib64/libcupsimage.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15128,
+          "sha256": "1cede1e366a4211a58f175e138f69c2cb0d10f0b3a8dddf48097a371259544f7"
         },
         {
           "path": "/usr/lib64/libavahi-client.so.3",
@@ -7602,6 +7580,28 @@
           "group": "root",
           "size": 53152,
           "sha256": "02d3e0bf7e1ab499688afd27e18f1c7f16048fdbbd2224962a23578e3265f9a4"
+        },
+        {
+          "path": "/usr/lib64/libavahi-libevent.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libavahi-libevent.so.1.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15264,
+          "sha256": "930df33a4a9c7e27201e10693792b6074d041d15aea8992befb1695a4960b272"
         },
         {
           "path": "/usr/lib64/lua/5.4/posix",
@@ -10318,7 +10318,7 @@
           "owner": "root",
           "group": "root",
           "size": 22466560,
-          "sha256": "33a866ae6ebf6a78c6b9d505788d285bbee98e07516f05529478a0864aaad8d4"
+          "sha256": "76bf8bf54c14d5a7a2c2c39627325c0d7c03ef3200e00fc5c072f2e080b05777"
         },
         {
           "path": "/lib/jvm/java-1.8.0-openjdk-1.8.0.504.b01-1.2.el9.alma.1.x86_64/jre/lib/cmm",
@@ -10937,17 +10937,6 @@
           "sha256": "f90440ef9eebe155e752e20d1a6ac7945e8caf2cbd005a216f26ef867024e800"
         },
         {
-          "path": "/lib64/libcupsimage.so.2",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15128,
-          "sha256": "1cede1e366a4211a58f175e138f69c2cb0d10f0b3a8dddf48097a371259544f7"
-        },
-        {
           "path": "/lib64/libfreebl3.chk",
           "category": "library",
           "is_dir": false,
@@ -11080,28 +11069,6 @@
           "sha256": "20ee543f7d9b87ddcd55b876ac275feaeff514f996024552ae83efbdaf1508ad"
         },
         {
-          "path": "/lib64/libavahi-libevent.so.1",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 26,
-          "sha256": null
-        },
-        {
-          "path": "/lib64/libavahi-libevent.so.1.0.0",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 15264,
-          "sha256": "930df33a4a9c7e27201e10693792b6074d041d15aea8992befb1695a4960b272"
-        },
-        {
           "path": "/lib64/libcups.so.2",
           "category": "library",
           "is_dir": false,
@@ -11111,6 +11078,17 @@
           "group": "root",
           "size": 657336,
           "sha256": "41312f85c37a58d0071044f348cf7c71df75564433cb27527c621a6abe1353cc"
+        },
+        {
+          "path": "/lib64/libcupsimage.so.2",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15128,
+          "sha256": "1cede1e366a4211a58f175e138f69c2cb0d10f0b3a8dddf48097a371259544f7"
         },
         {
           "path": "/lib64/libavahi-client.so.3",
@@ -11155,6 +11133,28 @@
           "group": "root",
           "size": 53152,
           "sha256": "02d3e0bf7e1ab499688afd27e18f1c7f16048fdbbd2224962a23578e3265f9a4"
+        },
+        {
+          "path": "/lib64/libavahi-libevent.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 26,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libavahi-libevent.so.1.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 15264,
+          "sha256": "930df33a4a9c7e27201e10693792b6074d041d15aea8992befb1695a4960b272"
         },
         {
           "path": "/lib64/lua/5.4/posix",
@@ -17444,7 +17444,7 @@
         "owner": "root",
         "group": "root",
         "size": 704,
-        "sha256": "ad77c380771d1a2709e39f0210d5416bbacfd7c2c9543b977f9196c787eff81b"
+        "sha256": "be1aca85a0e03951ebd6d8738c3bc2b0a4ea94a223f1434fb7257870467bce90"
       },
       {
         "path": "/etc/gshadow-",
@@ -17510,7 +17510,7 @@
         "owner": "root",
         "group": "root",
         "size": 726,
-        "sha256": "c1ccc7b21453582cb1be44461809bbcb99eef82941d5036f582515896c4acfbf"
+        "sha256": "6cb5b7bef85eb470d135307516505a34ccd8fb2044e36f6be11a22d16a0b3946"
       },
       {
         "path": "/etc/logrotate.d",

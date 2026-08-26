@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:33:57.244315+00:00",
+  "generated_at": "2026-08-26T20:06:39.355521+00:00",
   "application": "tomcat",
   "host": "dap-alma10",
   "platform": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "8faccf9869acbd526cf2fe5c5a88d1c42c086fc61c45b9aa248a566dea4cdee6",
-    "created_at": "2026-08-23T21:33:26.679308+00:00",
+    "db_sha256": "3b00957231f2111b14e61c5586a7a2590f13df7126ec378778be071604dcf686",
+    "created_at": "2026-08-26T20:06:09.029590+00:00",
     "source_host": "dap-alma10",
     "source_os": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39"
   },
@@ -16718,7 +16718,7 @@
         "owner": "root",
         "group": "root",
         "size": 739,
-        "sha256": "7a0109201cea4bc733bcd223b0a558922eefcd6c15da8588b5797774380c4f7c"
+        "sha256": "340ebaec8f3936b80a622b3469fb14623cd70d10e213ce143a00a0bfcdf7f609"
       },
       {
         "path": "/etc/group",
@@ -16762,7 +16762,7 @@
         "owner": "root",
         "group": "root",
         "size": 760,
-        "sha256": "7ba9375c91d20d6fcd84f085307c4eb852a52568c5c48c82326d5dc3658d7c39"
+        "sha256": "c0d0ed94c55adfc06fcfb9abaa360f0ae90c4818f8bd8877b891804dc3c4a870"
       },
       {
         "path": "/etc/logrotate.d",
@@ -16838,8 +16838,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 62050304,
-        "sha256": "d5b1eaeb9e4387d381c7e5edfa2264381adace108465390aa4586f15688876da"
+        "size": 62058496,
+        "sha256": "3f797d0c40f425535da88c07f8f79d351db716229bccce0070598c5b1d8e5a0a"
       },
       {
         "path": "/usr/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -16861,7 +16861,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "ea439baebdd972324ba8d59d909361fc3570665f983ae90863b4a1eaf5fbafde"
+        "sha256": "a9c64e30aaf3de50d7f0a1f1b30b5de42c064308c06ca449e55863169abeb4cc"
       },
       {
         "path": "/usr/lib/.build-id",
@@ -17509,8 +17509,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 62050304,
-        "sha256": "d5b1eaeb9e4387d381c7e5edfa2264381adace108465390aa4586f15688876da"
+        "size": 62058496,
+        "sha256": "3f797d0c40f425535da88c07f8f79d351db716229bccce0070598c5b1d8e5a0a"
       },
       {
         "path": "/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -17532,7 +17532,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "ea439baebdd972324ba8d59d909361fc3570665f983ae90863b4a1eaf5fbafde"
+        "sha256": "a9c64e30aaf3de50d7f0a1f1b30b5de42c064308c06ca449e55863169abeb4cc"
       },
       {
         "path": "/lib/.build-id",

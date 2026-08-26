@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:32:04.690461+00:00",
+  "generated_at": "2026-08-26T20:00:44.158801+00:00",
   "application": "httpd",
   "host": "dap-alma9",
   "platform": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "3b3732f0dda9f6ce0649716878c4b7971ff7b62b2ed397c0aa895db4ca73e2fe",
-    "created_at": "2026-08-23T21:31:49.217440+00:00",
+    "db_sha256": "b9b2a2e24b970d5f76230639ab18a296e37571b5e1fd449f57ffce077cda6938",
+    "created_at": "2026-08-26T20:00:29.685637+00:00",
     "source_host": "dap-alma9",
     "source_os": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34"
   },
@@ -12678,7 +12678,7 @@
         "owner": "root",
         "group": "root",
         "size": 659,
-        "sha256": "ffa772e2d777760e86ecff236d9619d6e3d621d6ee069c3cc10fa3e135c4c819"
+        "sha256": "89f56194ba4d35edaa2c8d1ed5e92018505bc190978d565213d57e6d1d91f598"
       },
       {
         "path": "/etc/gshadow-",
@@ -12744,7 +12744,7 @@
         "owner": "root",
         "group": "root",
         "size": 681,
-        "sha256": "eb37bb7a402af3993569ec3de3975f1871e959ee7fd8a97b235137014932de2e"
+        "sha256": "d3592aec2b5430dd9ae1769bd23dabdab9f8b9ec8b111424dce802ee4fd9d0f6"
       },
       {
         "path": "/etc/logrotate.d",

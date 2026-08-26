@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T22:17:09.804616+00:00",
+  "generated_at": "2026-08-26T21:16:17.359601+00:00",
   "application": "mysql",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "7775878b7274ff391b32d4a46163747507b2322bf4c9b7786a8b461eac978376",
-    "created_at": "2026-08-23T22:15:57.779926+00:00",
+    "db_sha256": "507fe288ffd8817c3412f9cb513bc053cd6ee8f5c7f59d5bf25344ae4fa326fe",
+    "created_at": "2026-08-26T21:15:00.015861+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
@@ -1247,7 +1247,7 @@
           "owner": "root",
           "group": "root",
           "size": 317,
-          "sha256": "19cd52ffcab2c42697ae1d5a3d28226389039a02e774105f07539f1396b74366"
+          "sha256": "52c6371777d687a92f269ffa58ee2993b6b224b8b121c41e40dc744505ab9d54"
         },
         {
           "path": "/etc/mysql/mysql.conf.d",
@@ -6829,7 +6829,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 404,
-          "sha256": "78a925b433fb0a5ea6c2d769832a0e844faa0cc8a1210a545fe5765e1ef7fe87"
+          "sha256": "ee219d0d44e56781195d8ef6021f90375c9ddf2a92f407a08fb2d1bb5ee665f0"
         },
         {
           "path": "/var/lib/mysql/ca.pem",
@@ -6840,7 +6840,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "c58a2192c081b7fe86447ce2c5daf72c54ae34fdf9024529fdac7004589348df"
+          "sha256": "a12fb01bfdccd0dd78a3e168ae84443a917ebd68ed88f27d14e0b419f51a565f"
         },
         {
           "path": "/var/lib/mysql/auto.cnf",
@@ -6851,7 +6851,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 56,
-          "sha256": "35e6c290c8503fb6f213698dda61afb356fb593b42dc6e4e5badc400b93b7154"
+          "sha256": "f1ef194adf05acf36caab37d273719e68c3faf00da9dabcc7562aa05a12e0b2b"
         },
         {
           "path": "/var/lib/mysql/ibdata1",
@@ -6862,7 +6862,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12582912,
-          "sha256": "3132d3510f79b024c7b023fbb835974b9c6420e1c5db384a7adabbe2fc10c14f"
+          "sha256": "a4c1ad5def01153ffe46589a0664b9bea07000c7c7a8399d6cea1d8c004f3900"
         },
         {
           "path": "/var/lib/mysql/ibtmp1",
@@ -6873,7 +6873,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12582912,
-          "sha256": "c9cbce2e23aaed8ea4281d30b82c8e8abb85e61a06c4b8e2fde4ea22e66626b4"
+          "sha256": "3414c65e776b5db4817e3ac4f28786a2f490cbc8fe09f2d9be66d72a6884d3a9"
         },
         {
           "path": "/var/lib/mysql/ib_buffer_pool",
@@ -6883,8 +6883,8 @@
           "mode_symbolic": "-rw-r-----",
           "owner": "mysql",
           "group": "mysql",
-          "size": 3453,
-          "sha256": "d68b7306fad3efa6549b17055453d35fcaabca36c3b6233f5adbdb21b82f672d"
+          "size": 3439,
+          "sha256": "2f0b7f275190cb26e17e77f552f711f02faab44af876ca46bd0c44ee1ef1c240"
         },
         {
           "path": "/var/lib/mysql/undo_002",
@@ -6895,7 +6895,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16777216,
-          "sha256": "7c2e7a8ca6d1cffab78475e3084a610e9687ec693174ecd98dedabc6997e7116"
+          "sha256": "836972ffcf2566aeb37686fbab3d717d2ab07b15bbae358c37f695e95d5c7318"
         },
         {
           "path": "/var/lib/mysql/binlog.000003",
@@ -6906,7 +6906,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 157,
-          "sha256": "315ec2521b7dae65dd97160822a2a78b5c1dccc13a3595bb4cb8b21228b3acab"
+          "sha256": "56233c5afc9670599f4ab434ae86d380cad00eac6d20f69fd32957aa89352533"
         },
         {
           "path": "/var/lib/mysql/public_key.pem",
@@ -6917,7 +6917,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 452,
-          "sha256": "9e4d9dee6a1ba1a61689e5717096c00eced6dbb18b6e4344610b1b9df3f689b6"
+          "sha256": "2359c061cc24cbbdc702d9d1e3ad880dd3e0e8d044f30a3116c5910a1b26e4ab"
         },
         {
           "path": "/var/lib/mysql/server-cert.pem",
@@ -6928,7 +6928,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "16d8edfa9481d8b8e28fd4860f8830842f0155c73a1f8da1fa5bfc9390ba0122"
+          "sha256": "3fbc3b7e31d77d03fc791946adcd20679c7e4d492ec135cdad2888a92a8e56bb"
         },
         {
           "path": "/var/lib/mysql/#ib_16384_0.dblwr",
@@ -6939,7 +6939,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 196608,
-          "sha256": "35fb85c5caced602650fc21aaf43f08e2863d29df2f108cd0bcc471b5bc17a67"
+          "sha256": "ddb5fc60efa76710244f6ec9aba7884abe16ae4da2b9eb7ea552da020cf61e87"
         },
         {
           "path": "/var/lib/mysql/server-key.pem",
@@ -6949,8 +6949,8 @@
           "mode_symbolic": "-rw-------",
           "owner": "mysql",
           "group": "mysql",
-          "size": 1709,
-          "sha256": "fad1245fd9d9baf49976f5baad478387c8310e8c97883cc55b1cc9ee31fd4719"
+          "size": 1705,
+          "sha256": "cf3e5bedd783b36ab32c73dfd303a6cb1c23aef862e400ffe791f394d2f6ecb3"
         },
         {
           "path": "/var/lib/mysql/private_key.pem",
@@ -6961,7 +6961,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1705,
-          "sha256": "7bcf254694055d2ad124e2ef750429b717b8642086384329d8d69bb376d095f1"
+          "sha256": "001e917ed78209e213319ff265b5d583a6f4ed8cafebaf08de3867b7ce5afa12"
         },
         {
           "path": "/var/lib/mysql/mysql.ibd",
@@ -6972,7 +6972,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26214400,
-          "sha256": "2c5c53ea75f1c2ee35b8625a69e86b3ca3902ef4a1ff64e1b4d9e5e03165223f"
+          "sha256": "1b3ce10dd4e19132c52ab33d08a00c11621f4b9a89d4354e7af5b4889aa86977"
         },
         {
           "path": "/var/lib/mysql/undo_001",
@@ -6983,7 +6983,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16777216,
-          "sha256": "58ecf970c97950cf0b77b6d0c9221c3b2eef554bedd5c984c78dff110e302089"
+          "sha256": "9ffdf90a6740bae4e2b0cff2cc5e5000431fe4353dfe9681ea16bff3fee8e674"
         },
         {
           "path": "/var/lib/mysql/ca-key.pem",
@@ -6993,8 +6993,8 @@
           "mode_symbolic": "-rw-------",
           "owner": "mysql",
           "group": "mysql",
-          "size": 1709,
-          "sha256": "daf8e1c58e5358cb5d8092c40cb1c91e2f143fd872e187cd0d089d3bd55e64c8"
+          "size": 1705,
+          "sha256": "3b31d3e2136a10e6462cf5860f24e181a8c1edebbe7bb0c8a9b788e661dd92b0"
         },
         {
           "path": "/var/lib/mysql/client-key.pem",
@@ -7004,8 +7004,8 @@
           "mode_symbolic": "-rw-------",
           "owner": "mysql",
           "group": "mysql",
-          "size": 1709,
-          "sha256": "cda28b3f72806c414b75106bc2509ba48112a47a06febf4ca6a6e7fb15ed33ea"
+          "size": 1705,
+          "sha256": "4693630e01bd8d7dc39c51d7b02f2c390fd9d56cb27a0470b585cfb62ae6e029"
         },
         {
           "path": "/var/lib/mysql/binlog.000001",
@@ -7016,7 +7016,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 180,
-          "sha256": "7de28db070722fc2a8a373926644b7b859c1a4c138d45667100b9821faf1eab2"
+          "sha256": "31c9cbfb45c45397bfaad4058c307f69e1e1cde8b5fe2de15b53ed0c83963327"
         },
         {
           "path": "/var/lib/mysql/client-cert.pem",
@@ -7027,7 +7027,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "16a1ae175aeb1d68e6e8cff456c8ecb2b54c1d0e4f63e2fbfa10145cb8aab9dd"
+          "sha256": "6d8a4a0c1034a2bc1e5be3195158c6fce2bbfa270e1ac3c1ef8219f098a4bef5"
         },
         {
           "path": "/var/lib/mysql/#ib_16384_1.dblwr",
@@ -7082,7 +7082,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21006,
-          "sha256": "05314b5f23f774c4119460cbfa31283f5b47bac572843741d0c639b308dd8b28"
+          "sha256": "3ba55ff6b94cf58d6707253cf36ed522ac3846c48e7683cd21afc91ee15070bf"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_variable_185.sdi",
@@ -7093,7 +7093,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3222,
-          "sha256": "65d2dd8e2a72314a45cc320e33a7cbb12e44706bf1e98546dd4c45ff540b59bb"
+          "sha256": "fed476e15e94fa61c11b0011b5a06bd6d3fb4f6b39c0aac4314073f6e1de804a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_89.sdi",
@@ -7104,7 +7104,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7694,
-          "sha256": "695ca2ca7df57f10e74d20f9a901ee91d42a4b1d8056d3b4de11541d79756cf8"
+          "sha256": "d610d1a2668605dc3ff00f84fe5cb02deff9a7c71cabcc74bcc0aca5f0f49144"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_user_180.sdi",
@@ -7115,7 +7115,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4064,
-          "sha256": "52acd3203acd1f0cad2421c82c87b66ccb3c84ced869836e7c8b37f35ba2124c"
+          "sha256": "eac8ff5c170244de8f2bed8ef306e055165746a74b63c91ace467d3d568b83ce"
         },
         {
           "path": "/var/lib/mysql/performance_schema/accounts_145.sdi",
@@ -7126,7 +7126,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6134,
-          "sha256": "b1de33b1eabe7efe28b8105fa1f9f0cee8995d4de815bff5cf8ab98d107ea6c7"
+          "sha256": "d936f1a0f3779f4adf21fe4f43c6c5f46ad5136e656dbc6273a60b58f81b6d20"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_grou_163.sdi",
@@ -7137,7 +7137,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9488,
-          "sha256": "49f464950243f4b8b83df6fee1818095cc9299e77753754fa45c6408a0976ce4"
+          "sha256": "c64c23837181a3850da2dbe2b437e5136e6dbbafac570ed31ffa0a2469218db6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_166.sdi",
@@ -7148,7 +7148,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4886,
-          "sha256": "8052cd70eaf599bd8736b16cde13e9301a81a0b0634348db00f7a8085ce20831"
+          "sha256": "4428b824faecf9e221e099f827def4413d0e5b12218daf7f4394ecf18f4e4465"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_connect__150.sdi",
@@ -7159,7 +7159,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4695,
-          "sha256": "6bfe6262ca3341ab830818c5b2c97c2a708bf0cd5eabdeca127b5b88d53c0e5f"
+          "sha256": "10b310fe4ab15b5050ea270679f3f2a41cc820fd14acaf5fdd5df20c1d89d293"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_handles_158.sdi",
@@ -7170,7 +7170,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9649,
-          "sha256": "d98bc758cb695be999ee87fa72c712e042b0b16bb3b66587e165a8070bf6f60b"
+          "sha256": "61603d0af196b1fa662432b7b882111594447f644e62aba1128df92148b14440"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_thread_179.sdi",
@@ -7181,7 +7181,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4093,
-          "sha256": "f189d10b35ae28056a2dec7c13a0c6896aa6b52ddbbcad56356f9c3dcd0f0967"
+          "sha256": "357815f7f7cf90d14f036d549903402a9e7c78bffc7bc3c83ebff85b4efc6991"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_168.sdi",
@@ -7192,7 +7192,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 27360,
-          "sha256": "c79f2414ae29b18ec1b1cca62a786a94c6798b489458f5c918938e68c20fcc64"
+          "sha256": "0214404e8dd2461a07fffabf828e3de83aeabdd04cedc30e1b584bead0850796"
         },
         {
           "path": "/var/lib/mysql/performance_schema/threads_110.sdi",
@@ -7203,7 +7203,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 23643,
-          "sha256": "cf7ce6827b9d8d864464b77f59980952d1169064d4cefad76e5d5958125f53a6"
+          "sha256": "03395fe15a697e4d4652cedf665f4ebfd1db89889edaa3d04f84646ff696472b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_139.sdi",
@@ -7214,7 +7214,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7663,
-          "sha256": "5b7e6791fdfe2d4635c1633416284bda7d35b82b1362898314d4f877166eaf46"
+          "sha256": "6741ed6ee3b4fe4de5e3d973f525562fab0241f0a2c1f6d91bef8a97edcfadc1"
         },
         {
           "path": "/var/lib/mysql/performance_schema/variables_by_thr_183.sdi",
@@ -7225,7 +7225,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4096,
-          "sha256": "72fc886eb74484e113247076938bf9d1cdfc5df243c39148eef794cf26460dcf"
+          "sha256": "0c529f10b97272d792c97fb1d69d72f3f4f6b408747f67cb065314f68b0755ce"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_asyn_172.sdi",
@@ -7236,7 +7236,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7243,
-          "sha256": "92de5b67f42d5b5e530090f8a28359317f34cb55089c7ee092a3885642696744"
+          "sha256": "8ba3449e6082e87a2f99d70bd38f1a41efece3d04341e042ca3d85629e561d8f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_threads_106.sdi",
@@ -7247,7 +7247,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6890,
-          "sha256": "67cd35d4ab478ea0b7142d387b7c5de4d5cc443940e828c2dd0095079beb3748"
+          "sha256": "4575a678c22a5559104b7df883e5d5cfb5ea9fcb4495784c18cdda9b0529f9a7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_126.sdi",
@@ -7258,7 +7258,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25385,
-          "sha256": "fd9adcd632da52846480330439b2db4994ef004ecf13e633bc298d36f24198b9"
+          "sha256": "c8ba54dc3bd32db1061756ead85c33f67d2b25d28bc558b966f4ab0a5952f49b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_io_waits_s_107.sdi",
@@ -7269,7 +7269,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 32824,
-          "sha256": "99e2622b4885a6475368316e1f5011df5ee8fd3b3c96f8763e4dd06923915d1b"
+          "sha256": "394def0a87a8b11af55dae25f91ad5fc13dec411438ede508f1584cfe25ce628"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_123.sdi",
@@ -7280,7 +7280,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 27088,
-          "sha256": "5bcaac2cc9003b2396788225c1daa73cd3b90a7ea4d3f206be0e1336a7a687f4"
+          "sha256": "a458a8b16fcfa17ea70afdb99cc035fe7e6458030898e25943f5b0e1a02d0bec"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_grou_169.sdi",
@@ -7291,7 +7291,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12356,
-          "sha256": "c65e008eef51f7455e01dad4afe9d6461fabeab99abeaf0cbbcb95231d2af0fb"
+          "sha256": "23bcc84ee4240e2182bcf22a72266b3a6f218ebc26d6edb8ec6ace5ac7b8e09a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/performance_time_99.sdi",
@@ -7302,7 +7302,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4293,
-          "sha256": "5d9e2ae6a4dc6f21b39a2b81219c0614085987b9aa6a73a7ce80be20da52af1e"
+          "sha256": "5e5ccfe5db2b318737a2fb01ef3206321dab0015dff7d5ee9c9be414a3362504"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_instances_93.sdi",
@@ -7313,7 +7313,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7543,
-          "sha256": "59b9f876d2de88c30666716593b3529683b5cf0260d0b12d962b14b80ad1fad1"
+          "sha256": "970a0b336d04710c72379071e842c12e5747d574d21c0872921d2cbf5a8eeef1"
         },
         {
           "path": "/var/lib/mysql/performance_schema/user_defined_fun_188.sdi",
@@ -7324,7 +7324,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5791,
-          "sha256": "6c8d648aa26ca6e8823604e26b2a66f9493d13aac84640e71ceb4ed527d8a866"
+          "sha256": "4dc32313707eae1298b3d86c6cbd050b6defaaddab8cfdd7ea8815091eda1a29"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_134.sdi",
@@ -7335,7 +7335,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15786,
-          "sha256": "ee2950ad56f443cc09b73443637f6a7259a04abb1c10ba6f3803750253f56348"
+          "sha256": "53e2325b2330a4e4cddd6fcf29426f07042e977cf08eacae3573d9eb9aff9e4f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/keyring_componen_191.sdi",
@@ -7346,7 +7346,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9509,
-          "sha256": "a9efb5459ed5aaed94c3ed724c6f51e19c8178327a1fe1b8ba5a22adc16e6043"
+          "sha256": "f75feab30d53c46948e25ee7141dfbeb73848724e8efa5d73f46b3bec7e8c9f3"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_115.sdi",
@@ -7357,7 +7357,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8521,
-          "sha256": "5b725a71cc1a8423645b63ea63fe875a68dc4161d3e899c97acc9d40575f4231"
+          "sha256": "978db2116c07adc24ca9c28406b2ccc74986f24a362017c83f3490957b53bc5f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/rwlock_instances_101.sdi",
@@ -7368,7 +7368,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5951,
-          "sha256": "4b16ad63ac4be8b14a29fd7eb54eb57973e4a67d701ab516c668664dbe0729f4"
+          "sha256": "d6d9e3f0b8b4ab8827b267cae94cadbd2d7938f0b50a3cf39f1b4b4789fcf191"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_status_182.sdi",
@@ -7379,7 +7379,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3219,
-          "sha256": "b8960dd294b3404f83c8e3ec7ebf9af5846af6aed4a79f7e1619c9031416bdd2"
+          "sha256": "765235211972bc97e3f83bdaf472f1bb82992768277b636318ea5090a3bb2c62"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_summary_by__94.sdi",
@@ -7390,7 +7390,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 20467,
-          "sha256": "c7a4fbb34a9d565c6ad1e5dd4ae0381f9d1f1fd0863c8ab5cf235eef76972277"
+          "sha256": "fe1c38192a9193b0ba7307774e889f481fbcbaae61202cdf5710aff9d48997ab"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_conn_164.sdi",
@@ -7401,7 +7401,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 24348,
-          "sha256": "4a65324b470ad14b13e60d341284ea2963194b447765f086164fb48381375c5b"
+          "sha256": "ba8e566f2ab9988361e878cd3f87676c02d3fb56b0ac0bedda050f0b6edee381"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_171.sdi",
@@ -7412,7 +7412,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4601,
-          "sha256": "f0554fcd714377085c4d932762b9545e371d46115a59e2da3ef096b544d8850a"
+          "sha256": "4c5cec47321095cf453e62b7f52b2dc9e8e3e54693effe7e30d24a1862ef0061"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_138.sdi",
@@ -7423,7 +7423,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 14910,
-          "sha256": "06ae230ec9d66cd255260c9101578fdff42566d2f0cc68b5f27f07cce8ba7267"
+          "sha256": "e464b7729dd99963fc13ee5c25218bbf658ad5a546e8db604af367dd1e5b1110"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_actors_102.sdi",
@@ -7434,7 +7434,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6159,
-          "sha256": "a6ecc366d6d3028ae1e322549736fcf8bd1709a27d6c5053e1d9fad9ca3ee28c"
+          "sha256": "9174e4232330dbba1cb0a1719621a89f0a1c2aa3ad2f93761d062dd4ed73c385"
         },
         {
           "path": "/var/lib/mysql/performance_schema/user_variables_b_176.sdi",
@@ -7445,7 +7445,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4100,
-          "sha256": "b8e5770ac968ab269484802dd878cbb5e45b1eae33058f88bd8e5ce78a42813f"
+          "sha256": "35986c9f411c7216467bafd3f1efa66d8193ad87c29c950c942793e6483fefe9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_his_85.sdi",
@@ -7456,7 +7456,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 17384,
-          "sha256": "2e32cd59bdf33d35dbe92e5c8a9e4dd801121fc54141446f4104a90b820cd349"
+          "sha256": "4c6c968a5886c5456ca124b76c67ad82f27f6f1cad1b713a8afef50769584e17"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_120.sdi",
@@ -7467,7 +7467,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38909,
-          "sha256": "e7a4175433d4a46d751b0d94589ec3ecb85c2c2f765f4ade53f1530579f4a9aa"
+          "sha256": "67be87e2819258bb0cae4dfb28bba6d82dd058c1baa33eaecc02e8b7ae8c6819"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_114.sdi",
@@ -7478,7 +7478,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7695,
-          "sha256": "9a08472404ce3260d5793ecbe2081415dd0717f51cb30718658a00c666a3ad44"
+          "sha256": "18476ba2ce5cae63908995fb6bb73164cbc027f0d4f5f8dc556e51e86010f574"
         },
         {
           "path": "/var/lib/mysql/performance_schema/prepared_stateme_175.sdi",
@@ -7489,7 +7489,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 35510,
-          "sha256": "6131d308499b3ad93979c61aa7ae4300ef807414a784928a0af3914f90595d1b"
+          "sha256": "41a8a355dc58febf0098a2c478db62ec2742eca53cb6eb85ab645d8bd9904cc9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/hosts_146.sdi",
@@ -7500,7 +7500,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5280,
-          "sha256": "5c70c9e421a77b0bccaa9c7f880626ea1f80528bd8049edf90219465aebb9127"
+          "sha256": "e0354afd138820ffdf4476de2e5646be46485859a710fcefbae816076bec92dd"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_summary_b_148.sdi",
@@ -7511,7 +7511,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21670,
-          "sha256": "d38dbc18773f4748ac3476c82e653e68e1e973ff2b9a4163fe75aa5fb14cd92a"
+          "sha256": "9ea0b02a94c08deee09b633e354687de7d37b8518f3bfa2978cd590824ee4c72"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_124.sdi",
@@ -7522,7 +7522,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26232,
-          "sha256": "bb4a46be1b6e7ee6615d7ecc2032088e4dd1555f1fc7d0190e529778c135ce4d"
+          "sha256": "3469c1e1237c8e2658049c1230d1d9139d7f113b28fc3602e8ff14cbfd8cc3b5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_91.sdi",
@@ -7533,7 +7533,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8520,
-          "sha256": "f39131499b7a456fcbc845144ad82e657e4d118ae295a712202681351e6c6ec0"
+          "sha256": "eb454ef8c2f772b3b92b595718e38014055b1136caaf07880d8dc25525ba91e7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_154.sdi",
@@ -7544,7 +7544,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12543,
-          "sha256": "bdee4aba15fe47624e8f716344caca129fd83d737526457d1ee4c8feedfa630c"
+          "sha256": "9dab65d4b17bf578222776877445ada4aeb1b56ce0a5210919a745b0e455b2cc"
         },
         {
           "path": "/var/lib/mysql/performance_schema/mutex_instances_97.sdi",
@@ -7555,7 +7555,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5136,
-          "sha256": "9fdc00655d4bc9faadb3ce805a29b239deebf270eea7f1ff8468c794963e9565"
+          "sha256": "dd693df1e5a2140c9579aa2240e26f5ae0bafb70ca1a23c8ae9cbddb8d564df8"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_142.sdi",
@@ -7566,7 +7566,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7694,
-          "sha256": "156606e7e2622dfd592b4e96146d30a2e6e7be615abea2501e6a2d8a0521db46"
+          "sha256": "ecd13ffb21e8f75c9baf310296abd20fd51b693aee59f17061a67181f49c5df9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_116.sdi",
@@ -7577,7 +7577,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7666,
-          "sha256": "83d95a4efd993d9cb267861f3d1ee6271accf7b816a8db276c070199879bf0e6"
+          "sha256": "99973dc81ed1589011f0df65dad19284deb3bebff5b4ed11cd0a414db7c868f9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_objects_105.sdi",
@@ -7588,7 +7588,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6406,
-          "sha256": "4be187c18eab33670f2ae0cfaee26121496dbb4bdccd312e129d42fee535fcaf"
+          "sha256": "58cf9d230674f73f25450ff2fa27834553c3e2e5657ebba0bee9ef2b52b06eb5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_140.sdi",
@@ -7599,7 +7599,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7664,
-          "sha256": "7c7fb98abacddf8b7d702b9437f6a8f818f82a1a4d65560f401fef7b24767865"
+          "sha256": "6d7aeb724e69d9d4fc5b13e11a68c0aa3a072badaebea44200582f08e71ec2d9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_170.sdi",
@@ -7610,7 +7610,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6730,
-          "sha256": "73def56905f76bf8976dd933d690ba499a40722e5670b1729f364ac35abe097c"
+          "sha256": "c8697f9ac9b85c118aea91d52711f1fdb54199df28b792654052cf2ba74c3208"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_cu_111.sdi",
@@ -7621,7 +7621,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11711,
-          "sha256": "cd83779caf95d1e641613b95a2a1d197f01080e369d7e3b5a0e40df7048a1a57"
+          "sha256": "5e0cb832b0ef9fe38a5770d355b2d8d723c4c7a96141c52024bb8258de9dbeaf"
         },
         {
           "path": "/var/lib/mysql/performance_schema/host_cache_96.sdi",
@@ -7632,7 +7632,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25310,
-          "sha256": "f1d0fb674a9bb805ba065117ca9bd09e85b31b3a50b163565be5fcadf34233d2"
+          "sha256": "7c80adaf9ac7499d8d54adfbe3ed83e123eb9c3ce34601ec29289e73739112b6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/global_status_181.sdi",
@@ -7643,7 +7643,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3218,
-          "sha256": "87e7bfba478e4494849b1062971b668546839cbb211bfb1d959e66271feb1fad"
+          "sha256": "f1f0999e548a615414284a63bdf5cc5b95dbecb279b72899426f95ffe4ff86b2"
         },
         {
           "path": "/var/lib/mysql/performance_schema/variables_info_186.sdi",
@@ -7654,7 +7654,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7960,
-          "sha256": "81070bf0cc615f1f557669fa6afa32e148c569518487e3039b0639f759b41653"
+          "sha256": "684fe135ecf2b6e565745370c4fc714971ca1921a928fbfd8f9fb257468e7f34"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_157.sdi",
@@ -7665,7 +7665,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11687,
-          "sha256": "0cee2a83d563839279373350b98fd8c6fa7ffbf17f370aaddf4f97003b156678"
+          "sha256": "62f76c25e79dc814e596739441f56e43e34b6572d7885ee176f7e4268c9fce8b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_summary_b_149.sdi",
@@ -7676,7 +7676,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 20485,
-          "sha256": "2fbd09e59b8c1cd658024196daa9eb7e22e3298d871ea3495467e3e0b5861ad3"
+          "sha256": "c6b4082e32d2b2ff8f15f098a5cf1be9488b2f38f438423f769964b16dbf6e05"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_131.sdi",
@@ -7687,7 +7687,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21447,
-          "sha256": "a55fbadbeab427aa8727b2d1d78bf4bb55fb2fc67441a6fd768a2a14685be5df"
+          "sha256": "083ba6b125f6dc8ec4d333abf60cab3c7463bbfa96c754daed53d285781dfca6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/persisted_variab_187.sdi",
@@ -7698,7 +7698,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3224,
-          "sha256": "8e670c9dc580f758c4021e1365778493edcd538e392447a3684156d97adf552f"
+          "sha256": "a55b1b8b897db861992c51cd389d4dc5e0198f8eeee77c0175469e541a2e810e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/data_locks_160.sdi",
@@ -7709,7 +7709,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16110,
-          "sha256": "7cba915da43195c7a5da3dc9029e048d7a652645c1c4e8a43435851e20ab30c4"
+          "sha256": "f8878dd966d5748ec7c23552e733de6ec51227c260b3284ab05d485271f713dc"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_conn_162.sdi",
@@ -7720,7 +7720,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 46221,
-          "sha256": "156aa53661c35638b1b40add6bf9f4d1afb363a459ce9c2d3947eb1d695aac79"
+          "sha256": "f4b20ab051bd7e50213281bb4e729f9e0d7caf9193ffec490ec98b92c311cfbe"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_118.sdi",
@@ -7731,7 +7731,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6820,
-          "sha256": "71b0010b5baa003a89d64d4360a42d1fbd0978da9f8761e38109d87828beb302"
+          "sha256": "ea96f51569551a74519b08e066892c37f6f5d6525021027355771663221e0648"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_accoun_177.sdi",
@@ -7742,7 +7742,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4919,
-          "sha256": "142f4e090a39753a7150bf39d6736c05888db812638f0bef512ebc01f453a962"
+          "sha256": "c2486707153b6de3537bc5c5be168f3372dbeed32eb5fa9a66063a96228ce10c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/users_144.sdi",
@@ -7753,7 +7753,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5279,
-          "sha256": "06211472bfd72685d887596c5df9158e1d95c6cf69298acde2743c6ef9aae3ee"
+          "sha256": "92c3a758b1ce463ff21efa6280cfc2fecbd9b1d4d2277617667ecbdf31db07ef"
         },
         {
           "path": "/var/lib/mysql/performance_schema/tls_channel_stat_190.sdi",
@@ -7764,7 +7764,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15893,
-          "sha256": "38563ac7349e10fc99a56e0d8d48a067233474aac2d21e707029c73dd57e1a74"
+          "sha256": "d4c04e0228789619fdc9f6644d2b89ce269aa2875379de3619a82bca3d2b5d5e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_account__151.sdi",
@@ -7775,7 +7775,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4703,
-          "sha256": "b185dd13b71716c0f75363fca77c97ef2e2dee4216640e86c22c6cabc0419fcc"
+          "sha256": "f10eaa0043003ecc784d3fd4e92ac8b0f66cf40e976b30d7faef1714be798083"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_88.sdi",
@@ -7786,7 +7786,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7996,
-          "sha256": "a8406a107acab5b593864fd14c9a08d29b4d603852f87cc52f49c4396b2f3a48"
+          "sha256": "ceb8033ac15a2c21a5b160a3e03d3c5c795d9173b872d47c75adef8bcd43987c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/keyring_keys_152.sdi",
@@ -7797,7 +7797,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4663,
-          "sha256": "5bbd579e528f2d722b508d6d20bad05125d623121645630fade39fa93b6a4dde"
+          "sha256": "bba99ad7fc94f6032894def8ecaf55ef089004f20cf6365973b5f5211d2ad11e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_121.sdi",
@@ -7808,7 +7808,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38468,
-          "sha256": "71a1a54d16a767f26e786a41ed7b3a94649f69ce3fe07471bc058efaee217c38"
+          "sha256": "04c44c94138579946f35b224e15632fae14d1f45a4d0150d8c76d75492871790"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_119.sdi",
@@ -7819,7 +7819,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38909,
-          "sha256": "4531dfce410bfde86951c9fa97662c36c1d5d9d589f76cb7ad1dca6a05450a50"
+          "sha256": "ab81745c95b18ff955ea5dada7c51b466a5db0e323fdfb37219d16b09babc892"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_125.sdi",
@@ -7830,7 +7830,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26233,
-          "sha256": "2a81f07fae9887fa9c875b5c84a2b607d5eb2d3ab920bcc351c549916d828b18"
+          "sha256": "bce50953233880c0456568a76ea66ca8166b95bf5ae8e7da0426da670ffc19db"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_143.sdi",
@@ -7841,7 +7841,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6822,
-          "sha256": "57fd125e3cac4e4fcdf55df856e5ac41fe5fb899168850531cca381de475e9fb"
+          "sha256": "69880206eaf6e0203ddb11e31bf183788d1d731e816c726ef9630a921421d0a7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_92.sdi",
@@ -7852,7 +7852,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6819,
-          "sha256": "80c8b2d5e57f02a8a439e7c273af4697d09cddcf1b5afe2dd3477143413e7d06"
+          "sha256": "ad3b23b75c75a9af39e6306391144ffe6a85ff11abf8329a1a24fe5e55aee97e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_156.sdi",
@@ -7863,7 +7863,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11716,
-          "sha256": "f8f859025a2d352e79af279218c1a1067da9f06c39b0c83449aafcc696c811e3"
+          "sha256": "814b4d01a2b5f4278e5b007e792097e123d2488bfea875ae0968053b7d39c451"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_122.sdi",
@@ -7874,7 +7874,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26261,
-          "sha256": "99350aa379863f76cd6a626291c9b103cdac854b8fc279a3ddce723305e40567"
+          "sha256": "ed0418e9c0ac528fb9d72dddaa1a832cc585c510e86ddab3936f8435e19cf0a0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/objects_summary__98.sdi",
@@ -7885,7 +7885,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7822,
-          "sha256": "0dc9850795d20cd6e3448d1fce9ee4c1b5a946d0d423fc414c9f9ebffbdbd4af"
+          "sha256": "47e6bd99cf659dc66e5a5e970f338582f25931d7cacfb7d743f3053f1cc6ccd1"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_asyn_173.sdi",
@@ -7896,7 +7896,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5317,
-          "sha256": "862058955d7fa55285625b425e2d4805b18f0846bdbe216b52cc95cdf09b4fa3"
+          "sha256": "82df3101cd1855794382dba574f82232c54725495179bfe3e346b81bcd9f8aad"
         },
         {
           "path": "/var/lib/mysql/performance_schema/binary_log_trans_189.sdi",
@@ -7907,7 +7907,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 13199,
-          "sha256": "43596edcf310ea832be4689f078aeef309701d1c774978c13c7f75b11a8ac3b8"
+          "sha256": "16a755ff0c8d76ee89f51e5829abfb8ddfa0145b2db35c490edb69503eed1e56"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_consumers_103.sdi",
@@ -7918,7 +7918,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3261,
-          "sha256": "4df28a7d1c6fdf371f39cefe84edf0835c07506d9b09c53f4f983837166660fb"
+          "sha256": "cd7cbb5809b100a474d9e7a54fb5bb54502572d7d32b15a0574368fc7e014bd2"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_165.sdi",
@@ -7929,7 +7929,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8225,
-          "sha256": "45a3a73ae81d3a866e9690261b724ee74101c41d858dbc5d70ad1eb934fd0afd"
+          "sha256": "54ad8258b12046eb0bda32eebcb58b29e571d4b353e6455dd67443fb74aa1851"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_instances_147.sdi",
@@ -7940,7 +7940,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9110,
-          "sha256": "cd4cfeceafcc1f6921ce9bfb0bcb1840e3dd23f456bdb11b03f59c24bc49dedc"
+          "sha256": "5bf4c03d89481afebdb65caac33077cf6b5fc84380a3184047e22e1f792e1497"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_summary_by__95.sdi",
@@ -7951,7 +7951,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25622,
-          "sha256": "f2629bc9c627fd3cd3cfa3a468f28c607e0d9cd039e66c18236e7247ccec1bb5"
+          "sha256": "402623ac2366275410949bf185c551c31de6afbe3199b7098a4480483487b09b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_128.sdi",
@@ -7962,7 +7962,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 31346,
-          "sha256": "03b2e8e6decc0ee9b968548ddf8a6edccd629235cac754f68be2ca5f441eff51"
+          "sha256": "0dc0928600e1050bf2b1ad5b3c201dbc00ef37f69cc069902cadd47527bcc42b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_117.sdi",
@@ -7973,7 +7973,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7667,
-          "sha256": "e2ffcdfb157fdd8b023c368ac9a6e0cb5571b2272e637eb990c3b5c5df3887a0"
+          "sha256": "df503b9b95f24c21dbcf4ac3521af8326ff773f7b8e9216d1d74eacc5908a146"
         },
         {
           "path": "/var/lib/mysql/performance_schema/data_lock_waits_161.sdi",
@@ -7984,7 +7984,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 14643,
-          "sha256": "a422afc5b5311e041372c58587f136cab81de5f0d489af31f330c08b60864816"
+          "sha256": "80f7c06b28c6f32492c07e9112e888508fa32e3f0e1b63119b022d1a79bc80d7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_90.sdi",
@@ -7995,7 +7995,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7665,
-          "sha256": "f210e8fe8182afdb9f7fefe923fe7f749d297fd96d67214ff68b9955497ce538"
+          "sha256": "5e72e69fee31d674c47da8d43970edc5cf7027d2ce212d5bc0fabcd55ac868f5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_87.sdi",
@@ -8006,7 +8006,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7666,
-          "sha256": "46020cee75ae6306f0eb8da4ecf3ce235172abd2af00ca873e786bc8384d2d2b"
+          "sha256": "51f531b4bd42ed420e86d660df9f5e08ff0addc6b8d35ad6a89b60d9a11efb66"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_129.sdi",
@@ -8017,7 +8017,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6125,
-          "sha256": "16100fc9bff5750d92e0e9d12f70220e3bf78b0d2e0d57f5b553eae46f207949"
+          "sha256": "1f145eb26ec3b0fcfc18279e58cb8da1ab0fe56450ab1b4db9ba6e0c5ceb1bb3"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_io_waits_s_108.sdi",
@@ -8028,7 +8028,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 31958,
-          "sha256": "d41d6d0069d05d1bdf61b7bf8584ecabd9437d6c2d4f6bc40b88a6b898aae4ab"
+          "sha256": "97d83c791940f97acdeb5d777bd55d735fc4c6bb99d7c9cebd4e30b03b5d12fa"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_130.sdi",
@@ -8039,7 +8039,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7847,
-          "sha256": "8581f734fb02ceb7150d537de086f8bc2ec2c52ee85198d08847afc94580b229"
+          "sha256": "d638c329d96456b5e509b442fcfddf96a50ea3d2cc795e60c36a0a5bbfa4e8ba"
         },
         {
           "path": "/var/lib/mysql/performance_schema/processlist_100.sdi",
@@ -8050,7 +8050,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8385,
-          "sha256": "6564c2fe90982bc65cb3cd181c638a108b687fa0fdc008394f52a83057570fcf"
+          "sha256": "b04d8754249ffa3f528b593562820ff407db7d45774e7212860d06b265f8e1e6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/global_variables_184.sdi",
@@ -8061,7 +8061,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3221,
-          "sha256": "8f2521be9190c72ab0a665edc65eddf2c09a4a50cf6ddf5482e26581b7b5e55c"
+          "sha256": "38b1a870205fc8424a71cb22c5a05d448940c78870049963eb61d272801a10d6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_137.sdi",
@@ -8072,7 +8072,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15758,
-          "sha256": "fa8db52a90f261c8a6f3df9a6f0709e7a26f8398ddb8460795bdac80d45039b0"
+          "sha256": "be4e7956475fa136fd0584804b62cc75d8a7ba089389c94029959b2607e26a4f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/log_status_174.sdi",
@@ -8083,7 +8083,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4283,
-          "sha256": "31a7a297696041bae2c51ca7255fa897dc7dc1217887f09f95adae8da250998c"
+          "sha256": "88a10ac60ff33c63d12527ff8c750b9a86cc005321a4e7df3b60b2e5621236da"
         },
         {
           "path": "/var/lib/mysql/performance_schema/error_log_83.sdi",
@@ -8094,7 +8094,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7639,
-          "sha256": "5dfbd876eb004e9fb6fdc92842ede55626c5635951e858902644e6df541de6ed"
+          "sha256": "311f6b52d37dedcc6827f6bdf13e7b6eb1cf377ee87d82d8cebf2493e4270706"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_132.sdi",
@@ -8105,7 +8105,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21447,
-          "sha256": "90125d2d7d0573f82d6f31181340451e3881e786657c918df912c34526b9215e"
+          "sha256": "332998d297f18047a177071bceece5ab7f54da2a31baa06b58e770c169759a3e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_hi_113.sdi",
@@ -8116,7 +8116,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11270,
-          "sha256": "96ead82a5592bc99c02fd547102411d7f0911f20cb845d8a5862ea291bbc596f"
+          "sha256": "4b41a873aaa2349d4f0a7c64f659099beda55b74f2be3d2aefac792a9213a0c9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/cond_instances_82.sdi",
@@ -8127,7 +8127,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3955,
-          "sha256": "051df80e1ed4efd6820f66645b16ff788e222d84b837ab2448aff9dc7f355173"
+          "sha256": "43d9da6851d12052cf12f4da6c4e46b31cec5d52090442c6d5e7e58a7a1bcd8d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/metadata_locks_159.sdi",
@@ -8138,7 +8138,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11897,
-          "sha256": "d2eec010dc1166992c7ad6ccf53e6259c8fe1425bb7df3ef7489148df4b7dbd8"
+          "sha256": "52962a0fa1027cec1c2a61d463447a5b4a04c843d71ea70831764b774ba0fab8"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_167.sdi",
@@ -8149,7 +8149,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 19879,
-          "sha256": "a86bc001e4df5b260da680b8a31516679b92a4243b1a7c8bd747c704189282f5"
+          "sha256": "470ecb4bc6501be187ca0c7457d23920ea42c756cf517f9e69ea6c4b4b2ed975"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_127.sdi",
@@ -8160,7 +8160,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 32719,
-          "sha256": "3fdc9dc762711e569961b36315c966e8eaa26f29f72ab62436aca9eb560081b7"
+          "sha256": "4601fba6829cb23ea66913b0dbed088ec341fc91b77e8c2bfbc57999657cfa6e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_instrument_104.sdi",
@@ -8171,7 +8171,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7937,
-          "sha256": "d72bc411e9d3748251da47f7fe97d9b891ce0ec5aad131ce910ccaf58fd720b7"
+          "sha256": "bc651592ece4c406393129670b779699a931393551c78a4137d038215e09d996"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_136.sdi",
@@ -8182,7 +8182,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15757,
-          "sha256": "09cbbaec18a80a19d0be5e918934dc767607b4adbca8daaa881563530188e49a"
+          "sha256": "cf0f5080a2ca09eed3accb8a4a37143c44523ba913203c1e5dcbf11e0c0110fb"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_135.sdi",
@@ -8193,7 +8193,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16613,
-          "sha256": "dc3978398252aa3c1012fbb88bd5f56dbe73e96cf2a755018f90354fd87fe724"
+          "sha256": "571d5baf9b51780b0910b62d8e6528fb26ea113a960ffb607e5037f04165eb65"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_cur_84.sdi",
@@ -8204,7 +8204,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 17384,
-          "sha256": "ec4fbe74a6277b9c946c3862f1ad5898faa2d0362da7852c783e0e2f71bf5523"
+          "sha256": "e6771170799295cfde3ca8127c31694af008b63eb20007aec7aef146a0a54814"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_155.sdi",
@@ -8215,7 +8215,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11688,
-          "sha256": "ee037e7c8838cf243893e2fb0d30fc1d4e0b3495adcdbcc5a478d71ba91ef045"
+          "sha256": "08ba06aa67a7431c1b8692eff674e6fb580c799af983ae8d5e022fe46a5243aa"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_g_153.sdi",
@@ -8226,7 +8226,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 10840,
-          "sha256": "b083904d364af5e95266c208732ce0913f01db954b39b6052afdb0ed1cd1125a"
+          "sha256": "f64759448f6f7d1791822a8520d787549437f127c0ef0b7183bd463218c3fd4d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_his_86.sdi",
@@ -8237,7 +8237,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16943,
-          "sha256": "2344104a452e186675db364a88f82fd09ae417fdbebe72208c619f00372a8223"
+          "sha256": "e7f6ea1db049c39144c16668ad7fd7755dde473e1a5119960eb6708b0205f11d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_hi_112.sdi",
@@ -8248,7 +8248,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11711,
-          "sha256": "c5d52fb1837fa4c8a46915c3385bfb87e3febae5e4573483494effc0518b2f8b"
+          "sha256": "40b043f8a38c9570be37b01606cf24b9fbd90fe7dbc909de3567d247616f7856"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_lock_waits_109.sdi",
@@ -8259,7 +8259,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 56631,
-          "sha256": "30275aefe86a17e189d8e18bbf0660fab2805805116ae0ae931ed0db46991daf"
+          "sha256": "d28e640bf34e4ae695ec79a2ff93611b402fe9e3d61b77ac23812d8043956157"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_host_178.sdi",
@@ -8270,7 +8270,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4065,
-          "sha256": "7c4ab468ff25e2a33b6f06c34f63747f18cbafda134d1582a613813795d08b29"
+          "sha256": "b710c28e73665dbc29d4b07719733521a9a1b071b8cd41c748ccc817ea5d9fcd"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_141.sdi",
@@ -8281,7 +8281,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8518,
-          "sha256": "dc21d6d292b1da3fed3882951714aeebf19ee8a27f31a476861493aede9dbdce"
+          "sha256": "f918752f4abebaf9865f5f8b509ab9edd9c22154bc0c75a4a33fbb0fdf3cd7e6"
         },
         {
           "path": "/var/lib/mysql/#innodb_redo",
@@ -8468,7 +8468,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3276800,
-          "sha256": "c505c9bb3ddc9a1ce160c9c2e76872f3937d37878ac541fe551a114ef8f9e908"
+          "sha256": "492b1eb6bbb671392061d0d823feb2491d0f2b68fade4aad57b13ed9136a28fc"
         },
         {
           "path": "/var/lib/mysql/#innodb_redo/#ib_redo31_tmp",
@@ -8688,7 +8688,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5972,
-          "sha256": "a41658568d9b36d0ece7e271e7dc45986f52f67a1745961c15f8b34305b5cf6b"
+          "sha256": "c540494ff087c6e74bd1983f2a56d7a19116a6e65761427516302231166d44c5"
         },
         {
           "path": "/var/lib/mysql/mysql/slow_log_214.sdi",
@@ -8699,7 +8699,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12505,
-          "sha256": "9d36356624575913304ce63753ca5509a6e54f9989455e98751f27682ce6613c"
+          "sha256": "3daa63f025178189d0b08c54b4daf240ee2f10533217c42f7b7e1bca1b50a638"
         },
         {
           "path": "/var/lib/mysql/mysql/slow_log.CSM",
@@ -8743,7 +8743,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "1298ef79542a181c54529bfd1b39b3506b8ff280e517c94beaf0c3cf27d6a0bc"
+          "sha256": "0a8a1eceeb091c6b898e1f43e47d71446747b81a2708afd3cf9103d7bbe2d041"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_1.ibt",
@@ -8754,7 +8754,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "32a8f242e315a9e50cc4a532635308938b5bcf3b9c00fa0b1c14621c16cec8fc"
+          "sha256": "d0c328196cf82ba08c0894093e98bc90fcefe133974aa8eb6d97e023bad4cf7e"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_2.ibt",
@@ -8765,7 +8765,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "89a014ac539bcfb57f3c0c7db3f72dc53d19be9a8b43e1d143c734aef2e351a7"
+          "sha256": "8cf4bb31700af964d326a60f22d55cd19ffd18e0d14029df6139596e78c027d1"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_6.ibt",
@@ -8776,7 +8776,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "25c7032ae33b0b3e0e65514e09b333233c31ecd05d1a2bbdba5109cccc38f023"
+          "sha256": "43facf94343d9bb124271c15b0c267ef6761f4eb69ba67ce91440da77cba6b95"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_4.ibt",
@@ -8787,7 +8787,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "524dce9d07ec274efc02df89cf06dccad0624ddfe699782931a38c9023bc126b"
+          "sha256": "605de57a8c93b4c4412741cd674591ea1a80cc9ffc18ea7c10ce6d7d8648e32c"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_3.ibt",
@@ -8798,7 +8798,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "813c0f180a4e5d735b8f522f73d599a928f8339ab3e8ad5759e68484bdc30276"
+          "sha256": "d9573bec318056e1e26c6bc88fff6904e357d5290102825fad8b9a404c625c78"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_5.ibt",
@@ -8809,7 +8809,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "e6c620d05612d9f452951aa8498eb0705392a882a94d113e3f10eb72b3a50189"
+          "sha256": "9f6d00575376a272e3a86a7a278286d494f40dc9548033ef8747acee70a0cad8"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_10.ibt",
@@ -8820,7 +8820,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "0f4e86e34c830015ce3d325aef5651bfe026eeab60ae4ef8bbac16d701469f21"
+          "sha256": "ddec2accdd5dcbcaffc3681a3dc64025e4b3fec36810ab72ee4ad36bee301850"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_7.ibt",
@@ -8831,7 +8831,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "56b861c4f2259716b31c030e33efab5667fd02ed29af0e826aab7d66d7932d4d"
+          "sha256": "28feeba43917d5027a33e772b6d2313af7856ee2e7d0fad799d35efd5dd17246"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_9.ibt",
@@ -8842,7 +8842,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "1024fbf26b459ffcada80499c3ba905fcecaa66bed0d79dc2f03e7e62765381b"
+          "sha256": "ece0023f7a2b47c044ad2229b6e081e077cd48865d50a5c7015a39d55f0cd9bf"
         },
         {
           "path": "/var/lib/mysql/sys",
@@ -8864,7 +8864,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 114688,
-          "sha256": "bd6fc105a8510767a131187fc4552a7163aad488d2d81121c37c82d7d6ca101f"
+          "sha256": "6ca60486490de8734bd4cb7fc96a7e8e1265b81971dee0dea3afd3627c5d0804"
         },
         {
           "path": "/var/lib/mysql-upgrade",
@@ -9098,7 +9098,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 924,
-        "sha256": "b7f2ed93849b66af5f29550a5dbc2869144bb45a98b03f8d97e9b338f645e519"
+        "sha256": "8b5dac9509a59e136decdb45b4590f5331b00643b05bdabfe06b9b1e5210af60"
       },
       {
         "path": "/etc/passwd",
@@ -9471,7 +9471,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 32768,
+        "size": 28672,
         "sha256": null
       },
       {

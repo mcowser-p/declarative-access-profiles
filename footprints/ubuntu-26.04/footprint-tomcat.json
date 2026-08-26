@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:34:48.749564+00:00",
+  "generated_at": "2026-08-26T20:25:04.787776+00:00",
   "application": "tomcat11",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "04b13ff7de82511342131a68e5197e4ec02d31685ef29cb91befcfee48b022b6",
-    "created_at": "2026-08-23T21:33:57.848002+00:00",
+    "db_sha256": "41b0c5b6ae81b0a8d5fe5dba76ecb65839ad9f3320c213d64bb14f7decca10f1",
+    "created_at": "2026-08-26T20:24:17.148857+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
@@ -1671,8 +1671,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 72180,
-          "sha256": "03ec1aa4a74e48d5388b200986b77e395e33c47f86fe76aa307161af19631cee"
+          "size": 74132,
+          "sha256": "7c43432bc33b890d4e750f6886f383785a35a9b6021c34c84fcde11bb15c152d"
         },
         {
           "path": "/etc/java-25-openjdk/security/public_suffix_list.dat",
@@ -2455,8 +2455,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 1199,
-          "sha256": "753b35604b0ba8d56462b07114eee5dafce071b524d89b96813d4ce883e849a1"
+          "size": 1197,
+          "sha256": "fc1b6c466fbf603872858a3a18c1afe444d68d97c560237dcfde52cfa25f10a1"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/legal",
@@ -4711,7 +4711,7 @@
           "owner": "root",
           "group": "root",
           "size": 14560,
-          "sha256": "d0912e1c4f9db51cf6a12a8e3e765d54f6c3654c5f11b52f52bd98fcc721cda5"
+          "sha256": "da74542e9586bcaf1a2a220dddb121413fe346a79270d34f2596a7e0e7562c10"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/bin/java",
@@ -4722,7 +4722,7 @@
           "owner": "root",
           "group": "root",
           "size": 14536,
-          "sha256": "1a86d087fa5a5be1ed3e8a531ae891da85fc80aad15ab6fa98060763f2eb7000"
+          "sha256": "c324471f8b7933a3cb401eafbc35a7055443779b438a3ab928bda3867a1b8ab1"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/bin/jpackage",
@@ -4733,7 +4733,7 @@
           "owner": "root",
           "group": "root",
           "size": 14560,
-          "sha256": "af838c608c9a3a9afac7aa613e3d8d5f221e040ef7f0271f90c1e2bfb3fe7cfd"
+          "sha256": "7ce39792e791d4be5b2d16d2e414020b63776ea868d57b605be9366822dcdbbc"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/bin/rmiregistry",
@@ -4744,7 +4744,7 @@
           "owner": "root",
           "group": "root",
           "size": 14568,
-          "sha256": "96f604231d1ce6b501957a7e6c13d22afa664657cb1edceb2b5e5ca4eda464df"
+          "sha256": "d69637b0b7256ef717351cee7917d5d7058ce3cd34fddebdb04b5ecbdebd69dd"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib",
@@ -4766,7 +4766,7 @@
           "owner": "root",
           "group": "root",
           "size": 315360,
-          "sha256": "2625c44dcdbe9428f733058072558ae40e9d44fa3bcecc62283b03b64e0fbf3f"
+          "sha256": "6c7764fc946ab1f2c9aee79243799c20ff89d388f0f02b5904ca44c318a291b7"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjaas.so",
@@ -4777,7 +4777,7 @@
           "owner": "root",
           "group": "root",
           "size": 15784,
-          "sha256": "c23f00d7a71d5cbf11515b037b8911018817ed01d84cd590a6d8dbf7607b9257"
+          "sha256": "606dc60576f3dae12f3224b94b4fab410be7dd473cd4a0c51d091586bbd2474f"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjsig.so",
@@ -4788,7 +4788,7 @@
           "owner": "root",
           "group": "root",
           "size": 16864,
-          "sha256": "8d0f0e16279693272051170283fc7ce65c1ced89426fec013711fe8be23b23a9"
+          "sha256": "f4a1a6b25b06ed29a21dd2594c9de321f080020c64ede9ed16276ef0b83b46fd"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libprefs.so",
@@ -4799,7 +4799,7 @@
           "owner": "root",
           "group": "root",
           "size": 15920,
-          "sha256": "d7bcb0a470d8aecc82191413fb4a959853b0dd6feefbfd80f803930205bfd3a4"
+          "sha256": "888d0aa362fad518bc7398cb3db83b7d470c70a901b726aef7bda7b6b84fa159"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jar.binfmt",
@@ -4821,7 +4821,7 @@
           "owner": "root",
           "group": "root",
           "size": 65768,
-          "sha256": "055161430648312e0ffac1d3a92c5ff1f3bb1ce1ee53b1bb042a4921a333ba2c"
+          "sha256": "c4afad477b491db3f9a2afbc3e844e89e6c5e7ec9b69c0b2e1890640027722a7"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libawt_headless.so",
@@ -4831,8 +4831,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 46704,
-          "sha256": "05d37dec4983d2d143eadeeeaad9327668e98174452ef6a3febab2a75fe9d073"
+          "size": 40024,
+          "sha256": "a874b4937c4d70a233be472d2f7d325799653d43731e60d73f11413311898924"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjavajpeg.so",
@@ -4842,8 +4842,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 58728,
-          "sha256": "72b53a833daed2803e0b99008fb730ace1807a008e7fcf5cb1acd743e2cc4f95"
+          "size": 54584,
+          "sha256": "94c35021321e0386c6fb6e2d1046aab9795ac98da8af1996668f25e802b8fa4e"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jvm.cfg",
@@ -4865,7 +4865,7 @@
           "owner": "root",
           "group": "root",
           "size": 58720,
-          "sha256": "4b82db20cd4dd77e3218f71a79240d13d3cdb8668cee9b5d8e578801e7adf2ef"
+          "sha256": "1f1a8898100abca0ccf29aac0ad7f1f1e695933f2991078d51ac22a82b47fc50"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libzip.so",
@@ -4876,7 +4876,7 @@
           "owner": "root",
           "group": "root",
           "size": 45328,
-          "sha256": "d81e8a9ca297300674fbbfb211cb7a3bcb722b0f35384a14f44843145df8ce96"
+          "sha256": "4de0bd085779b581ff6aed37880a13d099c6b93dc7e31b6759066d669806c7f2"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libsyslookup.so",
@@ -4887,7 +4887,7 @@
           "owner": "root",
           "group": "root",
           "size": 15240,
-          "sha256": "01d9b0701a3f7caa03e253f85a3dbd1449e9ada089df429d3e7b5a1d46ef91ab"
+          "sha256": "c281dc4f9f2d21ab8aa80fa35d7d8b331fdcbfa5524f953392a5210dd5997d39"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libj2pcsc.so",
@@ -4898,7 +4898,7 @@
           "owner": "root",
           "group": "root",
           "size": 20992,
-          "sha256": "a8c673ddf116d8ce13fe1070bc0dc9f92d4b48e640e2e63dccb254e4e3d6b906"
+          "sha256": "0a00d832ee2a87b3637c7399f31c184cfe5b6adbb0f20b41ac939400191d67b2"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/liblcms.so",
@@ -4909,7 +4909,7 @@
           "owner": "root",
           "group": "root",
           "size": 26176,
-          "sha256": "a9451eb77b7ec39b6f3cb1bb6932d4ba70ba6ba76fc2242539f5f71f9e28dbeb"
+          "sha256": "f9c279196e2576d0f243a73e703f7e8c630ae40fb5c884346e07f5eea708d6ac"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libextnet.so",
@@ -4920,7 +4920,7 @@
           "owner": "root",
           "group": "root",
           "size": 16904,
-          "sha256": "c990a36a886766ad80ab1f0f48ffea788c3b56ab6584ea50e57d8f3d419a527c"
+          "sha256": "aaf8751a354103351f0d1c698af56853c85166e48ce17470d03f7462f36dad70"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libj2gss.so",
@@ -4931,7 +4931,7 @@
           "owner": "root",
           "group": "root",
           "size": 55152,
-          "sha256": "c6b96ad2a2fff215ffe832afa869b5d24a8bb5a5c409ef655bc34bd4d8ed3daa"
+          "sha256": "66ccd44b44addc09d4d77d7c6097193333c027b8d50679386ea0a1575c3bceca"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/psfontj2d.properties",
@@ -4952,8 +4952,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 85624,
-          "sha256": "0f4911a86f083811dcc60bacc4a768023ca7dd93c99b89eae588e6d025e74320"
+          "size": 85504,
+          "sha256": "17dfd8642ee91daa378f7103bcf0b04d3219926091c3381e6116d07bf05eb301"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libsctp.so",
@@ -4964,7 +4964,7 @@
           "owner": "root",
           "group": "root",
           "size": 36136,
-          "sha256": "6a93b78754aac2b75b33e0647b8a6c85129a7fae556427a90a453fe711c6cc23"
+          "sha256": "ce1ce91c234a48b145a4ac4f20a142cfb08e2932ec7fc0a3abe505e1c22eef45"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/librmi.so",
@@ -4975,7 +4975,7 @@
           "owner": "root",
           "group": "root",
           "size": 15408,
-          "sha256": "509706f0b175ae87eec15646d6620eab2a8ecbac4eb3cc57c5723feba6ed31be"
+          "sha256": "98349deb44450b3ca84ad21d6bf30fd385aa86c445dc00d4c1b75c9eac59054c"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/classlist",
@@ -4997,7 +4997,7 @@
           "owner": "root",
           "group": "root",
           "size": 602824,
-          "sha256": "c0738d0ceab0dd1e0488772efb6e6ead45097a52ac6ac9ced34e04c70ad6ea3d"
+          "sha256": "c3b75b28de9d09b6dbf538a76cc34cee342742c17f6f365f9b686f3b99485463"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libmanagement_ext.so",
@@ -5008,7 +5008,7 @@
           "owner": "root",
           "group": "root",
           "size": 41272,
-          "sha256": "90d26d189a84a9a395ea495af1f40f04e1dfdd06e57a047801882eebede80ba0"
+          "sha256": "0dbd78d39ca57fb1fdec8ce79ae84a5c318f95c240213108347c888dafa74b39"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libawt.so",
@@ -5019,7 +5019,7 @@
           "owner": "root",
           "group": "root",
           "size": 924240,
-          "sha256": "3600e3fc5ffd52db9a37ace7ad9582154ad792f61c55a18c5be9ab252c330665"
+          "sha256": "59ecfd16c2d092c2082aef90a8c244ff8ef9aa83e5cd0f7db506fc2f086561be"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jrt-fs.jar",
@@ -5030,7 +5030,7 @@
           "owner": "root",
           "group": "root",
           "size": 109845,
-          "sha256": "f748366a854309f88e7ec4794e03446ce94d99ad6546325cbdf68c436306e38f"
+          "sha256": "cca45352e91b29302c0f27cb2d36a3a304e8fa99928099647bbc4261a44a1a80"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjimage.so",
@@ -5041,7 +5041,7 @@
           "owner": "root",
           "group": "root",
           "size": 39944,
-          "sha256": "8f262d6d0ea5799559e6d45186fa1c923f2ec3937fe53396f4af404964ff9476"
+          "sha256": "87cb9ea56b2d44b2e9d1626c06d24fad1f216b966db1ea9e3738748f31246d4d"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libfontmanager.so",
@@ -5052,7 +5052,7 @@
           "owner": "root",
           "group": "root",
           "size": 76384,
-          "sha256": "e0abb2e6923519a6c1dee3072516c0ecef6e0ecd2bf2f362b363dbeea512c0c7"
+          "sha256": "01b0d3c7bb7261b58350bb86b6ca7160a87df5217660d031a69186acb57c85e6"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/modules",
@@ -5062,8 +5062,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 144405371,
-          "sha256": "f16bd52a25b5b386fb2dd6300191ea460861afd1d415a24776947ad1fbd345c3"
+          "size": 144452703,
+          "sha256": "89021c44e874a1d4e477c335c0c6f170c10933652130990357a5a9fe8b8aa7e8"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libsaproc.so",
@@ -5074,7 +5074,7 @@
           "owner": "root",
           "group": "root",
           "size": 79032,
-          "sha256": "36e4b0de4037905f2a01c2041191b84fde1ad370d33443dc07c5e6018a85eb1d"
+          "sha256": "14dd1294721bc37ccebcdd4245c9b2be012fa05ecf83c62314143d41e60f2649"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjsvml.so",
@@ -5085,7 +5085,7 @@
           "owner": "root",
           "group": "root",
           "size": 870960,
-          "sha256": "c20fb8241b2f5ddb2909faad096ff184bc4d904f717d4d3e50b15b8386297c40"
+          "sha256": "dc6f0c63e25ef7d9304767c51ecb7367594231ec77396998d45dd206a65648b0"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjli.so",
@@ -5096,7 +5096,7 @@
           "owner": "root",
           "group": "root",
           "size": 82592,
-          "sha256": "0b9a1959066506a8bfff1c46cdbe13afcc9e5ff3e21f3a1ac1eb4d8fd591d86b"
+          "sha256": "7745a5b105a6079cadb2c56d74cf623f6d63c4d61ab1a81958a6bc812807b721"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libmanagement.so",
@@ -5106,8 +5106,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 25200,
-          "sha256": "f0588d44bc3a89c18d62abfcf61ce29f0f32bfbb25403f74d59a5d5b3ee59039"
+          "size": 29432,
+          "sha256": "21c4358a34fbb6301da256aa8a465b004c8811a4515d172d87547793c086a617"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libjava.so",
@@ -5117,8 +5117,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 176256,
-          "sha256": "b4fee45ce8a7a8dbaabea82cc6a2ba74428aef83b55b58e5c515369dfe289a5f"
+          "size": 176296,
+          "sha256": "93a20c359c06d55bf2e94e76852c2e24a4e97b4588a7c8bcdce46487436d518d"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libnio.so",
@@ -5129,7 +5129,7 @@
           "owner": "root",
           "group": "root",
           "size": 114240,
-          "sha256": "1eec4d5677c432dc62549418fc31267b232c16a3037529eef36a6a5097db39aa"
+          "sha256": "d2d44f94195bf92822dc4941012a85ad10fbbfcdb089689c741877f87b5a6204"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libj2pkcs11.so",
@@ -5140,7 +5140,7 @@
           "owner": "root",
           "group": "root",
           "size": 102312,
-          "sha256": "c45d164e9268fc7d98a77bf964b0f568aff3fe117616bfd9e61886fb07fdf958"
+          "sha256": "536df4b3f6785b1666f4bd398d6a56f34a9b2463dafd721dba9f105d382f9778"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libsimdsort.so",
@@ -5151,7 +5151,7 @@
           "owner": "root",
           "group": "root",
           "size": 278808,
-          "sha256": "0fcc76f6835eb4ea56560beffa892577f5388d2f887a1089aff4a34fd4254df9"
+          "sha256": "d2627fd6dd8d9fec11ea19d76019dbad3c905ba42c3ec6980c2d282381ed5e06"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/tzdb.dat",
@@ -5161,8 +5161,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 102820,
-          "sha256": "36cf71e63ce2816fe4456e9195e6c27fa7c9cd431c89ba762eba394ec2c7a1e3"
+          "size": 102956,
+          "sha256": "5906b44e25a8a730131d7ba1beb5d15af27043f6536f1a169ca8a5d8b8bed8f8"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jexec",
@@ -5173,7 +5173,7 @@
           "owner": "root",
           "group": "root",
           "size": 14536,
-          "sha256": "0c6b9c6557680d0e04e2663efb4d632ed1b5a4a6475385b9a25451aadbb0cffe"
+          "sha256": "e630a5fc1b5184ff3a4bb660d80dcb7439c51265ec155f8f1806bc81cc18f028"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jvm.cfg-default",
@@ -5195,7 +5195,7 @@
           "owner": "root",
           "group": "root",
           "size": 15728,
-          "sha256": "2cabb509d573f4cb121dc690c55a152ae894f4bfb8d97ada20ef5cd223f257af"
+          "sha256": "03bbedb4d138fe81d3f8f836f11218724c2a59c5644526015138df02c7df25e0"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libattach.so",
@@ -5206,7 +5206,7 @@
           "owner": "root",
           "group": "root",
           "size": 16856,
-          "sha256": "aa38ef58d1d84993182cd3d9c1895c9de6bc127402bfc391175c2c032a1445bd"
+          "sha256": "06c0d14f77bf48431192acf933fb79b998e709e82bc0560ce31199664982b37c"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jspawnhelper",
@@ -5217,7 +5217,7 @@
           "owner": "root",
           "group": "root",
           "size": 18712,
-          "sha256": "0ffeb4ad27c10d25c908269779d683f5dcc280ca512089b0dcb945da0500f9b8"
+          "sha256": "2102018c777b0da5af9b3f4201197a5d61aafa73e3f529fc3084f00c7648a897"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/psfont.properties.ja",
@@ -5239,7 +5239,7 @@
           "owner": "root",
           "group": "root",
           "size": 72480,
-          "sha256": "ed5ef49039243643032ff4c1c64cf1dbadaffcb6d67db2942f3e389d3fc428c5"
+          "sha256": "ba374b66c52b6fc46884580dc580e9ea36b12ef3aae0564f3536b03e9856b2c0"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/libdt_socket.so",
@@ -5250,7 +5250,7 @@
           "owner": "root",
           "group": "root",
           "size": 40416,
-          "sha256": "49c63a88e2bae438ac8e37c7ee30756cbefaa4d37aa978e5366f1425fee4f75d"
+          "sha256": "59720b22172076c8d0f61ca23f8556801c04e4b5d997c0af0d517bc1d1bdcc40"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/security",
@@ -5316,7 +5316,7 @@
           "owner": "root",
           "group": "root",
           "size": 16976,
-          "sha256": "f1e1a2aa8c0c35d5a78f472b2de7deea6eee4cd37457e36c1cf83ed6421bb4bb"
+          "sha256": "9233ff7a5d4465452859dcd54f893ad507202f1ed3f7d826e4e0a1c9c0f805e2"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/server/libjvm.so",
@@ -5326,8 +5326,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 29761496,
-          "sha256": "82e11fd1d69b420122b6f25a42b55853bb141735be8fc990d875d04a154a89d0"
+          "size": 29830072,
+          "sha256": "909c0b184937b4acf92c9c9274bcfe12fe7cb37fe9bab7e4b7ff092ae4eb0ad0"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/server/classes.jsa",
@@ -5337,8 +5337,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 15605760,
-          "sha256": "b2abba51bfa980c865be69efd394153c4782e4af311de496491bcd3933efb9f9"
+          "size": 15609856,
+          "sha256": "146d70605327e708e3ed6919e54c1c8698188b2814efe4eedc1562d25f3f247b"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/server/classes_nocoops_coh.jsa",
@@ -5349,7 +5349,7 @@
           "owner": "root",
           "group": "root",
           "size": 16650240,
-          "sha256": "cdc04d08af0894aaef82b91ec5889683d0672c5f3a8dfd4eb406cc66daf5025a"
+          "sha256": "e39c19094ebb521c16bb672b4d116f744da5d054bb66afde9eb8deb89a71432c"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/server/classes_coh.jsa",
@@ -5360,7 +5360,7 @@
           "owner": "root",
           "group": "root",
           "size": 16318464,
-          "sha256": "8dba70b79419eb132530e71e99bb555163a20c548eacf329900fe23dbcd55814"
+          "sha256": "4ee16c1898fe464eae70bcd5f85e0bef2df93d84eea26654c90519b47345bb8d"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/server/classes_nocoops.jsa",
@@ -5371,7 +5371,7 @@
           "owner": "root",
           "group": "root",
           "size": 15998976,
-          "sha256": "62eeaa28677cdb3081713cb6a09453b220f24d2320e116a66e5af3499c098d37"
+          "sha256": "25a5362cfaf1ed2b08fa8c8dff044d198b66119b81ddb589089ea87813743c36"
         },
         {
           "path": "/usr/lib/jvm/java-25-openjdk-amd64/lib/jfr",
@@ -5931,8 +5931,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 1199,
-          "sha256": "753b35604b0ba8d56462b07114eee5dafce071b524d89b96813d4ce883e849a1"
+          "size": 1197,
+          "sha256": "fc1b6c466fbf603872858a3a18c1afe444d68d97c560237dcfde52cfa25f10a1"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/legal",
@@ -8187,7 +8187,7 @@
           "owner": "root",
           "group": "root",
           "size": 14560,
-          "sha256": "d0912e1c4f9db51cf6a12a8e3e765d54f6c3654c5f11b52f52bd98fcc721cda5"
+          "sha256": "da74542e9586bcaf1a2a220dddb121413fe346a79270d34f2596a7e0e7562c10"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/bin/java",
@@ -8198,7 +8198,7 @@
           "owner": "root",
           "group": "root",
           "size": 14536,
-          "sha256": "1a86d087fa5a5be1ed3e8a531ae891da85fc80aad15ab6fa98060763f2eb7000"
+          "sha256": "c324471f8b7933a3cb401eafbc35a7055443779b438a3ab928bda3867a1b8ab1"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/bin/jpackage",
@@ -8209,7 +8209,7 @@
           "owner": "root",
           "group": "root",
           "size": 14560,
-          "sha256": "af838c608c9a3a9afac7aa613e3d8d5f221e040ef7f0271f90c1e2bfb3fe7cfd"
+          "sha256": "7ce39792e791d4be5b2d16d2e414020b63776ea868d57b605be9366822dcdbbc"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/bin/rmiregistry",
@@ -8220,7 +8220,7 @@
           "owner": "root",
           "group": "root",
           "size": 14568,
-          "sha256": "96f604231d1ce6b501957a7e6c13d22afa664657cb1edceb2b5e5ca4eda464df"
+          "sha256": "d69637b0b7256ef717351cee7917d5d7058ce3cd34fddebdb04b5ecbdebd69dd"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib",
@@ -8242,7 +8242,7 @@
           "owner": "root",
           "group": "root",
           "size": 315360,
-          "sha256": "2625c44dcdbe9428f733058072558ae40e9d44fa3bcecc62283b03b64e0fbf3f"
+          "sha256": "6c7764fc946ab1f2c9aee79243799c20ff89d388f0f02b5904ca44c318a291b7"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjaas.so",
@@ -8253,7 +8253,7 @@
           "owner": "root",
           "group": "root",
           "size": 15784,
-          "sha256": "c23f00d7a71d5cbf11515b037b8911018817ed01d84cd590a6d8dbf7607b9257"
+          "sha256": "606dc60576f3dae12f3224b94b4fab410be7dd473cd4a0c51d091586bbd2474f"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjsig.so",
@@ -8264,7 +8264,7 @@
           "owner": "root",
           "group": "root",
           "size": 16864,
-          "sha256": "8d0f0e16279693272051170283fc7ce65c1ced89426fec013711fe8be23b23a9"
+          "sha256": "f4a1a6b25b06ed29a21dd2594c9de321f080020c64ede9ed16276ef0b83b46fd"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libprefs.so",
@@ -8275,7 +8275,7 @@
           "owner": "root",
           "group": "root",
           "size": 15920,
-          "sha256": "d7bcb0a470d8aecc82191413fb4a959853b0dd6feefbfd80f803930205bfd3a4"
+          "sha256": "888d0aa362fad518bc7398cb3db83b7d470c70a901b726aef7bda7b6b84fa159"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jar.binfmt",
@@ -8297,7 +8297,7 @@
           "owner": "root",
           "group": "root",
           "size": 65768,
-          "sha256": "055161430648312e0ffac1d3a92c5ff1f3bb1ce1ee53b1bb042a4921a333ba2c"
+          "sha256": "c4afad477b491db3f9a2afbc3e844e89e6c5e7ec9b69c0b2e1890640027722a7"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libawt_headless.so",
@@ -8307,8 +8307,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 46704,
-          "sha256": "05d37dec4983d2d143eadeeeaad9327668e98174452ef6a3febab2a75fe9d073"
+          "size": 40024,
+          "sha256": "a874b4937c4d70a233be472d2f7d325799653d43731e60d73f11413311898924"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjavajpeg.so",
@@ -8318,8 +8318,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 58728,
-          "sha256": "72b53a833daed2803e0b99008fb730ace1807a008e7fcf5cb1acd743e2cc4f95"
+          "size": 54584,
+          "sha256": "94c35021321e0386c6fb6e2d1046aab9795ac98da8af1996668f25e802b8fa4e"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jvm.cfg",
@@ -8341,7 +8341,7 @@
           "owner": "root",
           "group": "root",
           "size": 58720,
-          "sha256": "4b82db20cd4dd77e3218f71a79240d13d3cdb8668cee9b5d8e578801e7adf2ef"
+          "sha256": "1f1a8898100abca0ccf29aac0ad7f1f1e695933f2991078d51ac22a82b47fc50"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libzip.so",
@@ -8352,7 +8352,7 @@
           "owner": "root",
           "group": "root",
           "size": 45328,
-          "sha256": "d81e8a9ca297300674fbbfb211cb7a3bcb722b0f35384a14f44843145df8ce96"
+          "sha256": "4de0bd085779b581ff6aed37880a13d099c6b93dc7e31b6759066d669806c7f2"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libsyslookup.so",
@@ -8363,7 +8363,7 @@
           "owner": "root",
           "group": "root",
           "size": 15240,
-          "sha256": "01d9b0701a3f7caa03e253f85a3dbd1449e9ada089df429d3e7b5a1d46ef91ab"
+          "sha256": "c281dc4f9f2d21ab8aa80fa35d7d8b331fdcbfa5524f953392a5210dd5997d39"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libj2pcsc.so",
@@ -8374,7 +8374,7 @@
           "owner": "root",
           "group": "root",
           "size": 20992,
-          "sha256": "a8c673ddf116d8ce13fe1070bc0dc9f92d4b48e640e2e63dccb254e4e3d6b906"
+          "sha256": "0a00d832ee2a87b3637c7399f31c184cfe5b6adbb0f20b41ac939400191d67b2"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/liblcms.so",
@@ -8385,7 +8385,7 @@
           "owner": "root",
           "group": "root",
           "size": 26176,
-          "sha256": "a9451eb77b7ec39b6f3cb1bb6932d4ba70ba6ba76fc2242539f5f71f9e28dbeb"
+          "sha256": "f9c279196e2576d0f243a73e703f7e8c630ae40fb5c884346e07f5eea708d6ac"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libextnet.so",
@@ -8396,7 +8396,7 @@
           "owner": "root",
           "group": "root",
           "size": 16904,
-          "sha256": "c990a36a886766ad80ab1f0f48ffea788c3b56ab6584ea50e57d8f3d419a527c"
+          "sha256": "aaf8751a354103351f0d1c698af56853c85166e48ce17470d03f7462f36dad70"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libj2gss.so",
@@ -8407,7 +8407,7 @@
           "owner": "root",
           "group": "root",
           "size": 55152,
-          "sha256": "c6b96ad2a2fff215ffe832afa869b5d24a8bb5a5c409ef655bc34bd4d8ed3daa"
+          "sha256": "66ccd44b44addc09d4d77d7c6097193333c027b8d50679386ea0a1575c3bceca"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/psfontj2d.properties",
@@ -8428,8 +8428,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 85624,
-          "sha256": "0f4911a86f083811dcc60bacc4a768023ca7dd93c99b89eae588e6d025e74320"
+          "size": 85504,
+          "sha256": "17dfd8642ee91daa378f7103bcf0b04d3219926091c3381e6116d07bf05eb301"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libsctp.so",
@@ -8440,7 +8440,7 @@
           "owner": "root",
           "group": "root",
           "size": 36136,
-          "sha256": "6a93b78754aac2b75b33e0647b8a6c85129a7fae556427a90a453fe711c6cc23"
+          "sha256": "ce1ce91c234a48b145a4ac4f20a142cfb08e2932ec7fc0a3abe505e1c22eef45"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/librmi.so",
@@ -8451,7 +8451,7 @@
           "owner": "root",
           "group": "root",
           "size": 15408,
-          "sha256": "509706f0b175ae87eec15646d6620eab2a8ecbac4eb3cc57c5723feba6ed31be"
+          "sha256": "98349deb44450b3ca84ad21d6bf30fd385aa86c445dc00d4c1b75c9eac59054c"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/classlist",
@@ -8473,7 +8473,7 @@
           "owner": "root",
           "group": "root",
           "size": 602824,
-          "sha256": "c0738d0ceab0dd1e0488772efb6e6ead45097a52ac6ac9ced34e04c70ad6ea3d"
+          "sha256": "c3b75b28de9d09b6dbf538a76cc34cee342742c17f6f365f9b686f3b99485463"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libmanagement_ext.so",
@@ -8484,7 +8484,7 @@
           "owner": "root",
           "group": "root",
           "size": 41272,
-          "sha256": "90d26d189a84a9a395ea495af1f40f04e1dfdd06e57a047801882eebede80ba0"
+          "sha256": "0dbd78d39ca57fb1fdec8ce79ae84a5c318f95c240213108347c888dafa74b39"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libawt.so",
@@ -8495,7 +8495,7 @@
           "owner": "root",
           "group": "root",
           "size": 924240,
-          "sha256": "3600e3fc5ffd52db9a37ace7ad9582154ad792f61c55a18c5be9ab252c330665"
+          "sha256": "59ecfd16c2d092c2082aef90a8c244ff8ef9aa83e5cd0f7db506fc2f086561be"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jrt-fs.jar",
@@ -8506,7 +8506,7 @@
           "owner": "root",
           "group": "root",
           "size": 109845,
-          "sha256": "f748366a854309f88e7ec4794e03446ce94d99ad6546325cbdf68c436306e38f"
+          "sha256": "cca45352e91b29302c0f27cb2d36a3a304e8fa99928099647bbc4261a44a1a80"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjimage.so",
@@ -8517,7 +8517,7 @@
           "owner": "root",
           "group": "root",
           "size": 39944,
-          "sha256": "8f262d6d0ea5799559e6d45186fa1c923f2ec3937fe53396f4af404964ff9476"
+          "sha256": "87cb9ea56b2d44b2e9d1626c06d24fad1f216b966db1ea9e3738748f31246d4d"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libfontmanager.so",
@@ -8528,7 +8528,7 @@
           "owner": "root",
           "group": "root",
           "size": 76384,
-          "sha256": "e0abb2e6923519a6c1dee3072516c0ecef6e0ecd2bf2f362b363dbeea512c0c7"
+          "sha256": "01b0d3c7bb7261b58350bb86b6ca7160a87df5217660d031a69186acb57c85e6"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/modules",
@@ -8538,8 +8538,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 144405371,
-          "sha256": "f16bd52a25b5b386fb2dd6300191ea460861afd1d415a24776947ad1fbd345c3"
+          "size": 144452703,
+          "sha256": "89021c44e874a1d4e477c335c0c6f170c10933652130990357a5a9fe8b8aa7e8"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libsaproc.so",
@@ -8550,7 +8550,7 @@
           "owner": "root",
           "group": "root",
           "size": 79032,
-          "sha256": "36e4b0de4037905f2a01c2041191b84fde1ad370d33443dc07c5e6018a85eb1d"
+          "sha256": "14dd1294721bc37ccebcdd4245c9b2be012fa05ecf83c62314143d41e60f2649"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjsvml.so",
@@ -8561,7 +8561,7 @@
           "owner": "root",
           "group": "root",
           "size": 870960,
-          "sha256": "c20fb8241b2f5ddb2909faad096ff184bc4d904f717d4d3e50b15b8386297c40"
+          "sha256": "dc6f0c63e25ef7d9304767c51ecb7367594231ec77396998d45dd206a65648b0"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjli.so",
@@ -8572,7 +8572,7 @@
           "owner": "root",
           "group": "root",
           "size": 82592,
-          "sha256": "0b9a1959066506a8bfff1c46cdbe13afcc9e5ff3e21f3a1ac1eb4d8fd591d86b"
+          "sha256": "7745a5b105a6079cadb2c56d74cf623f6d63c4d61ab1a81958a6bc812807b721"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libmanagement.so",
@@ -8582,8 +8582,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 25200,
-          "sha256": "f0588d44bc3a89c18d62abfcf61ce29f0f32bfbb25403f74d59a5d5b3ee59039"
+          "size": 29432,
+          "sha256": "21c4358a34fbb6301da256aa8a465b004c8811a4515d172d87547793c086a617"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libjava.so",
@@ -8593,8 +8593,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 176256,
-          "sha256": "b4fee45ce8a7a8dbaabea82cc6a2ba74428aef83b55b58e5c515369dfe289a5f"
+          "size": 176296,
+          "sha256": "93a20c359c06d55bf2e94e76852c2e24a4e97b4588a7c8bcdce46487436d518d"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libnio.so",
@@ -8605,7 +8605,7 @@
           "owner": "root",
           "group": "root",
           "size": 114240,
-          "sha256": "1eec4d5677c432dc62549418fc31267b232c16a3037529eef36a6a5097db39aa"
+          "sha256": "d2d44f94195bf92822dc4941012a85ad10fbbfcdb089689c741877f87b5a6204"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libj2pkcs11.so",
@@ -8616,7 +8616,7 @@
           "owner": "root",
           "group": "root",
           "size": 102312,
-          "sha256": "c45d164e9268fc7d98a77bf964b0f568aff3fe117616bfd9e61886fb07fdf958"
+          "sha256": "536df4b3f6785b1666f4bd398d6a56f34a9b2463dafd721dba9f105d382f9778"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libsimdsort.so",
@@ -8627,7 +8627,7 @@
           "owner": "root",
           "group": "root",
           "size": 278808,
-          "sha256": "0fcc76f6835eb4ea56560beffa892577f5388d2f887a1089aff4a34fd4254df9"
+          "sha256": "d2627fd6dd8d9fec11ea19d76019dbad3c905ba42c3ec6980c2d282381ed5e06"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/tzdb.dat",
@@ -8637,8 +8637,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 102820,
-          "sha256": "36cf71e63ce2816fe4456e9195e6c27fa7c9cd431c89ba762eba394ec2c7a1e3"
+          "size": 102956,
+          "sha256": "5906b44e25a8a730131d7ba1beb5d15af27043f6536f1a169ca8a5d8b8bed8f8"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jexec",
@@ -8649,7 +8649,7 @@
           "owner": "root",
           "group": "root",
           "size": 14536,
-          "sha256": "0c6b9c6557680d0e04e2663efb4d632ed1b5a4a6475385b9a25451aadbb0cffe"
+          "sha256": "e630a5fc1b5184ff3a4bb660d80dcb7439c51265ec155f8f1806bc81cc18f028"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jvm.cfg-default",
@@ -8671,7 +8671,7 @@
           "owner": "root",
           "group": "root",
           "size": 15728,
-          "sha256": "2cabb509d573f4cb121dc690c55a152ae894f4bfb8d97ada20ef5cd223f257af"
+          "sha256": "03bbedb4d138fe81d3f8f836f11218724c2a59c5644526015138df02c7df25e0"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libattach.so",
@@ -8682,7 +8682,7 @@
           "owner": "root",
           "group": "root",
           "size": 16856,
-          "sha256": "aa38ef58d1d84993182cd3d9c1895c9de6bc127402bfc391175c2c032a1445bd"
+          "sha256": "06c0d14f77bf48431192acf933fb79b998e709e82bc0560ce31199664982b37c"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jspawnhelper",
@@ -8693,7 +8693,7 @@
           "owner": "root",
           "group": "root",
           "size": 18712,
-          "sha256": "0ffeb4ad27c10d25c908269779d683f5dcc280ca512089b0dcb945da0500f9b8"
+          "sha256": "2102018c777b0da5af9b3f4201197a5d61aafa73e3f529fc3084f00c7648a897"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/psfont.properties.ja",
@@ -8715,7 +8715,7 @@
           "owner": "root",
           "group": "root",
           "size": 72480,
-          "sha256": "ed5ef49039243643032ff4c1c64cf1dbadaffcb6d67db2942f3e389d3fc428c5"
+          "sha256": "ba374b66c52b6fc46884580dc580e9ea36b12ef3aae0564f3536b03e9856b2c0"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/libdt_socket.so",
@@ -8726,7 +8726,7 @@
           "owner": "root",
           "group": "root",
           "size": 40416,
-          "sha256": "49c63a88e2bae438ac8e37c7ee30756cbefaa4d37aa978e5366f1425fee4f75d"
+          "sha256": "59720b22172076c8d0f61ca23f8556801c04e4b5d997c0af0d517bc1d1bdcc40"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/security",
@@ -8792,7 +8792,7 @@
           "owner": "root",
           "group": "root",
           "size": 16976,
-          "sha256": "f1e1a2aa8c0c35d5a78f472b2de7deea6eee4cd37457e36c1cf83ed6421bb4bb"
+          "sha256": "9233ff7a5d4465452859dcd54f893ad507202f1ed3f7d826e4e0a1c9c0f805e2"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/server/libjvm.so",
@@ -8802,8 +8802,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 29761496,
-          "sha256": "82e11fd1d69b420122b6f25a42b55853bb141735be8fc990d875d04a154a89d0"
+          "size": 29830072,
+          "sha256": "909c0b184937b4acf92c9c9274bcfe12fe7cb37fe9bab7e4b7ff092ae4eb0ad0"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/server/classes.jsa",
@@ -8813,8 +8813,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 15605760,
-          "sha256": "b2abba51bfa980c865be69efd394153c4782e4af311de496491bcd3933efb9f9"
+          "size": 15609856,
+          "sha256": "146d70605327e708e3ed6919e54c1c8698188b2814efe4eedc1562d25f3f247b"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/server/classes_nocoops_coh.jsa",
@@ -8825,7 +8825,7 @@
           "owner": "root",
           "group": "root",
           "size": 16650240,
-          "sha256": "cdc04d08af0894aaef82b91ec5889683d0672c5f3a8dfd4eb406cc66daf5025a"
+          "sha256": "e39c19094ebb521c16bb672b4d116f744da5d054bb66afde9eb8deb89a71432c"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/server/classes_coh.jsa",
@@ -8836,7 +8836,7 @@
           "owner": "root",
           "group": "root",
           "size": 16318464,
-          "sha256": "8dba70b79419eb132530e71e99bb555163a20c548eacf329900fe23dbcd55814"
+          "sha256": "4ee16c1898fe464eae70bcd5f85e0bef2df93d84eea26654c90519b47345bb8d"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/server/classes_nocoops.jsa",
@@ -8847,7 +8847,7 @@
           "owner": "root",
           "group": "root",
           "size": 15998976,
-          "sha256": "62eeaa28677cdb3081713cb6a09453b220f24d2320e116a66e5af3499c098d37"
+          "sha256": "25a5362cfaf1ed2b08fa8c8dff044d198b66119b81ddb589089ea87813743c36"
         },
         {
           "path": "/lib/jvm/java-25-openjdk-amd64/lib/jfr",
@@ -28533,7 +28533,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 859,
-        "sha256": "7b0493b58cdeef078fee4821e59739c6d81d7a4f62bc1e8385b3892a5e505322"
+        "sha256": "b38c4b03b45d4c40edbcc4f727b49b34a0a7302be73dde63f6154158dea6874c"
       },
       {
         "path": "/etc/group",
@@ -28588,7 +28588,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 837,
-        "sha256": "4bcc3e2c277e061699ee46ada5b2a9828e56cfe991a6f10f9a3fbeae16bdc2e9"
+        "sha256": "a8acedba73d04c12a28dc0182bae65a37e5756fd2a53b6cc19be86200178d0b0"
       },
       {
         "path": "/etc/passwd",
@@ -28895,7 +28895,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 32768,
+        "size": 28672,
         "sha256": null
       },
       {

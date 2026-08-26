@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T22:59:22.743221+00:00",
+  "generated_at": "2026-08-26T20:13:47.911842+00:00",
   "application": "tomcat10",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "2bea890d4e2e505f3af8b0137b0f1395d9f41863001871cfab3f34b38f0bf912",
-    "created_at": "2026-08-23T22:58:47.552532+00:00",
+    "db_sha256": "d7f619a447e933c53f37b2b92ca250f835bd29c50623313c0668d1c35009817a",
+    "created_at": "2026-08-26T20:13:03.782217+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
-    "files_added": 1920,
-    "files_modified": 44,
+    "files_added": 1931,
+    "files_modified": 45,
     "files_deleted": 0,
     "systemd_units": 3,
     "quadlets": 0,
@@ -1087,8 +1087,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 228507,
-          "sha256": "5a3a571cc2e016fee10c221036cf1d2b52ee8ba39288ef20abe2667828ca30b4"
+          "size": 227396,
+          "sha256": "16b42002aa6f83a7763c4cdbd399ecf738460377d447e362884495545afd60a3"
         },
         {
           "path": "/etc/java-21-openjdk/security/java.policy",
@@ -1120,8 +1120,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 70527,
-          "sha256": "87e719594df45c8e845b3c7b9023b06f6b6100aef3915d5fa43b9d38d5592da5"
+          "size": 71428,
+          "sha256": "9108fb3a906e07d6692985cdda551fc1c6a6957c8241060b48f07de88e83f8bb"
         },
         {
           "path": "/etc/java-21-openjdk/security/default.policy",
@@ -1885,8 +1885,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 1209,
-          "sha256": "0a206ed836243228ba78e86df3afcd8279d01118cd61bd938abdecfbce256e7a"
+          "size": 1206,
+          "sha256": "97b8b1dd371b52855704fea5875a78cf3289d06b7f51c2155c43acadb9ff6f6c"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib",
@@ -1908,7 +1908,7 @@
           "owner": "root",
           "group": "root",
           "size": 54496,
-          "sha256": "2225f6f1659cb488acbb26312b01d2008efc9ef9e6cbe94c7ddc6904b3dc689e"
+          "sha256": "7eabc06da091c7d7d2fae08d5a503403ba2b4301276c7d316bfa6db29a8b3f3b"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libprefs.so",
@@ -1919,7 +1919,7 @@
           "owner": "root",
           "group": "root",
           "size": 15784,
-          "sha256": "11771c1db028b1323995d41c1f9b128a3618b0fb84447a7ca60f3cd6e60e5911"
+          "sha256": "36a0b15860a4a5347fd6a91bdc9774b22abf09d2699e487b28fa0dd09a3424d6"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/jar.binfmt",
@@ -1941,7 +1941,7 @@
           "owner": "root",
           "group": "root",
           "size": 98072,
-          "sha256": "16b7be50602a6cd5b121fa7666230cf8abedf2290227741a7685724a2da0049f"
+          "sha256": "c775ff881c1594aa26d20f3cc4ef6f14d04b8deaa8930da08e1ea4e84354c098"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_agent.so",
@@ -1952,7 +1952,7 @@
           "owner": "root",
           "group": "root",
           "size": 15600,
-          "sha256": "7facb60a18d4fe2ad0b42f80008997bcdcbd8dc9a03cb7e0c41002c4027bd25d"
+          "sha256": "17a2595cabe1dd9ce2a3444807f001163d9327d7c31bf5d613284f2cde3f391f"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libextnet.so",
@@ -1963,7 +1963,7 @@
           "owner": "root",
           "group": "root",
           "size": 16776,
-          "sha256": "45e4f1c4ced6dd5ac4c4cac162ce2700bef775df93a4c903aea9e00069009f09"
+          "sha256": "fe44ae67cfe4710612236615deafa2119104849e6237887207485453c41133f7"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/liblcms.so",
@@ -1974,7 +1974,7 @@
           "owner": "root",
           "group": "root",
           "size": 26048,
-          "sha256": "1b7969af6d96522a1ef3ced5f8a32914fd23244ca85a9442d8741aff03611745"
+          "sha256": "9ac075698948787049e87e5b10155109b15a3d3082794d4f3516d8f37b9ee85d"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libawt.so",
@@ -1985,7 +1985,7 @@
           "owner": "root",
           "group": "root",
           "size": 895536,
-          "sha256": "e087a699304b835e9db4795f25e822bf1458063573e2bf38ac78394ddd459d98"
+          "sha256": "1a274c970d6f6ae3b46706beb69a12eb5314c9a84fa0092de61f302aa9938ddb"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjdwp.so",
@@ -1996,7 +1996,7 @@
           "owner": "root",
           "group": "root",
           "size": 302584,
-          "sha256": "b64fc2842e270789563a5f29c8e5e46d373998d8e7b01783f50050ed084eab0f"
+          "sha256": "24baf44d0f9583d3b9017c6800e30edb352a39bcfd3acb17cb4bf2a1e4056508"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/classlist",
@@ -2018,7 +2018,7 @@
           "owner": "root",
           "group": "root",
           "size": 45136,
-          "sha256": "f97de669c5da7271ef9b468d21d9abec8e15e463b2b3c40a573f85f960bfbb13"
+          "sha256": "5a021cf0d89f16250e646a5405c6fed8e0202fdd6bad6732e25d5b175e9dc82b"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjimage.so",
@@ -2029,7 +2029,7 @@
           "owner": "root",
           "group": "root",
           "size": 39856,
-          "sha256": "12efe90308ac7e1c2f4569297fb8fd6290ccb7807f754a2a55a4c9c10dd0385e"
+          "sha256": "72b2fbce4ffbc524afbdd7be438594cd032a96431e124d9d19657f510033ac39"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libj2pcsc.so",
@@ -2040,7 +2040,7 @@
           "owner": "root",
           "group": "root",
           "size": 20856,
-          "sha256": "045e5b0feffd75ed283651421c2b548c4bb4ab4ce05098c5f6d75fe82fe7d891"
+          "sha256": "bb08b9a0deb26af330cffba253e6f046869a25de066d80bd6eb5cab6cfd39162"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libsctp.so",
@@ -2051,7 +2051,7 @@
           "owner": "root",
           "group": "root",
           "size": 36008,
-          "sha256": "ea5f1e30284c0a4b6915b53f5920aec7cba5245977aedfa5e0760a4012793544"
+          "sha256": "a60ed06ef61236b5dedc3af58d0f073d0ce1f3136e7984d408768fcc22cf84cf"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libsyslookup.so",
@@ -2062,7 +2062,7 @@
           "owner": "root",
           "group": "root",
           "size": 15160,
-          "sha256": "e8d72926d1f0e202e8cc4c38001541cd1209932cbd6228fd0d50b09c527277d9"
+          "sha256": "2d14c0ade00aa5872f5481530e2ae19f4da608e530457d81a669dda2600e1775"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libverify.so",
@@ -2073,7 +2073,7 @@
           "owner": "root",
           "group": "root",
           "size": 64320,
-          "sha256": "ca3f81848622f903f374a87bfaba3e2b0cf9bda1269ffff9c286dc60dabf6e91"
+          "sha256": "b6f612b1973c1dceaad115a24b66173553d200288157dc7979a7953e6f125a77"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjli.so",
@@ -2084,7 +2084,7 @@
           "owner": "root",
           "group": "root",
           "size": 78080,
-          "sha256": "250545cd8e17b53eaf843b9bcb3c933fff008e46802ba4cc55ee9e905aaabcb0"
+          "sha256": "512bda00cb73d19495590dd30b9400e1305934d00fa9e074ca0209fb9bb48791"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/tzdb.dat",
@@ -2094,8 +2094,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 102820,
-          "sha256": "36cf71e63ce2816fe4456e9195e6c27fa7c9cd431c89ba762eba394ec2c7a1e3"
+          "size": 102956,
+          "sha256": "5906b44e25a8a730131d7ba1beb5d15af27043f6536f1a169ca8a5d8b8bed8f8"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_ext.so",
@@ -2106,7 +2106,7 @@
           "owner": "root",
           "group": "root",
           "size": 37040,
-          "sha256": "3f5bf03d9dbf4bd1ba5e513aeedd2d881d57697cfc7fe96f46c76188107b9c02"
+          "sha256": "70cf1040deb87bb9f51628e916ef1108a2b14d405515dab9d6c09cb42e8c21ff"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libfontmanager.so",
@@ -2117,7 +2117,7 @@
           "owner": "root",
           "group": "root",
           "size": 71760,
-          "sha256": "ae058aae604b140e54231d2e1fa84d0ac2b88b68c268c36049e47b4541388961"
+          "sha256": "77c1fb298c63141771fb490f323423da99675ee9812c835cb399ae9cc37ddc49"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/librmi.so",
@@ -2128,7 +2128,7 @@
           "owner": "root",
           "group": "root",
           "size": 15328,
-          "sha256": "3b0eaa1bddc52eb9c11fb0deb6e454162e30a39f8afdfd19ed155b17f60a3549"
+          "sha256": "0dc561a3f6cd68fec0d8c6fece56735f3315b4530599c08b4e66f5549147bbed"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libawt_headless.so",
@@ -2139,7 +2139,7 @@
           "owner": "root",
           "group": "root",
           "size": 46512,
-          "sha256": "6478345da809309dc23118f0d9189b558c11fb361e1a6d9004b31381963340b1"
+          "sha256": "11636e7c73dc7570fd35db19a654809e07f25046d14d405b3f7996454127cf5d"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libmlib_image.so",
@@ -2150,7 +2150,7 @@
           "owner": "root",
           "group": "root",
           "size": 602696,
-          "sha256": "df39e1fac28100c1a1c77e522c87d588315e27e1610a03ae55462e8c89020954"
+          "sha256": "a0544ea9d84e5e9f4810c496c6c35bcf523c9ec659414fdd6581802dc0e697f6"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjava.so",
@@ -2161,7 +2161,7 @@
           "owner": "root",
           "group": "root",
           "size": 181608,
-          "sha256": "9817bff879ae19dcd175f06306b04b156de10670c5b5fa626679208ccfcc911d"
+          "sha256": "74d46cc9d92e681888d634e87a3dd32b8b86e8113964917f539f2c502970bbf8"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjsound.so",
@@ -2172,7 +2172,7 @@
           "owner": "root",
           "group": "root",
           "size": 85416,
-          "sha256": "40a8723bacd378ab7c40a4935b4f467b48ec16209314e12265d0c255e17c87c4"
+          "sha256": "8fa85e167f9844a66e4e17c524d3cea83cd805ae03c14680f85ff4560feb224e"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libattach.so",
@@ -2183,7 +2183,7 @@
           "owner": "root",
           "group": "root",
           "size": 16728,
-          "sha256": "8db274900abd186eefb3ff45c2ae122a732a4bc654c8bea25954b6c68e89b300"
+          "sha256": "0f52b7b2b03a6de7758b1ef664c38389d07680a83d3f3335936dd3862ad46496"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/psfont.properties.ja",
@@ -2216,7 +2216,7 @@
           "owner": "root",
           "group": "root",
           "size": 110114,
-          "sha256": "095b675f91800189df41330e753500a2065469d629200791c9c5440f9a2ae999"
+          "sha256": "4bc6fd0ccab6d003e11b441282eb09d5668e401ced15c5d433e88c166e716d89"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libmanagement.so",
@@ -2227,7 +2227,7 @@
           "owner": "root",
           "group": "root",
           "size": 25120,
-          "sha256": "07344a29155b4f210c80f5fa043e21665d30d02973a52f4bf1e8312d5ab0ed82"
+          "sha256": "c6360a3c97c4746685987bbc96c0f7a02720e8cc7855953a37a3b9cee6272aab"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libdt_socket.so",
@@ -2238,7 +2238,7 @@
           "owner": "root",
           "group": "root",
           "size": 32024,
-          "sha256": "656c34723e8d83e08f62aaae8535ab58cc885ec44871c3d8db717a2f55d9a8fd"
+          "sha256": "8bfafe78de8bfefadb5b23a076a6fe69b04a5f6b96275132b545c4d29bf1845e"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/psfontj2d.properties",
@@ -2260,7 +2260,7 @@
           "owner": "root",
           "group": "root",
           "size": 870880,
-          "sha256": "09c1442a1d3a21b7b6e01b565c7b9cdb431f6f5dee1d611d8bf4243c6bf507eb"
+          "sha256": "4a48098906856b5f07b9d5068ee96b4467b799f616524b394e340e5f5c4703ad"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjsig.so",
@@ -2271,7 +2271,7 @@
           "owner": "root",
           "group": "root",
           "size": 16656,
-          "sha256": "130aed9de5ed3b0c7c5355dd9a93edea3264395ff67f2862ca65e3138f728472"
+          "sha256": "f5bb48abc401173e8826177e42a459613fde155f3dc51416b77347b7e46da4d3"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjavajpeg.so",
@@ -2281,8 +2281,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 54432,
-          "sha256": "f78563a12a84b1d78c9b7a70417ca8aa446c8569878ce877f8cd6f9cd1c2a33d"
+          "size": 54376,
+          "sha256": "c47752289961163bb519935dbb1a2550d0500373aaec20b7428594fc2afbdf45"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libj2gss.so",
@@ -2293,7 +2293,7 @@
           "owner": "root",
           "group": "root",
           "size": 50928,
-          "sha256": "c423d0702ffa95c4e89f28980f496e9fea547110857f3a36c17cf9a08ff91850"
+          "sha256": "fc8becea0de4c0957feb59f3fd0b8410478a32b74bab00ab39f5752b1fa588e5"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/jspawnhelper",
@@ -2304,7 +2304,7 @@
           "owner": "root",
           "group": "root",
           "size": 18640,
-          "sha256": "d42bd83c5a4f14b06ff09c97a4cb3e1a1ccc4579e16fe930b2af6b188a706666"
+          "sha256": "7eb60fd0a87182f2f64cc505c425362e880a9ebacb325afec7999459482beb3d"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/jvm.cfg",
@@ -2326,7 +2326,7 @@
           "owner": "root",
           "group": "root",
           "size": 65568,
-          "sha256": "78232d7dd2303b53fe2c01bafa02cf986d7cfb6ee8c45035153af96dbee5223b"
+          "sha256": "271fe66d14511aa6ee7ae97d6547782024921471d612bb87390a6f8476f9ff0c"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libjaas.so",
@@ -2337,7 +2337,7 @@
           "owner": "root",
           "group": "root",
           "size": 15656,
-          "sha256": "f6edd913fff4c977a682b3569a98309383d10b5fe0878f614715ed1479be4d87"
+          "sha256": "799b25c212a9ac819a9efcef0a2c629126fb5b462d923b1444494ab3330d50b3"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libsaproc.so",
@@ -2348,7 +2348,7 @@
           "owner": "root",
           "group": "root",
           "size": 74760,
-          "sha256": "9ceb3b2a7bfea35a75f2bdc91d4acfcbc44840d1b850fa2694a93c70fa4e29dc"
+          "sha256": "ca9e18e179bc6452bd27dd95f6008fda1c6ceb3ab7c04b87af7ddf8d177b8b2a"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/modules",
@@ -2358,8 +2358,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 140836999,
-          "sha256": "57d3fd5c7ac115282326965aa74890dade40981c9fe43c4b123b8040841e957d"
+          "size": 140848911,
+          "sha256": "9a8e9e8a7aab3a5e010e56c65f13449c17b08e5eede93cd7bb796b7df31c572b"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/jexec",
@@ -2370,7 +2370,7 @@
           "owner": "root",
           "group": "root",
           "size": 14456,
-          "sha256": "0f6648dbfe8d3d8de1756647dc3d4e64a959ea3ba52d8cca2b8c19bebe794fa3"
+          "sha256": "e9937eb95217175c2688aaf54402504f034abeb92386413c2b9edb0f69a22aa6"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/lible.so",
@@ -2381,7 +2381,7 @@
           "owner": "root",
           "group": "root",
           "size": 17144,
-          "sha256": "c6636369e41360a04b453b250aed81f6ecece5105d87df5d390148fddc477460"
+          "sha256": "19eef114d563bd911bef071ceb6ac9890afef04e0debde34cf7b4887cc71f328"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/libnio.so",
@@ -2392,7 +2392,7 @@
           "owner": "root",
           "group": "root",
           "size": 109728,
-          "sha256": "470524176c108dcfb664ace9ad3b49982b18e7f0562fe289d5340d54bc6ca163"
+          "sha256": "ee72604f7e1bf3d25515d24f2aad6df0e6a2c437e9e0aaf2263dc0f22833801d"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/security",
@@ -2502,7 +2502,7 @@
           "owner": "root",
           "group": "root",
           "size": 16776,
-          "sha256": "9f8fe19f323d51baf26fb3fd39562d3c95dfbe1bbfdbf5ef35820cd10404f19c"
+          "sha256": "f52d441ebdf671a7fa97a73293fb2582e20cc180a0fcbb9bf23b954812832709"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/server/classes_nocoops.jsa",
@@ -2513,7 +2513,7 @@
           "owner": "root",
           "group": "root",
           "size": 14979072,
-          "sha256": "b64cd7e667eefc22ded75b2bb7dc0eafa43e4db27c840a35c6095d82f8da0826"
+          "sha256": "96c56e0b77c6022171d2216b9eecf1f611e8304ecd41525ab3c21f9e84ae20d8"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/server/classes.jsa",
@@ -2524,7 +2524,7 @@
           "owner": "root",
           "group": "root",
           "size": 14581760,
-          "sha256": "ffd059c2b8ad20e5b9194345faba62a796b9c03603260841f070a79c42e42fce"
+          "sha256": "dcb6e349c8e09e92c9099eaca4f1c798b8b301a9594e0a46b87dddeb222eea1f"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/lib/server/libjvm.so",
@@ -2534,8 +2534,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 26641368,
-          "sha256": "9f0046103517433a0ed7582c2d732353e9ecca9d86e72ce0b20be7b2f0944366"
+          "size": 26668072,
+          "sha256": "4bc95d6c3735954a6b9b3acd37a29d61e2a1aae897033cbc011b8b0e6ff2afeb"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/man",
@@ -2579,7 +2579,7 @@
           "owner": "root",
           "group": "root",
           "size": 14480,
-          "sha256": "3cda940a95dcd789d86da9cb5cefc135c9c8dc754ca8af506020f0ef12976ec7"
+          "sha256": "ca3761b65f6786a2f2c04783bf4d53714519ca763f301127c443a404865060e4"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/bin/rmiregistry",
@@ -2590,7 +2590,7 @@
           "owner": "root",
           "group": "root",
           "size": 14512,
-          "sha256": "105a69b230022b45eb746d379f247c905b7b9cff00cfe503ed10274d5525c6d0"
+          "sha256": "172c888f552068295be669180d15e98cedccb86ff3b6da8e850e4893461f9ce2"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/bin/java",
@@ -2601,7 +2601,7 @@
           "owner": "root",
           "group": "root",
           "size": 14456,
-          "sha256": "41839c43fbb6c35f73d72f896ae2c885042fe98661128ae0d3324339f552fd53"
+          "sha256": "377196a32c5e4442b604bbf36add1c49cfe8680cd27edd693b60872e58895e9e"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/bin/jpackage",
@@ -2612,7 +2612,7 @@
           "owner": "root",
           "group": "root",
           "size": 14480,
-          "sha256": "98a7fc369d2a12fbc2cbf1e354255ce677899207b0df45b802b88da868900a9c"
+          "sha256": "18c817080caaf83f7b9170c480c38e3956d54546672b214a21672516560d77c5"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/legal",
@@ -3591,7 +3591,7 @@
           "owner": "root",
           "group": "root",
           "size": 17783,
-          "sha256": "d7818e02ebfc4e5cd82613e003e7ba6be2e9d5949ea4aa0ba88d4d2f7ca69999"
+          "sha256": "861de1e4992a7d28f1de25c73cd50d26a94779ebd749c0643fecfa56442c3429"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/legal/java.base/aes.md",
@@ -3943,7 +3943,7 @@
           "owner": "root",
           "group": "root",
           "size": 1579,
-          "sha256": "aeb64d60a80564e8118799fb00b94d6686c1fe04da2f7399f970f968d32bcf84"
+          "sha256": "a6fb63a226b77b03cbd7559cce6cdc3e1ea8563af960b1dce2330c8e1dce1abf"
         },
         {
           "path": "/usr/lib/jvm/java-21-openjdk-amd64/legal/jdk.jpackage",
@@ -5152,8 +5152,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 1209,
-          "sha256": "0a206ed836243228ba78e86df3afcd8279d01118cd61bd938abdecfbce256e7a"
+          "size": 1206,
+          "sha256": "97b8b1dd371b52855704fea5875a78cf3289d06b7f51c2155c43acadb9ff6f6c"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib",
@@ -5175,7 +5175,7 @@
           "owner": "root",
           "group": "root",
           "size": 54496,
-          "sha256": "2225f6f1659cb488acbb26312b01d2008efc9ef9e6cbe94c7ddc6904b3dc689e"
+          "sha256": "7eabc06da091c7d7d2fae08d5a503403ba2b4301276c7d316bfa6db29a8b3f3b"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libprefs.so",
@@ -5186,7 +5186,7 @@
           "owner": "root",
           "group": "root",
           "size": 15784,
-          "sha256": "11771c1db028b1323995d41c1f9b128a3618b0fb84447a7ca60f3cd6e60e5911"
+          "sha256": "36a0b15860a4a5347fd6a91bdc9774b22abf09d2699e487b28fa0dd09a3424d6"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/jar.binfmt",
@@ -5208,7 +5208,7 @@
           "owner": "root",
           "group": "root",
           "size": 98072,
-          "sha256": "16b7be50602a6cd5b121fa7666230cf8abedf2290227741a7685724a2da0049f"
+          "sha256": "c775ff881c1594aa26d20f3cc4ef6f14d04b8deaa8930da08e1ea4e84354c098"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_agent.so",
@@ -5219,7 +5219,7 @@
           "owner": "root",
           "group": "root",
           "size": 15600,
-          "sha256": "7facb60a18d4fe2ad0b42f80008997bcdcbd8dc9a03cb7e0c41002c4027bd25d"
+          "sha256": "17a2595cabe1dd9ce2a3444807f001163d9327d7c31bf5d613284f2cde3f391f"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libextnet.so",
@@ -5230,7 +5230,7 @@
           "owner": "root",
           "group": "root",
           "size": 16776,
-          "sha256": "45e4f1c4ced6dd5ac4c4cac162ce2700bef775df93a4c903aea9e00069009f09"
+          "sha256": "fe44ae67cfe4710612236615deafa2119104849e6237887207485453c41133f7"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/liblcms.so",
@@ -5241,7 +5241,7 @@
           "owner": "root",
           "group": "root",
           "size": 26048,
-          "sha256": "1b7969af6d96522a1ef3ced5f8a32914fd23244ca85a9442d8741aff03611745"
+          "sha256": "9ac075698948787049e87e5b10155109b15a3d3082794d4f3516d8f37b9ee85d"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libawt.so",
@@ -5252,7 +5252,7 @@
           "owner": "root",
           "group": "root",
           "size": 895536,
-          "sha256": "e087a699304b835e9db4795f25e822bf1458063573e2bf38ac78394ddd459d98"
+          "sha256": "1a274c970d6f6ae3b46706beb69a12eb5314c9a84fa0092de61f302aa9938ddb"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjdwp.so",
@@ -5263,7 +5263,7 @@
           "owner": "root",
           "group": "root",
           "size": 302584,
-          "sha256": "b64fc2842e270789563a5f29c8e5e46d373998d8e7b01783f50050ed084eab0f"
+          "sha256": "24baf44d0f9583d3b9017c6800e30edb352a39bcfd3acb17cb4bf2a1e4056508"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/classlist",
@@ -5285,7 +5285,7 @@
           "owner": "root",
           "group": "root",
           "size": 45136,
-          "sha256": "f97de669c5da7271ef9b468d21d9abec8e15e463b2b3c40a573f85f960bfbb13"
+          "sha256": "5a021cf0d89f16250e646a5405c6fed8e0202fdd6bad6732e25d5b175e9dc82b"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjimage.so",
@@ -5296,7 +5296,7 @@
           "owner": "root",
           "group": "root",
           "size": 39856,
-          "sha256": "12efe90308ac7e1c2f4569297fb8fd6290ccb7807f754a2a55a4c9c10dd0385e"
+          "sha256": "72b2fbce4ffbc524afbdd7be438594cd032a96431e124d9d19657f510033ac39"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libj2pcsc.so",
@@ -5307,7 +5307,7 @@
           "owner": "root",
           "group": "root",
           "size": 20856,
-          "sha256": "045e5b0feffd75ed283651421c2b548c4bb4ab4ce05098c5f6d75fe82fe7d891"
+          "sha256": "bb08b9a0deb26af330cffba253e6f046869a25de066d80bd6eb5cab6cfd39162"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libsctp.so",
@@ -5318,7 +5318,7 @@
           "owner": "root",
           "group": "root",
           "size": 36008,
-          "sha256": "ea5f1e30284c0a4b6915b53f5920aec7cba5245977aedfa5e0760a4012793544"
+          "sha256": "a60ed06ef61236b5dedc3af58d0f073d0ce1f3136e7984d408768fcc22cf84cf"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libsyslookup.so",
@@ -5329,7 +5329,7 @@
           "owner": "root",
           "group": "root",
           "size": 15160,
-          "sha256": "e8d72926d1f0e202e8cc4c38001541cd1209932cbd6228fd0d50b09c527277d9"
+          "sha256": "2d14c0ade00aa5872f5481530e2ae19f4da608e530457d81a669dda2600e1775"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libverify.so",
@@ -5340,7 +5340,7 @@
           "owner": "root",
           "group": "root",
           "size": 64320,
-          "sha256": "ca3f81848622f903f374a87bfaba3e2b0cf9bda1269ffff9c286dc60dabf6e91"
+          "sha256": "b6f612b1973c1dceaad115a24b66173553d200288157dc7979a7953e6f125a77"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjli.so",
@@ -5351,7 +5351,7 @@
           "owner": "root",
           "group": "root",
           "size": 78080,
-          "sha256": "250545cd8e17b53eaf843b9bcb3c933fff008e46802ba4cc55ee9e905aaabcb0"
+          "sha256": "512bda00cb73d19495590dd30b9400e1305934d00fa9e074ca0209fb9bb48791"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/tzdb.dat",
@@ -5361,8 +5361,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 102820,
-          "sha256": "36cf71e63ce2816fe4456e9195e6c27fa7c9cd431c89ba762eba394ec2c7a1e3"
+          "size": 102956,
+          "sha256": "5906b44e25a8a730131d7ba1beb5d15af27043f6536f1a169ca8a5d8b8bed8f8"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libmanagement_ext.so",
@@ -5373,7 +5373,7 @@
           "owner": "root",
           "group": "root",
           "size": 37040,
-          "sha256": "3f5bf03d9dbf4bd1ba5e513aeedd2d881d57697cfc7fe96f46c76188107b9c02"
+          "sha256": "70cf1040deb87bb9f51628e916ef1108a2b14d405515dab9d6c09cb42e8c21ff"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libfontmanager.so",
@@ -5384,7 +5384,7 @@
           "owner": "root",
           "group": "root",
           "size": 71760,
-          "sha256": "ae058aae604b140e54231d2e1fa84d0ac2b88b68c268c36049e47b4541388961"
+          "sha256": "77c1fb298c63141771fb490f323423da99675ee9812c835cb399ae9cc37ddc49"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/librmi.so",
@@ -5395,7 +5395,7 @@
           "owner": "root",
           "group": "root",
           "size": 15328,
-          "sha256": "3b0eaa1bddc52eb9c11fb0deb6e454162e30a39f8afdfd19ed155b17f60a3549"
+          "sha256": "0dc561a3f6cd68fec0d8c6fece56735f3315b4530599c08b4e66f5549147bbed"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libawt_headless.so",
@@ -5406,7 +5406,7 @@
           "owner": "root",
           "group": "root",
           "size": 46512,
-          "sha256": "6478345da809309dc23118f0d9189b558c11fb361e1a6d9004b31381963340b1"
+          "sha256": "11636e7c73dc7570fd35db19a654809e07f25046d14d405b3f7996454127cf5d"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libmlib_image.so",
@@ -5417,7 +5417,7 @@
           "owner": "root",
           "group": "root",
           "size": 602696,
-          "sha256": "df39e1fac28100c1a1c77e522c87d588315e27e1610a03ae55462e8c89020954"
+          "sha256": "a0544ea9d84e5e9f4810c496c6c35bcf523c9ec659414fdd6581802dc0e697f6"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjava.so",
@@ -5428,7 +5428,7 @@
           "owner": "root",
           "group": "root",
           "size": 181608,
-          "sha256": "9817bff879ae19dcd175f06306b04b156de10670c5b5fa626679208ccfcc911d"
+          "sha256": "74d46cc9d92e681888d634e87a3dd32b8b86e8113964917f539f2c502970bbf8"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjsound.so",
@@ -5439,7 +5439,7 @@
           "owner": "root",
           "group": "root",
           "size": 85416,
-          "sha256": "40a8723bacd378ab7c40a4935b4f467b48ec16209314e12265d0c255e17c87c4"
+          "sha256": "8fa85e167f9844a66e4e17c524d3cea83cd805ae03c14680f85ff4560feb224e"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libattach.so",
@@ -5450,7 +5450,7 @@
           "owner": "root",
           "group": "root",
           "size": 16728,
-          "sha256": "8db274900abd186eefb3ff45c2ae122a732a4bc654c8bea25954b6c68e89b300"
+          "sha256": "0f52b7b2b03a6de7758b1ef664c38389d07680a83d3f3335936dd3862ad46496"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/psfont.properties.ja",
@@ -5483,7 +5483,7 @@
           "owner": "root",
           "group": "root",
           "size": 110114,
-          "sha256": "095b675f91800189df41330e753500a2065469d629200791c9c5440f9a2ae999"
+          "sha256": "4bc6fd0ccab6d003e11b441282eb09d5668e401ced15c5d433e88c166e716d89"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libmanagement.so",
@@ -5494,7 +5494,7 @@
           "owner": "root",
           "group": "root",
           "size": 25120,
-          "sha256": "07344a29155b4f210c80f5fa043e21665d30d02973a52f4bf1e8312d5ab0ed82"
+          "sha256": "c6360a3c97c4746685987bbc96c0f7a02720e8cc7855953a37a3b9cee6272aab"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libdt_socket.so",
@@ -5505,7 +5505,7 @@
           "owner": "root",
           "group": "root",
           "size": 32024,
-          "sha256": "656c34723e8d83e08f62aaae8535ab58cc885ec44871c3d8db717a2f55d9a8fd"
+          "sha256": "8bfafe78de8bfefadb5b23a076a6fe69b04a5f6b96275132b545c4d29bf1845e"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/psfontj2d.properties",
@@ -5527,7 +5527,7 @@
           "owner": "root",
           "group": "root",
           "size": 870880,
-          "sha256": "09c1442a1d3a21b7b6e01b565c7b9cdb431f6f5dee1d611d8bf4243c6bf507eb"
+          "sha256": "4a48098906856b5f07b9d5068ee96b4467b799f616524b394e340e5f5c4703ad"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjsig.so",
@@ -5538,7 +5538,7 @@
           "owner": "root",
           "group": "root",
           "size": 16656,
-          "sha256": "130aed9de5ed3b0c7c5355dd9a93edea3264395ff67f2862ca65e3138f728472"
+          "sha256": "f5bb48abc401173e8826177e42a459613fde155f3dc51416b77347b7e46da4d3"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjavajpeg.so",
@@ -5548,8 +5548,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 54432,
-          "sha256": "f78563a12a84b1d78c9b7a70417ca8aa446c8569878ce877f8cd6f9cd1c2a33d"
+          "size": 54376,
+          "sha256": "c47752289961163bb519935dbb1a2550d0500373aaec20b7428594fc2afbdf45"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libj2gss.so",
@@ -5560,7 +5560,7 @@
           "owner": "root",
           "group": "root",
           "size": 50928,
-          "sha256": "c423d0702ffa95c4e89f28980f496e9fea547110857f3a36c17cf9a08ff91850"
+          "sha256": "fc8becea0de4c0957feb59f3fd0b8410478a32b74bab00ab39f5752b1fa588e5"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/jspawnhelper",
@@ -5571,7 +5571,7 @@
           "owner": "root",
           "group": "root",
           "size": 18640,
-          "sha256": "d42bd83c5a4f14b06ff09c97a4cb3e1a1ccc4579e16fe930b2af6b188a706666"
+          "sha256": "7eb60fd0a87182f2f64cc505c425362e880a9ebacb325afec7999459482beb3d"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/jvm.cfg",
@@ -5593,7 +5593,7 @@
           "owner": "root",
           "group": "root",
           "size": 65568,
-          "sha256": "78232d7dd2303b53fe2c01bafa02cf986d7cfb6ee8c45035153af96dbee5223b"
+          "sha256": "271fe66d14511aa6ee7ae97d6547782024921471d612bb87390a6f8476f9ff0c"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libjaas.so",
@@ -5604,7 +5604,7 @@
           "owner": "root",
           "group": "root",
           "size": 15656,
-          "sha256": "f6edd913fff4c977a682b3569a98309383d10b5fe0878f614715ed1479be4d87"
+          "sha256": "799b25c212a9ac819a9efcef0a2c629126fb5b462d923b1444494ab3330d50b3"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libsaproc.so",
@@ -5615,7 +5615,7 @@
           "owner": "root",
           "group": "root",
           "size": 74760,
-          "sha256": "9ceb3b2a7bfea35a75f2bdc91d4acfcbc44840d1b850fa2694a93c70fa4e29dc"
+          "sha256": "ca9e18e179bc6452bd27dd95f6008fda1c6ceb3ab7c04b87af7ddf8d177b8b2a"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/modules",
@@ -5625,8 +5625,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 140836999,
-          "sha256": "57d3fd5c7ac115282326965aa74890dade40981c9fe43c4b123b8040841e957d"
+          "size": 140848911,
+          "sha256": "9a8e9e8a7aab3a5e010e56c65f13449c17b08e5eede93cd7bb796b7df31c572b"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/jexec",
@@ -5637,7 +5637,7 @@
           "owner": "root",
           "group": "root",
           "size": 14456,
-          "sha256": "0f6648dbfe8d3d8de1756647dc3d4e64a959ea3ba52d8cca2b8c19bebe794fa3"
+          "sha256": "e9937eb95217175c2688aaf54402504f034abeb92386413c2b9edb0f69a22aa6"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/lible.so",
@@ -5648,7 +5648,7 @@
           "owner": "root",
           "group": "root",
           "size": 17144,
-          "sha256": "c6636369e41360a04b453b250aed81f6ecece5105d87df5d390148fddc477460"
+          "sha256": "19eef114d563bd911bef071ceb6ac9890afef04e0debde34cf7b4887cc71f328"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/libnio.so",
@@ -5659,7 +5659,7 @@
           "owner": "root",
           "group": "root",
           "size": 109728,
-          "sha256": "470524176c108dcfb664ace9ad3b49982b18e7f0562fe289d5340d54bc6ca163"
+          "sha256": "ee72604f7e1bf3d25515d24f2aad6df0e6a2c437e9e0aaf2263dc0f22833801d"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/security",
@@ -5769,7 +5769,7 @@
           "owner": "root",
           "group": "root",
           "size": 16776,
-          "sha256": "9f8fe19f323d51baf26fb3fd39562d3c95dfbe1bbfdbf5ef35820cd10404f19c"
+          "sha256": "f52d441ebdf671a7fa97a73293fb2582e20cc180a0fcbb9bf23b954812832709"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/server/classes_nocoops.jsa",
@@ -5780,7 +5780,7 @@
           "owner": "root",
           "group": "root",
           "size": 14979072,
-          "sha256": "b64cd7e667eefc22ded75b2bb7dc0eafa43e4db27c840a35c6095d82f8da0826"
+          "sha256": "96c56e0b77c6022171d2216b9eecf1f611e8304ecd41525ab3c21f9e84ae20d8"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/server/classes.jsa",
@@ -5791,7 +5791,7 @@
           "owner": "root",
           "group": "root",
           "size": 14581760,
-          "sha256": "ffd059c2b8ad20e5b9194345faba62a796b9c03603260841f070a79c42e42fce"
+          "sha256": "dcb6e349c8e09e92c9099eaca4f1c798b8b301a9594e0a46b87dddeb222eea1f"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/lib/server/libjvm.so",
@@ -5801,8 +5801,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 26641368,
-          "sha256": "9f0046103517433a0ed7582c2d732353e9ecca9d86e72ce0b20be7b2f0944366"
+          "size": 26668072,
+          "sha256": "4bc95d6c3735954a6b9b3acd37a29d61e2a1aae897033cbc011b8b0e6ff2afeb"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/man",
@@ -5846,7 +5846,7 @@
           "owner": "root",
           "group": "root",
           "size": 14480,
-          "sha256": "3cda940a95dcd789d86da9cb5cefc135c9c8dc754ca8af506020f0ef12976ec7"
+          "sha256": "ca3761b65f6786a2f2c04783bf4d53714519ca763f301127c443a404865060e4"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/bin/rmiregistry",
@@ -5857,7 +5857,7 @@
           "owner": "root",
           "group": "root",
           "size": 14512,
-          "sha256": "105a69b230022b45eb746d379f247c905b7b9cff00cfe503ed10274d5525c6d0"
+          "sha256": "172c888f552068295be669180d15e98cedccb86ff3b6da8e850e4893461f9ce2"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/bin/java",
@@ -5868,7 +5868,7 @@
           "owner": "root",
           "group": "root",
           "size": 14456,
-          "sha256": "41839c43fbb6c35f73d72f896ae2c885042fe98661128ae0d3324339f552fd53"
+          "sha256": "377196a32c5e4442b604bbf36add1c49cfe8680cd27edd693b60872e58895e9e"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/bin/jpackage",
@@ -5879,7 +5879,7 @@
           "owner": "root",
           "group": "root",
           "size": 14480,
-          "sha256": "98a7fc369d2a12fbc2cbf1e354255ce677899207b0df45b802b88da868900a9c"
+          "sha256": "18c817080caaf83f7b9170c480c38e3956d54546672b214a21672516560d77c5"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/legal",
@@ -6858,7 +6858,7 @@
           "owner": "root",
           "group": "root",
           "size": 17783,
-          "sha256": "d7818e02ebfc4e5cd82613e003e7ba6be2e9d5949ea4aa0ba88d4d2f7ca69999"
+          "sha256": "861de1e4992a7d28f1de25c73cd50d26a94779ebd749c0643fecfa56442c3429"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/legal/java.base/aes.md",
@@ -7210,7 +7210,7 @@
           "owner": "root",
           "group": "root",
           "size": 1579,
-          "sha256": "aeb64d60a80564e8118799fb00b94d6686c1fe04da2f7399f970f968d32bcf84"
+          "sha256": "a6fb63a226b77b03cbd7559cce6cdc3e1ea8563af960b1dce2330c8e1dce1abf"
         },
         {
           "path": "/lib/jvm/java-21-openjdk-amd64/legal/jdk.jpackage",
@@ -12913,8 +12913,8 @@
           "mode_symbolic": "-rw-r--r--",
           "owner": "root",
           "group": "root",
-          "size": 887,
-          "sha256": "d9ce11e91c27352432596f96841d8ba533c7f251fac1acf5ead398eb4db4fb43"
+          "size": 832,
+          "sha256": "25f82283928b10edbdd8da867f98cd1ae937b816ae05f8415880f3d14b37bab8"
         },
         {
           "path": "/usr/share/lintian/overrides/ca-certificates-java",
@@ -21827,6 +21827,127 @@
           "group": "root",
           "size": 49,
           "sha256": "4c8d03b9b6e1a859ae6a40511c362e896320e279067f1226caf989a8a8fab747"
+        },
+        {
+          "path": "/var/lib/fwupd",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/pending.db",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 40960,
+          "sha256": "c463d3e6710d3ef44b6ae997690c1dd9f15fc29ee6a09c7298803d8b9fa97fc7"
+        },
+        {
+          "path": "/var/lib/fwupd/remotes.d",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/pki",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/pki/secret.key",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "root",
+          "group": "root",
+          "size": 2455,
+          "sha256": "75584ee18b923b4e5de5124807d35179f517c7a2e92328f6f76ead27aa767e29"
+        },
+        {
+          "path": "/var/lib/fwupd/pki/client.pem",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1383,
+          "sha256": "2487cd3aa0a96fbde7556513c7886f13cc378aacf585553e2eac355a55fabc25"
+        },
+        {
+          "path": "/var/lib/fwupd/quirks.d",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/metadata",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs/firmware.xml.zst.jcat",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 15052,
+          "sha256": "8854c2ff1776c9f3a8258318e8ad2b715da22d321d238ec0eb1995b607cfc8a1"
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs/firmware.xml.zst",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1948814,
+          "sha256": "40b18453f763d0b1b84d6644aec6d3d6c4632c6ba51733375a80423de36ac5ef"
         }
       ]
     },
@@ -21873,7 +21994,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 926,
-        "sha256": "d4aa4237ec760619cce267897c7b635cf05f5e81c9aa5f07139aef6fb245fc0b"
+        "sha256": "c4f07f31207233e080778331af63feff66dec31ad48001aef700391a867a4a31"
       },
       {
         "path": "/etc/group-",
@@ -21895,7 +22016,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 948,
-        "sha256": "c7ea6120e4cbae2379bb89ba7513a1950fca4dbddf83b08b273b5148050fa447"
+        "sha256": "f2db72898e31cc33a47f7694daf0bb93c9647514f4fbdd6f8a3a956de6ddd260"
       },
       {
         "path": "/etc/passwd",
@@ -21995,6 +22116,17 @@
         "group": "root",
         "size": 4096,
         "sha256": null
+      },
+      {
+        "path": "/etc/fwupd/fwupd.conf",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "root",
+        "size": 51,
+        "sha256": "a25bd457c86be85a286cd175d94e30fa152eb119c95b2a7db8a495886cdd7654"
       },
       {
         "path": "/etc/default",

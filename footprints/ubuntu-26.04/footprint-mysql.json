@@ -2,22 +2,22 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:39:59.793306+00:00",
+  "generated_at": "2026-08-26T20:28:50.160966+00:00",
   "application": "mysql",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "28306739d997f69f94cb95de713c8dc669f397d909cf6b6efc593a7d6382f3a5",
-    "created_at": "2026-08-23T21:39:02.794740+00:00",
+    "db_sha256": "d1c81a2f0003f81638c9f51624ca950e665ddb8fcf8ca10456a706af82de5135",
+    "created_at": "2026-08-26T20:27:49.284894+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
-    "files_added": 425,
-    "files_modified": 51,
-    "files_deleted": 197,
+    "files_added": 659,
+    "files_modified": 32,
+    "files_deleted": 0,
     "systemd_units": 3,
     "quadlets": 0,
     "cron_jobs": 0,
@@ -25,7 +25,7 @@
     "groups_added": 0,
     "membership_changes": 0,
     "sudo_rules": 0,
-    "executables": 52,
+    "executables": 55,
     "risks": 0,
     "scan_errors": 0
   },
@@ -281,6 +281,17 @@
   ],
   "executables": [
     {
+      "path": "/etc/mysql/debian-start",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/bin/mysql_migrate_keyring",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -369,6 +380,17 @@
       "file_capabilities": null
     },
     {
+      "path": "/bin/mysqldump",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/bin/mysqld_multi",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -391,6 +413,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/bin/mysqladmin",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/mysql",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/bin/mysqlbinlog",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -403,6 +447,17 @@
     },
     {
       "path": "/bin/mysqld_safe",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/innochecksum",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -446,6 +501,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/bin/cgi-fcgi",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/my_print_defaults",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/bin/myisam_ftdump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -458,6 +535,28 @@
     },
     {
       "path": "/bin/mysqldumpslow",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/perror",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/sbin/mysqld",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -556,6 +655,17 @@
       "file_capabilities": null
     },
     {
+      "path": "/usr/bin/mysqldump",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/usr/bin/mysqld_multi",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -578,6 +688,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/usr/bin/mysqladmin",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/mysql",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/usr/bin/mysqlbinlog",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -590,6 +722,17 @@
     },
     {
       "path": "/usr/bin/mysqld_safe",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/innochecksum",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -633,6 +776,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/usr/bin/cgi-fcgi",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/my_print_defaults",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/usr/bin/myisam_ftdump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -645,6 +810,28 @@
     },
     {
       "path": "/usr/bin/mysqldumpslow",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/perror",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/sbin/mysqld",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -688,161 +875,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/etc/mysql/debian-start",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/mysqldump",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/mysqladmin",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/mysql",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/innochecksum",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/my_print_defaults",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/perror",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/sbin/mysqld",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/mysqldump",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/mysqladmin",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/mysql",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/innochecksum",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/my_print_defaults",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/perror",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/sbin/mysqld",
+      "path": "/usr/share/mysql-common/configure-symlinks",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -879,6 +912,17 @@
           "sha256": "31af6b915e8f3595b5b7704381765e9af09dfa7c0fe65586b6227b97c09be9f9"
         },
         {
+          "path": "/etc/logcheck/ignore.d.paranoid",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
           "path": "/etc/logcheck/ignore.d.paranoid/mysql-server",
           "category": "config",
           "is_dir": false,
@@ -888,6 +932,17 @@
           "group": "root",
           "size": 712,
           "sha256": "20c7dcdbfc8017da9f83c5d7284a987f9726168e6ea7168fce31e28ec0cdd10f"
+        },
+        {
+          "path": "/etc/logcheck/ignore.d.workstation",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
         },
         {
           "path": "/etc/logcheck/ignore.d.workstation/mysql-server",
@@ -901,6 +956,61 @@
           "sha256": "31af6b915e8f3595b5b7704381765e9af09dfa7c0fe65586b6227b97c09be9f9"
         },
         {
+          "path": "/etc/alternatives/my.cnf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 20,
+          "sha256": null
+        },
+        {
+          "path": "/etc/mysql",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/mysql/debian.cnf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "root",
+          "group": "root",
+          "size": 261,
+          "sha256": "f6e6080cce4266d8fb1362c848d3c9e1482021a76a0bcbb6e081c1a7d3dcba96"
+        },
+        {
+          "path": "/etc/mysql/my.cnf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 24,
+          "sha256": null
+        },
+        {
+          "path": "/etc/mysql/my.cnf.fallback",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 839,
+          "sha256": "b562ddb4d6f452725287c4842d9ad36052bf1a1cc1f4abef51ba55edbf3ed5d6"
+        },
+        {
           "path": "/etc/mysql/mysql.cnf",
           "category": "config",
           "is_dir": false,
@@ -910,6 +1020,50 @@
           "group": "root",
           "size": 682,
           "sha256": "df085d657bf2602015f224f7f1b7066dc0574f9bc3b359bc8fb4279412919877"
+        },
+        {
+          "path": "/etc/mysql/debian-start",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 120,
+          "sha256": "d30adcac8b3bb4e418236af6e121b08ced7c31408a8d773e615dd09f2defabdd"
+        },
+        {
+          "path": "/etc/mysql/conf.d",
+          "category": "config",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/etc/mysql/conf.d/mysql.cnf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8,
+          "sha256": "076d9d7a0d0f53a28f76a768bcfee25a6dd48691b64174dafe989043fc36c60e"
+        },
+        {
+          "path": "/etc/mysql/conf.d/mysqldump.cnf",
+          "category": "config",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 55,
+          "sha256": "21f542392fa0bf68326a7936bc0c24c02fe21ae6a1c5f4c37114ffa05c740578"
         },
         {
           "path": "/etc/mysql/mysql.conf.d",
@@ -1118,6 +1272,17 @@
           "sha256": "7298f2b46d91e90e76a4932dbc72769f2fc28198256e05a7cfa61d60fc944815"
         },
         {
+          "path": "/bin/mysqldump",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6882640,
+          "sha256": "7221b7cab10fc91250c71502b59cf09e75e6e1a52aa09c6aaf2c581840037514"
+        },
+        {
           "path": "/bin/mysqlrepair",
           "category": "binary",
           "is_dir": false,
@@ -1162,6 +1327,28 @@
           "sha256": "bcb3137c1e205ae84e095d904dcab04f7e6fb712ddcb9b4c91904017546ea94e"
         },
         {
+          "path": "/bin/mysqladmin",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6781168,
+          "sha256": "152ff7c48004f778c88933efbc76c90096d4102afc55ef115d35e55da78b347e"
+        },
+        {
+          "path": "/bin/mysql",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6956112,
+          "sha256": "7222b6e9c88fd5e8aa81e610fcb784711e48d9c2266db750f3795360f03d61f3"
+        },
+        {
           "path": "/bin/mysqlbinlog",
           "category": "binary",
           "is_dir": false,
@@ -1182,6 +1369,17 @@
           "group": "root",
           "size": 29137,
           "sha256": "d52587385bd634da70560e1a9417ea5198b53f86aaaf5a715400741460d3b78d"
+        },
+        {
+          "path": "/bin/innochecksum",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 175712,
+          "sha256": "b016a292ea89130ca49a68899682982ce0ffe2ffca5c8b3992aeaf0265fba9bc"
         },
         {
           "path": "/bin/mysql_config_editor",
@@ -1217,6 +1415,28 @@
           "sha256": "793a03100d565922ff67084f9ccee7b5ad79b396bfa2799acae927c8ba3cbbbc"
         },
         {
+          "path": "/bin/cgi-fcgi",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22760,
+          "sha256": "f77e3024fe11e026972425d8c91f703157ebb6eb0e62af5806ae3d127e177396"
+        },
+        {
+          "path": "/bin/my_print_defaults",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 183880,
+          "sha256": "0c295aea26ad481059d8377b942aa46b2299866b575018088b7fd706645dbf2e"
+        },
+        {
           "path": "/bin/myisam_ftdump",
           "category": "binary",
           "is_dir": false,
@@ -1237,6 +1457,28 @@
           "group": "root",
           "size": 7719,
           "sha256": "6faf7666b49c33a6d807c9e28041f7227e973a0ff76da74112d37b2df4e7f24d"
+        },
+        {
+          "path": "/bin/perror",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1614024,
+          "sha256": "56100a9369de7db1321ff619764958e12cdd17d77656d478c63ac6c16daf7b5c"
+        },
+        {
+          "path": "/sbin/mysqld",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 62269536,
+          "sha256": "d0210438c38ef4f25c5378731363194d9584057223845ade50e7727d1aacce8f"
         },
         {
           "path": "/usr/bin/mysql_migrate_keyring",
@@ -1338,6 +1580,17 @@
           "sha256": "7298f2b46d91e90e76a4932dbc72769f2fc28198256e05a7cfa61d60fc944815"
         },
         {
+          "path": "/usr/bin/mysqldump",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6882640,
+          "sha256": "7221b7cab10fc91250c71502b59cf09e75e6e1a52aa09c6aaf2c581840037514"
+        },
+        {
           "path": "/usr/bin/mysqlrepair",
           "category": "binary",
           "is_dir": false,
@@ -1382,6 +1635,28 @@
           "sha256": "bcb3137c1e205ae84e095d904dcab04f7e6fb712ddcb9b4c91904017546ea94e"
         },
         {
+          "path": "/usr/bin/mysqladmin",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6781168,
+          "sha256": "152ff7c48004f778c88933efbc76c90096d4102afc55ef115d35e55da78b347e"
+        },
+        {
+          "path": "/usr/bin/mysql",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 6956112,
+          "sha256": "7222b6e9c88fd5e8aa81e610fcb784711e48d9c2266db750f3795360f03d61f3"
+        },
+        {
           "path": "/usr/bin/mysqlbinlog",
           "category": "binary",
           "is_dir": false,
@@ -1402,6 +1677,17 @@
           "group": "root",
           "size": 29137,
           "sha256": "d52587385bd634da70560e1a9417ea5198b53f86aaaf5a715400741460d3b78d"
+        },
+        {
+          "path": "/usr/bin/innochecksum",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 175712,
+          "sha256": "b016a292ea89130ca49a68899682982ce0ffe2ffca5c8b3992aeaf0265fba9bc"
         },
         {
           "path": "/usr/bin/mysql_config_editor",
@@ -1437,6 +1723,28 @@
           "sha256": "793a03100d565922ff67084f9ccee7b5ad79b396bfa2799acae927c8ba3cbbbc"
         },
         {
+          "path": "/usr/bin/cgi-fcgi",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 22760,
+          "sha256": "f77e3024fe11e026972425d8c91f703157ebb6eb0e62af5806ae3d127e177396"
+        },
+        {
+          "path": "/usr/bin/my_print_defaults",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 183880,
+          "sha256": "0c295aea26ad481059d8377b942aa46b2299866b575018088b7fd706645dbf2e"
+        },
+        {
           "path": "/usr/bin/myisam_ftdump",
           "category": "binary",
           "is_dir": false,
@@ -1457,9 +1765,53 @@
           "group": "root",
           "size": 7719,
           "sha256": "6faf7666b49c33a6d807c9e28041f7227e973a0ff76da74112d37b2df4e7f24d"
+        },
+        {
+          "path": "/usr/bin/perror",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 1614024,
+          "sha256": "56100a9369de7db1321ff619764958e12cdd17d77656d478c63ac6c16daf7b5c"
+        },
+        {
+          "path": "/usr/sbin/mysqld",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 62269536,
+          "sha256": "d0210438c38ef4f25c5378731363194d9584057223845ade50e7727d1aacce8f"
         }
       ],
       "library": [
+        {
+          "path": "/usr/lib/mysql",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/mysql/plugin",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
         {
           "path": "/usr/lib/mysql/plugin/group_replication.so",
           "category": "library",
@@ -1791,6 +2143,39 @@
           "sha256": null
         },
         {
+          "path": "/usr/lib/x86_64-linux-gnu/libfcgi++.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libfcgi.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 16,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libfcgi.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 47352,
+          "sha256": "dd4f3fd5f6dacb8c6c53d9ccb8e47148060be52335a0c03a419a1d16a64d26da"
+        },
+        {
           "path": "/usr/lib/x86_64-linux-gnu/libprotobuf-lite.so.32",
           "category": "library",
           "is_dir": false,
@@ -1822,6 +2207,17 @@
           "group": "root",
           "size": 64920,
           "sha256": "a5ddbf6a5bcd93243a99b464039062b06938a3c126fb81c9b39de18bf5461eb5"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libfcgi++.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18680,
+          "sha256": "0d27cd67384a91a7991325e8ca7430850fcc2eafaae7f54d272bca2de1cab26d"
         },
         {
           "path": "/usr/lib/x86_64-linux-gnu/libtcmalloc_and_profiler.so.4.7.5",
@@ -1932,6 +2328,226 @@
           "group": "root",
           "size": 273624,
           "sha256": "d1fb6debde12bf78deb3d91dbf3387c689015e9ae0995a3a94a826ed454b9722"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/FCGI.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5854,
+          "sha256": "40a781865fd16d56cc611f93b7b5625be0f38188c6246d655d0f60d79279dd3c"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/Clone.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2354,
+          "sha256": "98e1147f66be0925f4d500c4590b5c7ebd5c7092a7f1232d118718127e031dfb"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/PullParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5692,
+          "sha256": "4a824d620ac2138f200d1dff467b8e4c7a91173e4646ff9cb2852614e2856e83"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/Parser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 39705,
+          "sha256": "3121d2d119048deb519d7a51f72fcb1252d03fe13e86a0c5b88e55e58893861b"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/Filter.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2662,
+          "sha256": "30574fe4d1aad78ddc58b264ecd5aad879c40061cc0ec727059c6338a2fb0769"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/HeadParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8515,
+          "sha256": "1071eb25364cd1123040e54fc12b476c1379335c923abadf7897585809d66816"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/LinkExtor.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 4504,
+          "sha256": "30e61ca38626cc0ea349f68fc8b4c80c92c23683c59d6528fdd3300b7d0cf73c"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/Entities.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 15705,
+          "sha256": "43e5ca1b9ae95a4137c4de399488793bf884788abf686aaa5db885f835278ba1"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/HTML/TokeParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10116,
+          "sha256": "4a1dcfaea3c710d8256c396f6dcf48a752e368b197fab3c0916cc22a38d0e8ba"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML/Parser",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML/Parser/Parser.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 55448,
+          "sha256": "21a44367a1177251fab1ffa0c869ff4781bc27bd862f17df7231d8da8fd1afd3"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone/autosplit.ix",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 84,
+          "sha256": "e2a7fe380261b618083faa0ddcd68fbd1c9fe3fd6df366c9128b5ecffb107b33"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone/Clone.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18504,
+          "sha256": "a0844c7294660f0a5e55f2aa86177b07900f189d54845e0db48afa0142bffeee"
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/FCGI",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto/FCGI/FCGI.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 30792,
+          "sha256": "b0be5556b6568e4d12570c4de2230b9d044e2fba28ffc48e4484890f5cbe96a4"
+        },
+        {
+          "path": "/lib/mysql",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/mysql/plugin",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
         },
         {
           "path": "/lib/mysql/plugin/group_replication.so",
@@ -2264,6 +2880,39 @@
           "sha256": null
         },
         {
+          "path": "/lib/x86_64-linux-gnu/libfcgi++.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libfcgi.so.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 16,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libfcgi.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 47352,
+          "sha256": "dd4f3fd5f6dacb8c6c53d9ccb8e47148060be52335a0c03a419a1d16a64d26da"
+        },
+        {
           "path": "/lib/x86_64-linux-gnu/libprotobuf-lite.so.32",
           "category": "library",
           "is_dir": false,
@@ -2295,6 +2944,17 @@
           "group": "root",
           "size": 64920,
           "sha256": "a5ddbf6a5bcd93243a99b464039062b06938a3c126fb81c9b39de18bf5461eb5"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libfcgi++.so.0.0.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18680,
+          "sha256": "0d27cd67384a91a7991325e8ca7430850fcc2eafaae7f54d272bca2de1cab26d"
         },
         {
           "path": "/lib/x86_64-linux-gnu/libtcmalloc_and_profiler.so.4.7.5",
@@ -2405,6 +3065,204 @@
           "group": "root",
           "size": 273624,
           "sha256": "d1fb6debde12bf78deb3d91dbf3387c689015e9ae0995a3a94a826ed454b9722"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/FCGI.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5854,
+          "sha256": "40a781865fd16d56cc611f93b7b5625be0f38188c6246d655d0f60d79279dd3c"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/Clone.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2354,
+          "sha256": "98e1147f66be0925f4d500c4590b5c7ebd5c7092a7f1232d118718127e031dfb"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/PullParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5692,
+          "sha256": "4a824d620ac2138f200d1dff467b8e4c7a91173e4646ff9cb2852614e2856e83"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/Parser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 39705,
+          "sha256": "3121d2d119048deb519d7a51f72fcb1252d03fe13e86a0c5b88e55e58893861b"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/Filter.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2662,
+          "sha256": "30574fe4d1aad78ddc58b264ecd5aad879c40061cc0ec727059c6338a2fb0769"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/HeadParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8515,
+          "sha256": "1071eb25364cd1123040e54fc12b476c1379335c923abadf7897585809d66816"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/LinkExtor.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 4504,
+          "sha256": "30e61ca38626cc0ea349f68fc8b4c80c92c23683c59d6528fdd3300b7d0cf73c"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/Entities.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 15705,
+          "sha256": "43e5ca1b9ae95a4137c4de399488793bf884788abf686aaa5db885f835278ba1"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/HTML/TokeParser.pm",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10116,
+          "sha256": "4a1dcfaea3c710d8256c396f6dcf48a752e368b197fab3c0916cc22a38d0e8ba"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML/Parser",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/HTML/Parser/Parser.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 55448,
+          "sha256": "21a44367a1177251fab1ffa0c869ff4781bc27bd862f17df7231d8da8fd1afd3"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone/autosplit.ix",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 84,
+          "sha256": "e2a7fe380261b618083faa0ddcd68fbd1c9fe3fd6df366c9128b5ecffb107b33"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/Clone/Clone.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18504,
+          "sha256": "a0844c7294660f0a5e55f2aa86177b07900f189d54845e0db48afa0142bffeee"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/FCGI",
+          "category": "library",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto/FCGI/FCGI.so",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 30792,
+          "sha256": "b0be5556b6568e4d12570c4de2230b9d044e2fba28ffc48e4484890f5cbe96a4"
         }
       ],
       "share_data": [
@@ -3366,6 +4224,1733 @@
           "sha256": "5750374820f61114e5b816af2f9a8de715a103012a65c00c71cc6789bf9b710f"
         },
         {
+          "path": "/usr/share/mysql-common",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/mysql-common/configure-symlinks",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 276,
+          "sha256": "419ac4047b731bed214486fc0e00da54be6d935fe1974ed2eb22f7dbcfed8caa"
+        },
+        {
+          "path": "/usr/share/perl5/CGI.pod",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 68581,
+          "sha256": "150a872b1d9acf09996e3def4c9ea94ce5fc91b00fb837f03d207a4f6c84652c"
+        },
+        {
+          "path": "/usr/share/perl5/CGI.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 125850,
+          "sha256": "1aeaa78d4827fd86aca1b0d770df779800f9486029897ce0cdb2f798b207b060"
+        },
+        {
+          "path": "/usr/share/perl5/TimeDate.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 267,
+          "sha256": "1093e417e6e8dc53b1180522371df631fcac34bdccaeca6785ea60d909cf7612"
+        },
+        {
+          "path": "/usr/share/perl5/Fh.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 166,
+          "sha256": "03a6e03bdb18a6782ec48f7bf33eed9e18ea36abeab59e0151027c181e04f571"
+        },
+        {
+          "path": "/usr/share/perl5/URI.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 43493,
+          "sha256": "935870525bf028053d84fb964c98c867d90d8ffdb81abe3c14d284bc95b6eb89"
+        },
+        {
+          "path": "/usr/share/perl5/HTML",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/HTML/Tagset.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 12793,
+          "sha256": "7fd74ba11d5585ac26757dc7210e44b375e08c2be52af6cc966a6e052e0f79d8"
+        },
+        {
+          "path": "/usr/share/perl5/HTML/Template.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 134236,
+          "sha256": "e108e0c3cc403794f70cc83ce216af1990a7aee078967e3006480b1a001ec6d8"
+        },
+        {
+          "path": "/usr/share/perl5/HTML/Template",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/HTML/Template/FAQ.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5542,
+          "sha256": "28edb563cd70be6b9ba56b88cd55ca9b0143dbcfd06c98a2020b3be482f5516e"
+        },
+        {
+          "path": "/usr/share/perl5/Time",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/Time/Zone.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8346,
+          "sha256": "5b8c6b6aae372ec40a1ca1e74d8e3c94d3c5d495d430e89f95e4194b7e347e15"
+        },
+        {
+          "path": "/usr/share/perl5/Encode",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/Encode/Locale.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 12353,
+          "sha256": "1b5ded6313c0d57aeb8159171c34ca4c16607d260f590cf815471f5f69184fe3"
+        },
+        {
+          "path": "/usr/share/perl5/CGI",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Carp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 19027,
+          "sha256": "2c38cd0089247efc4243021c6aa4a43dffe620694e20a970764ee35bfebf5253"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Push.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10109,
+          "sha256": "853b681ab04e67a1be5b767e0d35046611a5e827c45012c6f6de9756456e2327"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Cookie.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 18734,
+          "sha256": "9f7969157ca3164fdf4dfbeb8b30b558687fd1e2b58fac29937399ab177ef96e"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Pretty.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1943,
+          "sha256": "e7aecbea1801a8655a3e65a8cb7885a3df5c69e44be998915d4d88a5de53a10d"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Util.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 11481,
+          "sha256": "b148d726d84d841d0dcec399244567f7c833a7a316aeed35f7687143657b47c7"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/Fast.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9619,
+          "sha256": "d6fe290e813483881934abb25b9c46545d18375c3046447891a9b12e246c170f"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/HTML",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/CGI/HTML/Functions.pod",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 60528,
+          "sha256": "93f5d295710bc38bde7b332cdf8736af4b9e1756eee8da08f99edd412c05f982"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/HTML/Functions.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 125,
+          "sha256": "2b2a3d25940d4e388754e41bb8acdf6325987df546932d057f2f5e9bbd7eab5f"
+        },
+        {
+          "path": "/usr/share/perl5/CGI/File",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/CGI/File/Temp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 942,
+          "sha256": "c1122e39eabdcca1c2584d3ac51338995dac00200b8b61e265489cd9f3a33d0b"
+        },
+        {
+          "path": "/usr/share/perl5/URI",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/URI/urn.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2077,
+          "sha256": "1344cf75436536375ac4e8bf33dfc67dad62c45dc1b83078c360e2214fec41e6"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ldapi.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 440,
+          "sha256": "d89b55b73b866a8ef1b8235eb61baa5cdf00e1bcd86e228cc2bc6c753415d2a4"
+        },
+        {
+          "path": "/usr/share/perl5/URI/sftp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 98,
+          "sha256": "efaad4bb28ab4f01249fd8ca7d0dffa5e88726299ed4b5003cca614657a691d2"
+        },
+        {
+          "path": "/usr/share/perl5/URI/smtp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 237,
+          "sha256": "a9a23dfba0c8ef2b55fa7438c756f005d4d862d375b094e70b32b7e3c178031b"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ftpes.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 150,
+          "sha256": "111d8a06dc478c8aaf38ecc00e64b5cc2d232ca02e94bb85f005010181716e48"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ircs.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 142,
+          "sha256": "d5767e04f0e818f5bbb3e21f696bb3865cc10a8b5ca9cf302bfd85659b7a0802"
+        },
+        {
+          "path": "/usr/share/perl5/URI/IRI.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 794,
+          "sha256": "26020cb1be7e9a8b3cc156455d116fc5d632ddc8bc965008646dff678d7af2a3"
+        },
+        {
+          "path": "/usr/share/perl5/URI/sip.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1670,
+          "sha256": "1b4e8273a7cecd058fdddeca61516fc3255e168416dd1416cde74db7b8448675"
+        },
+        {
+          "path": "/usr/share/perl5/URI/Escape.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 7915,
+          "sha256": "cb199295444686df636136834f43b22e191f3ff88d7134870d66244ad679e3e7"
+        },
+        {
+          "path": "/usr/share/perl5/URI/geo.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 10754,
+          "sha256": "63661347b3e361d63157bd762f79191f822bb6da830dcc3cb47732ddb1ee5451"
+        },
+        {
+          "path": "/usr/share/perl5/URI/pop.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 219,
+          "sha256": "fabcec32b9b37df5fcf1536a0100f38c8e57e6fd58735c0320475c8f4ace052c"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ldap.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2924,
+          "sha256": "af010938a55b2276de51d89e8b79c2218c6ab80cc22dddb45d7e40e91a5ce756"
+        },
+        {
+          "path": "/usr/share/perl5/URI/rlogin.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 129,
+          "sha256": "bd864dc28d192a1c22598aa395297d6929d216583c09775177a9df6e068ef1e1"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9689,
+          "sha256": "b958bb650ff8e96225531d0a6381ca51ef00d1866078e0bbaf35477e7efdc99f"
+        },
+        {
+          "path": "/usr/share/perl5/URI/WithBase.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3862,
+          "sha256": "3b4dcb9412296b8bc2be2195370588b7335f9c7204e2af5f203542aff2d46d24"
+        },
+        {
+          "path": "/usr/share/perl5/URI/mms.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 125,
+          "sha256": "b97ed4664033ed5384c184366087a02ff43dcbd1f112528111bce96d86b5aa3c"
+        },
+        {
+          "path": "/usr/share/perl5/URI/URL.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5487,
+          "sha256": "c5167107acb692e07fb1f0b4eba2622cc1356154dd4c4c9ff481753f08f89ac3"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_idna.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2079,
+          "sha256": "5cf9669c2e8d121e4fcf39925e461dc1f9edd601932d299e3e38ba77247b8704"
+        },
+        {
+          "path": "/usr/share/perl5/URI/https.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 144,
+          "sha256": "182d76228b4d66962cb23d79c993801a7857870f234516967718a5eac3dbc299"
+        },
+        {
+          "path": "/usr/share/perl5/URI/rtspu.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 126,
+          "sha256": "4cd3f6b13db984c6cdb59da96430d3d26a72843759b7c64bdd30ef083930ad9e"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_emailauth.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1255,
+          "sha256": "61b34efa652842c745b11e8d4eccf1fb507d6c2eaf75d3d18d160da76c26c9ac"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ftp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1084,
+          "sha256": "90ba9dab41cfebf18e2aaa2ee6f9b7bc5eb1699fb4fa0c92f11cb4705e8ce3ef"
+        },
+        {
+          "path": "/usr/share/perl5/URI/irc.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3732,
+          "sha256": "fca9191f3dff1821841cfec01e3081313fa7bb91c76a5d552f6a23be2a1845ff"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_query.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 4855,
+          "sha256": "bdd95e8e4d831d25f02d92493df1e4433f1b295752569613244b394a6467c454"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_server.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3886,
+          "sha256": "656dd82b0822cef07aacf46ac827b3fa79139d4f741c0178a104ec02b1dd9317"
+        },
+        {
+          "path": "/usr/share/perl5/URI/wss.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1210,
+          "sha256": "54b81254175d05d45be6cd75b2008768714681b73197e9033759d14c135ed37d"
+        },
+        {
+          "path": "/usr/share/perl5/URI/gopher.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2428,
+          "sha256": "f30f2c3114ce8ea484531afb939c0b20313f717315c6249b79d3a87cf7afdf8a"
+        },
+        {
+          "path": "/usr/share/perl5/URI/telnet.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 128,
+          "sha256": "e298d7a043cfea9e58e588c386ec0ee0108d9cb37b75e1f0fac4a22b5e843150"
+        },
+        {
+          "path": "/usr/share/perl5/URI/icap.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1495,
+          "sha256": "269784b23a0426754e14e53ec5814af30a08365f7fae64eaf5b4e5bdbed4d0c1"
+        },
+        {
+          "path": "/usr/share/perl5/URI/mailto.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1657,
+          "sha256": "362c7e8c36a426ac9e914f6e4f8fce6cbf985aec3f3a1bb77b53f7d39476db77"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ssh.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 175,
+          "sha256": "32275e12ba545edfbe402574b7639cc49d3e4a2752e391f085e6cb8ac90bb667"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_segment.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 416,
+          "sha256": "243d2e4f6da4e96968fe303c2e4600f3500a80d8e1c8c7283581c5f0dd3aa1be"
+        },
+        {
+          "path": "/usr/share/perl5/URI/Split.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2353,
+          "sha256": "673c095c5eb2f95179ef365e44e91dbfa9b704c89e796c16d7a07f230b84ecd0"
+        },
+        {
+          "path": "/usr/share/perl5/URI/snews.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 172,
+          "sha256": "411e753b5322c0b8e904ce2812ec69c2b4887fb9efdf1f4ac563a9fdd836c7f7"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ldaps.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 144,
+          "sha256": "c993a21abd2a3a62f68f217d6a3f8d338894c53435402e52f7e32f7fddb12573"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ftps.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 175,
+          "sha256": "3d8c383c6fb433aa64a752c46fb657c1768e35ccce2ad6f20a7e4ec4ac014269"
+        },
+        {
+          "path": "/usr/share/perl5/URI/sips.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 143,
+          "sha256": "5a8ee3608a22470e452c0f6f8c82c423179d3eef06ae756c0ddbc61ecb05c251"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_userpass.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1039,
+          "sha256": "16269dbed1394e824f77fbe720ed8273ab26a67569e29207c8100aaab2f6ebfe"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_foreign.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 107,
+          "sha256": "0c000d343e15be53ee25bba46a79b5c4996665c8245d4ea743865a9bd47764cb"
+        },
+        {
+          "path": "/usr/share/perl5/URI/nntps.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 144,
+          "sha256": "7837eac74bf7f3b2c6d3842181bb980d3e41e894c18086e35d1a72419ad37446"
+        },
+        {
+          "path": "/usr/share/perl5/URI/Heuristic.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 6626,
+          "sha256": "16cd14724339a3f69d4b5359c58fa4f6d61aa5273de6b6d8deb801e8d8e70509"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_generic.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 6821,
+          "sha256": "ffe6baa0980cd716218fdff21af65800ceca56c1e09f25f4f83fa3e16569c891"
+        },
+        {
+          "path": "/usr/share/perl5/URI/scp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 97,
+          "sha256": "3660857ee8933193ffd5e4d066e5cff340d17c9a2b1edad7c3b6146b7ecf2b6e"
+        },
+        {
+          "path": "/usr/share/perl5/URI/rsync.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 207,
+          "sha256": "ef3539a47f8431d866e250d674dd8453f42045d24643975e7e786118ca1b6984"
+        },
+        {
+          "path": "/usr/share/perl5/URI/nntp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 127,
+          "sha256": "d95083bba35925efc080436e4eeef4220576e6c3c3f897adbae92716d00b0a49"
+        },
+        {
+          "path": "/usr/share/perl5/URI/smb.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2065,
+          "sha256": "e549b71f81e4f4e586bd897e23590d69bc97dae1c5cf37b19f13e8a75a6ca152"
+        },
+        {
+          "path": "/usr/share/perl5/URI/QueryParam.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 655,
+          "sha256": "8f8dc293f487495073afeb50ee20130b4b69780bbf8c9fb01c31b0cdf11ec417"
+        },
+        {
+          "path": "/usr/share/perl5/URI/icaps.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1442,
+          "sha256": "2852dc566b3122751e8cd3828b63f40ae915f3501811c0988656df194d048cda"
+        },
+        {
+          "path": "/usr/share/perl5/URI/rtsp.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 125,
+          "sha256": "3219df29868d775222864b491e39471446727e37ac23b9a752b16adcd19900db"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_login.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 231,
+          "sha256": "6633bd79141022a1daaefb585646607a8d66a47302aebc7e6533b26fd072fe31"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_punycode.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5632,
+          "sha256": "4cc3e8c7eaa3991605202659d6cada6d2bfe4e0e964085fecc6a712af4896bad"
+        },
+        {
+          "path": "/usr/share/perl5/URI/ws.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1172,
+          "sha256": "4d2aadac0bb06bf45a03ffef9745c554a287d8702d34db0afd55550e3dc25908"
+        },
+        {
+          "path": "/usr/share/perl5/URI/otpauth.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8552,
+          "sha256": "0c116562b3cdbf0b77b2efb41556c9a36ff1715f948ee3099f3cbfca80851794"
+        },
+        {
+          "path": "/usr/share/perl5/URI/_ldap.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3249,
+          "sha256": "b3dc89b725e2f403e1434b418c797e8ff32c03ccd4e0bfac4d889815220e6ccf"
+        },
+        {
+          "path": "/usr/share/perl5/URI/tn3270.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 128,
+          "sha256": "4c46fc1760954ffee6c475e293bb324da2e6ff372bf083d677768ec0a56c2b04"
+        },
+        {
+          "path": "/usr/share/perl5/URI/news.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1454,
+          "sha256": "6c6e684279a1dda47051a86ab0c0b88e459b5b6d9ce91a0abddbd25550f032a1"
+        },
+        {
+          "path": "/usr/share/perl5/URI/http.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 425,
+          "sha256": "7f340e81659b776a3d5ada5b31604e43a85e39d698dea7d6709c5261a6c18ab1"
+        },
+        {
+          "path": "/usr/share/perl5/URI/data.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 3390,
+          "sha256": "3a4efe9e466c478ea7058fb115ac2c440a2913615cefb7f76648ffcafc66547d"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/OS2.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 561,
+          "sha256": "6563e119969263a5a997caeeccc505053c38479e0927bb504cacc85e2b25a6e3"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/FAT.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 497,
+          "sha256": "2338b9b6944eb48a22ca5d27d589c259527f739c9dba49f27ac73345dcaa473a"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/Unix.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1022,
+          "sha256": "ecf3319e5ec536b4ddd4d48de0aea6b64c56381a6e1dd83a4cacbfdeabc6eabb"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/Base.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1485,
+          "sha256": "1274345e67f97b59b35e21efa5a1247730aa0d1f84f2b9947075a802806b7bf3"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/Mac.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2485,
+          "sha256": "2ed5fb7bcf49ae25996fe3935acb4b69ad31229bc649caa1eafb0677f562bbc5"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/QNX.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 337,
+          "sha256": "f97444e337d95d230c01ef764cd2d0a9558590cca9ac62de3a1cb6c7298c57cd"
+        },
+        {
+          "path": "/usr/share/perl5/URI/file/Win32.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1757,
+          "sha256": "4c8b212590479c240dc741d3e9b39b8f6175b251eaa6d3471a93d5315ca3c2fd"
+        },
+        {
+          "path": "/usr/share/perl5/URI/urn",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/URI/urn/isbn.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2532,
+          "sha256": "9f8030363b8a8fa31b1c22f2040aff63c461bf5dbea8a76762ed9c8691aa6f0c"
+        },
+        {
+          "path": "/usr/share/perl5/URI/urn/oid.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 283,
+          "sha256": "bdf9fb748bd26a757f9a5f9c9611ebda578bedd0c426f82e32a9a9163c749eff"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Response.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 17174,
+          "sha256": "4fc02b0e69228d8b0dbff2ee7299a0a843483c41ba7f3f2216117bc6d58550d9"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Request.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 8938,
+          "sha256": "fd7a07e97f50c936f12c2c0fede7ad65a2ed15052dbd849b0255659e79836a24"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Message.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 34167,
+          "sha256": "839eac3fcee3bda9139a118c10f0004b2f9e07a3e7a653d56cf86f790eac1865"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Date.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 12839,
+          "sha256": "809e7708bd9400ddbea8a5f4ae7507180393f6f39093b42d764be5ebfaea0ada"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Config.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 11813,
+          "sha256": "42caa604cb8c9440d0202fc35231a371f07387b97334491f0c2f4af47906b33e"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Headers.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 24964,
+          "sha256": "b66fa05b86f18d62a87ff21ca2ade2eece648dbab933c6016ed361c4d0ca0b45"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Status.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 14157,
+          "sha256": "426e0752e3dd6f938511aa33814c8e7055ca8bcf5dff1531e7716ed00fccf427"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Request",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Request/Common.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 16235,
+          "sha256": "5158bb84fee747cac86b3bdb7b2243ef3d8ebf9d6ca2771617e7ddf0d3d845a1"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Headers",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Headers/Auth.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2350,
+          "sha256": "8be1679570a46e11ca819b2e35b666f9bfff170630af60cce4b6cd2fd6eb0a1e"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Headers/Util.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 5088,
+          "sha256": "018300bfc3ff2dc0590d497720d81802225978a18de327f4545a624fcfc613db"
+        },
+        {
+          "path": "/usr/share/perl5/HTTP/Headers/ETag.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2550,
+          "sha256": "ca9b28dd38106ce871b8dad340b8f117be39ec3f2dceaf5bc05d190ea5cafdab"
+        },
+        {
+          "path": "/usr/share/perl5/IO",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/IO/HTML.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 19691,
+          "sha256": "83066f6a1b40d2fe6b41c059af06350733a36b8bad6b85036adf9645d7d28daf"
+        },
+        {
+          "path": "/usr/share/perl5/LWP",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/LWP/MediaTypes.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 6911,
+          "sha256": "c5cbe9fd328ecdb7374ad0bd493cc05ea64251a43e1ed97e447b52e8999a1de5"
+        },
+        {
+          "path": "/usr/share/perl5/LWP/media.types",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 49815,
+          "sha256": "b469fded6cd6a83153b666d10e452036150f7e0f3fd15523577007cc2193d2bc"
+        },
+        {
+          "path": "/usr/share/perl5/Date",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2668,
+          "sha256": "ccc39d23c3326e0e3fdbe5b83f0e8629bb0de548b3a4b2bc0505a148479b393a"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Parse.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9125,
+          "sha256": "cd280569eeb8f0040af0a27720a7dce527f9bd446e94646378cb5de819d584c1"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Format.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 9648,
+          "sha256": "1bcc66a9acca8ee061baa714bb06d680e15cdc03b0dd4219a441eb44b529848e"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language",
+          "category": "share_data",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Turkish.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2079,
+          "sha256": "26eba960646b13f1cbf235510112e5510ad00848a0a608010e31a2a3ecc477a5"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/French.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1020,
+          "sha256": "ff54a67ee332030d64d9f6fd698d04dd0a48f4229ff4d347a75fb5f72c6e7bd2"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Greek.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2826,
+          "sha256": "dc758099c84fde3bfa4279e9b482a490767506b79a28d9535cd6ff1cbc1bccd2"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Gedeo.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1064,
+          "sha256": "abdc606a958a67ba7e7bac299d534693ecaba30bc0039bdc68a2eb0f73ae87c1"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Amharic.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1927,
+          "sha256": "daa28aa67d5ff16b579c0d6a0dffc9a562a065d504ac953b411fce4593a8ec30"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Russian_koi8r.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1034,
+          "sha256": "9e977e0b8cfb6370272efad845d7c253de6490d1268aa1504528f8fb48b31593"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Hungarian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2133,
+          "sha256": "7414e9b4e9b88406b5182687e22c062127c6412d0ecf640d6907abc73c52aad1"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Brazilian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 966,
+          "sha256": "d47f2650d5b228e1eb19bf992f6bb70216840954e464d74bf459457d8827513b"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/German.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1040,
+          "sha256": "f92d9ba7ddcb35de435195777eeead3c32606862200c84146b209d6535ebe7c0"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Swedish.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1122,
+          "sha256": "d9482ae993437ab8515f34deb6f9be720916244f88b1aa81889a137f085b2a30"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/TigrinyaEritrean.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1904,
+          "sha256": "b70df17f6524cd88c8f211ae2dfa32867e520b16c7f82e6dc2070daf5281b6e2"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Russian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1384,
+          "sha256": "821eba9ca048605883a3434a4bb9cff01c87b7b9c23d9300a63afbde66c2f91d"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Icelandic.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1037,
+          "sha256": "a50e701a7b6330dbc41861cda4849014c6232e9249023ea2fa99507e9a6ee702"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/TigrinyaEthiopian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1930,
+          "sha256": "6b8e97204e22c4b3cd9b4eaa93b4afd6240fe29869ce2a28c784bcba0123ebab"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Chinese.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 977,
+          "sha256": "70d89755a8ef15ddc46d97e0e32e175f270731c2dab43ec31a38b6a3b7576030"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Norwegian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1004,
+          "sha256": "ff6b2edc4820c9c2db2f9392315af128bbf853a0557e7276d579945f141e9836"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Tigrinya.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1434,
+          "sha256": "84c43a9576e1c5913d2dbfe280cc6f71b0f9f58200110a67df94a051d79fccac"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Czech.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1411,
+          "sha256": "d9b19e710b8e3fd2e015c47c0fd7c0d270745ecc27b171c6d6d1b6b1e64f3aa9"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Russian_cp1251.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1036,
+          "sha256": "9f2d81e621c48a18da1578d7044868fe7aec8feb80d35c6819f22b0e7e68a75d"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Finnish.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1239,
+          "sha256": "98e7cfec1507d85281c87551ff63743f581b08780d01f50a97ddaf9ca0481604"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Occitan.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 964,
+          "sha256": "bbf753c106b68e814ccc7d00bffe0bc219c732c6e3c5c629ad0154c3427be25d"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Romanian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 892,
+          "sha256": "320c9fdb726c098c30bc14c6e9c831add45e72e5f682b55c6ae4c1165880b093"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Bulgarian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 2567,
+          "sha256": "23f76d42a3aa82dc92c45c93958b36669f4a258c2c7cb4cf3d2d9799e56697fc"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Austrian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 994,
+          "sha256": "c147c5d2064afe707bb253bb64c463ce611aa578e9baeb341f136ae6029d44ad"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Spanish.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 922,
+          "sha256": "0a342845a8507044b5e42f9057cc20b3dbdc2b9f7c4973fde8801d9bc6323e75"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Sidama.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 980,
+          "sha256": "7576c52360a76689ae763696b132fd64f945f34647115b72fe0782cc5c157abc"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Afar.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1032,
+          "sha256": "157f7726af735802efb75ba6cc020a8d19b3e8bfc734628f82c2c1eebb8a071d"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Italian.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1006,
+          "sha256": "513bea678c33ad3a6f1f5b9dc1382ae5e90df929cc1e32d68c128b5ea67fbc4a"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Dutch.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1086,
+          "sha256": "8963174cd3092e8f32d21d0369da454fb235ee551fcecab7435732fc23afbbd8"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Danish.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1035,
+          "sha256": "dae96aeec4c1d13109dbeb6c9cd17db98cadf4917d0edf1f255ca189da4dcb95"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Oromo.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 999,
+          "sha256": "fbf6dcc1ee213611ee41db6550a5c83eda44ce61f7d01d34e68145bde1c8a594"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Chinese_GB.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 918,
+          "sha256": "1a714f84d91fd0dc2787b47a689d62a92bdea4f7600c22f4a0e2342515fcdc03"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/English.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 973,
+          "sha256": "92dbd7fc909d7f409a4931e1647b97f1fb3570fbbdde94f991c11d49a22ca1c5"
+        },
+        {
+          "path": "/usr/share/perl5/Date/Language/Somali.pm",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1155,
+          "sha256": "6a04620528727937446372182da3d845490501250a4c2aa860c4890454d07e93"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/liburi-perl",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 111,
+          "sha256": "36b3c210446845b9b6419d4f30c342df62aed9b4bd93aac4d20b4ead76b3c71f"
+        },
+        {
           "path": "/usr/share/lintian/overrides/mysql-client",
           "category": "share_data",
           "is_dir": false,
@@ -3388,6 +5973,17 @@
           "sha256": "b287712ae281a6e07f283935407e93890d4a8890d042e457d8b7975e2bf1d881"
         },
         {
+          "path": "/usr/share/lintian/overrides/mysql-common",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 179,
+          "sha256": "c408b2d5a2820113243135a2a36d3f8d49d8066c4152da9e8109fefed29f2569"
+        },
+        {
           "path": "/usr/share/lintian/overrides/libtcmalloc-minimal4t64",
           "category": "share_data",
           "is_dir": false,
@@ -3397,6 +5993,17 @@
           "group": "root",
           "size": 80,
           "sha256": "3d929bc1647c2d1c2b2dbf9952a7402f18f2a5b3442eb7cc01517d7e490b3aeb"
+        },
+        {
+          "path": "/usr/share/lintian/overrides/libfcgi0t64",
+          "category": "share_data",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 220,
+          "sha256": "50d30ffb9000918d14ecf321e3e370ac7b56adc2ddaa9e1982e5138e7bfd76bd"
         },
         {
           "path": "/usr/share/lintian/overrides/mysql-server",
@@ -3475,7 +6082,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12582912,
-          "sha256": "5b99a1484583b5e49bfb835f797890c7652319400da846edf3d02b93c3ea4b07"
+          "sha256": "fea4143638f47d1b4499fd61832e8ac90b5efd10544e1fd8adb3decb1eea39e9"
         },
         {
           "path": "/var/lib/mysql/private_key.pem",
@@ -3486,7 +6093,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1705,
-          "sha256": "320bfafa5cd151e9d3b89aa167d261e3da81b3fe78f5cf88d90d424c32aba2b1"
+          "sha256": "c1ede77b29f3dbd23779ccc73a369e7c8e1d00a73ad6e57b95e692155fdb4111"
         },
         {
           "path": "/var/lib/mysql/ib_buffer_pool",
@@ -3496,8 +6103,8 @@
           "mode_symbolic": "-rw-r-----",
           "owner": "mysql",
           "group": "mysql",
-          "size": 5931,
-          "sha256": "84cecaa2f04db0cbeda2708e71a26519f02d1f28046a7bcf0ada6bda3af134cc"
+          "size": 5930,
+          "sha256": "d382fd5cd51febdcf2224b387f4a73812f6e38ff1921cdf214a8980e995a5bf1"
         },
         {
           "path": "/var/lib/mysql/binlog.000001",
@@ -3508,7 +6115,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 158,
-          "sha256": "88e2bb84d197a1038bb423105cbe7e3ed4f2ec8caba55b03972c6f9954a12ef7"
+          "sha256": "4ef61a20e8261902bfadb6e21d0358d9675fff763dd4c6a49049dab89b8237ea"
         },
         {
           "path": "/var/lib/mysql/client-cert.pem",
@@ -3519,7 +6126,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "10ef7e2cc91b9060390634957bb896e79ac97a6db249b35c89d09621dc37e824"
+          "sha256": "7f458ceddc2707544b4d578fbb16bae9e779aac467e8af858c76f5f25c9eb3a2"
         },
         {
           "path": "/var/lib/mysql/mysql.ibd",
@@ -3530,7 +6137,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 27262976,
-          "sha256": "2a21283c016ec447f693563d2d168a9654f7525c6a2d6b817239e09663d18078"
+          "sha256": "924ad8325a309ef860fccc71523bdc6fd47973ef85aa3e0a1e5be6b758519742"
         },
         {
           "path": "/var/lib/mysql/#ib_16384_1.dblwr",
@@ -3552,7 +6159,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 452,
-          "sha256": "ee931b18b434011144088e021fcfb248f6cc886a38d52ccf76f17e0f33f7ceec"
+          "sha256": "f64ce433863db410aa9362a543a73a1e62ccbcbd98984542251ef1afff446073"
         },
         {
           "path": "/var/lib/mysql/mysql_upgrade_history",
@@ -3563,7 +6170,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 142,
-          "sha256": "c0780996d9616a6738d847e600764c87f43dec843556574ea487b88a31b5e085"
+          "sha256": "cb62a3624f2942fa96416d29a838f197b6198941c7126e8e8282d8fe7f0236ab"
         },
         {
           "path": "/var/lib/mysql/client-key.pem",
@@ -3574,7 +6181,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1705,
-          "sha256": "d7fb403d4dd8985e785f5b15eae01e0c40bfd43a06612d18109500e284c99315"
+          "sha256": "c2b8089560d3871e82c4624773e5aae8d5a5248a8a7b40e96211b908c524cd70"
         },
         {
           "path": "/var/lib/mysql/auto.cnf",
@@ -3585,7 +6192,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 56,
-          "sha256": "557ce168a676effbadbde16c74f3026b763a864d11ffae2125737d4143337026"
+          "sha256": "13675d2d8c3c6f018c8f93a3376a161e608f1dc3d7b3a9c4ba85fc9e09e68b8a"
         },
         {
           "path": "/var/lib/mysql/#ib_16384_0.dblwr",
@@ -3596,7 +6203,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4194304,
-          "sha256": "7375abd3328dab42db4ffcdf761145154f2c4a6c9fa7b6420945abe5ce270109"
+          "sha256": "b93a276c97b5cbf0f048edb1dfc7533749f97db4b57250191aef3eb4ee48a721"
         },
         {
           "path": "/var/lib/mysql/ca.pem",
@@ -3607,7 +6214,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "585970b0ee0acc188ce9b0c3b9cf3e444d6cbb54baaea8b56414eddc89b3a966"
+          "sha256": "7f52f8a8bee036cdba93f82b261b81184a582de54e982857027dacee374995bf"
         },
         {
           "path": "/var/lib/mysql/binlog.index",
@@ -3629,7 +6236,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16777216,
-          "sha256": "bc844cb07f958677718246ed14779c30d4e251637081948776428aa91fa6ccd2"
+          "sha256": "226319ce2547c4348548d21e617341d8a4bf0e825513335c582c025fb2b4c3f7"
         },
         {
           "path": "/var/lib/mysql/ibdata1",
@@ -3640,7 +6247,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12582912,
-          "sha256": "a1c6ece1741adcf18a106d5ceaadbff05570e0673c3bd53f4ef8320ac5692413"
+          "sha256": "99f835ba1589c3e23d678ae4473b7533c6ff6cdd2f631b223d0f3fdbcf551c52"
         },
         {
           "path": "/var/lib/mysql/debian-5.7.flag",
@@ -3661,8 +6268,8 @@
           "mode_symbolic": "-rw-------",
           "owner": "mysql",
           "group": "mysql",
-          "size": 1705,
-          "sha256": "301fd45c5f102598db63f60b0a51f40934827138d774ac6a4e09f37828c13199"
+          "size": 1709,
+          "sha256": "b3cad6c3052ea1b4c3e2a2fdcb02d146f6662d65ac2e15484fa27b461f2b2310"
         },
         {
           "path": "/var/lib/mysql/undo_001",
@@ -3673,7 +6280,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16777216,
-          "sha256": "db649e4eef7a702cd59f5a68d2a64037564fbf857b80a39a7064be845395ce85"
+          "sha256": "59ffb26bf3b813fe57871ce1465cf73d592ac004678da2ad6ad29ab73dc504e3"
         },
         {
           "path": "/var/lib/mysql/ca-key.pem",
@@ -3684,7 +6291,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1705,
-          "sha256": "114e6052295730d832da35cf1276f9ebc6f7b7b681a2b71647c7077541d1a68d"
+          "sha256": "d8a7c24a770c5a96eddddb2b0a2fb39fa47422fc36a91e6a0190d8608cdf1de0"
         },
         {
           "path": "/var/lib/mysql/server-cert.pem",
@@ -3695,7 +6302,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 1112,
-          "sha256": "5f92926a557bac45fade35ea36f49ade01f9e788c1c19fd334bf480fe16e814d"
+          "sha256": "49112deebca5584bbeafc38a866eaf00fa4056825bf0c01bb6371960efb6f30e"
         },
         {
           "path": "/var/lib/mysql/performance_schema",
@@ -3717,7 +6324,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4065,
-          "sha256": "765ba4d9123bf32b5aa34f7ddbe905fd919454d0833d6c01cf5231cd25b86c4f"
+          "sha256": "48ace5288b5c9f2b995ade13adf3fbfc3464fef0edb9c3ea9a1dbbe178ccdfc5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/keyring_keys_154.sdi",
@@ -3728,7 +6335,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4663,
-          "sha256": "070537786b01e3fd42ad2e39a1f21f9c5b8def36fa75b8a00a918bd70d695a91"
+          "sha256": "f2903b6847f1ddbaf94fe7a6105232c03d3ce9c72a6c37b7b5085d1b140033de"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_cur_83.sdi",
@@ -3739,7 +6346,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 17384,
-          "sha256": "887a92aeb5a5957b9e78918b9ce53a2805c83c5cd3de9eb67d0ccc69245dd552"
+          "sha256": "26d187066d150de5c5cda55b3fed2da88ece3f497f33b0ad969cb543f270b673"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_129.sdi",
@@ -3750,7 +6357,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 32719,
-          "sha256": "11022f7e94f236af05805daeb49d8013bc94c68db77e8ed89b35378f306295c3"
+          "sha256": "7e879c8ae63d24cf9c3dd830d19121bf765325e77daea1d7235312c96a07c8b3"
         },
         {
           "path": "/var/lib/mysql/performance_schema/performance_time_98.sdi",
@@ -3761,7 +6368,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4293,
-          "sha256": "a1f7736a2382341540e7442d8d6bf705ce2f34ec899be742ea2020cbf8304318"
+          "sha256": "74f95326aa360eb1ceda09dc81331d346bb42e2278a1d773fb9901120c6ad5af"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_157.sdi",
@@ -3772,7 +6379,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11688,
-          "sha256": "34502850f2d4d8365bee2f9385df302f76907aa485e70f07d5515123da998ddb"
+          "sha256": "91960d76ba5cd80f36a972ae49d3beaebe008653be5858cb98c13bb8147f1653"
         },
         {
           "path": "/var/lib/mysql/performance_schema/hosts_148.sdi",
@@ -3783,7 +6390,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5280,
-          "sha256": "52ddbba396e518f8b5fa8a3664c231d28116abba0457b3e0b872977cb06fc832"
+          "sha256": "2b07ec6b1cee16b73c261efea6a9593568896423585a8579476bd639d7036ef7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_conn_166.sdi",
@@ -3794,7 +6401,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 24348,
-          "sha256": "693cc8a57713eafc3f2625b2c2d8c4e632a0e1c93d392ae7f04921d5dd216e6d"
+          "sha256": "806e47d8132976f006fca6799f310a31352bba055fdfdee73ab10edd0dfc3c67"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_143.sdi",
@@ -3805,7 +6412,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8518,
-          "sha256": "d1ddab841504870fbf951b766e2aca7f7a87a839c638114efd531786c4757068"
+          "sha256": "3a9c0a20be48136b162771c19f6ea3220a83cc946c7e0a1110589a9b7e32efe4"
         },
         {
           "path": "/var/lib/mysql/performance_schema/log_status_176.sdi",
@@ -3816,7 +6423,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4283,
-          "sha256": "4aa667c546344a885a97b3f1b7a679f5d01261e3c0c66c8499e9ccfb3ac34fb9"
+          "sha256": "39faec1307b253519979eab17508d000cfba5d9f1e55bda43f63a0160e41655f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/persisted_variab_189.sdi",
@@ -3827,7 +6434,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3224,
-          "sha256": "e2912459fc275ae1d8b4a5d556eae1ebd98ddf97a8eb702256c744a54a4a3f5f"
+          "sha256": "d430e9cc00bba538258ff67990066b15225e3f48176b13c0cb0f8ca8c675e4a7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_127.sdi",
@@ -3838,7 +6445,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26233,
-          "sha256": "86f0ed0b058f88b80b9a1d355dde7a63086e64256d09148c82f3b6ff413a4a0d"
+          "sha256": "1ce6d40f0609c342a7ba256faa0ba90f0ee8fbcc3e5e30b4e62e4274f9d575b8"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_132.sdi",
@@ -3849,7 +6456,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7847,
-          "sha256": "c2ad39f09790d47192a2edd0705374faa32ce58c1f117c8077d8767defa6177e"
+          "sha256": "52cadc510e85a02dfba9d58ee3a2ad48b2053529e6d28872824406a1d9ecb42c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_138.sdi",
@@ -3860,7 +6467,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15757,
-          "sha256": "91251916a7af838a0bed41e6c34c0556b473e934e57251bcf665ff0c047a5ecc"
+          "sha256": "7d9b9fa67bdf7b7d381a43120c167a7fe2ae3eb69b5f457243a8787c0dc01813"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_89.sdi",
@@ -3871,7 +6478,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7665,
-          "sha256": "bba36a66e78a7ccdbcbfbf2610e8cd7b0aa347ef47786ab74fb41871c0f097f9"
+          "sha256": "9672fd6e8f97c610c920c7ac742361b188ae1a42f3066d7c974baa3e38dedfac"
         },
         {
           "path": "/var/lib/mysql/performance_schema/variables_info_188.sdi",
@@ -3882,7 +6489,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7960,
-          "sha256": "36c54c4ef5600830ae4d013951df983747b92affbdab14bad2ee862dc20dba52"
+          "sha256": "da51460a4471e5d09f0ab571b4a1f57a4d8f4286b6949ab4178ba23b7b868bee"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_hi_114.sdi",
@@ -3893,7 +6500,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11711,
-          "sha256": "617413a1d635b2787bf9ba7004fe782a0ead8fcd1a64d4d6b4482b752b3bd5ab"
+          "sha256": "0bc504459ec7a43a7a94bc6706357a24b02eab9d3d574892cf390044c8df8037"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_actors_101.sdi",
@@ -3904,7 +6511,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6159,
-          "sha256": "99cc3cc62fa83a9426913671cfffbcb73c846e8ad9c2064658598539f56fa7a2"
+          "sha256": "d0506e90f903fb87b06d6824de850f1b5b94a94b9e4516807f4839b5615192fe"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_summary_by__94.sdi",
@@ -3915,7 +6522,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25622,
-          "sha256": "13882c85d9bc496d8ffaeb853a6b6ce97bb9ff2040fbf72ce52ccfd4fcba7b36"
+          "sha256": "079024b5d5dd600422b57964bddaeb853611c27bc0a890419bbb8a234c2ab5b0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_asyn_175.sdi",
@@ -3926,7 +6533,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5317,
-          "sha256": "9b6284527253a752e14483f852ab3ea4f2b53f2879985cd6f05438e60ce8df87"
+          "sha256": "af189e92daf09496d81f379162e6744459ffd4b8c786e54dd0eaf7c1f82dc55c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_user_182.sdi",
@@ -3937,7 +6544,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4064,
-          "sha256": "fd1633df9f8235bbb8718a00f2ec411a899f6049844897038c6647a76139370e"
+          "sha256": "d4e0b32f408e0486690fe09315920063ce2851f636e7eaa5c5581732288c3690"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_variable_187.sdi",
@@ -3948,7 +6555,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3222,
-          "sha256": "b13663f26b6f84bb8c3206cc5a4154098981d2aa02c8ba7d27065931de31679a"
+          "sha256": "cff91eabe6924d1469405b348fef26614eec31245db8311871833131ec197bd5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_169.sdi",
@@ -3959,7 +6566,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 19879,
-          "sha256": "6e4d0638084ab8393be4e3608960a6d56606c751402e694ce79cc6b7d54699e1"
+          "sha256": "9f13ff05a4bcafb6d9999756462009187fc81b7773d1a23efd4bc967205aa825"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_conn_164.sdi",
@@ -3970,7 +6577,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 46221,
-          "sha256": "cbb8529da1cc8a8a48a079038b2bce820bbff85d302b5a5a81b9a6244e990103"
+          "sha256": "23665ebbb084fcee2a07a05a5d788a959e4c3c94d4903f623814ed370e1610ab"
         },
         {
           "path": "/var/lib/mysql/performance_schema/threads_112.sdi",
@@ -3981,7 +6588,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 23643,
-          "sha256": "bb0272f73a7652f835494d6a3ec2ade38181a372f6e872ae8003cced9ff2e19b"
+          "sha256": "c487e8ee50d5d5214f5a1fcc6ada16bead710ec784a2f2b0fed0491f5baa23d2"
         },
         {
           "path": "/var/lib/mysql/performance_schema/cond_instances_81.sdi",
@@ -3992,7 +6599,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3955,
-          "sha256": "f0a0f5f61bf184e52197aa7d1b778e09a70e2b7c53704c9bca8759cae5eab332"
+          "sha256": "a598589a4bb8e9f88c72f62a223290712f16b4b98cfe035fcead7b11986bef0f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/global_status_183.sdi",
@@ -4003,7 +6610,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3218,
-          "sha256": "840996eeefcb8fa47210297e150901ff288ac0ccee1f036bd5e3104e897fc576"
+          "sha256": "bced0cfd47cf1014b10b543537d2c9fbb91c30abc3f36acb0ebd41d48de8fe9e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_117.sdi",
@@ -4014,7 +6621,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8521,
-          "sha256": "b34b38b64a78ae799c0d40e51fc5380ae8e41fc5c8ba9320c0d6028025c5cd0d"
+          "sha256": "29f7a357d4bd1c83185064e1fb25dd24f3b0efb76f97f6f4f64e78dd883a84bd"
         },
         {
           "path": "/var/lib/mysql/performance_schema/metadata_locks_161.sdi",
@@ -4025,7 +6632,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11897,
-          "sha256": "664876d0f52d7646970e8510a3779a1c0c3aeb148003d7477874d8fb3da55721"
+          "sha256": "509cc12654c19fa09ecb5c497b0b109e9702e835acf847a025b3956e1285ca77"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_account__153.sdi",
@@ -4036,7 +6643,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4703,
-          "sha256": "74ea96c6c2eb30135d7d39f0c73b50e7d388528a3c477d8d827c66607157b87e"
+          "sha256": "7c48520c8c89c01271a3e132824e72dddfa5c8bf2d4b8f95b15ce73f7a35fdaf"
         },
         {
           "path": "/var/lib/mysql/performance_schema/user_variables_b_178.sdi",
@@ -4047,7 +6654,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4100,
-          "sha256": "587456997a827e10e52823ab57b3983b15641c7670740a964c6e43e22bc28ee8"
+          "sha256": "db934e5c93174b97d4a492a0be3321e0bdb63a4b2ee6f8c4411bbe76622fa182"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_summary_by__93.sdi",
@@ -4058,7 +6665,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 20467,
-          "sha256": "3317051217d63cdc2e2982161d521f65140056842274cf6ef39842e462d9178d"
+          "sha256": "80e1665be08f4eae26bde6c08b916ae7ae972d5243c3968660714a13e57e36e7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_134.sdi",
@@ -4069,7 +6676,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21447,
-          "sha256": "333a14a552a765c2af2dd6605f2845d556eca8c7c3c5d17636a81cbbf3bbf951"
+          "sha256": "f3436ad4c14cd3373c57d770c007725a889a83cc024c8cccf51a6c55d47771dc"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_116.sdi",
@@ -4080,7 +6687,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7695,
-          "sha256": "a16e78f79db5a035e1fbc2a097ae16924a23adfda9f97c4859809c33c5cea435"
+          "sha256": "9a5cafaf052765ca16643d42ea333100d2e328fa73792ef99082b653576b175f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/variables_by_thr_185.sdi",
@@ -4091,7 +6698,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4096,
-          "sha256": "130276425a1c98ae46ed172b599edbaed6e27f8e674c2bb9513a9b10ad1e8e54"
+          "sha256": "607581cd0af744034abd2fbd2a9e4ada75c968771c89c38d7e2fdcd749157aea"
         },
         {
           "path": "/var/lib/mysql/performance_schema/keyring_componen_193.sdi",
@@ -4102,7 +6709,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9509,
-          "sha256": "f05d4d1ba48ac5a0a1a5b384f0ee2e349615375aa5bcd720969e561f7c0e6d6a"
+          "sha256": "1bb910ac6026f780ad49c2966c3373f2f26bf31a3e55d63cf6ac2b357a4ac982"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_130.sdi",
@@ -4113,7 +6720,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 31346,
-          "sha256": "e8cbba00934c4dab934f6dabe283ba458dfc94bfd0edef33578578ec2a05f600"
+          "sha256": "7e11b5b7cbc4c156b600a0eb41ef5d246fd6e124fdd5d95d6c0b735304f38f40"
         },
         {
           "path": "/var/lib/mysql/performance_schema/global_variables_186.sdi",
@@ -4124,7 +6731,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3221,
-          "sha256": "063283b66d013aecad51555fd3b6fd0ca86c6722d49bb268e1116cbc8073f586"
+          "sha256": "30d959a9d8456da0522afb00cdb7823277f44c1cf19c75bcdf7ce493b545f78d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_128.sdi",
@@ -4135,7 +6742,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25385,
-          "sha256": "0b6bb22fbcaecbb0389b9cde4de9a8d87f28859eac9a90c760d07e7fc4561fd6"
+          "sha256": "060dfd1a82a5fafa648d64b810a180b78da0644a486caba637048d3925a53dbd"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_119.sdi",
@@ -4146,7 +6753,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7667,
-          "sha256": "ffbf46d13af1c9e7a7c57035568f1f35e56e0d1b62738b4db241f2a25136d7b9"
+          "sha256": "235cce954735ada2aa2be1171d3d31c0a3e230daf6da9e9e806f5c260423c38b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_139.sdi",
@@ -4157,7 +6764,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15758,
-          "sha256": "856f60853c5485eb588d9beee0ab70b79960c74a552bf4c2f86cf3848300c6f7"
+          "sha256": "d4893abace73ddfff99f496fed032d74a0bf93f3e04dfff495357bcbdcab35a3"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_172.sdi",
@@ -4168,7 +6775,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6730,
-          "sha256": "5f2395abb32f87de79601c2caee14d41db524d800cca30ebb4dc43750cd5a3f5"
+          "sha256": "6b74e2551ea57c1d6e2742400f52dba9915f40cebe7710834cdcaf489a0abcab"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_141.sdi",
@@ -4179,7 +6786,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7663,
-          "sha256": "222be3360fc56a4841dd4a8615cc3a4eeacd66b51a7e54745dde43b211fbd11a"
+          "sha256": "79c6f3993810aad379448cd8510dbae750fa44f5b33602bf9aa2927cb06ad18b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_handles_160.sdi",
@@ -4190,7 +6797,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9649,
-          "sha256": "62e276b461d7b041398c567e453672729cbd8c0da05f43790f919449eeb9bd16"
+          "sha256": "c1f804ee2800f72504ceda09234717567c7cf57395fe98722ec9635fd8ac79d7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_124.sdi",
@@ -4201,7 +6808,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26261,
-          "sha256": "fd4e884a7127224b0a3bbafb495d36e9985333b93fc6927d31d8a8a3cf179b14"
+          "sha256": "3450486bdf5b2de8d023853a51f3ab0407028940859a314ac3d4810706ad688e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_167.sdi",
@@ -4212,7 +6819,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8225,
-          "sha256": "8ac678bf133266a9ae629e01f82754c27f85534e062f0335076496e17b251c35"
+          "sha256": "8747a441b39a31211c2734225239a2719b86590c001a2d718ed0805ee0da9fc3"
         },
         {
           "path": "/var/lib/mysql/performance_schema/objects_summary__97.sdi",
@@ -4223,7 +6830,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7822,
-          "sha256": "84cc975c335a7993832aa9443351a7b71cd7133cd2252d9565713845a787957d"
+          "sha256": "734841d2df73c5cc4a721a304f394e9ee6d716479af6c5e98963fd5202a337ed"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_125.sdi",
@@ -4234,7 +6841,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 27088,
-          "sha256": "fc198def50b8e4cb08dac1a0511632fb9d7877b1d60a4a27ba3e5dfc04cdb86d"
+          "sha256": "1ef26aac0bdec2805734ad81e565d8b089f00a291fff6a44bc0e4e7abc205440"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_lock_waits_111.sdi",
@@ -4245,7 +6852,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 56631,
-          "sha256": "20ace5cc9fd93345b8ed822487b28dbbea5e52e09a3108cd4afb2d98924d31d5"
+          "sha256": "c98ceb39c737a702d781974056c7ce780c191d94e6ade20e3050fa7b59ecf98a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_90.sdi",
@@ -4256,7 +6863,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8520,
-          "sha256": "5e7cbdbc0becb37ac62de9a55162ca1f3f2ce6d7a0134d74f2f38a8563e1ddc3"
+          "sha256": "68f204800684a1233bf43cd086b91ff550491c20564cf559c1e73704ded1c182"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_his_85.sdi",
@@ -4267,7 +6874,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16943,
-          "sha256": "effcdd1cc87b2a6107b97e406eed98654db7a0307676778b4840f5343278ffa5"
+          "sha256": "497c671841509ffc0adc78ad93d0fbff5fc6b65df5fc0949734928bed0498e9e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_123.sdi",
@@ -4278,7 +6885,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38468,
-          "sha256": "9a6c7efa75645314843614ce70f52a6ef8819c84a6efbc74dae2a4cee04ccbea"
+          "sha256": "5de9c2dc8f0a3b8ea1cef965ba189f3be132b65c441475c55a6af8dd754b3099"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_136.sdi",
@@ -4289,7 +6896,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15786,
-          "sha256": "821a77f65a51e4c94de88ddd935eb73495643a6f7350fb95382bab0505b524fc"
+          "sha256": "82a2a0e088cef2b9b25f48e96e01ec1de681d7e99f672ae6504d824bcff6cac8"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_his_84.sdi",
@@ -4300,7 +6907,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 17384,
-          "sha256": "5b402f617687f02ae51a31a61f4bc3ab26b229e997b2a7e0521d27cc547d078b"
+          "sha256": "ac31d1688c701ac9ef6ac0b5629b414264d6814c6fa83c86a7d328c9db8f431b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_87.sdi",
@@ -4311,7 +6918,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7996,
-          "sha256": "959f677621b4a8f9bd9827178c73a83a2a3c92c7d7f54d447c54418104d369d2"
+          "sha256": "7e668bca0677a6f5c4217e69a06b1d80f2dc49ee286e55d65a94c21efe7d92cf"
         },
         {
           "path": "/var/lib/mysql/performance_schema/data_lock_waits_163.sdi",
@@ -4322,7 +6929,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 14643,
-          "sha256": "ee7c65f94342a15ba7217c9334d1f094a22eafcc7e6295bd308c22e6053cba7f"
+          "sha256": "8b4ec4508b6d0bd0b26bb86fda03c0da39f2e3c3ad6a3de8c1a558f05ff6d42c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/mutex_instances_96.sdi",
@@ -4333,7 +6940,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5136,
-          "sha256": "d990b0e726f6126edba25d8894e8c7b54b777c380b7db3a609a4a806c95a4da2"
+          "sha256": "6f5098672e81ac83f5ddf8341e7c327f420c2217e301cac26cee1d49238a9685"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_131.sdi",
@@ -4344,7 +6951,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6125,
-          "sha256": "1541d57d69fcaaa3c42961bb315321894ab7b5ca10dcc792bc64fee7d34fdf0d"
+          "sha256": "28ca80a0e5ae1ba2fedeaf367df9e0d14d2e949f150236039ab0b65ae1715d17"
         },
         {
           "path": "/var/lib/mysql/performance_schema/processlist_99.sdi",
@@ -4355,7 +6962,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 8385,
-          "sha256": "2333f31a53b5c6265b91d36bda013044fb2efd257e1a04abb2e3f259a6549958"
+          "sha256": "b6a38cf475f238373b2c61702dec5b498b5adc1d538734ceb8d347132908ee45"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_126.sdi",
@@ -4366,7 +6973,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 26232,
-          "sha256": "6509ea65655673abd0db60bb2d6b50a9e3b82c1785100ab1ec6016bacc1b1b9a"
+          "sha256": "3ac2fbe9c6a56ca769fc2c6f50feac8f914daa3ebb470d31aecec4fd5d9905ee"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_connect__152.sdi",
@@ -4377,7 +6984,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4695,
-          "sha256": "7d43cc73ebf45863b4e940faa5c1e58bbc73519bd294cc6e6e682f7f38b5329a"
+          "sha256": "116ec705f29819cfc1372ac1236127ede72450ddf224c88e2ea78ded19a0f4bb"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_133.sdi",
@@ -4388,7 +6995,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21447,
-          "sha256": "aa5b2df05bed871c14119a1c71e6a9cda8902b8fe53ce164294025afc0f9f2b8"
+          "sha256": "bc5c2471fe14cec055e0d07108bc29450f7425368c2853e7728f22d523e887ff"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_consumers_102.sdi",
@@ -4399,7 +7006,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3261,
-          "sha256": "71349ce7264a5de73ae336422aee616dd8018b7afdf422af1d1fbb62e4d25fb4"
+          "sha256": "614ac7728db9a9c5139edc9be78a18b14ddc61e615638c961243a8e209a02f2e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_137.sdi",
@@ -4410,7 +7017,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16613,
-          "sha256": "d17fee90a4a806a1ff70bf85421baa2e041498891e580756416e9319c357766f"
+          "sha256": "b933b56aee31eef1cd2e79c1b8b6f5e19d851382919a6953eac89f79384aad7d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/accounts_147.sdi",
@@ -4421,7 +7028,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6134,
-          "sha256": "9829c8410a97808262e8ecdb91a6ea619de7c3ce650b76bce0fb5c052f464d63"
+          "sha256": "bdba9f27f891bde516b492d73fe917ce5a3ac4a944fa9b3a9e6c9cc874c00e19"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_168.sdi",
@@ -4432,7 +7039,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4886,
-          "sha256": "3c26d689e7bfbba35a6231b894cf2348603ccb788687e019d2a5c2804f3d3200"
+          "sha256": "6dece9cd67f6a96aa5f8ff753fad414f3a7f8499a1d8550f241845664c96e932"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_173.sdi",
@@ -4443,7 +7050,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4601,
-          "sha256": "5917a507635bcb2f1d848529c808b5b10c930f3711b994094642f8f1989c716f"
+          "sha256": "246b9ac904ebf839b25474f8a634dbeb503443570b2534679f7347fc4dd370a0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_metrics_106.sdi",
@@ -4454,7 +7061,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6951,
-          "sha256": "1d6307892737d8354930aa6e75a9f02951ee570f2e5603f3eecfa249b1484118"
+          "sha256": "f51201a4d59ebdca1defe649ad11a140a513b16505d603afac57ac064ff10dd5"
         },
         {
           "path": "/var/lib/mysql/performance_schema/session_status_184.sdi",
@@ -4465,7 +7072,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3219,
-          "sha256": "45d8991c740d089c2c00481a8064e6db7a354b647bb618943c7160c21bcbb927"
+          "sha256": "a67fb68356b3b396f04cbdc8f7528e98d6db198619de33fa935c2198526007fb"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_asyn_174.sdi",
@@ -4476,7 +7083,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7243,
-          "sha256": "87ef28f4448b687edf485a77acef916635137fa9917b1f355247e04a42207c48"
+          "sha256": "adf3c7094f64e29dfd718a52198c9008c7128dd55cc51db5943a679bfeb611d0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/host_cache_95.sdi",
@@ -4487,7 +7094,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 25310,
-          "sha256": "41b7d8d23b67387d29599203190022a9322a777f7f16c62e157af78de52b8002"
+          "sha256": "c0fa9bc8906dcb3ba1786368dce90dfeba63c62b2ac1f80c2475ce34c423015a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_121.sdi",
@@ -4498,7 +7105,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38909,
-          "sha256": "8036821c11cd05733811eee1d868400f0320dec623045e0dc8d6816dfbf2426b"
+          "sha256": "50bd2080534f7e60e292e2a63b849a787a9a87b7e379829d3e7e6d9575bad243"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_summary_b_150.sdi",
@@ -4509,7 +7116,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21670,
-          "sha256": "eb7d9b305bd0133637eaab105c603f38c8a4618c47550a56f1646f3f0456d3ae"
+          "sha256": "7289f29718a0d3b405aa8e061656c850376acbbe90016889311238a6f97661f0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_158.sdi",
@@ -4520,7 +7127,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11716,
-          "sha256": "173bc7b9f3c118c7b299e0564014cde7e06785e443e6c8b76ecc639fce92b575"
+          "sha256": "9d176da433146034d288a28a7b3618341c2127774916b8dd5cf26ff686231fcd"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_summary_b_151.sdi",
@@ -4531,7 +7138,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 20485,
-          "sha256": "26261f762cfa4c61278f78811682639776ce6ad034e8818fe3dc11a4e9f8d13e"
+          "sha256": "3271bffeeacff5101d8f277896791059cc21abccad4c4b51272dec53646c1c74"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_instrument_103.sdi",
@@ -4542,7 +7149,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7937,
-          "sha256": "568cfb54715045cd136f7c23dbb346b97abe5c6290f875538fc9b886040c50fc"
+          "sha256": "7721b65723732be6a61575d59cc28f25ea27a11fd5b54d32beb9552d5d7ae7af"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_118.sdi",
@@ -4553,7 +7160,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7666,
-          "sha256": "0def93098e712a6043b8feff05d0f8501becec6baa94d2ffb45e5bf3e1e9609c"
+          "sha256": "6a96efeb324eb4b905b1cfda018d6cf976a535374f071e4709b60afce06c8e4d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_159.sdi",
@@ -4564,7 +7171,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11687,
-          "sha256": "fbbc75840d3e885b484644174639a31bbe4a8115c8f12e74a47351edc814e6aa"
+          "sha256": "b67d913c0a5f2040cfd0d9e40542e7e1853241a1de417894aac6e5e3e512f541"
         },
         {
           "path": "/var/lib/mysql/performance_schema/socket_instances_149.sdi",
@@ -4575,7 +7182,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9110,
-          "sha256": "8ce8018576960e0315091b6de04585bc358e2dae68dfa253389ac4c663ce7457"
+          "sha256": "168a5370234059859516c9bbbb2b371c057d2aa56566f383e6c1db847885eec6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_accoun_179.sdi",
@@ -4586,7 +7193,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4919,
-          "sha256": "305bf5d264ebe77e5f5f1cb6f331c8f7200d04c28f98d63cb4177279b45dfa56"
+          "sha256": "51cedbc4ec44bd933245d1163bfedd24f7b96580b55cfe3b63c748386f6644e9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/file_instances_92.sdi",
@@ -4597,7 +7204,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7543,
-          "sha256": "d8f4f450d63b817bf4ebdb7d873e109dcb09e203a6ca9b606be7cb5fc0e8b34c"
+          "sha256": "29e1fba5ab678b76c76eb8252d25c6cd064c3cfc6a39da38309f294994a9f68a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/status_by_thread_181.sdi",
@@ -4608,7 +7215,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4093,
-          "sha256": "48b1e8245efc9ba040b910982b1e2e96dac78893619225654105a0dd7e5c808d"
+          "sha256": "69aee3b4b12deaca38e882cd7dbacb9893218352027623cd26dd128b713e0ae6"
         },
         {
           "path": "/var/lib/mysql/performance_schema/error_log_82.sdi",
@@ -4619,7 +7226,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7639,
-          "sha256": "8fd09095c0e754f970ecee76632e21962494c3ce75e79aea1e6360951df75a7b"
+          "sha256": "205d11bb25714e6f9a2ffabc1928bc77d66e1fa32fe2b9e3b6fdbd664c31119f"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_140.sdi",
@@ -4630,7 +7237,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 14910,
-          "sha256": "64e45f21980f7b0174700f74793fc1784f69f0a412a89237e4d23ad768276080"
+          "sha256": "c2bc826bd40b7cc31bdaff165e73c285d24247544f9c2ed1fc2c12f16af3bfa9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/data_locks_162.sdi",
@@ -4641,7 +7248,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 16110,
-          "sha256": "7187d28a04179bd21d59129a017d03a4cf986c129176fade859f7e9e0cbcb690"
+          "sha256": "f35b74fc0a6fa9ffe677b2079b84dd2414e69889cf8c4dacd400c6e046bff2ad"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_threads_108.sdi",
@@ -4652,7 +7259,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6890,
-          "sha256": "d1313fbf4e10b254d3bd53967043b1f4d30512d18eb86a01f90e5f4d96932596"
+          "sha256": "8eb39becb3332007dd297005dd17767b010887eeb236003037e91d29eccbabf9"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_meters_105.sdi",
@@ -4663,7 +7270,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4833,
-          "sha256": "6f71f3ee99126826876a2fa6b6802b3c214b566ee6f92955b7d08d4d6e849241"
+          "sha256": "508109222de5dd3fcb62aebd89789394239edd74a07222809771c336d26e7857"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_142.sdi",
@@ -4674,7 +7281,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7664,
-          "sha256": "8bd4da5a293c91b589c30d0d615ac2be70fdad0c6c2fd8da86c0a9343b16c054"
+          "sha256": "7ee6e1c2a4a61b201ddf894d65c5f619d3e5b71c02073d977544442a88f2af8e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_g_155.sdi",
@@ -4685,7 +7292,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 10840,
-          "sha256": "fc308a1d32b7cc21048d67a0e030809bc08263244e320881efecdfcfc5ddeb79"
+          "sha256": "821d5ef38210eb9b46f111982d88347ddabc6fedf3dc60254c914b435213a54b"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_statement_122.sdi",
@@ -4696,7 +7303,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 38909,
-          "sha256": "09aa2b4fc952b18bade1b8bf444fcd425063f98cf55232d6ee1a8deabe624253"
+          "sha256": "5c5e8ffc869ab0ec39e59157b821c3cc80e427d70f167a12df010a6e66160860"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_su_120.sdi",
@@ -4707,7 +7314,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6820,
-          "sha256": "13c8729e66c6b81a8b80a69a80ed6d242a7c4651547abe28cb9ea6cdae9ce82b"
+          "sha256": "84854cf0300bf77987fd00b05c25673da36bcea0e8edafe65d4c604a2595d6f7"
         },
         {
           "path": "/var/lib/mysql/performance_schema/user_defined_fun_190.sdi",
@@ -4718,7 +7325,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5791,
-          "sha256": "4f74b6f1ff71357f5a49085831ad7667452c928907c279c8eeff7eda0ccb8d9b"
+          "sha256": "040d6c2bde5519152bbed230dd79e589e72aaa69e4359e41fe884ac3aa7727a4"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_cu_113.sdi",
@@ -4729,7 +7336,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11711,
-          "sha256": "979b7d302bd479ea16c5c5ed62d5f072c6bebd2de657b8e3b7cb2be9972b7f41"
+          "sha256": "4d8dae1fb05884da1cdd94203153a5043b59f8500bb07b2e97e535828a422818"
         },
         {
           "path": "/var/lib/mysql/performance_schema/memory_summary_b_156.sdi",
@@ -4740,7 +7347,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12543,
-          "sha256": "c2021ed3533631f4c381a28f7aab0eb72bfe8094b9c4f110215adf35d31a0df9"
+          "sha256": "82c2880206e38835568d772de0ffb4321a0c8a7e7076bb23fa69923a5ce3a096"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_grou_165.sdi",
@@ -4751,7 +7358,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 9488,
-          "sha256": "b7eeb18af0211361243a673e036e150836f36b8b55a65d9b780291a19a93cb06"
+          "sha256": "a17bffd790640b3d4b127681ca415da46a603a7539ceb4bd7c9a8d9fbf6b9832"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_86.sdi",
@@ -4762,7 +7369,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7666,
-          "sha256": "fa8d5292e8bd23673f03c38b8e1b371289ccd2506b73b71d3b2ae64ff613a9ae"
+          "sha256": "7bbd0bf97772263625539b12f6e9238b513184fa9eba1603526a175a6129a076"
         },
         {
           "path": "/var/lib/mysql/performance_schema/rwlock_instances_100.sdi",
@@ -4773,7 +7380,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5951,
-          "sha256": "3cca9f8a89c3ccdd988f9a28e82006b59cd25f0f8672295c1cc7da58ecf1e7f5"
+          "sha256": "b4498d5bec184079bcd8db39d6ca416913f1a0bc58216a0dea1eaf504ba238a0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_stages_hi_115.sdi",
@@ -4784,7 +7391,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 11270,
-          "sha256": "0cb614387224a1187d01566edeeaa9d260425c1c10a32b65f63006c56b2b9991"
+          "sha256": "4bbe9c702aee3ba81c163571701e202155487aa7a3ecbe9849d612d6786fefa2"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_88.sdi",
@@ -4795,7 +7402,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7694,
-          "sha256": "9059ee25d892509b11c0a60f114092f663575c04d3c46dfefb0ebdc9d81ae43a"
+          "sha256": "bbd78d140d85f78ab365f21c270566bfdf4b895c02ca3550aa1682cb2490d608"
         },
         {
           "path": "/var/lib/mysql/performance_schema/tls_channel_stat_192.sdi",
@@ -4806,7 +7413,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 15893,
-          "sha256": "74eb0a0389aec4206968b5de1c81d8bcf0beb228d295d24d27f616e391b58f51"
+          "sha256": "574e17a0c8d67683a27c3e2b9a7d56e6c50da87fce262e679fd4c9746ee50029"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_objects_107.sdi",
@@ -4817,7 +7424,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6406,
-          "sha256": "2b70638d3c015f37f399d6188852065e8baf67724c8a31a1302fdd882250a4d6"
+          "sha256": "0da1d6ed88af8fd962caaae932515ebbd07dbf6208a2f1fb5408e507d433306d"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_145.sdi",
@@ -4828,7 +7435,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6822,
-          "sha256": "7bc5c84db7a71d9a678fa98bbfc78f83f796b04a70a7369a6b25ce30a572582f"
+          "sha256": "85644b8ba6c5d059f4b01523c2dd741d28fe1cbd1cfdd646f80da66ef1ac4434"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_appl_170.sdi",
@@ -4839,7 +7446,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 27360,
-          "sha256": "6980bfd5bf35bc258f468c00e832868879d3e8626e7e7b0fea9cad01b3c200ea"
+          "sha256": "2044c55ffca564c05ae74393baab132c85aec794d5f9edc84629b2baa58780e2"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_transacti_135.sdi",
@@ -4850,7 +7457,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 21006,
-          "sha256": "5879ba5319fa23463a058d7c338628851788cbca1033671d11766fd845543502"
+          "sha256": "5e7e80424fb818991e9f46738e9e872216fabb41fe7223621492e6d8623cbb00"
         },
         {
           "path": "/var/lib/mysql/performance_schema/replication_grou_171.sdi",
@@ -4861,7 +7468,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12356,
-          "sha256": "0e701267b18f282da8492f360075517f3019369490bd07e741d881dca76e5d8a"
+          "sha256": "dde5efd90c60b3c4f5115b18a36aee86e47d149cff20a5d8dcfdd12c6a109b8a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_io_waits_s_109.sdi",
@@ -4872,7 +7479,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 32824,
-          "sha256": "e8b13458231087f7fa796c41d4c03738aca29d957643f5bd27a1d17182a9bbd0"
+          "sha256": "a56b5a0173953271d8a6f93ae7dc67ca899bdaf6ab067ea101b8c91077f84a66"
         },
         {
           "path": "/var/lib/mysql/performance_schema/prepared_stateme_177.sdi",
@@ -4883,7 +7490,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 35510,
-          "sha256": "56f4ab3296532187fee6f6019229c4dab165d8bf1ce0f84e8155e254209d3ec5"
+          "sha256": "0eed7c9468e59088f7fb4e112698c97c36441a70b7f2139ad16f6f6f7624207a"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_errors_su_144.sdi",
@@ -4894,7 +7501,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 7694,
-          "sha256": "d63519d647826b2d5da8058152e97176c48a1f018dd9126d4cbf18a1420c2c3d"
+          "sha256": "26d4a5dc38e989cf887dde39add90d804f5a5f90726bc907c76c8a889570e67e"
         },
         {
           "path": "/var/lib/mysql/performance_schema/events_waits_sum_91.sdi",
@@ -4905,7 +7512,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 6819,
-          "sha256": "23c6350ee0685e1e862322982122e0fd01c6e22f4c6c3fc8be724bff65bf46f7"
+          "sha256": "e9c124cb7113c9a5b13c0a9aa85c1ada9de370e719d2e3a97e846e255e1d02bf"
         },
         {
           "path": "/var/lib/mysql/performance_schema/table_io_waits_s_110.sdi",
@@ -4916,7 +7523,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 31958,
-          "sha256": "bf0a59eaabe0401d60f2e1c8e78c47d329b2d0d710807d218fee45740e482519"
+          "sha256": "d85486733dc4a48bf1a4f49612a0fb8b10eb1c247f44e92926866e5cde56575c"
         },
         {
           "path": "/var/lib/mysql/performance_schema/binary_log_trans_191.sdi",
@@ -4927,7 +7534,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 13199,
-          "sha256": "1b0f261314b6ca10535dd5bfc0e8665a1b4fc18e8635478bf178ef943331727b"
+          "sha256": "ec9fc052fa98d82b37e2308091e8ea79c823ade38e83ed9da82be387ee30b136"
         },
         {
           "path": "/var/lib/mysql/performance_schema/setup_loggers_104.sdi",
@@ -4938,7 +7545,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 4149,
-          "sha256": "7e235e142a0a70967357657896577819175f36e5a750d4343040e456fbd1f6d6"
+          "sha256": "fc00cabe0630cdabe23de004d4d801cf5a332572776bfa3e443215fb3d1b04c0"
         },
         {
           "path": "/var/lib/mysql/performance_schema/users_146.sdi",
@@ -4949,7 +7556,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5279,
-          "sha256": "2a6f8af2ea27e0039ee15d4440a48c0d64733237b5d4f29030188a480c291cee"
+          "sha256": "0fef87d3c8d452b0b148bf45e2392399fe07d1b0a5b6c18488af19763e82bd1e"
         },
         {
           "path": "/var/lib/mysql/mysql",
@@ -5004,7 +7611,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 12505,
-          "sha256": "7890a18f73245680f59130b198e4b1991b7dc9749b77ebcc3c17297e1b97fc36"
+          "sha256": "3602c98860e591bc69a6ccae92b697cef8302c3f700f1b1239de6cb56b8a91e7"
         },
         {
           "path": "/var/lib/mysql/mysql/general_log.CSV",
@@ -5026,7 +7633,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 5972,
-          "sha256": "a2d138006260fc609d9c78246ce76f282eb5cfe03abef668a08d40992084f218"
+          "sha256": "10e4fe5f478ed4844c0d76da0944ccf060ca04ce53858d39a76f3521e0522c91"
         },
         {
           "path": "/var/lib/mysql/sys",
@@ -5048,7 +7655,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 114688,
-          "sha256": "5e61d54fe6215fce014a6145633aeff355b9d9f3f549f898fdd3d6b51167ef1f"
+          "sha256": "066a48b896b1a04c91a80ff9fcd251f5d348d6d7ee063d0a89141e313d06c8ae"
         },
         {
           "path": "/var/lib/mysql/#innodb_redo",
@@ -5323,7 +7930,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 3276800,
-          "sha256": "bb18fb2bd6354e898b7243014b98a36c014c7f05f20298c70b8be2beb6340255"
+          "sha256": "f1eab2a73e3173f6ffbf1770668f0bf2b19c6837d35694283c25c57b50101d23"
         },
         {
           "path": "/var/lib/mysql/#innodb_redo/#ib_redo28_tmp",
@@ -5433,7 +8040,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "1152ba1ead997d7ee25c3f64532656bfca347383c6eb08485d3522c915076c28"
+          "sha256": "32ee9e7294dbb3afb9394c73b83746f2b328938105ecc65503ef5f6bd359203d"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_8.ibt",
@@ -5444,7 +8051,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "443d2622b59c1330c5c434ab7c12f9f557ee152cec2ebade1452f8fe662219dc"
+          "sha256": "a3eb987b47485d35329daabadb4fba9606a04babf7f83a76b05c88018047337d"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_5.ibt",
@@ -5455,7 +8062,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "42c0c970e5748650cf2d33cfbdb90be639b7cb5f9a90dbde9a898e16b6fe01a6"
+          "sha256": "2688a405fde16d4de0f2082c9657c928fcc266086938b6bd680610d5a65b61ee"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_4.ibt",
@@ -5466,7 +8073,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "ba79c4054f3244b7ac990356ba8a98f825711021cdd74571b617838a7e1b3041"
+          "sha256": "f23f0e15193bbcda490a4d0c44ef7f6dd38875dcd966ed34ccb835c33fca81cd"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_3.ibt",
@@ -5477,7 +8084,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "b6c6f65c74d1b1696a07c4d8c588086460170c451f2a55df886d279c0e3d2005"
+          "sha256": "cd506fe33f6a81509348b91ca87c658756f230568034b1375c08140a58bf682b"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_9.ibt",
@@ -5488,7 +8095,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "bb2fc2ca285e6dad8bab18f0bac6a7abfe411b0707db4d7bc01c7df9e67c4d28"
+          "sha256": "62dd6bda3faed2aea92359cecefb375f2e4ffb6d5946d90b81162643b8ecee1b"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_2.ibt",
@@ -5499,7 +8106,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "555e5fb3915438dd9cae4d0df50f74df5a3e325d5146eb9a44422a3770657286"
+          "sha256": "01d1e8bf8447aedecd9b82b6f7b5bfd28dc9774eefb92580d7b77176d3f346fb"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_1.ibt",
@@ -5510,7 +8117,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "e31787584bba071ace8bff857659fa91d5f34d555b0602c451f5fbbfea13b09d"
+          "sha256": "18f52c3e01c6f80345f79577cc02080fd290352e05da08f79992a38315063a36"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_6.ibt",
@@ -5521,7 +8128,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "84f5958149ee86084259f4313d5decec61cd4fd0557811c80fc39788f8285ca6"
+          "sha256": "7c3aad4ffa31bf4db9263500af02aa99478d4daeae5e075d67e50b767d9d43cc"
         },
         {
           "path": "/var/lib/mysql/#innodb_temp/temp_7.ibt",
@@ -5532,7 +8139,7 @@
           "owner": "mysql",
           "group": "mysql",
           "size": 81920,
-          "sha256": "3b84297d83d659210f7ba815034d1fb6957bace86906235af7c301776f1c6313"
+          "sha256": "b919e8642f80df28301a23134e04d3d9970a5c0fc6e52acbf59009049a535b81"
         },
         {
           "path": "/var/lib/mysql-files",
@@ -5560,29 +8167,18 @@
         "sha256": null
       },
       {
+        "path": "/etc/logcheck",
+        "category": "config",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
         "path": "/etc/logcheck/ignore.d.server",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/logcheck/ignore.d.paranoid",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/logcheck/ignore.d.workstation",
         "category": "config",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -5626,17 +8222,6 @@
         "sha256": null
       },
       {
-        "path": "/etc/alternatives/my.cnf",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o777",
-        "mode_symbolic": "lrwxrwxrwx",
-        "owner": "root",
-        "group": "root",
-        "size": 20,
-        "sha256": null
-      },
-      {
         "path": "/etc/apparmor.d",
         "category": "config",
         "is_dir": true,
@@ -5659,116 +8244,6 @@
         "sha256": null
       },
       {
-        "path": "/etc/mysql",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/mysql/debian.cnf",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o600",
-        "mode_symbolic": "-rw-------",
-        "owner": "root",
-        "group": "root",
-        "size": 261,
-        "sha256": "f6e6080cce4266d8fb1362c848d3c9e1482021a76a0bcbb6e081c1a7d3dcba96"
-      },
-      {
-        "path": "/etc/mysql/debian-start",
-        "category": "config",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 120,
-        "sha256": "d30adcac8b3bb4e418236af6e121b08ced7c31408a8d773e615dd09f2defabdd"
-      },
-      {
-        "path": "/bin/mysqldump",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6882640,
-        "sha256": "7221b7cab10fc91250c71502b59cf09e75e6e1a52aa09c6aaf2c581840037514"
-      },
-      {
-        "path": "/bin/mysqladmin",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6781168,
-        "sha256": "152ff7c48004f778c88933efbc76c90096d4102afc55ef115d35e55da78b347e"
-      },
-      {
-        "path": "/bin/mysql",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6956112,
-        "sha256": "7222b6e9c88fd5e8aa81e610fcb784711e48d9c2266db750f3795360f03d61f3"
-      },
-      {
-        "path": "/bin/innochecksum",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 175712,
-        "sha256": "b016a292ea89130ca49a68899682982ce0ffe2ffca5c8b3992aeaf0265fba9bc"
-      },
-      {
-        "path": "/bin/my_print_defaults",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 183880,
-        "sha256": "0c295aea26ad481059d8377b942aa46b2299866b575018088b7fd706645dbf2e"
-      },
-      {
-        "path": "/bin/perror",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 1614024,
-        "sha256": "56100a9369de7db1321ff619764958e12cdd17d77656d478c63ac6c16daf7b5c"
-      },
-      {
-        "path": "/sbin/mysqld",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 62269536,
-        "sha256": "d0210438c38ef4f25c5378731363194d9584057223845ade50e7727d1aacce8f"
-      },
-      {
         "path": "/usr/bin",
         "category": "other",
         "is_dir": true,
@@ -5780,72 +8255,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/bin/mysqldump",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6882640,
-        "sha256": "7221b7cab10fc91250c71502b59cf09e75e6e1a52aa09c6aaf2c581840037514"
-      },
-      {
-        "path": "/usr/bin/mysqladmin",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6781168,
-        "sha256": "152ff7c48004f778c88933efbc76c90096d4102afc55ef115d35e55da78b347e"
-      },
-      {
-        "path": "/usr/bin/mysql",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 6956112,
-        "sha256": "7222b6e9c88fd5e8aa81e610fcb784711e48d9c2266db750f3795360f03d61f3"
-      },
-      {
-        "path": "/usr/bin/innochecksum",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 175712,
-        "sha256": "b016a292ea89130ca49a68899682982ce0ffe2ffca5c8b3992aeaf0265fba9bc"
-      },
-      {
-        "path": "/usr/bin/my_print_defaults",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 183880,
-        "sha256": "0c295aea26ad481059d8377b942aa46b2299866b575018088b7fd706645dbf2e"
-      },
-      {
-        "path": "/usr/bin/perror",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 1614024,
-        "sha256": "56100a9369de7db1321ff619764958e12cdd17d77656d478c63ac6c16daf7b5c"
-      },
-      {
         "path": "/usr/sbin",
         "category": "other",
         "is_dir": true,
@@ -5855,17 +8264,6 @@
         "group": "root",
         "size": 20480,
         "sha256": null
-      },
-      {
-        "path": "/usr/sbin/mysqld",
-        "category": "binary",
-        "is_dir": false,
-        "mode_octal": "0o755",
-        "mode_symbolic": "-rwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 62269536,
-        "sha256": "d0210438c38ef4f25c5378731363194d9584057223845ade50e7727d1aacce8f"
       },
       {
         "path": "/usr/lib",
@@ -5890,28 +8288,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/lib/mysql",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/usr/lib/mysql/plugin",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
         "path": "/usr/lib/x86_64-linux-gnu",
         "category": "library",
         "is_dir": true,
@@ -5920,6 +8296,28 @@
         "owner": "root",
         "group": "root",
         "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/perl5/5.40/auto",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
         "sha256": null
       },
       {
@@ -5934,28 +8332,6 @@
         "sha256": null
       },
       {
-        "path": "/lib/mysql",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/lib/mysql/plugin",
-        "category": "library",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 4096,
-        "sha256": null
-      },
-      {
         "path": "/lib/x86_64-linux-gnu",
         "category": "library",
         "is_dir": true,
@@ -5964,6 +8340,28 @@
         "owner": "root",
         "group": "root",
         "size": 36864,
+        "sha256": null
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/perl5/5.40",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/lib/x86_64-linux-gnu/perl5/5.40/auto",
+        "category": "library",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
         "sha256": null
       },
       {
@@ -5978,7 +8376,7 @@
         "sha256": null
       },
       {
-        "path": "/usr/share/menu",
+        "path": "/usr/share/perl5",
         "category": "share_data",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -6007,7 +8405,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -6074,7 +8472,7 @@
         "owner": "postgres",
         "group": "postgres",
         "size": 16777216,
-        "sha256": "ae77e4a43bd1d27a6b90e03c03e74a557995d7ff31e87ce135e48cdcd1e93de0"
+        "sha256": "48f4bbc2af53b66fcfc386339c24e2637596ee49427dd626536f70ad9406a58f"
       },
       {
         "path": "/var/lib/update-notifier",
@@ -6110,796 +8508,7 @@
         "sha256": null
       }
     ],
-    "deleted": [
-      {
-        "path": "/bin/innotop",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-access",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-admin",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-analyze",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-binlog",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-check",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-conv",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-convert-table-format",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-dump",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-dumpslow",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-find-rows",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-fix-extensions",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-hotcopy",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-import",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-install-db",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-optimize",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-plugin",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-repair",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-report",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-secure-installation",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-setpermission",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-show",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-slap",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-tzinfo-to-sql",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-upgrade",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadb-waitpid",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mariadbcheck",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/msql2mysql",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mysql_install_db",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mysql_upgrade",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/mytop",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/replace",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/resolve_stack_dump",
-        "category": "binary"
-      },
-      {
-        "path": "/bin/resolveip",
-        "category": "binary"
-      },
-      {
-        "path": "/lib/mysql/plugin/provider_bzip2.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/mysql/plugin/provider_lz4.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/mysql/plugin/provider_lzma.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/mysql/plugin/provider_lzo.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/mysql/plugin/provider_snappy.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb.so.3",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/caching_sha2_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/client_ed25519.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/dialog.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/mysql_clear_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/parsec.so",
-        "category": "library"
-      },
-      {
-        "path": "/lib/x86_64-linux-gnu/libmariadb3/plugin/sha256_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/sbin/mariadbd",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/innotop",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-access",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-admin",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-analyze",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-binlog",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-check",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-conv",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-convert-table-format",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-dump",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-dumpslow",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-find-rows",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-fix-extensions",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-hotcopy",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-import",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-install-db",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-optimize",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-plugin",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-repair",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-report",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-secure-installation",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-setpermission",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-show",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-slap",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-tzinfo-to-sql",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-upgrade",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadb-waitpid",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mariadbcheck",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/msql2mysql",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mysql_install_db",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mysql_upgrade",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/mytop",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/replace",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/resolve_stack_dump",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/bin/resolveip",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/lib/mysql/plugin/provider_bzip2.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/mysql/plugin/provider_lz4.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/mysql/plugin/provider_lzma.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/mysql/plugin/provider_lzo.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/mysql/plugin/provider_snappy.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb.so.3",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/caching_sha2_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/client_ed25519.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/dialog.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/mysql_clear_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/parsec.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/lib/x86_64-linux-gnu/libmariadb3/plugin/sha256_password.so",
-        "category": "library"
-      },
-      {
-        "path": "/usr/sbin/mariadbd",
-        "category": "binary"
-      },
-      {
-        "path": "/usr/share/lintian/overrides/libmariadb3",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/lintian/overrides/mariadb-client",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/lintian/overrides/mariadb-client-core",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/lintian/overrides/mariadb-server-core",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/bulgarian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/bulgarian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/Index.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/README",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/armscii8.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/ascii.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp1250.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp1251.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp1256.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp1257.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp850.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp852.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/cp866.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/dec8.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/geostd8.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/greek.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/hebrew.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/hp8.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/keybcs2.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/koi8r.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/koi8u.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/latin1.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/latin2.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/latin5.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/latin7.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/macce.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/macroman.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/charsets/swe7.xml",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/chinese",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/chinese/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/czech",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/czech/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/danish",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/danish/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/dutch",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/dutch/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/english",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/english/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/estonian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/estonian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/fill_help_tables.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/french",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/french/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/georgian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/georgian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/german",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/german/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/greek",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/greek/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/hindi",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/hindi/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/hungarian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/hungarian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/italian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/italian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/japanese",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/japanese/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/korean",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/korean/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/maria_add_gis_sp_bootstrap.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_performance_tables.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_sys_schema.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_system_tables.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_system_tables_data.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_test_data_timezone.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/mariadb_test_db.sql",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/norwegian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/norwegian-ny",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/norwegian-ny/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/norwegian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/polish",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/polish/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/portuguese",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/portuguese/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/romanian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/romanian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/russian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/russian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/serbian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/serbian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/slovak",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/slovak/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/spanish",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/spanish/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/swahili",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/swahili/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/swedish",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/swedish/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/ukrainian",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/mariadb/ukrainian/errmsg.sys",
-        "category": "share_data"
-      },
-      {
-        "path": "/usr/share/menu/mariadb-client",
-        "category": "share_data"
-      }
-    ]
+    "deleted": []
   },
   "access_hints": [
     {

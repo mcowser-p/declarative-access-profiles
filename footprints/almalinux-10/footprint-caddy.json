@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:38:47.639267+00:00",
+  "generated_at": "2026-08-26T20:10:35.309650+00:00",
   "application": "caddy",
   "host": "dap-alma10",
   "platform": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "6ac3798d826857cf7158ffed4a780289b857f336cbd1282ebc50e58cf7ed696c",
-    "created_at": "2026-08-23T21:38:07.747617+00:00",
+    "db_sha256": "461c58f1921f120868b5b1f0d59cde842760fabd74f6b7c7cf031dafad8d71ad",
+    "created_at": "2026-08-26T20:09:44.743751+00:00",
     "source_host": "dap-alma10",
     "source_os": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39"
   },
   "summary": {
-    "files_added": 517,
-    "files_modified": 1746,
+    "files_added": 511,
+    "files_modified": 1751,
     "files_deleted": 0,
     "systemd_units": 4,
     "quadlets": 0,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "caddy",
-        "uid": 992,
-        "gid": 992,
+        "uid": 989,
+        "gid": 989,
         "gecos": "Caddy web server",
         "home": "/var/lib/caddy",
         "shell": "/usr/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "caddy",
-        "gid": 992,
+        "gid": 989,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "caddy",
-        "gid": 992,
+        "gid": 989,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -576,28 +576,6 @@
         }
       ],
       "share_data": [
-        {
-          "path": "/usr/share/licenses/almalinux-logos-httpd",
-          "category": "share_data",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 21,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/licenses/almalinux-logos-httpd/COPYING",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 1256,
-          "sha256": "637b7814f974ec148824c9dbceb8b267efd0b60f71a6ae367152fb159fc40d41"
-        },
         {
           "path": "/usr/share/licenses/caddy",
           "category": "share_data",
@@ -5945,28 +5923,6 @@
           "sha256": "375f3a886f27c80a5c01ad207a9be9a795955364fe735fd4efc92339bf1e4e2d"
         },
         {
-          "path": "/usr/share/pixmaps/poweredby.png",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 4194,
-          "sha256": "81e0412a0311fc3d827a179d661387d5fa96f8e5f5299cb4af7562bba321a9bb"
-        },
-        {
-          "path": "/usr/share/pixmaps/system-noindex-logo.png",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 3796,
-          "sha256": "92a1852cd8282bf54c9abab56fb08beffa2b63423e309dfadbceb76549bd3adc"
-        },
-        {
           "path": "/usr/share/zsh/site-functions/_caddy",
           "category": "share_data",
           "is_dir": false,
@@ -5976,28 +5932,6 @@
           "group": "root",
           "size": 7712,
           "sha256": "a34412a408b4c462bd3ae75e427b43bd74436b0a52f4b1427c08ce292ad15b67"
-        },
-        {
-          "path": "/usr/share/testpage",
-          "category": "share_data",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 24,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/testpage/index.html",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 5760,
-          "sha256": "0c1bb3de8fd2f9b5aafa5d5fee0b019ad0d6e62841bd5c4d5f5d150abc574a99"
         },
         {
           "path": "/usr/share/caddy",
@@ -6133,8 +6067,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 641,
-        "sha256": "a739dd1c591f9e07f8e37ae94ec143bf053481ea37448e9e569e3e81a0f8719a"
+        "size": 712,
+        "sha256": "273fefc52c7519ab11b187a91a9f142cfb5ce6369778e8c844c6e3bd91e945b0"
       },
       {
         "path": "/etc/gshadow-",
@@ -6144,8 +6078,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 513,
-        "sha256": "653ecce36516c9e3bcb1b79c8beafc07bfa6dd02d95caca34ca9af040b880348"
+        "size": 571,
+        "sha256": "9625cab6156a314e50bf75d066e9db58db788a0151c3a26ff275ade5c2e9ea85"
       },
       {
         "path": "/etc/passwd-",
@@ -6155,8 +6089,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1599,
-        "sha256": "62032c1d3c22d3a4994328d52f2cfaba8637bc9daf630ab70f206b14e6f95842"
+        "size": 1893,
+        "sha256": "606948d322c311165cec98f3a701655410db48004c6b7bd9315b47f2b9cf9325"
       },
       {
         "path": "/etc/shadow-",
@@ -6166,8 +6100,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 740,
-        "sha256": "06fdd50614fa3cc9eaf5f62715e5436853321b569fc82c361f597b966498da98"
+        "size": 848,
+        "sha256": "032cad2deef0cdc33c25fc977b09f33fcbacee92142cb7794c4c239b52905a2d"
       },
       {
         "path": "/etc/group",
@@ -6177,8 +6111,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 654,
-        "sha256": "881ae62bc97cbceb5c6b1bee2fa137ce3fd5caef20a07c7f30d80c944b471e7d"
+        "size": 725,
+        "sha256": "7921be5f6c36b20c7bb66c3c09b730cb36912f8fda778f426f2ae59a02b3c5c7"
       },
       {
         "path": "/etc/gshadow",
@@ -6188,8 +6122,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 523,
-        "sha256": "046977185d9be16e7a301ca283c55d156d8975070b4f159244ce2367decd5648"
+        "size": 581,
+        "sha256": "1b75922ea3c4794c29c87dcc0f734d995d91555e04d2865c352929adc208e330"
       },
       {
         "path": "/etc/passwd",
@@ -6199,8 +6133,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1665,
-        "sha256": "0903842b8b8f82b59cdd574cc211ff0699b7f7adbb8f485293eb7506b072fdbe"
+        "size": 1959,
+        "sha256": "29be5a188febe1b0ec72510ac7ee1923f081bb268b5f146e01b368a61c0ddc6c"
       },
       {
         "path": "/etc/shadow",
@@ -6210,8 +6144,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 760,
-        "sha256": "48a98cb6b234f98728437d4e43f3507158dade81620e0e8948bba493ef5e19a6"
+        "size": 868,
+        "sha256": "9c9e39c0aa0bb115dff03518099dc077057ea67106b94d315311b9976010929a"
       },
       {
         "path": "/etc/selinux/targeted",
@@ -6254,8 +6188,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 400274,
-        "sha256": "1ec0aaa8911260a15529e03d4ffdfd7f2301ca1cd64657183965134fc9eb9e6c"
+        "size": 400410,
+        "sha256": "d01000e3e41d7d7670d6e1364743d782a611bea4a1757c3d658ab6a783a6dced"
       },
       {
         "path": "/etc/selinux/targeted/contexts/files/file_contexts.homedirs",
@@ -6287,8 +6221,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 423817,
-        "sha256": "a1f383c60f5ec36e73068937a57087b95022e44ae6676c92c028005897d88b00"
+        "size": 423923,
+        "sha256": "8b38759d4edc7e56b0ec24329ffeb5e5ad625fa42dbf8a9db0c887946436d6d4"
       },
       {
         "path": "/etc/selinux/targeted/contexts/files/file_contexts.homedirs.bin",
@@ -6320,8 +6254,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 3735969,
-        "sha256": "f30970ec24e46e5f891b05a73550749102115135048516ad3f1938ecc25e417a"
+        "size": 3735957,
+        "sha256": "8e2db612e9ae0d311d2c346b757faae5b64c587827843d50cce167f741e36730"
       },
       {
         "path": "/usr/bin",
@@ -6331,7 +6265,7 @@
         "mode_symbolic": "dr-xr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -6342,8 +6276,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 63074304,
-        "sha256": "3ebe17c7bb3030db0ddff844d880c2a8d719d51f0687bf398d26f585884ddaaa"
+        "size": 64045056,
+        "sha256": "839c02efa51a8edfbbd033b2a407ea9f95a43e8ea814c2f0011ff169c894488e"
       },
       {
         "path": "/usr/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -6365,7 +6299,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "a82c4fd1cf836cceecaecf247e1cf5b0ceefec4dc8f13f7c9ca21fd83a543e48"
+        "sha256": "792fb8eb785dd1d9ea9d39176ceacf07cdfd17bdffcb71cc3da6b9c145695313"
       },
       {
         "path": "/usr/lib/.build-id",
@@ -6419,8 +6353,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 63074304,
-        "sha256": "3ebe17c7bb3030db0ddff844d880c2a8d719d51f0687bf398d26f585884ddaaa"
+        "size": 64045056,
+        "sha256": "839c02efa51a8edfbbd033b2a407ea9f95a43e8ea814c2f0011ff169c894488e"
       },
       {
         "path": "/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -6442,7 +6376,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "a82c4fd1cf836cceecaecf247e1cf5b0ceefec4dc8f13f7c9ca21fd83a543e48"
+        "sha256": "792fb8eb785dd1d9ea9d39176ceacf07cdfd17bdffcb71cc3da6b9c145695313"
       },
       {
         "path": "/lib/.build-id",
@@ -6533,17 +6467,6 @@
         "sha256": null
       },
       {
-        "path": "/usr/share/pixmaps",
-        "category": "share_data",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 58,
-        "sha256": null
-      },
-      {
         "path": "/usr/share/zsh/site-functions",
         "category": "share_data",
         "is_dir": true,
@@ -6607,7 +6530,7 @@
         "owner": "root",
         "group": "root",
         "size": 32,
-        "sha256": "f21acef500891949ccba323973f12e8a19cb3a78b38e3a9e22752a185fbeb690"
+        "sha256": "f6a375aa86d3ad1fc7a90b7a4ceb0a140162ab4767cd8ba9436f666e9a4d5751"
       },
       {
         "path": "/var/lib/selinux/targeted/active/file_contexts",
@@ -6617,8 +6540,8 @@
         "mode_symbolic": "-rw-------",
         "owner": "root",
         "group": "root",
-        "size": 400274,
-        "sha256": "1ec0aaa8911260a15529e03d4ffdfd7f2301ca1cd64657183965134fc9eb9e6c"
+        "size": 400410,
+        "sha256": "d01000e3e41d7d7670d6e1364743d782a611bea4a1757c3d658ab6a783a6dced"
       },
       {
         "path": "/var/lib/selinux/targeted/active/file_contexts.homedirs",
@@ -6651,7 +6574,7 @@
         "owner": "root",
         "group": "root",
         "size": 72,
-        "sha256": "273aa30d452252890f2553928fc059029a72024aaf074dffec086b1775270115"
+        "sha256": "e96e3580211fd3879c1973b78c0d239db37b279e6a94c704487dd9153293e9b2"
       },
       {
         "path": "/var/lib/selinux/targeted/active/policy.kern",
@@ -6661,8 +6584,8 @@
         "mode_symbolic": "-rw-------",
         "owner": "root",
         "group": "root",
-        "size": 3735969,
-        "sha256": "f30970ec24e46e5f891b05a73550749102115135048516ad3f1938ecc25e417a"
+        "size": 3735957,
+        "sha256": "8e2db612e9ae0d311d2c346b757faae5b64c587827843d50cce167f741e36730"
       },
       {
         "path": "/var/lib/selinux/targeted/active/seusers",
@@ -6716,8 +6639,8 @@
         "mode_symbolic": "-rw-------",
         "owner": "root",
         "group": "root",
-        "size": 3735837,
-        "sha256": "332bb7b3b61bfb5a1b0fcc611f7f93048c1fa487fe5708a37bc60cecfa5cd1b7"
+        "size": 3735825,
+        "sha256": "f80864903d9c9f1fdfe141742a8c4e9515fbff89b91736c9557782874a4ac2fa"
       },
       {
         "path": "/var/lib/selinux/targeted/active/modules",
@@ -6727,7 +6650,7 @@
         "mode_symbolic": "drwx------",
         "owner": "root",
         "group": "root",
-        "size": 44,
+        "size": 55,
         "sha256": null
       },
       {
@@ -25218,7 +25141,7 @@
         "mode_symbolic": "drwx------",
         "owner": "root",
         "group": "root",
-        "size": 19,
+        "size": 36,
         "sha256": null
       },
       {
@@ -25266,6 +25189,50 @@
         "sha256": "bafbddc86e2ce9a34ddbc63e949a173bbcd0bd9f578fa1ca611070cd702af604"
       },
       {
+        "path": "/var/lib/selinux/targeted/active/modules/200/memcached",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "root",
+        "group": "root",
+        "size": 44,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/200/memcached/lang_ext",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 2,
+        "sha256": "d53315bea08cec50d2591fcaf3b32dc5d289cdc6c16b7e8bed8c8e3f7ceaa34e"
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/200/memcached/hll",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 10537,
+        "sha256": "de027e479ea27dce59dc84353e989cd96b435971f06e2bfbb305aa768e1e1e83"
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/200/memcached/cil",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 1304,
+        "sha256": "b17105b69453c9fd7ffc2abcddb390aa89a14996c6de0c0216b9a89ba8053d87"
+      },
+      {
         "path": "/var/lib/selinux/targeted/active/modules/disabled",
         "category": "state_dir",
         "is_dir": true,
@@ -25275,6 +25242,50 @@
         "group": "root",
         "size": 6,
         "sha256": null
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/400",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "root",
+        "group": "root",
+        "size": 26,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/400/extra_varrun",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "root",
+        "group": "root",
+        "size": 33,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/400/extra_varrun/lang_ext",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 3,
+        "sha256": "9a2e646ef933bedfa63503f7c2484674daf9d41f7e6822983b919e5e952f83cf"
+      },
+      {
+        "path": "/var/lib/selinux/targeted/active/modules/400/extra_varrun/cil",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "root",
+        "group": "root",
+        "size": 170,
+        "sha256": "c9074b2d1ac90cedbe543b39a1dd13f5e352cd4167e8a9e8351705729b72bbd8"
       },
       {
         "path": "/var/lib/selinux/final",
@@ -25297,28 +25308,6 @@
         "group": "root",
         "size": 31,
         "sha256": null
-      },
-      {
-        "path": "/boot/grub2",
-        "category": "other",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "root",
-        "group": "root",
-        "size": 79,
-        "sha256": null
-      },
-      {
-        "path": "/boot/grub2/grubenv",
-        "category": "other",
-        "is_dir": false,
-        "mode_octal": "0o600",
-        "mode_symbolic": "-rw-------",
-        "owner": "root",
-        "group": "root",
-        "size": 1024,
-        "sha256": "a299a51226e350aa2269962ab1d9abe1495c5ab44261efe3be78eaf860bdfbdb"
       }
     ],
     "deleted": []
@@ -25460,7 +25449,7 @@
   "group_access": [
     {
       "group": "caddy",
-      "gid": 992,
+      "gid": 989,
       "writable": [],
       "readable": [
         "/var/lib/caddy/"

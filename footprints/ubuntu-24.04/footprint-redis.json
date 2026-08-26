@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:40:44.649036+00:00",
+  "generated_at": "2026-08-26T20:18:12.863234+00:00",
   "application": "redis",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "7a0bfe1dd07bf1deb66d95681879d2065a33a01eedaba3fcb812843315267a3f",
-    "created_at": "2026-08-23T21:40:05.196784+00:00",
+    "db_sha256": "af0910ccfb291faba89d4c570e11354a107b2a85a483a506cbc7d0820d72b08b",
+    "created_at": "2026-08-26T20:17:29.913221+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
-    "files_added": 36,
-    "files_modified": 33,
+    "files_added": 42,
+    "files_modified": 35,
     "files_deleted": 0,
     "systemd_units": 6,
     "quadlets": 0,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "redis",
-        "uid": 114,
-        "gid": 118,
+        "uid": 115,
+        "gid": 119,
         "gecos": "",
         "home": "/var/lib/redis",
         "shell": "/usr/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "redis",
-        "gid": 118,
+        "gid": 119,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "redis",
-        "gid": 118,
+        "gid": 119,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -1383,6 +1383,28 @@
           "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
         },
         {
+          "path": "/usr/lib/x86_64-linux-gnu/libatomic.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib/x86_64-linux-gnu/libatomic.so.1.2.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 35120,
+          "sha256": "9d8a34468e614a71a6427dbabb0ac24eb8cb1e324dc6aa3bf95eb6f59201f000"
+        },
+        {
           "path": "/lib/x86_64-linux-gnu/liblzf.so.1",
           "category": "library",
           "is_dir": false,
@@ -1414,6 +1436,28 @@
           "group": "root",
           "size": 830656,
           "sha256": "567efa52ecf445d5966025e1dcfd6b927a986472d272be3742f74a4a373baf12"
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libatomic.so.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/lib/x86_64-linux-gnu/libatomic.so.1.2.0",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 35120,
+          "sha256": "9d8a34468e614a71a6427dbabb0ac24eb8cb1e324dc6aa3bf95eb6f59201f000"
         }
       ],
       "share_data": [
@@ -1440,6 +1484,28 @@
           "group": "redis",
           "size": 4096,
           "sha256": null
+        },
+        {
+          "path": "/var/lib/postgresql/16/main/global/pg_internal.init",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "postgres",
+          "group": "postgres",
+          "size": 28676,
+          "sha256": "fe7a26f94ca7d7f34ee25bcce00520a80419b04eed0b8ee5946ee448a3e380a9"
+        },
+        {
+          "path": "/var/lib/postgresql/16/main/base/1/pg_internal.init",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "postgres",
+          "group": "postgres",
+          "size": 162312,
+          "sha256": "909c4053cfbcc07cd4efb2734df693e076b8d86d5c7aefac4e2eee9fcdc05103"
         }
       ]
     },
@@ -1463,8 +1529,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 936,
-        "sha256": "15dc0aa4b08e941e868929f0027160f0fe3000da67ffa2d1f046132810504fc3"
+        "size": 965,
+        "sha256": "66318148512ebabcf09ac5c7aae5a425a1876766ec7c63b0e0e7c3772adc5010"
       },
       {
         "path": "/etc/passwd-",
@@ -1474,8 +1540,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2105,
-        "sha256": "96d4031a77270564fe0aee5bc7c3b7fe97abe63e0cfa57a2a47fe09fc2c5258c"
+        "size": 2221,
+        "sha256": "2ece067be86b64cdcfa9d36ac9c17f32efdb308684a5203841889ba51aeb67f3"
       },
       {
         "path": "/etc/shadow-",
@@ -1485,8 +1551,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 969,
-        "sha256": "55abb26cad201db3a2c108af4947a42e713c8fe77fa972046b090fe8b5042f34"
+        "size": 1013,
+        "sha256": "2d90892c4a21a256ffac734d13b5548ffbd3d40121814697f443abe1feca4e36"
       },
       {
         "path": "/etc/group-",
@@ -1496,8 +1562,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 923,
-        "sha256": "33764d0f81ff32a66d6d0b7e7905ed8bdbe01999d6ab24d2d8482d31c5729e34"
+        "size": 952,
+        "sha256": "09458cff1378a0e8633dff40720c313138372787a7f314d5da9d582bbf3b5563"
       },
       {
         "path": "/etc/shadow",
@@ -1507,8 +1573,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 989,
-        "sha256": "ba73384e340ef8616ca5ab79d8f85b45105765cf0b77f1fc103f4bce2d7a6e16"
+        "size": 1033,
+        "sha256": "d24f5a2616a8359f6754133afe2a61cf0c84c6a382d2f6c362ce27978c64a29c"
       },
       {
         "path": "/etc/passwd",
@@ -1518,8 +1584,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2155,
-        "sha256": "e7f59baaf3efb80744e49bb9331dd289f698cf55cc3564df0f575e65bc54ceb8"
+        "size": 2271,
+        "sha256": "e6c6025815f7af63e2c33756ec48f236372742e16798d58c462398174e1ce117"
       },
       {
         "path": "/etc/gshadow",
@@ -1529,8 +1595,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 780,
-        "sha256": "f3d34a965a8859b910a37588c8ae2f195294824000edbf81f30eb35215a45e33"
+        "size": 804,
+        "sha256": "70cc996eee8567ff8299722144a7724212f6d2106b3fea6ecbce500fff162f81"
       },
       {
         "path": "/etc/gshadow-",
@@ -1540,8 +1606,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 770,
-        "sha256": "8746f227f8086f9b7401778358211feb17a99b1e40cb72a95d1b9554b764a976"
+        "size": 794,
+        "sha256": "6e04f2e7b388684741442aef78fd974de1fa90af5b616ad71c097962d9ae48c3"
       },
       {
         "path": "/etc/rc3.d",
@@ -1793,6 +1859,28 @@
         "mode_symbolic": "drwxr-x---",
         "owner": "root",
         "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/16/main/global",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/16/main/base/1",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "postgres",
+        "group": "postgres",
         "size": 4096,
         "sha256": null
       },
@@ -2259,7 +2347,7 @@
   "group_access": [
     {
       "group": "redis",
-      "gid": 118,
+      "gid": 119,
       "writable": [
         "/etc/redis/"
       ],

@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:34:46.591282+00:00",
+  "generated_at": "2026-08-26T20:01:46.715928+00:00",
   "application": "postgresql",
   "host": "dap-alma9",
   "platform": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "ba2d9662f0183f63b141ea7a4f485086ac21af3c71b9a7a4b0ca70a6e815f5e0",
-    "created_at": "2026-08-23T21:34:27.158472+00:00",
+    "db_sha256": "0db2e1e9d5eddeb04197450179fa89c8522782868054232a3b785de925050506",
+    "created_at": "2026-08-26T20:01:30.730413+00:00",
     "source_host": "dap-alma9",
     "source_os": "Linux-5.14.0-687.39.1.el9_8.x86_64-x86_64-with-glibc2.34"
   },
   "summary": {
     "files_added": 344,
-    "files_modified": 132,
+    "files_modified": 133,
     "files_deleted": 0,
     "systemd_units": 4,
     "quadlets": 0,
@@ -365,7 +365,7 @@
   ],
   "executables": [
     {
-      "path": "/bin/clusterdb",
+      "path": "/bin/pg_ctl",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -376,7 +376,18 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/createdb",
+      "path": "/bin/pg_resetwal",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pg_receivewal",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -398,29 +409,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/dropdb",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/bin/dropuser",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/pg_dump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -442,7 +431,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_isready",
+      "path": "/bin/pg_restore",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -453,7 +442,40 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_restore",
+      "path": "/bin/postgresql-setup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pg_checksums",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/postgres",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pg_recvlogical",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -508,29 +530,18 @@
       "file_capabilities": null
     },
     {
+      "path": "/bin/pg_rewind",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/bin/initdb",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/pg_basebackup",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/pg_checksums",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -552,7 +563,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_ctl",
+      "path": "/bin/clusterdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -563,7 +574,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_receivewal",
+      "path": "/bin/createdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -574,7 +585,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_recvlogical",
+      "path": "/bin/dropdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -585,7 +596,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_resetwal",
+      "path": "/bin/pg_dump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -596,40 +607,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/bin/pg_rewind",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/pg_verifybackup",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/postgres",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/bin/postgresql-setup",
+      "path": "/bin/pg_isready",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -651,6 +629,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/bin/pg_basebackup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/bin/pg_verifybackup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/sbin/postgresql-new-systemd-unit",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -662,7 +662,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/clusterdb",
+      "path": "/usr/bin/pg_ctl",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -673,7 +673,18 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/createdb",
+      "path": "/usr/bin/pg_resetwal",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pg_receivewal",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -695,29 +706,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/dropdb",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/usr/bin/dropuser",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/pg_dump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -739,7 +728,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_isready",
+      "path": "/usr/bin/pg_restore",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -750,7 +739,40 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_restore",
+      "path": "/usr/bin/postgresql-setup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pg_checksums",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/postgres",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pg_recvlogical",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -805,29 +827,18 @@
       "file_capabilities": null
     },
     {
+      "path": "/usr/bin/pg_rewind",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/usr/bin/initdb",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/pg_basebackup",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/pg_checksums",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -849,7 +860,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_ctl",
+      "path": "/usr/bin/clusterdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -860,7 +871,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_receivewal",
+      "path": "/usr/bin/createdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -871,7 +882,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_recvlogical",
+      "path": "/usr/bin/dropdb",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -882,7 +893,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_resetwal",
+      "path": "/usr/bin/pg_dump",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -893,40 +904,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/bin/pg_rewind",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/pg_verifybackup",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/postgres",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/bin/postgresql-setup",
+      "path": "/usr/bin/pg_isready",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -948,6 +926,28 @@
       "file_capabilities": null
     },
     {
+      "path": "/usr/bin/pg_basebackup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/bin/pg_verifybackup",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
       "path": "/usr/sbin/postgresql-new-systemd-unit",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -959,7 +959,18 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/lib64/libpq.so.private13-5.13",
+      "path": "/usr/lib64/libicui18n.so.67.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/usr/lib64/libicuuc.so.67.1",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -981,7 +992,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/usr/lib64/libicui18n.so.67.1",
+      "path": "/usr/lib64/libpq.so.private13-5.13",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1015,17 +1026,6 @@
     },
     {
       "path": "/usr/lib64/libicutu.so.67.1",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/lib64/libicuuc.so.67.1",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1388,7 +1388,18 @@
       "file_capabilities": null
     },
     {
-      "path": "/lib64/libpq.so.private13-5.13",
+      "path": "/lib64/libicui18n.so.67.1",
+      "mode_octal": "0o755",
+      "mode_symbolic": "-rwxr-xr-x",
+      "owner": "root",
+      "group": "root",
+      "setuid": false,
+      "setgid": false,
+      "world_writable": false,
+      "file_capabilities": null
+    },
+    {
+      "path": "/lib64/libicuuc.so.67.1",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1410,7 +1421,7 @@
       "file_capabilities": null
     },
     {
-      "path": "/lib64/libicui18n.so.67.1",
+      "path": "/lib64/libpq.so.private13-5.13",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1444,17 +1455,6 @@
     },
     {
       "path": "/lib64/libicutu.so.67.1",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/lib64/libicuuc.so.67.1",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -1836,26 +1836,48 @@
       ],
       "binary": [
         {
-          "path": "/bin/clusterdb",
+          "path": "/bin/pg_ctl",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 66080,
-          "sha256": "1dddf27c9dfc3dbd1b35788eb4986626dd1d26462c0420e8029664b439a69126"
+          "size": 57536,
+          "sha256": "6b7fff6884ac01454c9ae79f80a9124b39d8800a58996d6253bd975882bb1049"
         },
         {
-          "path": "/bin/createdb",
+          "path": "/bin/postmaster",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 8,
+          "sha256": null
+        },
+        {
+          "path": "/bin/pg_resetwal",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 74320,
-          "sha256": "4716b55afa97949622dfa5b5c44bf1c34f349791d3221343480733de36007ca3"
+          "size": 53232,
+          "sha256": "8032d5e0febb5bfe1fa3eee17090fbd0069d3a5420f78cc992e92024cad82472"
+        },
+        {
+          "path": "/bin/pg_receivewal",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 70248,
+          "sha256": "dae82ca051078bffe2b42ea34f5a6c36f251bf66d88bf54b8f08b1a669aea8ea"
         },
         {
           "path": "/bin/createuser",
@@ -1869,17 +1891,6 @@
           "sha256": "e334bc502ac262c713b3f2dec5373111ac4cac01ee7b5e1da08a236edba2bd69"
         },
         {
-          "path": "/bin/dropdb",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 61808,
-          "sha256": "1c95a0ee68b9d1b3f1b5bda0ed3a094a5e3516a386dd2b43576d7bd1d210577a"
-        },
-        {
           "path": "/bin/dropuser",
           "category": "binary",
           "is_dir": false,
@@ -1889,17 +1900,6 @@
           "group": "root",
           "size": 61736,
           "sha256": "86a5424d57aab76e522e9ac8b8c00c8b4d173fa0a5109d83db708334b88bf4d7"
-        },
-        {
-          "path": "/bin/pg_dump",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 452648,
-          "sha256": "d21a5991b68977e334f581f9e47bcf28b39404ed9dcb39b494da212ce1f4b6ce"
         },
         {
           "path": "/bin/pg_dumpall",
@@ -1913,17 +1913,6 @@
           "sha256": "228796e4877e9741c09bbfabaec234b2d3e025e1a5e4ae78232831c593292d5d"
         },
         {
-          "path": "/bin/pg_isready",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 36584,
-          "sha256": "c56cbd05871e19ea696262e117957017326bfa517a5860ed0851b2196a3615d0"
-        },
-        {
           "path": "/bin/pg_restore",
           "category": "binary",
           "is_dir": false,
@@ -1933,6 +1922,50 @@
           "group": "root",
           "size": 171696,
           "sha256": "e3ca6c56949c482399e7ba663edc3fc6d7057ebf012d3b4cabdb1527523dd595"
+        },
+        {
+          "path": "/bin/postgresql-setup",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 26147,
+          "sha256": "64fee139c0f2cb9449ca3e11422e25c19d7f99b3a2c1b1a1d05b505283747bc9"
+        },
+        {
+          "path": "/bin/pg_checksums",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 49080,
+          "sha256": "03112a6953574584ad054d0eb518f429cf28531c1d14c25b3cc68223c4285c28"
+        },
+        {
+          "path": "/bin/postgres",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 9176600,
+          "sha256": "e55c93460861c39fd29c2130c8499708ad9d28cefa5cc427fd862974bcbff66c"
+        },
+        {
+          "path": "/bin/pg_recvlogical",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 53680,
+          "sha256": "d2212fcf2916b2145f0cc72db019b7363bdcd05c79ee08baec2f519b16494f48"
         },
         {
           "path": "/bin/pg_upgrade",
@@ -1979,6 +2012,17 @@
           "sha256": "d85ff7a4ae3748f1d0f9e28bb4bf4c35d205ec5458af39d59e730b2c714f9bf6"
         },
         {
+          "path": "/bin/pg_rewind",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 95024,
+          "sha256": "1abb61bb3364adca123bcddb17fcf16b9bfce70e968250270fb24eb9cdf5412c"
+        },
+        {
           "path": "/bin/initdb",
           "category": "binary",
           "is_dir": false,
@@ -1988,28 +2032,6 @@
           "group": "root",
           "size": 116144,
           "sha256": "ef8ea5510999f120721023548489b007288efaf3e76e370fc616fa072a493c00"
-        },
-        {
-          "path": "/bin/pg_basebackup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 103792,
-          "sha256": "d7146516d93711b302c605a07ce022586ffcc70cfe166822e5f1c3bb3d816c5b"
-        },
-        {
-          "path": "/bin/pg_checksums",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 49080,
-          "sha256": "03112a6953574584ad054d0eb518f429cf28531c1d14c25b3cc68223c4285c28"
         },
         {
           "path": "/bin/pg_controldata",
@@ -2023,92 +2045,59 @@
           "sha256": "398384f6149d31d65711c000efd7e0710acf1cd6f9291b898aa24a48d11612e3"
         },
         {
-          "path": "/bin/pg_ctl",
+          "path": "/bin/clusterdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 57536,
-          "sha256": "6b7fff6884ac01454c9ae79f80a9124b39d8800a58996d6253bd975882bb1049"
+          "size": 66080,
+          "sha256": "1dddf27c9dfc3dbd1b35788eb4986626dd1d26462c0420e8029664b439a69126"
         },
         {
-          "path": "/bin/pg_receivewal",
+          "path": "/bin/createdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 70248,
-          "sha256": "dae82ca051078bffe2b42ea34f5a6c36f251bf66d88bf54b8f08b1a669aea8ea"
+          "size": 74320,
+          "sha256": "4716b55afa97949622dfa5b5c44bf1c34f349791d3221343480733de36007ca3"
         },
         {
-          "path": "/bin/pg_recvlogical",
+          "path": "/bin/dropdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 53680,
-          "sha256": "d2212fcf2916b2145f0cc72db019b7363bdcd05c79ee08baec2f519b16494f48"
+          "size": 61808,
+          "sha256": "1c95a0ee68b9d1b3f1b5bda0ed3a094a5e3516a386dd2b43576d7bd1d210577a"
         },
         {
-          "path": "/bin/pg_resetwal",
+          "path": "/bin/pg_dump",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 53232,
-          "sha256": "8032d5e0febb5bfe1fa3eee17090fbd0069d3a5420f78cc992e92024cad82472"
+          "size": 452648,
+          "sha256": "d21a5991b68977e334f581f9e47bcf28b39404ed9dcb39b494da212ce1f4b6ce"
         },
         {
-          "path": "/bin/pg_rewind",
+          "path": "/bin/pg_isready",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 95024,
-          "sha256": "1abb61bb3364adca123bcddb17fcf16b9bfce70e968250270fb24eb9cdf5412c"
-        },
-        {
-          "path": "/bin/pg_verifybackup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 78456,
-          "sha256": "d7b8133375d6075be9f48b63e76ad7a1550d4dba8a96a8b5ea26d41386df6b4e"
-        },
-        {
-          "path": "/bin/postgres",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 9176600,
-          "sha256": "e55c93460861c39fd29c2130c8499708ad9d28cefa5cc427fd862974bcbff66c"
-        },
-        {
-          "path": "/bin/postgresql-setup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 26147,
-          "sha256": "64fee139c0f2cb9449ca3e11422e25c19d7f99b3a2c1b1a1d05b505283747bc9"
+          "size": 36584,
+          "sha256": "c56cbd05871e19ea696262e117957017326bfa517a5860ed0851b2196a3615d0"
         },
         {
           "path": "/bin/postgresql-upgrade",
@@ -2122,15 +2111,26 @@
           "sha256": "84278b888416c07ab205a2df323e4e367f0b00294c105b127ecb0410bbb2c1f9"
         },
         {
-          "path": "/bin/postmaster",
+          "path": "/bin/pg_basebackup",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 8,
-          "sha256": null
+          "size": 103792,
+          "sha256": "d7146516d93711b302c605a07ce022586ffcc70cfe166822e5f1c3bb3d816c5b"
+        },
+        {
+          "path": "/bin/pg_verifybackup",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 78456,
+          "sha256": "d7b8133375d6075be9f48b63e76ad7a1550d4dba8a96a8b5ea26d41386df6b4e"
         },
         {
           "path": "/sbin/postgresql-new-systemd-unit",
@@ -2144,26 +2144,48 @@
           "sha256": "ec97560fbdfc0ced91641bd848848bea1d3318b519713db29ca8bc4f84b5c2dd"
         },
         {
-          "path": "/usr/bin/clusterdb",
+          "path": "/usr/bin/pg_ctl",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 66080,
-          "sha256": "1dddf27c9dfc3dbd1b35788eb4986626dd1d26462c0420e8029664b439a69126"
+          "size": 57536,
+          "sha256": "6b7fff6884ac01454c9ae79f80a9124b39d8800a58996d6253bd975882bb1049"
         },
         {
-          "path": "/usr/bin/createdb",
+          "path": "/usr/bin/postmaster",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 8,
+          "sha256": null
+        },
+        {
+          "path": "/usr/bin/pg_resetwal",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 74320,
-          "sha256": "4716b55afa97949622dfa5b5c44bf1c34f349791d3221343480733de36007ca3"
+          "size": 53232,
+          "sha256": "8032d5e0febb5bfe1fa3eee17090fbd0069d3a5420f78cc992e92024cad82472"
+        },
+        {
+          "path": "/usr/bin/pg_receivewal",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 70248,
+          "sha256": "dae82ca051078bffe2b42ea34f5a6c36f251bf66d88bf54b8f08b1a669aea8ea"
         },
         {
           "path": "/usr/bin/createuser",
@@ -2177,17 +2199,6 @@
           "sha256": "e334bc502ac262c713b3f2dec5373111ac4cac01ee7b5e1da08a236edba2bd69"
         },
         {
-          "path": "/usr/bin/dropdb",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 61808,
-          "sha256": "1c95a0ee68b9d1b3f1b5bda0ed3a094a5e3516a386dd2b43576d7bd1d210577a"
-        },
-        {
           "path": "/usr/bin/dropuser",
           "category": "binary",
           "is_dir": false,
@@ -2197,17 +2208,6 @@
           "group": "root",
           "size": 61736,
           "sha256": "86a5424d57aab76e522e9ac8b8c00c8b4d173fa0a5109d83db708334b88bf4d7"
-        },
-        {
-          "path": "/usr/bin/pg_dump",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 452648,
-          "sha256": "d21a5991b68977e334f581f9e47bcf28b39404ed9dcb39b494da212ce1f4b6ce"
         },
         {
           "path": "/usr/bin/pg_dumpall",
@@ -2221,17 +2221,6 @@
           "sha256": "228796e4877e9741c09bbfabaec234b2d3e025e1a5e4ae78232831c593292d5d"
         },
         {
-          "path": "/usr/bin/pg_isready",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 36584,
-          "sha256": "c56cbd05871e19ea696262e117957017326bfa517a5860ed0851b2196a3615d0"
-        },
-        {
           "path": "/usr/bin/pg_restore",
           "category": "binary",
           "is_dir": false,
@@ -2241,6 +2230,50 @@
           "group": "root",
           "size": 171696,
           "sha256": "e3ca6c56949c482399e7ba663edc3fc6d7057ebf012d3b4cabdb1527523dd595"
+        },
+        {
+          "path": "/usr/bin/postgresql-setup",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 26147,
+          "sha256": "64fee139c0f2cb9449ca3e11422e25c19d7f99b3a2c1b1a1d05b505283747bc9"
+        },
+        {
+          "path": "/usr/bin/pg_checksums",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 49080,
+          "sha256": "03112a6953574584ad054d0eb518f429cf28531c1d14c25b3cc68223c4285c28"
+        },
+        {
+          "path": "/usr/bin/postgres",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 9176600,
+          "sha256": "e55c93460861c39fd29c2130c8499708ad9d28cefa5cc427fd862974bcbff66c"
+        },
+        {
+          "path": "/usr/bin/pg_recvlogical",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 53680,
+          "sha256": "d2212fcf2916b2145f0cc72db019b7363bdcd05c79ee08baec2f519b16494f48"
         },
         {
           "path": "/usr/bin/pg_upgrade",
@@ -2287,6 +2320,17 @@
           "sha256": "d85ff7a4ae3748f1d0f9e28bb4bf4c35d205ec5458af39d59e730b2c714f9bf6"
         },
         {
+          "path": "/usr/bin/pg_rewind",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 95024,
+          "sha256": "1abb61bb3364adca123bcddb17fcf16b9bfce70e968250270fb24eb9cdf5412c"
+        },
+        {
           "path": "/usr/bin/initdb",
           "category": "binary",
           "is_dir": false,
@@ -2296,28 +2340,6 @@
           "group": "root",
           "size": 116144,
           "sha256": "ef8ea5510999f120721023548489b007288efaf3e76e370fc616fa072a493c00"
-        },
-        {
-          "path": "/usr/bin/pg_basebackup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 103792,
-          "sha256": "d7146516d93711b302c605a07ce022586ffcc70cfe166822e5f1c3bb3d816c5b"
-        },
-        {
-          "path": "/usr/bin/pg_checksums",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 49080,
-          "sha256": "03112a6953574584ad054d0eb518f429cf28531c1d14c25b3cc68223c4285c28"
         },
         {
           "path": "/usr/bin/pg_controldata",
@@ -2331,92 +2353,59 @@
           "sha256": "398384f6149d31d65711c000efd7e0710acf1cd6f9291b898aa24a48d11612e3"
         },
         {
-          "path": "/usr/bin/pg_ctl",
+          "path": "/usr/bin/clusterdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 57536,
-          "sha256": "6b7fff6884ac01454c9ae79f80a9124b39d8800a58996d6253bd975882bb1049"
+          "size": 66080,
+          "sha256": "1dddf27c9dfc3dbd1b35788eb4986626dd1d26462c0420e8029664b439a69126"
         },
         {
-          "path": "/usr/bin/pg_receivewal",
+          "path": "/usr/bin/createdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 70248,
-          "sha256": "dae82ca051078bffe2b42ea34f5a6c36f251bf66d88bf54b8f08b1a669aea8ea"
+          "size": 74320,
+          "sha256": "4716b55afa97949622dfa5b5c44bf1c34f349791d3221343480733de36007ca3"
         },
         {
-          "path": "/usr/bin/pg_recvlogical",
+          "path": "/usr/bin/dropdb",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 53680,
-          "sha256": "d2212fcf2916b2145f0cc72db019b7363bdcd05c79ee08baec2f519b16494f48"
+          "size": 61808,
+          "sha256": "1c95a0ee68b9d1b3f1b5bda0ed3a094a5e3516a386dd2b43576d7bd1d210577a"
         },
         {
-          "path": "/usr/bin/pg_resetwal",
+          "path": "/usr/bin/pg_dump",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 53232,
-          "sha256": "8032d5e0febb5bfe1fa3eee17090fbd0069d3a5420f78cc992e92024cad82472"
+          "size": 452648,
+          "sha256": "d21a5991b68977e334f581f9e47bcf28b39404ed9dcb39b494da212ce1f4b6ce"
         },
         {
-          "path": "/usr/bin/pg_rewind",
+          "path": "/usr/bin/pg_isready",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 95024,
-          "sha256": "1abb61bb3364adca123bcddb17fcf16b9bfce70e968250270fb24eb9cdf5412c"
-        },
-        {
-          "path": "/usr/bin/pg_verifybackup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 78456,
-          "sha256": "d7b8133375d6075be9f48b63e76ad7a1550d4dba8a96a8b5ea26d41386df6b4e"
-        },
-        {
-          "path": "/usr/bin/postgres",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 9176600,
-          "sha256": "e55c93460861c39fd29c2130c8499708ad9d28cefa5cc427fd862974bcbff66c"
-        },
-        {
-          "path": "/usr/bin/postgresql-setup",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 26147,
-          "sha256": "64fee139c0f2cb9449ca3e11422e25c19d7f99b3a2c1b1a1d05b505283747bc9"
+          "size": 36584,
+          "sha256": "c56cbd05871e19ea696262e117957017326bfa517a5860ed0851b2196a3615d0"
         },
         {
           "path": "/usr/bin/postgresql-upgrade",
@@ -2430,15 +2419,26 @@
           "sha256": "84278b888416c07ab205a2df323e4e367f0b00294c105b127ecb0410bbb2c1f9"
         },
         {
-          "path": "/usr/bin/postmaster",
+          "path": "/usr/bin/pg_basebackup",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 8,
-          "sha256": null
+          "size": 103792,
+          "sha256": "d7146516d93711b302c605a07ce022586ffcc70cfe166822e5f1c3bb3d816c5b"
+        },
+        {
+          "path": "/usr/bin/pg_verifybackup",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 78456,
+          "sha256": "d7b8133375d6075be9f48b63e76ad7a1550d4dba8a96a8b5ea26d41386df6b4e"
         },
         {
           "path": "/usr/sbin/postgresql-new-systemd-unit",
@@ -3173,26 +3173,48 @@
           "sha256": null
         },
         {
-          "path": "/usr/lib64/libpq.so.private13-5",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 23,
-          "sha256": null
-        },
-        {
-          "path": "/usr/lib64/libpq.so.private13-5.13",
+          "path": "/usr/lib64/libicui18n.so.67.1",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 347096,
-          "sha256": "deeaacedae9518448e31d79b55a4bbc15a149aaedcf5f6e871d2899ab03fdd66"
+          "size": 3203984,
+          "sha256": "089faaa2743f0089e8bd970d7fdc53e75e8e98bde52dd45c4f4e0e01551e25a2"
+        },
+        {
+          "path": "/usr/lib64/libicuio.so.67",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 16,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libicutest.so.67",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libicuuc.so.67.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2018648,
+          "sha256": "7a7ee473e7ca98f0b1197950177c4b91b6f0a38598e247aa8845434875b91e1f"
         },
         {
           "path": "/usr/lib64/libicudata.so.67",
@@ -3228,26 +3250,15 @@
           "sha256": null
         },
         {
-          "path": "/usr/lib64/libicui18n.so.67.1",
+          "path": "/usr/lib64/libpq.so.private13-5.13",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 3203984,
-          "sha256": "089faaa2743f0089e8bd970d7fdc53e75e8e98bde52dd45c4f4e0e01551e25a2"
-        },
-        {
-          "path": "/usr/lib64/libicuio.so.67",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 16,
-          "sha256": null
+          "size": 347096,
+          "sha256": "deeaacedae9518448e31d79b55a4bbc15a149aaedcf5f6e871d2899ab03fdd66"
         },
         {
           "path": "/usr/lib64/libicuio.so.67.1",
@@ -3259,17 +3270,6 @@
           "group": "root",
           "size": 61760,
           "sha256": "817d6ecbe99d540893e4ba7549b142bffd1ce9046d0c2169b80ef9244e815d91"
-        },
-        {
-          "path": "/usr/lib64/libicutest.so.67",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 18,
-          "sha256": null
         },
         {
           "path": "/usr/lib64/libicutest.so.67.1",
@@ -3294,17 +3294,6 @@
           "sha256": null
         },
         {
-          "path": "/usr/lib64/libicutu.so.67.1",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 211944,
-          "sha256": "323383bb9682957331a73b793c6ca927f7835036fe221bc07adde8653134895d"
-        },
-        {
           "path": "/usr/lib64/libicuuc.so.67",
           "category": "library",
           "is_dir": false,
@@ -3316,15 +3305,26 @@
           "sha256": null
         },
         {
-          "path": "/usr/lib64/libicuuc.so.67.1",
+          "path": "/usr/lib64/libpq.so.private13-5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 23,
+          "sha256": null
+        },
+        {
+          "path": "/usr/lib64/libicutu.so.67.1",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 2018648,
-          "sha256": "7a7ee473e7ca98f0b1197950177c4b91b6f0a38598e247aa8845434875b91e1f"
+          "size": 211944,
+          "sha256": "323383bb9682957331a73b793c6ca927f7835036fe221bc07adde8653134895d"
         },
         {
           "path": "/usr/lib64/pgsql",
@@ -4383,26 +4383,48 @@
           "sha256": "109a59deb6beb9f0a9633b62b885fab3d16644be8655cfa561ca8d0596cb1ec0"
         },
         {
-          "path": "/lib64/libpq.so.private13-5",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 23,
-          "sha256": null
-        },
-        {
-          "path": "/lib64/libpq.so.private13-5.13",
+          "path": "/lib64/libicui18n.so.67.1",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 347096,
-          "sha256": "deeaacedae9518448e31d79b55a4bbc15a149aaedcf5f6e871d2899ab03fdd66"
+          "size": 3203984,
+          "sha256": "089faaa2743f0089e8bd970d7fdc53e75e8e98bde52dd45c4f4e0e01551e25a2"
+        },
+        {
+          "path": "/lib64/libicuio.so.67",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 16,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libicutest.so.67",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 18,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libicuuc.so.67.1",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 2018648,
+          "sha256": "7a7ee473e7ca98f0b1197950177c4b91b6f0a38598e247aa8845434875b91e1f"
         },
         {
           "path": "/lib64/libicudata.so.67",
@@ -4438,26 +4460,15 @@
           "sha256": null
         },
         {
-          "path": "/lib64/libicui18n.so.67.1",
+          "path": "/lib64/libpq.so.private13-5.13",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 3203984,
-          "sha256": "089faaa2743f0089e8bd970d7fdc53e75e8e98bde52dd45c4f4e0e01551e25a2"
-        },
-        {
-          "path": "/lib64/libicuio.so.67",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 16,
-          "sha256": null
+          "size": 347096,
+          "sha256": "deeaacedae9518448e31d79b55a4bbc15a149aaedcf5f6e871d2899ab03fdd66"
         },
         {
           "path": "/lib64/libicuio.so.67.1",
@@ -4469,17 +4480,6 @@
           "group": "root",
           "size": 61760,
           "sha256": "817d6ecbe99d540893e4ba7549b142bffd1ce9046d0c2169b80ef9244e815d91"
-        },
-        {
-          "path": "/lib64/libicutest.so.67",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 18,
-          "sha256": null
         },
         {
           "path": "/lib64/libicutest.so.67.1",
@@ -4504,17 +4504,6 @@
           "sha256": null
         },
         {
-          "path": "/lib64/libicutu.so.67.1",
-          "category": "library",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 211944,
-          "sha256": "323383bb9682957331a73b793c6ca927f7835036fe221bc07adde8653134895d"
-        },
-        {
           "path": "/lib64/libicuuc.so.67",
           "category": "library",
           "is_dir": false,
@@ -4526,15 +4515,26 @@
           "sha256": null
         },
         {
-          "path": "/lib64/libicuuc.so.67.1",
+          "path": "/lib64/libpq.so.private13-5",
+          "category": "library",
+          "is_dir": false,
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
+          "owner": "root",
+          "group": "root",
+          "size": 23,
+          "sha256": null
+        },
+        {
+          "path": "/lib64/libicutu.so.67.1",
           "category": "library",
           "is_dir": false,
           "mode_octal": "0o755",
           "mode_symbolic": "-rwxr-xr-x",
           "owner": "root",
           "group": "root",
-          "size": 2018648,
-          "sha256": "7a7ee473e7ca98f0b1197950177c4b91b6f0a38598e247aa8845434875b91e1f"
+          "size": 211944,
+          "sha256": "323383bb9682957331a73b793c6ca927f7835036fe221bc07adde8653134895d"
         },
         {
           "path": "/lib64/pgsql",
@@ -5609,8 +5609,19 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1217,
-        "sha256": "e609ce9498b7d29335d997d495f6533d3ceb9ab5a9c999bf5e2ed3b905a5f70f"
+        "size": 1454,
+        "sha256": "2cc00645f5f01de388581c9e2c40fbae56f2ec5a358fd820739d0cd43a065dfd"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 726,
+        "sha256": "6cb5b7bef85eb470d135307516505a34ccd8fb2044e36f6be11a22d16a0b3946"
       },
       {
         "path": "/etc/gshadow-",
@@ -5620,8 +5631,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 448,
-        "sha256": "de855c9552b1d72988335fc47bebe8a622c14c14ae766a29e7ac3eb59087ff74"
+        "size": 492,
+        "sha256": "ba6f3efe507fc7690ca225b291eb03a374f45e5d412d373aaef49e04548d6e09"
       },
       {
         "path": "/etc/group-",
@@ -5631,8 +5642,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 570,
-        "sha256": "96969fc7c4f619499797413573225b157c9ea821d9ae5b835a1fe01e2ebd6d97"
+        "size": 624,
+        "sha256": "096b36280eb0275d065c44482380b18728216c49b45516e45a0bfb71c85881b5"
       },
       {
         "path": "/etc/group",
@@ -5642,8 +5653,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 585,
-        "sha256": "4fd77260b19684375429880ab08d2eabcf6c7fc7c9c2db79451b6750e00f0456"
+        "size": 639,
+        "sha256": "5c33858bacf4126dfb36942979aae3c35e88de903a3b2675f3ea5d0167a5a12d"
       },
       {
         "path": "/etc/gshadow",
@@ -5653,8 +5664,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 461,
-        "sha256": "25949b92e16cc845f168d0d4e74d41d455d0705c2e51d71ba3d755f1cf49e202"
+        "size": 505,
+        "sha256": "159159b195e9f9b88a5e984d2c147bfec01731be6bd04e4194b7db379e6190e5"
       },
       {
         "path": "/etc/passwd",
@@ -5664,8 +5675,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1277,
-        "sha256": "06ccdb0b760332d6f2268f56eb5265900142ccf2741f1e3e89a9300edb7231f0"
+        "size": 1514,
+        "sha256": "975b2153237fafd7c5bda7491aeb00becc86e214a7fff71ccc89bf29468a1261"
       },
       {
         "path": "/etc/shadow",
@@ -5675,8 +5686,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 662,
-        "sha256": "0326617b8837f805300861dc37751e4035a7f09b0e6038fdc62af7065ba0b628"
+        "size": 750,
+        "sha256": "4ed3f2b1544cd7450cae2803480ea4a772056d4d76c34b34defe9b9bb4d165ef"
       },
       {
         "path": "/etc/pam.d",
@@ -5862,7 +5873,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 144,
+        "size": 190,
         "sha256": null
       },
       {
@@ -6357,7 +6368,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 38,
+        "size": 51,
         "sha256": null
       },
       {
@@ -6511,7 +6522,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 144,
+        "size": 190,
         "sha256": null
       },
       {

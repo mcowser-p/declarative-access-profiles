@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:40:45.366402+00:00",
+  "generated_at": "2026-08-26T20:29:42.739554+00:00",
   "application": "valkey",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "b465b5964a8c8294bfcdc9d1340bc804d2052b45fc1c7aa7d49848837bd76175",
-    "created_at": "2026-08-23T21:40:00.176039+00:00",
+    "db_sha256": "76b0a80516316c77d2039cc624efc305517e66ebf5899d049e0364894d6fec5e",
+    "created_at": "2026-08-26T20:28:50.491951+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
-    "files_added": 30,
-    "files_modified": 31,
+    "files_added": 32,
+    "files_modified": 34,
     "files_deleted": 0,
     "systemd_units": 6,
     "quadlets": 0,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "valkey",
-        "uid": 104,
-        "gid": 111,
+        "uid": 105,
+        "gid": 112,
         "gecos": "",
         "home": "/var/lib/valkey",
         "shell": "/usr/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "valkey",
-        "gid": 111,
+        "gid": 112,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "valkey",
-        "gid": 111,
+        "gid": 112,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -1363,6 +1363,28 @@
       ],
       "state_dir": [
         {
+          "path": "/var/lib/postgresql/18/main/global/pg_internal.init",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "postgres",
+          "group": "postgres",
+          "size": 28536,
+          "sha256": "8325d04ee8e686e8a234313abb142ea96ea1843212cc259292a2267444f21134"
+        },
+        {
+          "path": "/var/lib/postgresql/18/main/base/1/pg_internal.init",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "postgres",
+          "group": "postgres",
+          "size": 160944,
+          "sha256": "d485e8befb0c1ada9e5c35ee735f6490b3bcf25edb08a4380d015f94f5ce2596"
+        },
+        {
           "path": "/var/lib/valkey",
           "category": "state_dir",
           "is_dir": true,
@@ -1395,8 +1417,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 739,
-        "sha256": "08cdab62cae0a98e45510f9ef7d6c477b1c889af1c716497397a85f29f72a065"
+        "size": 763,
+        "sha256": "61917ba9a5a77c76390df5cb224fdecf6df15d75135979094c6f2e4ec3cffab3"
       },
       {
         "path": "/etc/shadow",
@@ -1406,8 +1428,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 881,
-        "sha256": "c0ca619f95aaada872535e9aa7d5be431858da1f31e33a45d6f5716fd1c79c7a"
+        "size": 925,
+        "sha256": "b12a30941ba6e25e004001578edfc932ba2e4665031cd8c71e9e79339d249da0"
       },
       {
         "path": "/etc/group",
@@ -1417,8 +1439,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 880,
-        "sha256": "fe3a4584664b655b44f11f5ce078915f8e58f97358877b87f3064f24488281f7"
+        "size": 909,
+        "sha256": "3e3ea0795921e7344f8b43ee454aace6e1b13471ae1e2b74d84b1967273266c5"
       },
       {
         "path": "/etc/passwd-",
@@ -1428,8 +1450,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1793,
-        "sha256": "e93d526642e8d946ce128d9d7f0d9353fd5ddbba5646d81f73f7519939a4e7a0"
+        "size": 1909,
+        "sha256": "ea5fc083313f2be1b4a2028b663dc26b49107ed0bcda0ecc5c76e6be60fc62e8"
       },
       {
         "path": "/etc/gshadow-",
@@ -1439,8 +1461,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 728,
-        "sha256": "ebedf8e55d40991368bdfe908b6f5fc9cdef8b44135c4ef0124f51f3d909aa24"
+        "size": 752,
+        "sha256": "94cf97bfd0494b8a7e300edb4c2c6657b450d8bf998af339c4ce2caf34fbfbac"
       },
       {
         "path": "/etc/group-",
@@ -1450,8 +1472,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 866,
-        "sha256": "04c4dbb84c1ff267b66602bdc9f19d8bd2154c612babbbbd8ea1fe0b5d62e5fd"
+        "size": 895,
+        "sha256": "7232ee01487fb2d7b873df287102058fc571d9f474299a5b529bf39732a47fd9"
       },
       {
         "path": "/etc/shadow-",
@@ -1461,8 +1483,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 860,
-        "sha256": "f84b7684d85cb6394265a5dde4a7297770800950a077d4261a517b33bde5c425"
+        "size": 904,
+        "sha256": "5b94bc7d39034e5a93a38a50c8fe6261cfd459e35bed77e6e7639f8598c26546"
       },
       {
         "path": "/etc/passwd",
@@ -1472,8 +1494,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1845,
-        "sha256": "89edaa239da5f9ef64bb88f36b764a93792581cc6d1d5324327b907db90fafe8"
+        "size": 1961,
+        "sha256": "85af894674ac4a71f15df6135a38bc50ed63a1a769a935d7add0fb92170f9657"
       },
       {
         "path": "/etc/systemd/system",
@@ -1648,7 +1670,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -1675,6 +1697,39 @@
       },
       {
         "path": "/var/lib/dpkg",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o755",
+        "mode_symbolic": "drwxr-xr-x",
+        "owner": "root",
+        "group": "root",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/global",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/logrotate",
         "category": "state_dir",
         "is_dir": true,
         "mode_octal": "0o755",
@@ -2169,7 +2224,7 @@
   "group_access": [
     {
       "group": "valkey",
-      "gid": 111,
+      "gid": 112,
       "writable": [
         "/etc/valkey/"
       ],

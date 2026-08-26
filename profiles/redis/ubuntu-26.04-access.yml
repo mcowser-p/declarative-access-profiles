@@ -32,7 +32,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-26 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
 
 # REVIEW-CHANGE: declarative_access_profile_name 'valkey' -> 'redis' — the raw
 # names the packaged app (valkey); the reviewed profile uses the repo row slug

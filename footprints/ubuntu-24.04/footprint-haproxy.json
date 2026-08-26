@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T22:58:47.195359+00:00",
+  "generated_at": "2026-08-26T20:13:03.475205+00:00",
   "application": "haproxy",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "ce6127c0f2e854b70a6ddb36aa6d53c70a54f69198cd575f2a4ed135e2a37022",
-    "created_at": "2026-08-23T22:58:20.927244+00:00",
+    "db_sha256": "ed3ee259645ab6b500d7df2d2761a9a6105e6849141bc0e25ce905a3ca45dd49",
+    "created_at": "2026-08-26T20:12:36.755513+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
@@ -870,7 +870,7 @@
         "owner": "root",
         "group": "shadow",
         "size": 926,
-        "sha256": "d4aa4237ec760619cce267897c7b635cf05f5e81c9aa5f07139aef6fb245fc0b"
+        "sha256": "c4f07f31207233e080778331af63feff66dec31ad48001aef700391a867a4a31"
       },
       {
         "path": "/etc/passwd",

@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:37:34.051084+00:00",
+  "generated_at": "2026-08-26T20:35:45.055459+00:00",
   "application": "mariadb",
   "host": "dap-al2023",
   "platform": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "db8ba2b9cca495a8cf7da34e0d606f6fd23e6d7594794d4b341f47a334f281e4",
-    "created_at": "2026-08-23T21:36:50.555432+00:00",
+    "db_sha256": "70d8e2bc963dc409935152c102bda5499ec2c5d04c704b02c22496dae6508ce1",
+    "created_at": "2026-08-26T20:34:58.552147+00:00",
     "source_host": "dap-al2023",
     "source_os": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34"
   },
   "summary": {
     "files_added": 825,
-    "files_modified": 1961,
+    "files_modified": 1959,
     "files_deleted": 0,
     "systemd_units": 14,
     "quadlets": 0,
@@ -12465,8 +12465,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 711,
-        "sha256": "83d83b2edfd4bbb49077e8b0f27e635b16175bb82951d125d922200c495f0f27"
+        "size": 752,
+        "sha256": "77cadf85613eed3f2e29501f9de9b7eee9f2ca9c4a0bb431aada5018bd2ae2c7"
       },
       {
         "path": "/etc/gshadow",
@@ -12476,8 +12476,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 586,
-        "sha256": "8a1cef68ac06f4b97f89d77868e3f4c6901dcf398703b050560975e519c3b15d"
+        "size": 619,
+        "sha256": "964cbb444a7dc8c4d5a8fd2c2d084c675d45dbe6431dd1cfba35ef6b4ed9b52f"
       },
       {
         "path": "/etc/passwd",
@@ -12487,8 +12487,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1540,
-        "sha256": "a841fa25533a9bf7d2adbc65b30208b58834c43b49db889c853fa35741c3f7e2"
+        "size": 1716,
+        "sha256": "61725a602ba4f2217b43a2d7ab783b74fec0dca4e4dbb6095c25ea43a72d02e2"
       },
       {
         "path": "/etc/shadow",
@@ -12498,8 +12498,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 758,
-        "sha256": "237f4f90c744968d8cf059ae7631ee6b4db2c32e3a8a44d88984573b00779af4"
+        "size": 824,
+        "sha256": "9848a7008a26407797089a7948181a88d164cc49863c080e18fd0f61debb3188"
       },
       {
         "path": "/etc/passwd-",
@@ -12509,8 +12509,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1484,
-        "sha256": "4d2ab611688b36ad4f08a652622efda14ec3cba9d0ddf55ffa1d5e1eba6498a9"
+        "size": 1660,
+        "sha256": "0d21a445a176aaf571118baa5cb296668cc8ab913428cb334a35554d4a6046f6"
       },
       {
         "path": "/etc/shadow-",
@@ -12520,8 +12520,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 737,
-        "sha256": "04d7c69538e26cf3e74e04945ac233c41e504970199c1b03b404ca0cf54cb5c3"
+        "size": 803,
+        "sha256": "a3485758a5cc605d4309594d18c0837fd821e0e5088c93bc5ebe378e207be0e3"
       },
       {
         "path": "/etc/group-",
@@ -12531,8 +12531,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 699,
-        "sha256": "ba7dd72352e8e52b37c6ec915ed98bfb181c732be86573c55d379bf1d171bd28"
+        "size": 740,
+        "sha256": "1ccfe64fc54d5e2fa698ae552b2bc9fa34314fa8d885019901a6358a932e0056"
       },
       {
         "path": "/etc/gshadow-",
@@ -12542,8 +12542,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 576,
-        "sha256": "9f9a89831902587c4f77e1d2e65cfbea0e962a7b4783ca9d6d15949b4df30578"
+        "size": 609,
+        "sha256": "189180761c33293eb9fccee7e895cf82a3fc8eb6148c8b9338cf11b08dcc7c9d"
       },
       {
         "path": "/etc/selinux/targeted",
@@ -12663,7 +12663,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 128,
+        "size": 184,
         "sha256": null
       },
       {
@@ -12927,7 +12927,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -13092,7 +13092,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -13345,7 +13345,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -13510,7 +13510,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -13543,7 +13543,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -13961,7 +13961,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -14126,7 +14126,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -14379,7 +14379,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -14544,7 +14544,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -14577,7 +14577,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -33994,28 +33994,6 @@
         "group": "root",
         "size": 31,
         "sha256": null
-      },
-      {
-        "path": "/boot/grub2",
-        "category": "other",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "root",
-        "group": "root",
-        "size": 93,
-        "sha256": null
-      },
-      {
-        "path": "/boot/grub2/grubenv",
-        "category": "other",
-        "is_dir": false,
-        "mode_octal": "0o600",
-        "mode_symbolic": "-rw-------",
-        "owner": "root",
-        "group": "root",
-        "size": 1024,
-        "sha256": "0e33ca85625791846af7f17f94e6a2b4000b4a7ef4c51e775c79edf5c2b8250d"
       }
     ],
     "deleted": []

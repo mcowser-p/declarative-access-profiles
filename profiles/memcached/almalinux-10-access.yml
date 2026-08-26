@@ -25,7 +25,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-09   VERIFIED: 2026-08-23 (KVM alma10-20260823, SELinux enforcing, real PAM, CIS L1)
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-26 (KVM alma10-20260823, SELinux enforcing, real PAM, CIS L1)
 
 declarative_access_profile_name: 'memcached'
 declarative_access_sudo: true

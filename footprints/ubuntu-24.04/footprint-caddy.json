@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:41:22.264388+00:00",
+  "generated_at": "2026-08-26T20:19:37.874193+00:00",
   "application": "caddy",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "84895890444bad3b92f37cafb01060d743b645fbe059501072c645bb0c4b8c76",
-    "created_at": "2026-08-23T21:40:44.986163+00:00",
+    "db_sha256": "6c097915175568fb1e2d7f1dd8c7ad8aa0ccd0c78672fcc82d4d89c0146881b0",
+    "created_at": "2026-08-26T20:18:55.837668+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
   "summary": {
-    "files_added": 83,
-    "files_modified": 26,
+    "files_added": 78,
+    "files_modified": 24,
     "files_deleted": 0,
     "systemd_units": 5,
     "quadlets": 0,
@@ -34,7 +34,7 @@
       {
         "name": "caddy",
         "uid": 999,
-        "gid": 987,
+        "gid": 986,
         "gecos": "Caddy web server",
         "home": "/var/lib/caddy",
         "shell": "/usr/sbin/nologin",
@@ -45,7 +45,7 @@
     "groups_added": [
       {
         "name": "caddy",
-        "gid": 987,
+        "gid": 986,
         "members": []
       }
     ],
@@ -61,7 +61,7 @@
       },
       {
         "group": "caddy",
-        "gid": 987,
+        "gid": 986,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -1944,61 +1944,6 @@
           "group": "caddy",
           "size": 4096,
           "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "category": "state_dir",
-          "is_dir": true,
-          "mode_octal": "0o700",
-          "mode_symbolic": "drwx------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "category": "state_dir",
-          "is_dir": true,
-          "mode_octal": "0o700",
-          "mode_symbolic": "drwx------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "category": "state_dir",
-          "is_dir": false,
-          "mode_octal": "0o600",
-          "mode_symbolic": "-rw-------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 184,
-          "sha256": "99c076053d2ccc29f1283b45221ff47d37f15016049ba8076a7f5f1865d7b4a3"
-        },
-        {
-          "path": "/var/lib/postgresql/16/main/global/pg_internal.init",
-          "category": "state_dir",
-          "is_dir": false,
-          "mode_octal": "0o600",
-          "mode_symbolic": "-rw-------",
-          "owner": "postgres",
-          "group": "postgres",
-          "size": 28676,
-          "sha256": "b4e1e58a3574627c444d3b113cf4a253011d24962c8c3f1996feaba905bcebf5"
-        },
-        {
-          "path": "/var/lib/postgresql/16/main/base/1/pg_internal.init",
-          "category": "state_dir",
-          "is_dir": false,
-          "mode_octal": "0o600",
-          "mode_symbolic": "-rw-------",
-          "owner": "postgres",
-          "group": "postgres",
-          "size": 162312,
-          "sha256": "9a87d06d1466646857362decd16ce8435f941efa643603752b6a44594a8a8bc3"
         }
       ]
     },
@@ -2022,8 +1967,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 954,
-        "sha256": "f44efe9616ffc5faea7bff36d5a53cb62d1d3fe799b4aa3c5604fe78eef9d7c7"
+        "size": 999,
+        "sha256": "bd0e3b1db5dac358212a73d6f7628f797a89721e8235cb8b4d831b4e410df574"
       },
       {
         "path": "/etc/passwd-",
@@ -2033,8 +1978,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2155,
-        "sha256": "e7f59baaf3efb80744e49bb9331dd289f698cf55cc3564df0f575e65bc54ceb8"
+        "size": 2327,
+        "sha256": "df9d5839184aa5c57e2da53b2176334605cc06bdf54025329de1f8b9ba6e84a3"
       },
       {
         "path": "/etc/shadow-",
@@ -2044,8 +1989,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 989,
-        "sha256": "ba73384e340ef8616ca5ab79d8f85b45105765cf0b77f1fc103f4bce2d7a6e16"
+        "size": 1056,
+        "sha256": "509947d3e420573e71df823839da5abf6b952ff62bdf8541dc745a390f5d7c92"
       },
       {
         "path": "/etc/group-",
@@ -2055,8 +2000,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 949,
-        "sha256": "6ffe9fa213041fd94707248c31664859b9f70593a27b6bc0f1f9c36ed8e84f0a"
+        "size": 994,
+        "sha256": "38258c41105a30286d734f5cf0e45d5dad892c226659779d722166c4aff5c6d8"
       },
       {
         "path": "/etc/shadow",
@@ -2066,8 +2011,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 1009,
-        "sha256": "896c3a59c3ec77c40df360c50f42a4bc6e33bee4bd1fc74eb868e2311e3478ce"
+        "size": 1076,
+        "sha256": "faf44cf30043306bdb89f2a2f7a9ee1293f2917372e68ee0b34577d0941868db"
       },
       {
         "path": "/etc/passwd",
@@ -2077,8 +2022,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2221,
-        "sha256": "aedcbca911a9424b81a935391a5aaf4cfb9dcaf9b7c1f1f53fa23ee1af9b23e1"
+        "size": 2393,
+        "sha256": "cc51b92bfb340d7d6a4815a3f9c9e5dc67cde3cc7639a73bc3b1fff8e9b3e1ee"
       },
       {
         "path": "/etc/gshadow",
@@ -2088,8 +2033,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 795,
-        "sha256": "f7f28c19c5f37033a69206e510d324ff241461cf99760476de3fb12a845f25cd"
+        "size": 832,
+        "sha256": "eb7769999177d582460b6f4a9860a030cd105be3abdbd85d3d9a9628d496a2d7"
       },
       {
         "path": "/etc/gshadow-",
@@ -2099,8 +2044,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 790,
-        "sha256": "2a36515b259fd91d8fc4b7d280b21ed07858ce657e824ce06bc65d8c1df4a685"
+        "size": 827,
+        "sha256": "f964470b70f964c8d2aaa76f1f24ace08e723eea8e64459072664b8185dab8ab"
       },
       {
         "path": "/etc/systemd/system/multi-user.target.wants",
@@ -2257,28 +2202,6 @@
         "sha256": null
       },
       {
-        "path": "/var/lib/postgresql/16/main/global",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "postgres",
-        "group": "postgres",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/var/lib/postgresql/16/main/base/1",
-        "category": "state_dir",
-        "is_dir": true,
-        "mode_octal": "0o700",
-        "mode_symbolic": "drwx------",
-        "owner": "postgres",
-        "group": "postgres",
-        "size": 4096,
-        "sha256": null
-      },
-      {
         "path": "/var/lib/dpkg",
         "category": "state_dir",
         "is_dir": true,
@@ -2340,30 +2263,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2421,30 +2320,6 @@
         },
         {
           "path": "/var/lib/caddy/.bashrc",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
           "access": "read,write",
           "sources": [
             "file-owner",
@@ -2516,30 +2391,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2604,30 +2455,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2685,30 +2512,6 @@
         },
         {
           "path": "/var/lib/caddy/.bashrc",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
           "access": "read,write",
           "sources": [
             "file-owner",
@@ -2737,7 +2540,7 @@
   "group_access": [
     {
       "group": "caddy",
-      "gid": 987,
+      "gid": 986,
       "writable": [],
       "readable": [
         "/var/lib/caddy/",

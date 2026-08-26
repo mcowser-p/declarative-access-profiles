@@ -38,7 +38,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-26 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
 
 declarative_access_profile_name: 'mysql'
 declarative_access_sudo: true

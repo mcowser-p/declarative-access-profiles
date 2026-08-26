@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:34:16.739891+00:00",
+  "generated_at": "2026-08-26T20:34:29.308414+00:00",
   "application": "php-fpm",
   "host": "dap-al2023",
   "platform": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "1a1122c3cf773bbd609d9cd521039c817277e7ba33e9f3bf619af2c2da6b723a",
-    "created_at": "2026-08-23T21:33:48.062752+00:00",
+    "db_sha256": "7a4c9f757fdb42f24ab45374149395d9f6edb5002b6e97d292e25a4ff7332adc",
+    "created_at": "2026-08-26T20:34:01.462111+00:00",
     "source_host": "dap-al2023",
     "source_os": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34"
   },

@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:37:44.416762+00:00",
+  "generated_at": "2026-08-26T20:08:45.364416+00:00",
   "application": "valkey",
   "host": "dap-alma10",
   "platform": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "36c2b005409469cca6bfc370c9ccc61aa5fc74c96f15cfb87962a28bc9688d82",
-    "created_at": "2026-08-23T21:37:16.089860+00:00",
+    "db_sha256": "e723fae7848efad0303470f5f15d584f7efbdef33ce0f0f241ffe5f6c71a2c97",
+    "created_at": "2026-08-26T20:08:16.209113+00:00",
     "source_host": "dap-alma10",
     "source_os": "Linux-6.12.0-211.47.1.el10_2.x86_64-x86_64-with-glibc2.39"
   },
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "valkey",
-        "uid": 993,
-        "gid": 993,
+        "uid": 991,
+        "gid": 991,
         "gecos": "Valkey Database Server",
         "home": "/dev/null",
         "shell": "/sbin/nologin",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "valkey",
-        "gid": 993,
+        "gid": 991,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "valkey",
-        "gid": 993,
+        "gid": 991,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -468,7 +468,18 @@
       ],
       "binary": [
         {
-          "path": "/bin/valkey-check-rdb",
+          "path": "/bin/valkey-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 930472,
+          "sha256": "d5e2761889fd170b1d5d086963e569b72934cec417dec61130d066a7c4b5d731"
+        },
+        {
+          "path": "/bin/valkey-check-aof",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -479,15 +490,15 @@
           "sha256": null
         },
         {
-          "path": "/bin/valkey-benchmark",
+          "path": "/bin/valkey-check-rdb",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 930472,
-          "sha256": "d5e2761889fd170b1d5d086963e569b72934cec417dec61130d066a7c4b5d731"
+          "size": 13,
+          "sha256": null
         },
         {
           "path": "/bin/valkey-cli",
@@ -512,17 +523,6 @@
           "sha256": null
         },
         {
-          "path": "/bin/valkey-check-aof",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 13,
-          "sha256": null
-        },
-        {
           "path": "/bin/valkey-server",
           "category": "binary",
           "is_dir": false,
@@ -534,7 +534,18 @@
           "sha256": "cae7dca22219c85554d0ed703518d4b4c786c97875fcc2d7ffbe67c81100e8fb"
         },
         {
-          "path": "/usr/bin/valkey-check-rdb",
+          "path": "/usr/bin/valkey-benchmark",
+          "category": "binary",
+          "is_dir": false,
+          "mode_octal": "0o755",
+          "mode_symbolic": "-rwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 930472,
+          "sha256": "d5e2761889fd170b1d5d086963e569b72934cec417dec61130d066a7c4b5d731"
+        },
+        {
+          "path": "/usr/bin/valkey-check-aof",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -545,15 +556,15 @@
           "sha256": null
         },
         {
-          "path": "/usr/bin/valkey-benchmark",
+          "path": "/usr/bin/valkey-check-rdb",
           "category": "binary",
           "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
+          "mode_octal": "0o777",
+          "mode_symbolic": "lrwxrwxrwx",
           "owner": "root",
           "group": "root",
-          "size": 930472,
-          "sha256": "d5e2761889fd170b1d5d086963e569b72934cec417dec61130d066a7c4b5d731"
+          "size": 13,
+          "sha256": null
         },
         {
           "path": "/usr/bin/valkey-cli",
@@ -568,17 +579,6 @@
         },
         {
           "path": "/usr/bin/valkey-sentinel",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 13,
-          "sha256": null
-        },
-        {
-          "path": "/usr/bin/valkey-check-aof",
           "category": "binary",
           "is_dir": false,
           "mode_octal": "0o777",
@@ -930,8 +930,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 627,
-        "sha256": "88c0803cd68590b63f3f024fe42804634d65d478834e0e43a60a1c0cf756ec76"
+        "size": 681,
+        "sha256": "b9ee86cf243c2e5b7120c75a06936815d79f79e769897c4624d6d523547de3ee"
       },
       {
         "path": "/etc/gshadow-",
@@ -941,8 +941,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 502,
-        "sha256": "a9f572bbad191bc2375babfe2842a49285f9af1a130665d92fabd0a3e83298a7"
+        "size": 546,
+        "sha256": "d590308654bfdb8d41b211fc8f2d6f5fa3f2dafa31c0e1c245f1451668a08d86"
       },
       {
         "path": "/etc/passwd-",
@@ -952,8 +952,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1535,
-        "sha256": "ab32bd0feed38bfaba2ed868b3ac98a5f8e5e123b73f6ca89ef1f41ceb7c75ce"
+        "size": 1772,
+        "sha256": "2810155c6bd7459c0bb979905ea2bc94fe30c75d2e228fb40c8c89a583e37e93"
       },
       {
         "path": "/etc/shadow-",
@@ -963,8 +963,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 719,
-        "sha256": "d7ca0381a338b7f589162ee0fdeeba8445c3b1eebcc14cb5e2a183b33c59e51e"
+        "size": 803,
+        "sha256": "6ffc4b4e17520e0bbee5d1039e1ed6c831abcf1d173f909ca9e3d0db67c13dfb"
       },
       {
         "path": "/etc/group",
@@ -974,8 +974,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 641,
-        "sha256": "a739dd1c591f9e07f8e37ae94ec143bf053481ea37448e9e569e3e81a0f8719a"
+        "size": 695,
+        "sha256": "79827ff43606c7fe6d998ff9f3308a8824fc2558d0801c0e268bdc539ff0ae8b"
       },
       {
         "path": "/etc/gshadow",
@@ -985,8 +985,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 513,
-        "sha256": "653ecce36516c9e3bcb1b79c8beafc07bfa6dd02d95caca34ca9af040b880348"
+        "size": 557,
+        "sha256": "34a1f753491d6ab9e9ba95ca975ce10421468fcdc2db1962f566c466d3a52fcf"
       },
       {
         "path": "/etc/passwd",
@@ -996,8 +996,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1599,
-        "sha256": "62032c1d3c22d3a4994328d52f2cfaba8637bc9daf630ab70f206b14e6f95842"
+        "size": 1836,
+        "sha256": "8231a0bf58e244beccc033b8b546ec17e1bdc36f638620306db85c4714750010"
       },
       {
         "path": "/etc/shadow",
@@ -1007,8 +1007,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 740,
-        "sha256": "06fdd50614fa3cc9eaf5f62715e5436853321b569fc82c361f597b966498da98"
+        "size": 824,
+        "sha256": "ba3931b5ba40cf7d88256d8db85afde102de4c0d51b87c9cba423834cdb92473"
       },
       {
         "path": "/etc/logrotate.d",
@@ -1018,7 +1018,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 156,
+        "size": 4096,
         "sha256": null
       },
       {
@@ -1029,7 +1029,7 @@
         "mode_symbolic": "dr-xr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -1040,8 +1040,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 62754816,
-        "sha256": "14fd0ae2afeb0acd60a6d7d14966fae29911ee191f9b04d1ef748fef5acaa8b9"
+        "size": 63705088,
+        "sha256": "55f161e2f89c160c04f814bdd8ff661fac7b6f29335143c874ae6320fb4cb45a"
       },
       {
         "path": "/usr/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -1063,7 +1063,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "d569f1aaea82cbeda469b80f7a85ca74f9c28a77a79b2c7214904bd3c89cf97a"
+        "sha256": "e76c7bcb28e7535c23950de116ecea4d40e925e5e96189554b7fc4ebe0e7b906"
       },
       {
         "path": "/usr/lib/.build-id",
@@ -1161,8 +1161,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 62754816,
-        "sha256": "14fd0ae2afeb0acd60a6d7d14966fae29911ee191f9b04d1ef748fef5acaa8b9"
+        "size": 63705088,
+        "sha256": "55f161e2f89c160c04f814bdd8ff661fac7b6f29335143c874ae6320fb4cb45a"
       },
       {
         "path": "/lib/sysimage/rpm/rpmdb.sqlite-wal",
@@ -1184,7 +1184,7 @@
         "owner": "root",
         "group": "root",
         "size": 32768,
-        "sha256": "d569f1aaea82cbeda469b80f7a85ca74f9c28a77a79b2c7214904bd3c89cf97a"
+        "sha256": "e76c7bcb28e7535c23950de116ecea4d40e925e5e96189554b7fc4ebe0e7b906"
       },
       {
         "path": "/lib/.build-id",
@@ -1577,7 +1577,7 @@
   "group_access": [
     {
       "group": "valkey",
-      "gid": 993,
+      "gid": 991,
       "writable": [],
       "readable": [
         "/var/lib/valkey/"

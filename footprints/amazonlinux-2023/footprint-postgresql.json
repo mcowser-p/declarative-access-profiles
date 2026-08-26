@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:36:50.295991+00:00",
+  "generated_at": "2026-08-26T20:34:58.281563+00:00",
   "application": "postgresql",
   "host": "dap-al2023",
   "platform": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "39b642af8cf50b19b008af4dbcb2cdcb7c20f1ee2c4e06c365f20062a9ff3a7f",
-    "created_at": "2026-08-23T21:36:14.208039+00:00",
+    "db_sha256": "8e51afb69bed6fee5b4eeaa01d83ec2cb7fcd473b53c39d3895243b64ec8f0a6",
+    "created_at": "2026-08-26T20:34:29.555166+00:00",
     "source_host": "dap-al2023",
     "source_os": "Linux-6.1.180-225.360.amzn2023.x86_64-x86_64-with-glibc2.34"
   },
   "summary": {
     "files_added": 348,
-    "files_modified": 136,
+    "files_modified": 137,
     "files_deleted": 0,
     "systemd_units": 4,
     "quadlets": 0,
@@ -5668,8 +5668,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 699,
-        "sha256": "ba7dd72352e8e52b37c6ec915ed98bfb181c732be86573c55d379bf1d171bd28"
+        "size": 740,
+        "sha256": "1ccfe64fc54d5e2fa698ae552b2bc9fa34314fa8d885019901a6358a932e0056"
       },
       {
         "path": "/etc/gshadow",
@@ -5679,8 +5679,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 576,
-        "sha256": "9f9a89831902587c4f77e1d2e65cfbea0e962a7b4783ca9d6d15949b4df30578"
+        "size": 609,
+        "sha256": "189180761c33293eb9fccee7e895cf82a3fc8eb6148c8b9338cf11b08dcc7c9d"
       },
       {
         "path": "/etc/passwd",
@@ -5690,8 +5690,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1484,
-        "sha256": "4d2ab611688b36ad4f08a652622efda14ec3cba9d0ddf55ffa1d5e1eba6498a9"
+        "size": 1660,
+        "sha256": "0d21a445a176aaf571118baa5cb296668cc8ab913428cb334a35554d4a6046f6"
       },
       {
         "path": "/etc/shadow",
@@ -5701,8 +5701,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 737,
-        "sha256": "04d7c69538e26cf3e74e04945ac233c41e504970199c1b03b404ca0cf54cb5c3"
+        "size": 803,
+        "sha256": "a3485758a5cc605d4309594d18c0837fd821e0e5088c93bc5ebe378e207be0e3"
       },
       {
         "path": "/etc/passwd-",
@@ -5712,8 +5712,19 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1424,
-        "sha256": "d22aa5e0ef72d304a67f8ecfa3d9fd5cd149bdbf849b9942b0e2dff8446a7475"
+        "size": 1600,
+        "sha256": "b1903bb00f3ccb1a9a5d7e2787306aa823ef596fd4a520a1941be6fb5cda7b0e"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o0",
+        "mode_symbolic": "----------",
+        "owner": "root",
+        "group": "root",
+        "size": 779,
+        "sha256": "629e43a25c8b54ab1619f97143df7b192ab945182bfe8c032a6f0d8e86120f3d"
       },
       {
         "path": "/etc/group-",
@@ -5723,8 +5734,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 684,
-        "sha256": "8baf9daa0c8c45e9615c708d61f63e4754baad87c893f9a507177750e95df992"
+        "size": 725,
+        "sha256": "00529140cca388884881a3b73ac6200dbb223b2952f1dd0cee4b92d86ae4a924"
       },
       {
         "path": "/etc/gshadow-",
@@ -5734,8 +5745,8 @@
         "mode_symbolic": "----------",
         "owner": "root",
         "group": "root",
-        "size": 563,
-        "sha256": "12c3763e62595af387d95258b6bfd6b285c459853feda93cfb5716560222447d"
+        "size": 596,
+        "sha256": "5dfa6dbc5fa74c6c73c1e6284eacb206150efc7086babcee4ec691989fb6982f"
       },
       {
         "path": "/etc/pam.d",
@@ -5800,7 +5811,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -5811,7 +5822,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -5899,7 +5910,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6020,7 +6031,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6042,7 +6053,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6207,7 +6218,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6262,7 +6273,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6295,7 +6306,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6317,7 +6328,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6328,7 +6339,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6372,7 +6383,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6438,7 +6449,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 38,
+        "size": 51,
         "sha256": null
       },
       {
@@ -6471,7 +6482,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6482,7 +6493,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6570,7 +6581,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6691,7 +6702,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6713,7 +6724,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 282,
+        "size": 16384,
         "sha256": null
       },
       {
@@ -6878,7 +6889,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6933,7 +6944,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6966,7 +6977,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 236,
+        "size": 282,
         "sha256": null
       },
       {
@@ -6988,7 +6999,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -6999,7 +7010,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {
@@ -7043,7 +7054,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 190,
+        "size": 236,
         "sha256": null
       },
       {

@@ -27,7 +27,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-09   VERIFIED: 2026-08-23 (KVM ubuntu2404-20260823, AppArmor, real PAM, CIS L1)
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-26 (KVM ubuntu2404-20260823, AppArmor, real PAM, CIS L1)
 
 # REVIEW-CHANGE: profile_name 'tomcat10' -> 'tomcat' — normalized to the library
 # app slug (check_profiles requires profile_name == the app dir). Cosmetic: it

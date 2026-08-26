@@ -2,39 +2,39 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:38:11.913078+00:00",
+  "generated_at": "2026-08-26T20:26:41.497109+00:00",
   "application": "postgresql",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "d75addb080dff4d267ee01424ec3e912dabe272c0fcf97ac3fe35d3038114bec",
-    "created_at": "2026-08-23T21:37:18.095467+00:00",
+    "db_sha256": "65f340ee8d956c9eb60622c01c31c70a907b0df615d2c5003a30347cfeb4bd67",
+    "created_at": "2026-08-26T20:25:54.956691+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
-    "files_added": 4043,
-    "files_modified": 47,
+    "files_added": 4034,
+    "files_modified": 46,
     "files_deleted": 0,
-    "systemd_units": 22,
+    "systemd_units": 19,
     "quadlets": 0,
     "cron_jobs": 0,
     "users_added": 1,
-    "groups_added": 2,
+    "groups_added": 1,
     "membership_changes": 2,
     "sudo_rules": 0,
-    "executables": 120,
-    "risks": 8,
+    "executables": 118,
+    "risks": 5,
     "scan_errors": 0
   },
   "principals": {
     "users_added": [
       {
         "name": "postgres",
-        "uid": 103,
-        "gid": 110,
+        "uid": 104,
+        "gid": 111,
         "gecos": "PostgreSQL administrator",
         "home": "/var/lib/postgresql",
         "shell": "/bin/bash",
@@ -44,15 +44,8 @@
     ],
     "groups_added": [
       {
-        "name": "ssl-cert",
-        "gid": 109,
-        "members": [
-          "postgres"
-        ]
-      },
-      {
         "name": "postgres",
-        "gid": 110,
+        "gid": 111,
         "members": []
       }
     ],
@@ -64,11 +57,11 @@
           "postgres"
         ],
         "users_removed": [],
-        "group_is_new": true
+        "group_is_new": false
       },
       {
         "group": "postgres",
-        "gid": 110,
+        "gid": 111,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -77,56 +70,6 @@
   },
   "services": {
     "systemd_units": [
-      {
-        "name": "ssl-cert.service",
-        "path": "/etc/systemd/system/multi-user.target.wants/ssl-cert.service",
-        "unit_type": "service",
-        "description": "Generate snakeoil SSL keypair",
-        "exec_start": [
-          "-/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite"
-        ],
-        "exec_start_pre": [],
-        "exec_stop": [],
-        "user": null,
-        "group": null,
-        "working_directory": null,
-        "capabilities": [],
-        "ambient_capabilities": [],
-        "read_write_paths": [],
-        "read_only_paths": [],
-        "inaccessible_paths": [],
-        "state_directory": [],
-        "cache_directory": [],
-        "logs_directory": [],
-        "runtime_directory": [],
-        "configuration_directory": [],
-        "environment_files": [],
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null,
-        "supplementary_groups": [],
-        "wanted_by": [
-          "multi-user.target"
-        ],
-        "on_calendar": [],
-        "on_boot_sec": null,
-        "on_unit_active_sec": null,
-        "on_active_sec": null,
-        "persistent": null,
-        "activates": null,
-        "other_directives": {
-          "Unit.ConditionPathExists": [
-            "!/etc/ssl/private/ssl-cert-snakeoil.key"
-          ],
-          "Service.Type": [
-            "oneshot"
-          ],
-          "Service.RemainAfterExit": [
-            "yes"
-          ]
-        }
-      },
       {
         "name": "postgresql.service",
         "path": "/etc/systemd/system/multi-user.target.wants/postgresql.service",
@@ -174,56 +117,6 @@
           ],
           "Service.RemainAfterExit": [
             "on"
-          ]
-        }
-      },
-      {
-        "name": "ssl-cert.service",
-        "path": "/usr/lib/systemd/system/ssl-cert.service",
-        "unit_type": "service",
-        "description": "Generate snakeoil SSL keypair",
-        "exec_start": [
-          "-/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite"
-        ],
-        "exec_start_pre": [],
-        "exec_stop": [],
-        "user": null,
-        "group": null,
-        "working_directory": null,
-        "capabilities": [],
-        "ambient_capabilities": [],
-        "read_write_paths": [],
-        "read_only_paths": [],
-        "inaccessible_paths": [],
-        "state_directory": [],
-        "cache_directory": [],
-        "logs_directory": [],
-        "runtime_directory": [],
-        "configuration_directory": [],
-        "environment_files": [],
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null,
-        "supplementary_groups": [],
-        "wanted_by": [
-          "multi-user.target"
-        ],
-        "on_calendar": [],
-        "on_boot_sec": null,
-        "on_unit_active_sec": null,
-        "on_active_sec": null,
-        "persistent": null,
-        "activates": null,
-        "other_directives": {
-          "Unit.ConditionPathExists": [
-            "!/etc/ssl/private/ssl-cert-snakeoil.key"
-          ],
-          "Service.Type": [
-            "oneshot"
-          ],
-          "Service.RemainAfterExit": [
-            "yes"
           ]
         }
       },
@@ -741,56 +634,6 @@
           ],
           "Service.RemainAfterExit": [
             "on"
-          ]
-        }
-      },
-      {
-        "name": "ssl-cert.service",
-        "path": "/lib/systemd/system/ssl-cert.service",
-        "unit_type": "service",
-        "description": "Generate snakeoil SSL keypair",
-        "exec_start": [
-          "-/usr/sbin/make-ssl-cert generate-default-snakeoil --force-overwrite"
-        ],
-        "exec_start_pre": [],
-        "exec_stop": [],
-        "user": null,
-        "group": null,
-        "working_directory": null,
-        "capabilities": [],
-        "ambient_capabilities": [],
-        "read_write_paths": [],
-        "read_only_paths": [],
-        "inaccessible_paths": [],
-        "state_directory": [],
-        "cache_directory": [],
-        "logs_directory": [],
-        "runtime_directory": [],
-        "configuration_directory": [],
-        "environment_files": [],
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null,
-        "supplementary_groups": [],
-        "wanted_by": [
-          "multi-user.target"
-        ],
-        "on_calendar": [],
-        "on_boot_sec": null,
-        "on_unit_active_sec": null,
-        "on_active_sec": null,
-        "persistent": null,
-        "activates": null,
-        "other_directives": {
-          "Unit.ConditionPathExists": [
-            "!/etc/ssl/private/ssl-cert-snakeoil.key"
-          ],
-          "Service.Type": [
-            "oneshot"
-          ],
-          "Service.RemainAfterExit": [
-            "yes"
           ]
         }
       },
@@ -1498,17 +1341,6 @@
       "file_capabilities": null
     },
     {
-      "path": "/sbin/make-ssl-cert",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
       "path": "/sbin/pg_updatedicts",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
@@ -1642,17 +1474,6 @@
     },
     {
       "path": "/usr/bin/pg_renamecluster",
-      "mode_octal": "0o755",
-      "mode_symbolic": "-rwxr-xr-x",
-      "owner": "root",
-      "group": "root",
-      "setuid": false,
-      "setgid": false,
-      "world_writable": false,
-      "file_capabilities": null
-    },
-    {
-      "path": "/usr/sbin/make-ssl-cert",
       "mode_octal": "0o755",
       "mode_symbolic": "-rwxr-xr-x",
       "owner": "root",
@@ -2778,17 +2599,6 @@
           "sha256": null
         },
         {
-          "path": "/etc/ssl/private/ssl-cert-snakeoil.key",
-          "category": "config",
-          "is_dir": false,
-          "mode_octal": "0o640",
-          "mode_symbolic": "-rw-r-----",
-          "owner": "root",
-          "group": "ssl-cert",
-          "size": 1704,
-          "sha256": "440a75893f2e80a2e62d160e9b622e4f0779c6a835329c0e5cb7e95b222346b9"
-        },
-        {
           "path": "/etc/rc5.d/S01postgresql",
           "category": "config",
           "is_dir": false,
@@ -2945,17 +2755,6 @@
       ],
       "systemd_unit": [
         {
-          "path": "/etc/systemd/system/multi-user.target.wants/ssl-cert.service",
-          "category": "systemd_unit",
-          "is_dir": false,
-          "mode_octal": "0o777",
-          "mode_symbolic": "lrwxrwxrwx",
-          "owner": "root",
-          "group": "root",
-          "size": 40,
-          "sha256": null
-        },
-        {
           "path": "/etc/systemd/system/multi-user.target.wants/postgresql.service",
           "category": "systemd_unit",
           "is_dir": false,
@@ -2965,17 +2764,6 @@
           "group": "root",
           "size": 42,
           "sha256": null
-        },
-        {
-          "path": "/usr/lib/systemd/system/ssl-cert.service",
-          "category": "systemd_unit",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 270,
-          "sha256": "319b9036c393910bba27cbc5b20bf48d20ed7324e6ab5345f842fe9c0f5ee079"
         },
         {
           "path": "/usr/lib/systemd/system/pg_basebackup@.service",
@@ -3075,17 +2863,6 @@
           "group": "root",
           "size": 522,
           "sha256": "3670a6eba171d9402075bb0a56a0a52cf2f5be652b43486db744defa7cdb0be3"
-        },
-        {
-          "path": "/lib/systemd/system/ssl-cert.service",
-          "category": "systemd_unit",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 270,
-          "sha256": "319b9036c393910bba27cbc5b20bf48d20ed7324e6ab5345f842fe9c0f5ee079"
         },
         {
           "path": "/lib/systemd/system/pg_basebackup@.service",
@@ -3578,17 +3355,6 @@
           "sha256": null
         },
         {
-          "path": "/sbin/make-ssl-cert",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 6812,
-          "sha256": "4e45246e6aa4b93b3a5b4c955573142c6f1ff32041bb9a697b458b09ec25f8a4"
-        },
-        {
           "path": "/sbin/pg_updatedicts",
           "category": "binary",
           "is_dir": false,
@@ -3961,17 +3727,6 @@
           "group": "root",
           "size": 37,
           "sha256": null
-        },
-        {
-          "path": "/usr/sbin/make-ssl-cert",
-          "category": "binary",
-          "is_dir": false,
-          "mode_octal": "0o755",
-          "mode_symbolic": "-rwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 6812,
-          "sha256": "4e45246e6aa4b93b3a5b4c955573142c6f1ff32041bb9a697b458b09ec25f8a4"
         },
         {
           "path": "/usr/sbin/pg_updatedicts",
@@ -35814,28 +35569,6 @@
           "sha256": null
         },
         {
-          "path": "/usr/share/ssl-cert",
-          "category": "share_data",
-          "is_dir": true,
-          "mode_octal": "0o755",
-          "mode_symbolic": "drwxr-xr-x",
-          "owner": "root",
-          "group": "root",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/usr/share/ssl-cert/ssleay.cnf",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 453,
-          "sha256": "ab00e7215c7997f10c19c982c6b79d3308712fc865bbc0b48b472f621bb5b16f"
-        },
-        {
           "path": "/usr/share/postgresql-common",
           "category": "share_data",
           "is_dir": true,
@@ -36109,17 +35842,6 @@
           "group": "root",
           "size": 904,
           "sha256": "30fc45ae8ded5a92ec29a55060a7f1a563d0e646e162c9426f25e5008be6ca5a"
-        },
-        {
-          "path": "/usr/share/lintian/overrides/ssl-cert",
-          "category": "share_data",
-          "is_dir": false,
-          "mode_octal": "0o644",
-          "mode_symbolic": "-rw-r--r--",
-          "owner": "root",
-          "group": "root",
-          "size": 161,
-          "sha256": "75a5f31eda14ad7555c6d217cccd525773f3ae82751246f2aaf62f0e04d6adb5"
         },
         {
           "path": "/usr/share/lintian/overrides/postgresql-18",
@@ -36638,7 +36360,7 @@
           "owner": "postgres",
           "group": "postgres",
           "size": 28536,
-          "sha256": "d769abb3eb03a28da00b23d21cf72a36f9dee6d422457093afca616f373573e2"
+          "sha256": "3101b9ef30cc340fde99b2868275c3d0fef01aa89d21da99bab43b2997bf1826"
         },
         {
           "path": "/var/lib/postgresql/18/main/global/6247",
@@ -36858,7 +36580,7 @@
           "owner": "postgres",
           "group": "postgres",
           "size": 8192,
-          "sha256": "0c4a4ed3230857f6e7a0733e9efe9c4a03ea00e4d366278b93c0026c1b52b7de"
+          "sha256": "7e91ff15b8e1ebb6682c943a7eaeb9570e1d010346b71e19b788c50abf39af94"
         },
         {
           "path": "/var/lib/postgresql/18/main/global/6114",
@@ -41665,7 +41387,7 @@
           "owner": "postgres",
           "group": "postgres",
           "size": 160944,
-          "sha256": "883df0d47a34d914d24fe0d28eefce88f2dc6ba70062195d708de4529e833eeb"
+          "sha256": "f601cd99c9cac854f35643f69ca2dc770ac64d91c7ef2d6e583fbd589ea36839"
         },
         {
           "path": "/var/lib/postgresql/18/main/base/1/2616",
@@ -47121,7 +46843,7 @@
           "owner": "postgres",
           "group": "postgres",
           "size": 16777216,
-          "sha256": "3f22a5f421c7e7c4b6fc00acd6da2429070b209ab1cf037571b8e80af6debc3b"
+          "sha256": "be398b9ee9b5fa07706b053df654bac437d63df5f1775dd9f43c884514428312"
         },
         {
           "path": "/var/lib/postgresql/18/main/pg_wal/archive_status",
@@ -47178,8 +46900,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 717,
-        "sha256": "1f5527bfc2dc2ab63b1ba3dd1fbdfe91c79d87d4fe98f0ec7b877a016ba031d3"
+        "size": 741,
+        "sha256": "4640125c40229b98a1e53f17790567b27382d94dee3dc252b89892e30bc3cd18"
       },
       {
         "path": "/etc/shadow",
@@ -47189,8 +46911,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 838,
-        "sha256": "9af6afe3ba78932990dc7cb7c67696b3f614cc67fb2a46cd23d8005c0cc58a9b"
+        "size": 882,
+        "sha256": "abcea61a8d979d38f57a9cd1148ea3f0bb1ce14f0ae5faab5ed19347746ad27e"
       },
       {
         "path": "/etc/group",
@@ -47200,8 +46922,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 853,
-        "sha256": "650894be03f85a2d815aa587f82c4f2b67fd98aee41c17af3cb03011e29e798a"
+        "size": 882,
+        "sha256": "8ee9df06adbf10b677523dc64c497bf119f8cda8008d73c444d8e9b31a42a7af"
       },
       {
         "path": "/etc/passwd-",
@@ -47211,8 +46933,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1714,
-        "sha256": "78592b4a9acbcd29f58641edf3e624d416f2e621391a4f293d4fe2025322dfa3"
+        "size": 1830,
+        "sha256": "0aaabffd9d29ba32719e589511881da4d6cbe7c7b2eb2165784aaaf01a563f6a"
       },
       {
         "path": "/etc/gshadow-",
@@ -47222,8 +46944,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 709,
-        "sha256": "a9097551a589f40b723058269cd5f6f7a350ef0e74cad25c15031d40391f0b9d"
+        "size": 733,
+        "sha256": "c8b8e18e282da6e28a152ac252b046698bbb76b7e92531b6704cb9cb886874ea"
       },
       {
         "path": "/etc/group-",
@@ -47233,8 +46955,19 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 845,
-        "sha256": "09b898335b58edef7af782ed361d0c662b0f39b9057d14b130287c1a1522489d"
+        "size": 874,
+        "sha256": "88bf06e8fd2dacd008b8f207ea5e1d2df5ac4288c25d149982e3ee4a8cefc04e"
+      },
+      {
+        "path": "/etc/shadow-",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "shadow",
+        "size": 859,
+        "sha256": "b38c4b03b45d4c40edbcc4f727b49b34a0a7302be73dde63f6154158dea6874c"
       },
       {
         "path": "/etc/passwd",
@@ -47244,8 +46977,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1738,
-        "sha256": "55dd99b98e8999fc0a5633c8a51cbc9ae0f5dfa2a126fa7eff72a5db7f51da64"
+        "size": 1854,
+        "sha256": "6bc7ee919a4dec319066966f6fedfc3d3b3dace50e0205228749d042a2869eb5"
       },
       {
         "path": "/etc/systemd/system/multi-user.target.wants",
@@ -47278,28 +47011,6 @@
         "owner": "root",
         "group": "root",
         "size": 20480,
-        "sha256": null
-      },
-      {
-        "path": "/etc/ssl/private",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o710",
-        "mode_symbolic": "drwx--x---",
-        "owner": "root",
-        "group": "ssl-cert",
-        "size": 4096,
-        "sha256": null
-      },
-      {
-        "path": "/etc/ssl/certs",
-        "category": "config",
-        "is_dir": true,
-        "mode_octal": "0o755",
-        "mode_symbolic": "drwxr-xr-x",
-        "owner": "root",
-        "group": "root",
-        "size": 12288,
         "sha256": null
       },
       {
@@ -47607,7 +47318,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -47683,28 +47394,6 @@
     {
       "principal": "root",
       "principal_type": "systemd_service",
-      "unit": "ssl-cert.service",
-      "supplementary_groups": [],
-      "declared_capabilities": [],
-      "hardening": {
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null
-      },
-      "needs": [
-        {
-          "path": "/usr/sbin/make-ssl-cert",
-          "access": "read,execute",
-          "sources": [
-            "systemd:ExecStart"
-          ]
-        }
-      ]
-    },
-    {
-      "principal": "root",
-      "principal_type": "systemd_service",
       "unit": "postgresql.service",
       "supplementary_groups": [],
       "declared_capabilities": [],
@@ -47717,28 +47406,6 @@
       "needs": [
         {
           "path": "/bin/true",
-          "access": "read,execute",
-          "sources": [
-            "systemd:ExecStart"
-          ]
-        }
-      ]
-    },
-    {
-      "principal": "root",
-      "principal_type": "systemd_service",
-      "unit": "ssl-cert.service",
-      "supplementary_groups": [],
-      "declared_capabilities": [],
-      "hardening": {
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null
-      },
-      "needs": [
-        {
-          "path": "/usr/sbin/make-ssl-cert",
           "access": "read,execute",
           "sources": [
             "systemd:ExecStart"
@@ -61871,28 +61538,6 @@
       "needs": [
         {
           "path": "/bin/true",
-          "access": "read,execute",
-          "sources": [
-            "systemd:ExecStart"
-          ]
-        }
-      ]
-    },
-    {
-      "principal": "root",
-      "principal_type": "systemd_service",
-      "unit": "ssl-cert.service",
-      "supplementary_groups": [],
-      "declared_capabilities": [],
-      "hardening": {
-        "private_tmp": null,
-        "protect_system": null,
-        "protect_home": null,
-        "no_new_privileges": null
-      },
-      "needs": [
-        {
-          "path": "/usr/sbin/make-ssl-cert",
           "access": "read,execute",
           "sources": [
             "systemd:ExecStart"
@@ -76035,16 +75680,8 @@
   ],
   "group_access": [
     {
-      "group": "ssl-cert",
-      "gid": 109,
-      "writable": [],
-      "readable": [
-        "/etc/ssl/private/ssl-cert-snakeoil.key"
-      ]
-    },
-    {
       "group": "postgres",
-      "gid": 110,
+      "gid": 111,
       "writable": [],
       "readable": [
         "/etc/postgresql/",
@@ -76066,20 +75703,8 @@
     {
       "severity": "medium",
       "kind": "service_runs_as_root",
-      "detail": "ssl-cert.service has no User= directive; runs as root",
-      "path": "/etc/systemd/system/multi-user.target.wants/ssl-cert.service"
-    },
-    {
-      "severity": "medium",
-      "kind": "service_runs_as_root",
       "detail": "postgresql.service has no User= directive; runs as root",
       "path": "/etc/systemd/system/multi-user.target.wants/postgresql.service"
-    },
-    {
-      "severity": "medium",
-      "kind": "service_runs_as_root",
-      "detail": "ssl-cert.service has no User= directive; runs as root",
-      "path": "/usr/lib/systemd/system/ssl-cert.service"
     },
     {
       "severity": "medium",
@@ -76092,12 +75717,6 @@
       "kind": "service_runs_as_root",
       "detail": "postgresql.service has no User= directive; runs as root",
       "path": "/usr/lib/systemd/system/postgresql.service"
-    },
-    {
-      "severity": "medium",
-      "kind": "service_runs_as_root",
-      "detail": "ssl-cert.service has no User= directive; runs as root",
-      "path": "/lib/systemd/system/ssl-cert.service"
     },
     {
       "severity": "medium",

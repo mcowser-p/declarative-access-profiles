@@ -30,7 +30,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-26 (KVM al2023-20260823, SELinux permissive, real PAM, CIS L1)
 
 declarative_access_profile_name: 'mariadb'
 declarative_access_sudo: true

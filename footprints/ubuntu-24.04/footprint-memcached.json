@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T23:00:33.341387+00:00",
+  "generated_at": "2026-08-26T20:18:55.470314+00:00",
   "application": "memcached",
   "host": "dap-ubuntu2404",
   "platform": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "963c4392d0bc79288105ee2172161ec6787f4a3a6d04aa982a2ecbe8fa3f108f",
-    "created_at": "2026-08-23T23:00:01.236152+00:00",
+    "db_sha256": "f1fd5d552d49187637b03ca56b68e7b5931e5ca703d73e8fd66935ad0f306cb5",
+    "created_at": "2026-08-26T20:18:13.230177+00:00",
     "source_host": "dap-ubuntu2404",
     "source_os": "Linux-6.8.0-137-generic-x86_64-with-glibc2.39"
   },
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "memcache",
-        "uid": 112,
-        "gid": 117,
+        "uid": 116,
+        "gid": 120,
         "gecos": "Memcached,,,",
         "home": "/nonexistent",
         "shell": "/bin/false",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "memcache",
-        "gid": 117,
+        "gid": 120,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "memcache",
-        "gid": 117,
+        "gid": 120,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -776,8 +776,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 931,
-        "sha256": "807a6fa64d43c803f75fa234e44377f56a718ffe9829ceb4849231af4fde2453"
+        "size": 981,
+        "sha256": "3249822150158a0b1748670643ff7112e86684570024bf20ca58824ca81d5379"
       },
       {
         "path": "/etc/passwd-",
@@ -787,8 +787,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2078,
-        "sha256": "c102ffb34e173529d79855cf4ac8eea5937d1d015b8116bf307329e7f999c887"
+        "size": 2315,
+        "sha256": "38dd085f8fa33c42363dccb51e2f195a302f81a2532ca1da4de2526e9a41e78d"
       },
       {
         "path": "/etc/shadow-",
@@ -798,8 +798,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 948,
-        "sha256": "c7ea6120e4cbae2379bb89ba7513a1950fca4dbddf83b08b273b5148050fa447"
+        "size": 1033,
+        "sha256": "d24f5a2616a8359f6754133afe2a61cf0c84c6a382d2f6c362ce27978c64a29c"
       },
       {
         "path": "/etc/group-",
@@ -809,8 +809,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 915,
-        "sha256": "9d6566b101458c8bbab52527c75aa4484da9b2f30c8b5a51e3575118a68ace93"
+        "size": 965,
+        "sha256": "66318148512ebabcf09ac5c7aae5a425a1876766ec7c63b0e0e7c3772adc5010"
       },
       {
         "path": "/etc/shadow",
@@ -820,8 +820,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 971,
-        "sha256": "e1be2b0fe35830b32721c315876a3154ec16ebfb40cdb5bd565abf7f8e99c419"
+        "size": 1056,
+        "sha256": "509947d3e420573e71df823839da5abf6b952ff62bdf8541dc745a390f5d7c92"
       },
       {
         "path": "/etc/passwd",
@@ -831,8 +831,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 2090,
-        "sha256": "f1e9f41519fb556b1f7e69e881f838f78714c26d0cfa7fb972db6539b85fea3c"
+        "size": 2327,
+        "sha256": "df9d5839184aa5c57e2da53b2176334605cc06bdf54025329de1f8b9ba6e84a3"
       },
       {
         "path": "/etc/gshadow",
@@ -842,8 +842,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 776,
-        "sha256": "b94bcf59b1bc85a40c6494209573ef98c6f0aeefc47ade217e84d737f0b69cb5"
+        "size": 817,
+        "sha256": "39eea15c89c56507eae44870e88485738a30af5b494072af6441fe04700b1d1f"
       },
       {
         "path": "/etc/gshadow-",
@@ -853,8 +853,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 763,
-        "sha256": "f0aa8e70841f4e7316ba2a3be93a49c0898097506bb52094412d08480b4e701c"
+        "size": 804,
+        "sha256": "70cc996eee8567ff8299722144a7724212f6d2106b3fea6ecbce500fff162f81"
       },
       {
         "path": "/etc/rc3.d",
@@ -1062,7 +1062,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 36864,
         "sha256": null
       },
       {

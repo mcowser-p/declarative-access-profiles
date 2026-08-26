@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:35:33.667761+00:00",
+  "generated_at": "2026-08-26T20:25:54.631024+00:00",
   "application": "php8.5-fpm",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "6f2f51e65518934aca7f6a77aaf75723d4b4d21b6ccee6d56f02f3fda2b70723",
-    "created_at": "2026-08-23T21:34:49.082252+00:00",
+    "db_sha256": "757aecd171db25281ad5099d6733ecef0a0d6c75a3b01ff45f8aa424e3e95e57",
+    "created_at": "2026-08-26T20:25:05.161303+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
-    "files_added": 285,
-    "files_modified": 34,
+    "files_added": 294,
+    "files_modified": 35,
     "files_deleted": 0,
     "systemd_units": 8,
     "quadlets": 0,
@@ -3854,6 +3854,105 @@
           "group": "root",
           "size": 0,
           "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "/var/lib/fwupd",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/pending.db",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 40960,
+          "sha256": "a7ec5c3c03edb1972f02df559977cd0aeb9418642e029ed8a61f8bb4baaeae7b"
+        },
+        {
+          "path": "/var/lib/fwupd/metadata",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs/firmware.xml.zst",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1948814,
+          "sha256": "40b18453f763d0b1b84d6644aec6d3d6c4632c6ba51733375a80423de36ac5ef"
+        },
+        {
+          "path": "/var/lib/fwupd/metadata/lvfs/firmware.xml.zst.jcat",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 15052,
+          "sha256": "8854c2ff1776c9f3a8258318e8ad2b715da22d321d238ec0eb1995b607cfc8a1"
+        },
+        {
+          "path": "/var/lib/fwupd/pki",
+          "category": "state_dir",
+          "is_dir": true,
+          "mode_octal": "0o755",
+          "mode_symbolic": "drwxr-xr-x",
+          "owner": "root",
+          "group": "root",
+          "size": 4096,
+          "sha256": null
+        },
+        {
+          "path": "/var/lib/fwupd/pki/secret.key",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o600",
+          "mode_symbolic": "-rw-------",
+          "owner": "root",
+          "group": "root",
+          "size": 2459,
+          "sha256": "46f13275ffce45f7ab4cac5d9e931f6621571d07aa1c0b5a93da5e18edd7fbe3"
+        },
+        {
+          "path": "/var/lib/fwupd/pki/client.pem",
+          "category": "state_dir",
+          "is_dir": false,
+          "mode_octal": "0o644",
+          "mode_symbolic": "-rw-r--r--",
+          "owner": "root",
+          "group": "root",
+          "size": 1383,
+          "sha256": "fb87c4a9482ff74705731a3072cc4b1a8035850474e8260b5d7a18cce6c9d4ce"
         }
       ]
     },
@@ -3956,6 +4055,17 @@
         "group": "root",
         "size": 4096,
         "sha256": null
+      },
+      {
+        "path": "/etc/fwupd/fwupd.conf",
+        "category": "config",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "root",
+        "group": "root",
+        "size": 51,
+        "sha256": "a25bd457c86be85a286cd175d94e30fa152eb119c95b2a7db8a495886cdd7654"
       },
       {
         "path": "/etc/rc1.d",

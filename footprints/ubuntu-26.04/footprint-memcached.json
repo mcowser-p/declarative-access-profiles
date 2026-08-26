@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:36:09.613067+00:00",
+  "generated_at": "2026-08-26T20:30:33.765136+00:00",
   "application": "memcached",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "28a27b8ee13dbbfd0a0fa326e22d03b40093580d849b6cf1e133ef73fe8ec5f5",
-    "created_at": "2026-08-23T21:35:34.014674+00:00",
+    "db_sha256": "57fe7a81393397622ea62f742fcf5366a4a5ff1cad507f6932f6cf9b850adb8e",
+    "created_at": "2026-08-26T20:29:43.081311+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
     "files_added": 30,
-    "files_modified": 33,
+    "files_modified": 37,
     "files_deleted": 0,
     "systemd_units": 3,
     "quadlets": 0,
@@ -33,8 +33,8 @@
     "users_added": [
       {
         "name": "memcache",
-        "uid": 104,
-        "gid": 111,
+        "uid": 106,
+        "gid": 113,
         "gecos": "Memcached",
         "home": "/nonexistent",
         "shell": "/bin/false",
@@ -45,14 +45,14 @@
     "groups_added": [
       {
         "name": "memcache",
-        "gid": 111,
+        "gid": 113,
         "members": []
       }
     ],
     "membership_changes": [
       {
         "group": "memcache",
-        "gid": 111,
+        "gid": 113,
         "users_added": [],
         "users_removed": [],
         "group_is_new": true
@@ -776,8 +776,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 733,
-        "sha256": "86a305c6621f7e3be6cdef6ab46b0007e5e59a0e401ae2cc1076fd6bc5ac6151"
+        "size": 776,
+        "sha256": "b8d84fa96c8b7d603a112c474091908e80c8f300d69e8e52e52a18f10c4d9ae6"
       },
       {
         "path": "/etc/shadow",
@@ -787,8 +787,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 882,
-        "sha256": "090bad90fd34c5220bc6faab68d300e8f1ca93647dbac2155e39f924ee031b73"
+        "size": 948,
+        "sha256": "84f54e7220aa7d5d36d4317c1b097631fed1902517b9cae61f95f49e36305814"
       },
       {
         "path": "/etc/group",
@@ -798,8 +798,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 874,
-        "sha256": "1807b0ef12832ec185c89dffedc0ce3b3b6b5efde0c6b77bd4e8024ddd9f7b73"
+        "size": 925,
+        "sha256": "6cf7c35db64ecdbb5946e3ef333243ae60e04838fff293ca6a4adbdf68a141a6"
       },
       {
         "path": "/etc/passwd-",
@@ -809,8 +809,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1824,
-        "sha256": "a374293eeb7093d259f289855d8c6db98fba1bdbf4475b3ed9bb08ca22c2b949"
+        "size": 2005,
+        "sha256": "7e452c14afa53592ef5f3f92b9e4d8277e7159d8e5258cd1d4b53ee96bf58235"
       },
       {
         "path": "/etc/gshadow-",
@@ -820,8 +820,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 720,
-        "sha256": "925f6c0d9bd9c91fb21efd1368aaf7086ff9cd6ec5f5da45ce27a8c6a114fb93"
+        "size": 763,
+        "sha256": "61917ba9a5a77c76390df5cb224fdecf6df15d75135979094c6f2e4ec3cffab3"
       },
       {
         "path": "/etc/group-",
@@ -831,8 +831,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 858,
-        "sha256": "2ca5c49ff6945e38f0f3b854852cf49395745fa28f4ee078db1e431ace62644c"
+        "size": 909,
+        "sha256": "3e3ea0795921e7344f8b43ee454aace6e1b13471ae1e2b74d84b1967273266c5"
       },
       {
         "path": "/etc/shadow-",
@@ -842,8 +842,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 859,
-        "sha256": "7b0493b58cdeef078fee4821e59739c6d81d7a4f62bc1e8385b3892a5e505322"
+        "size": 925,
+        "sha256": "b12a30941ba6e25e004001578edfc932ba2e4665031cd8c71e9e79339d249da0"
       },
       {
         "path": "/etc/passwd",
@@ -853,8 +853,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1833,
-        "sha256": "783180a0fe0e5bc7bd573a0080f0292cf1f32bb32210bdea715976ba8fce4e26"
+        "size": 2014,
+        "sha256": "a55c5d932458a35491ab7d8bf8edf6b84e76a2f9ee3c34ede986bb4544ddb0e7"
       },
       {
         "path": "/etc/systemd/system/multi-user.target.wants",
@@ -1086,6 +1086,50 @@
         "group": "root",
         "size": 4096,
         "sha256": null
+      },
+      {
+        "path": "/var/lib/mysql/#ib_16384_0.dblwr",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "mysql",
+        "group": "mysql",
+        "size": 4194304,
+        "sha256": "82f411f250a381aee2a675224df12fa442463d206156afd1b7a57ee3a78ab323"
+      },
+      {
+        "path": "/var/lib/mysql/undo_002",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "mysql",
+        "group": "mysql",
+        "size": 16777216,
+        "sha256": "78239dc2ac70ef85915c8476d581fc726e6e6354086efe6bf8f75c5ca5db85ab"
+      },
+      {
+        "path": "/var/lib/mysql/undo_001",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "mysql",
+        "group": "mysql",
+        "size": 16777216,
+        "sha256": "1d54513754d9fac8a7e147dbffb0239feadb8c5013419214e4a58e77ef1b987d"
+      },
+      {
+        "path": "/var/lib/mysql/#innodb_redo/#ib_redo5",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o640",
+        "mode_symbolic": "-rw-r-----",
+        "owner": "mysql",
+        "group": "mysql",
+        "size": 3276800,
+        "sha256": "bc64b4ae7145305a7e230edea1f6969439bb4977d52f82f85aaf411de2439c53"
       },
       {
         "path": "/var/lib/update-notifier",

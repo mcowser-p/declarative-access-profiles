@@ -20,7 +20,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-09   VERIFIED: 2026-08-23 (KVM alma9-20260823, SELinux enforcing, real PAM, CIS L1)
+# REVIEWED: 2026-08-09   VERIFIED: 2026-08-26 (KVM alma9-20260823, SELinux enforcing, real PAM, CIS L1)
 
 # REVIEW-CHANGE: profile_name 'httpd' -> 'apache' — normalized to the library
 # app slug (the check_profiles contract requires profile_name == the app dir).

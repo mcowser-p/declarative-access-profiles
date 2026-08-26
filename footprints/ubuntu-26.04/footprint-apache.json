@@ -2,15 +2,15 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:33:23.382697+00:00",
+  "generated_at": "2026-08-26T20:23:44.353757+00:00",
   "application": "apache2",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "940693658a5575c8ae662834823df6f1245431541fbf37d5d51c0f45104bc092",
-    "created_at": "2026-08-23T21:32:43.591398+00:00",
+    "db_sha256": "ff329927ca853444cfc040019d1421e44ec373e791b0305c7d5c5527a858f900",
+    "created_at": "2026-08-26T20:23:03.531390+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
@@ -4321,7 +4321,7 @@
           "owner": "root",
           "group": "ssl-cert",
           "size": 1704,
-          "sha256": "a726d568b5492708f6ae8831cc6f8d9fbd3af9470f6be946692aa873cc1918b7"
+          "sha256": "83b3edaccaceacd5183b19e3e2ca738b1c3e48fae198142bc07f0134d9be9ee2"
         },
         {
           "path": "/etc/rc5.d/S01apache2",

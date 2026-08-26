@@ -40,7 +40,7 @@
 #     -e "group_name=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-26 (KVM ubuntu2604-20260823, AppArmor, real PAM, no CIS hardening)
 
 # REVIEW-CHANGE: profile_name 'apache2' -> 'apache' — normalized to the
 # library app slug (check_profiles requires profile_name == the app dir).

@@ -2,21 +2,21 @@
   "schema_version": "1.0",
   "footprint_type": "install_time",
   "footprint_caveat": "This describes what the installer wrote to disk. It does not describe runtime access. A least-privilege policy derived only from this data will over-grant on the install tree and under-grant on runtime paths (/tmp, /dev, sockets, resolver config). Merge with runtime observation before enforcing.",
-  "generated_at": "2026-08-23T21:41:34.784489+00:00",
+  "generated_at": "2026-08-26T20:31:23.955897+00:00",
   "application": "caddy",
   "host": "dap-ubuntu2604",
   "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43",
   "root_prefix": "/",
   "baseline": {
     "db_path": "/var/lib/treadmark/clean-baseline.db",
-    "db_sha256": "3124737163c2200c8a0971a9f7d9adb6de6e6ac65a3196f73c8db8706da68625",
-    "created_at": "2026-08-23T21:40:45.730568+00:00",
+    "db_sha256": "dd635c29617d72616e7088ac7e2a7adbf0a3402757cda32bf53e965e4531a4e2",
+    "created_at": "2026-08-26T20:30:34.115961+00:00",
     "source_host": "dap-ubuntu2604",
     "source_os": "Linux-7.0.0-28-generic-x86_64-with-glibc2.43"
   },
   "summary": {
-    "files_added": 81,
-    "files_modified": 24,
+    "files_added": 78,
+    "files_modified": 37,
     "files_deleted": 0,
     "systemd_units": 5,
     "quadlets": 0,
@@ -1944,39 +1944,6 @@
           "group": "caddy",
           "size": 4096,
           "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "category": "state_dir",
-          "is_dir": true,
-          "mode_octal": "0o700",
-          "mode_symbolic": "drwx------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "category": "state_dir",
-          "is_dir": true,
-          "mode_octal": "0o700",
-          "mode_symbolic": "drwx------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 4096,
-          "sha256": null
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "category": "state_dir",
-          "is_dir": false,
-          "mode_octal": "0o600",
-          "mode_symbolic": "-rw-------",
-          "owner": "caddy",
-          "group": "caddy",
-          "size": 184,
-          "sha256": "99c076053d2ccc29f1283b45221ff47d37f15016049ba8076a7f5f1865d7b4a3"
         }
       ]
     },
@@ -1989,7 +1956,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 4096,
+        "size": 12288,
         "sha256": null
       },
       {
@@ -2000,8 +1967,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 754,
-        "sha256": "f933a595a0d66bc2d171b03b7310eff0d375be56fd105fbef0098ea74bacf837"
+        "size": 791,
+        "sha256": "44288dc8de34596e2fb2dd3b86a52c8ec64c2f1c81466cfc4b4e60c6dc62a4b7"
       },
       {
         "path": "/etc/shadow",
@@ -2011,8 +1978,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 901,
-        "sha256": "eb46fc368e663a74ba20ea3fb2dbcde0ac921a57e67a17d190105228290f738f"
+        "size": 968,
+        "sha256": "9fd0fa36302b66ee6a311bf1d3edfe1c9c87669f86849577247ee39da245c15f"
       },
       {
         "path": "/etc/group",
@@ -2022,8 +1989,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 898,
-        "sha256": "6e5447982d555bc452dbb74af89548a497bdbabc87cc14099c48073f5b802a5e"
+        "size": 943,
+        "sha256": "0b6d8468b596601c82bbd6ac40e5d5535cb429f27323df7da056eeb74d84c801"
       },
       {
         "path": "/etc/passwd-",
@@ -2033,8 +2000,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1845,
-        "sha256": "89edaa239da5f9ef64bb88f36b764a93792581cc6d1d5324327b907db90fafe8"
+        "size": 2014,
+        "sha256": "a55c5d932458a35491ab7d8bf8edf6b84e76a2f9ee3c34ede986bb4544ddb0e7"
       },
       {
         "path": "/etc/gshadow-",
@@ -2044,8 +2011,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 749,
-        "sha256": "6b8f7f33729f43ac365f802f1e9d71178f730e50fdda683c2560bf150c6b9837"
+        "size": 786,
+        "sha256": "35098574df92be1b14de72f8421a652277140b27ddf6eb092cd5ed198d8f8669"
       },
       {
         "path": "/etc/group-",
@@ -2055,8 +2022,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 893,
-        "sha256": "ac0e041f0e2a5a506bf1e039473b3bc135c650c593a20899444e71e8cd60b6fd"
+        "size": 938,
+        "sha256": "0294173c005c5e52d787fa981df7fae9d6ad33b5670fae7f0e1f4eb061c6ccf8"
       },
       {
         "path": "/etc/shadow-",
@@ -2066,8 +2033,8 @@
         "mode_symbolic": "-rw-r-----",
         "owner": "root",
         "group": "shadow",
-        "size": 881,
-        "sha256": "c0ca619f95aaada872535e9aa7d5be431858da1f31e33a45d6f5716fd1c79c7a"
+        "size": 948,
+        "sha256": "84f54e7220aa7d5d36d4317c1b097631fed1902517b9cae61f95f49e36305814"
       },
       {
         "path": "/etc/passwd",
@@ -2077,8 +2044,8 @@
         "mode_symbolic": "-rw-r--r--",
         "owner": "root",
         "group": "root",
-        "size": 1911,
-        "sha256": "85c4e87273b482b41262542360938c33b6d06fb555ae1b94f50f9af3f18fa08b"
+        "size": 2080,
+        "sha256": "74d40cb48942b97b9b469fa95f26eb30e89fa0399ef23cf061e7468666994973"
       },
       {
         "path": "/etc/systemd/system/multi-user.target.wants",
@@ -2165,7 +2132,7 @@
         "mode_symbolic": "drwxr-xr-x",
         "owner": "root",
         "group": "root",
-        "size": 28672,
+        "size": 32768,
         "sha256": null
       },
       {
@@ -2211,6 +2178,149 @@
         "group": "root",
         "size": 4096,
         "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/pg_xact/0000",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8192,
+        "sha256": "cf8f8b3a9cef92998d32dedcdce4b1e081f02f8a3e296c7f25758a0165aaaf21"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2619_vm",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8192,
+        "sha256": "277d74d90c40dd76ff3adc4fca286cc8d13d15ac67e4e726a8e58c7f0144fbb0"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2840_vm",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8192,
+        "sha256": "192f4a63a4d9840caabc070240b0df5e9a9588a0cf4c5d2e5f0b81da4cf577c6"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2840",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 32768,
+        "sha256": "0072ac795e7c0c8ba93ce98861c902a8929f554e543a9a23b73101dd53db74fc"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2619",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 212992,
+        "sha256": "ac7e8fc74320775890b8e5c8455269037946e0f08c3cc3d9571cf000b3487dc3"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2696",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 40960,
+        "sha256": "163772cb131f790a7a81a60710c9614265d61f54bfe8a215ba38ead9bfdb7f94"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/1259",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 114688,
+        "sha256": "c9c2282dd8eebe6729f5e3a8bcbeb90c570eb6932b7143375a8626eb597a6307"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2840_fsm",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 24576,
+        "sha256": "d7f331f7561d9f6509c7acd4f8ab95b31413decf36c040cd73fcd30590a2d5ee"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/base/1/2619_fsm",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 24576,
+        "sha256": "02033ce421476cb18d5941ef045683d47e3ab975ce4a53e10081fee4ee8c7ef4"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/pg_subtrans/0000",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8192,
+        "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/pg_logical",
+        "category": "state_dir",
+        "is_dir": true,
+        "mode_octal": "0o700",
+        "mode_symbolic": "drwx------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 4096,
+        "sha256": null
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/pg_logical/replorigin_checkpoint",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8,
+        "sha256": "957feab4ef91b10e52e5acbd739c8adf6d15c25e8f445ec5eab9ef1e9fc26859"
+      },
+      {
+        "path": "/var/lib/postgresql/18/main/pg_multixact/offsets/0000",
+        "category": "state_dir",
+        "is_dir": false,
+        "mode_octal": "0o600",
+        "mode_symbolic": "-rw-------",
+        "owner": "postgres",
+        "group": "postgres",
+        "size": 8192,
+        "sha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
       },
       {
         "path": "/var/lib/update-notifier",
@@ -2296,30 +2406,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2377,30 +2463,6 @@
         },
         {
           "path": "/var/lib/caddy/.bashrc",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
           "access": "read,write",
           "sources": [
             "file-owner",
@@ -2472,30 +2534,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2560,30 +2598,6 @@
           ]
         },
         {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
           "path": "/var/lib/caddy/.profile",
           "access": "read,write",
           "sources": [
@@ -2641,30 +2655,6 @@
         },
         {
           "path": "/var/lib/caddy/.bashrc",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy",
-          "access": "read,write",
-          "sources": [
-            "file-owner",
-            "file-group"
-          ]
-        },
-        {
-          "path": "/var/lib/caddy/.config/caddy/autosave.json",
           "access": "read,write",
           "sources": [
             "file-owner",
