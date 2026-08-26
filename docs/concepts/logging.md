@@ -9,6 +9,13 @@ log access, why the grant survives log rotation, the one way rotation silently
 breaks it (the mask gotcha), and which logging knobs remain an ops request.
 Application guides state their specifics in a sentence or two and link here.
 
+**Scope.** This page is about an *application's* logs and the team operating it.
+It is not about **access evidence** — who logged in, whether they came from AD or
+a local account, and what they escalated to root to do. That is a different
+question with different mechanisms, and it is answered in
+[Access evidence](#access-evidence-who-logged-in-and-what-they-escalated) at the
+foot of this page.
+
 ## Two log worlds, two mechanisms
 
 A service's output lands in one or both of two places, and the restricted profile
@@ -161,6 +168,39 @@ grant is dead on arrival regardless of any ACL on the directory. For a
 self-rotating app, the log-read grant *depends on* that setting — verify it (and
 run the equivalent of the pre-flip test: trigger a rotation, `getfacl` the fresh
 file) before relying on the grant.
+
+## Access evidence: who logged in, and what they escalated
+
+Everything above answers *"what did the application do?"*. The lifecycle in
+[lifecycle](lifecycle.md) — setup window, handover, lockdown, flip — raises a
+second question it does not answer: *"who used the access we granted?"*
+
+That is deliberately not solved here, because it is host-level rather than
+per-application, and its mechanisms are journald/auditd configuration rather than
+sudoers grants and log-dir ACLs. It lives with the roles that configure it, in
+`ansible-playbooks`:
+
+| Question | Reference |
+|---|---|
+| Linux: local and AD logins, sudo escalation, where each lands, and shipping off-box | `ansible-playbooks/docs/linux-log-locations.md` |
+| Windows: what an SSH logon actually records, and what it does not | `ansible-playbooks/docs/ssh-visibility-on-windows.md` |
+| Applying it | roles `linux_audit_logging`, `windows_audit_logging`, `journal_collector` |
+
+Three findings from that work change how you should read a host's logs, and they
+matter here because they affect the same machines these profiles lock down:
+
+- **`/var/log/secure` and `/var/log/auth.log` are never written.** CIS wants one
+  log system, so the hardened images disable rsyslog — but the files survive from
+  the build and go stale. An auth question investigated there gets an empty,
+  plausible, wrong answer. The real auth log is the journal.
+- **auditd ships zero rules.** It runs on the RHEL-family images because the
+  upstream cloud image enables it, not because of CIS — the tailored Server L1
+  profile contains no audit rules at all. Until `linux_audit_logging` is applied,
+  a host records no privilege escalation.
+- **The AD/local discriminator is `pam_sss` in the audit `grantors` list**, plus
+  the `@domain` suffix that `use_fully_qualified_names` puts on the account name —
+  the same setting that makes `%group@domain` load-bearing in sudoers and
+  `Match Group` blocks elsewhere in this model.
 
 ## Quick reference
 
