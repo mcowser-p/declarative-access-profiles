@@ -5,3 +5,7 @@ site/
 __pycache__/
 *.pyc
 .DS_Store
+
+# host-side test venv (tests/requirements.txt is the source of truth)
+.venv-tests/
+.pytest_cache/

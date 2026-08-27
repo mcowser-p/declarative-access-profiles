@@ -1,0 +1,8 @@
+# Host-side test deps. These run on the machine driving the hypervisor, NOT in
+# the guest -- the guest gets its own /opt/ans-venv built by the fixtures.
+#
+# Pinned because a verify run stamps profiles with evidence; the tool that
+# produced the evidence should be reproducible.
+pytest==8.4.2
+pytest-testinfra==10.2.2
+PyYAML==6.0.3
