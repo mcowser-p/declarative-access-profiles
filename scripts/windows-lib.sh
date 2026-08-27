@@ -21,18 +21,39 @@ set -euo pipefail
 
 _WINLIB_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 : "${HOLY_QCOW_SRC:=$_WINLIB_REPO/../md}"
-# See the DAP_VM_MODULE note in kvm-lib.sh: this harness consumes holy-qcow's
-# modules in place, so it pins the frozen 0.8 copy until it is cut over.
-: "${DAP_WIN_MODULE:=tofu/modules/legacy08/windows-vm}"
+# See the DAP_VM_MODULE note in kvm-lib.sh. This defaulted to the frozen
+# legacy08 copy until 2026-08-27, when that directory was found to be GONE from
+# holy-qcow on the KVM host: it had only ever existed as untracked files, and a
+# clean checkout took it with it. A default pointing at something that was never
+# committed is a default that breaks without warning, which is exactly what
+# happened -- every Windows launch failed with "Could not download module".
+#
+# Windows launches run ON the hypervisor with a local URI, where 0.9 is fine
+# (the 0.9 cloud-init seed constraint only breaks a REMOTE qemu+ssh:// URI), so
+# this now matches the Linux side rather than depending on a frozen copy that
+# upstream does not carry.
+: "${DAP_WIN_MODULE:=tofu/modules/windows-vm}"
 # Derived, not hardcoded in the template: the module ships its own
 # required_providers and tofu intersects every constraint in the graph, so a
 # template pinned to 0.8 while consuming the 0.9 module yields
 # "~> 0.8.0, ~> 0.9.0" and dies at init with no available releases. Keeping
 # both ends on one variable is what makes DAP_WIN_MODULE a whole knob.
-case "$DAP_WIN_MODULE" in
-  *legacy08*) : "${DAP_WIN_PROVIDER_VERSION:=~> 0.8.0}" ;;
-  *)          : "${DAP_WIN_PROVIDER_VERSION:=~> 0.9.0}" ;;
-esac
+# See _dap_module_pin in kvm-lib.sh for why this is read from the module rather
+# than inferred from its path.
+_dap_win_module_pin() {
+  local main="$1/main.tf" pin
+  [ -f "$main" ] || return 1
+  # Scoped to the libvirt block: the FIRST `version =` in a root-style main.tf
+  # is terraform{ required_version }, and taking it yields the OpenTofu version
+  # (">= 1.12.0") as a provider constraint -- which resolves to nothing.
+  pin="$(grep -A3 'dmacvicar/libvirt' "$main" \
+         | grep -oE 'version[[:space:]]*=[[:space:]]*"[^"]+"' | head -1 \
+         | sed 's/.*"\(.*\)"/\1/')"
+  [ -n "$pin" ] || return 1
+  echo "$pin"
+}
+: "${DAP_WIN_PROVIDER_VERSION:=$(_dap_win_module_pin "$HOLY_QCOW_SRC/$DAP_WIN_MODULE" \
+    || case "$DAP_WIN_MODULE" in *legacy08*) echo "~> 0.8.0" ;; *) echo "~> 0.9.0" ;; esac)}"
 WIN_WORK_ROOT="$_WINLIB_REPO/out/windows"
 
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) PATH="$HOME/.local/bin:$PATH" ;; esac

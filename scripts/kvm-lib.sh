@@ -40,10 +40,32 @@ _KVMLIB_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # graph: "~> 0.8.0, ~> 0.9.0" resolves to nothing and init fails outright.
 # Derived rather than hardcoded so DAP_VM_MODULE stays a whole knob -- setting it
 # back to legacy08 pins 0.8 again with no second edit.
-case "$DAP_VM_MODULE" in
-  *legacy08*) : "${DAP_PROVIDER_VERSION:=~> 0.8.0}" ;;
-  *)          : "${DAP_PROVIDER_VERSION:=~> 0.9.0}" ;;
-esac
+# Read the provider constraint OUT OF the module rather than inferring it from
+# the module's path.
+#
+# Inferring from the path assumed a module's contents match its name, and that
+# assumption broke on 2026-08-27: holy-qcow on the KVM host had its uncommitted
+# 0.9 migration discarded, so tofu/modules/vm went back to pinning ~> 0.8.0
+# while still being called tofu/modules/vm. The harness kept deriving ~> 0.9.0
+# from the name, and every launch died with
+# "no available releases match the given constraints ~> 0.8.0, ~> 0.9.0".
+#
+# The module is the authority on which provider it needs. Asking it means the
+# root module agrees by construction, whichever state the checkout is in.
+_dap_module_pin() {
+  local main="$1/main.tf" pin
+  [ -f "$main" ] || return 1
+  # Scoped to the libvirt block: the FIRST `version =` in a root-style main.tf
+  # is terraform{ required_version }, and taking it yields the OpenTofu version
+  # (">= 1.12.0") as a provider constraint -- which resolves to nothing.
+  pin="$(grep -A3 'dmacvicar/libvirt' "$main" \
+         | grep -oE 'version[[:space:]]*=[[:space:]]*"[^"]+"' | head -1 \
+         | sed 's/.*"\(.*\)"/\1/')"
+  [ -n "$pin" ] || return 1
+  echo "$pin"
+}
+: "${DAP_PROVIDER_VERSION:=$(_dap_module_pin "$HOLY_QCOW_SRC/$DAP_VM_MODULE" \
+    || case "$DAP_VM_MODULE" in *legacy08*) echo "~> 0.8.0" ;; *) echo "~> 0.9.0" ;; esac)}"
 KVM_WORK_ROOT="$_KVMLIB_REPO/out/kvm"
 
 # tofu and the mkisofs shim (exec'd by the libvirt provider for the seed

@@ -75,7 +75,7 @@ def pytest_ignore_collect(collection_path, config):
     name = collection_path.name
     if name == "test_access_profile.py" and not config.getoption("--distro"):
         return True
-    if name == "test_windows_profile.py" and not config.getoption("--platform"):
+    if name in ("test_windows_profile.py", "test_ssh_channel.py") and not config.getoption("--platform"):
         return True
     return None
 
@@ -175,7 +175,7 @@ def pytest_generate_tests(metafunc):
 # --------------------------------------------------------------------------
 # the guest
 # --------------------------------------------------------------------------
-def _bash(script: str, check: bool = True, key: str | None = None):
+def _bash(script: str = "", check: bool = True, key: str | None = None):
     """Run a snippet with kvm-lib.sh sourced, so launch/destroy/scp stay in one
     implementation rather than being re-expressed here.
 
@@ -204,7 +204,8 @@ def guest(distro, request):
     prints both values back.
     """
     proc = _bash(
-        f"""
+        check=False,
+        script=f"""
         kvm_setup_key >&2
         printf 'KEY=%s\\n' "$DAP_KEY_FILE"
         ip="$(kvm_launch {distro})" || exit 1
@@ -216,7 +217,19 @@ def guest(distro, request):
     )
     ip, key = fields.get("IP"), fields.get("KEY")
     if not ip or not key:
-        pytest.fail(f"launch produced no IP/KEY for {distro}\n{proc.stderr[-2000:]}")
+        # Tear down BEFORE failing. A launch can define the domain and still
+        # return non-zero (no lease, sshd never up), and pytest.fail() raises
+        # past the try/finally below -- leaking a running guest on exactly the
+        # path where something already went wrong. This is the same defect as
+        # a trap that fires without exiting, in the other direction.
+        _bash(f"kvm_destroy_distro {distro} >&2", check=False)
+        if key:
+            shutil.rmtree(pathlib.Path(key).parent, ignore_errors=True)
+        pytest.fail(
+            f"launch failed for {distro} (rc={proc.returncode}).\n"
+            f"--- stderr ---\n{proc.stderr[-4000:]}\n"
+            f"--- stdout ---\n{proc.stdout[-1000:]}"
+        )
 
     try:
         yield ip, key
@@ -364,7 +377,7 @@ def put_profile(guest):
 WIN_LIB = REPO / "scripts" / "windows-lib.sh"
 
 
-def _winbash(script: str, check: bool = True, key: str | None = None, pw: str | None = None):
+def _winbash(script: str = "", check: bool = True, key: str | None = None, pw: str | None = None):
     """windows-lib.sh counterpart of _bash. Same reason for assigning the
     credentials after the source: windows-lib.sh opens with an unconditional
     `DAP_KEY_DIR="" DAP_KEY_FILE="" WIN_ADMIN_PW=""`."""
@@ -407,7 +420,8 @@ def win_guest(platform):
     app on the platform shares it.
     """
     proc = _winbash(
-        f"""
+        check=False,
+        script=f"""
         win_setup_creds >&2
         printf 'KEY=%s\\n' "$DAP_KEY_FILE"
         printf 'PW=%s\\n' "$WIN_ADMIN_PW"
@@ -418,7 +432,16 @@ def win_guest(platform):
     fields = dict(l.split("=", 1) for l in proc.stdout.splitlines() if "=" in l)
     ip, key, pw = fields.get("IP"), fields.get("KEY"), fields.get("PW")
     if not ip or not key:
-        pytest.fail(f"launch produced no IP/KEY for {platform}\n{proc.stderr[-3000:]}")
+        # See the note in the Linux `guest` fixture: destroy before failing, or
+        # a partially-launched guest outlives the run.
+        _winbash(f"win_destroy_platform {platform} >&2", check=False, key=key)
+        if key:
+            shutil.rmtree(pathlib.Path(key).parent, ignore_errors=True)
+        pytest.fail(
+            f"launch failed for {platform} (rc={proc.returncode}).\n"
+            f"--- stderr ---\n{proc.stderr[-4000:]}\n"
+            f"--- stdout ---\n{proc.stdout[-1000:]}"
+        )
     try:
         yield ip, key, pw
     finally:
