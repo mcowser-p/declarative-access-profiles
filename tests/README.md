@@ -105,3 +105,42 @@ a suite proving itself should not also rewrite the evidence it is judged against
 
 `scripts/verify-profile-kvm.sh` and `_verify-remote.sh` still work and are still
 the documented path. Retiring them is now a decision rather than a risk.
+
+## Windows
+
+```bash
+.venv-tests/bin/python -m pytest --platform windows-2022          # one platform
+.venv-tests/bin/python -m pytest --platform windows-2022 --stamp  # ...and stamp it
+```
+
+`--distro` and `--platform` select the family; a run collects only the module for
+the one it was given, so the reported counts always match the matrix.
+
+**windows-2022: passing** as of 2026-08-27, ~8 minutes. All granted and revoked
+checks, clean teardown.
+
+**windows-2025: blocked, and not by a bug.** The IIS profile requires JEA, and a
+JEA endpoint *is* a WinRM PSSession configuration -- `Register-PSSessionConfiguration`
+writes into `WSMan:\localhost\Plugin\`. The windows-2025 image ships WinRM
+disabled, which `matrix-windows.yml` already records, so the apply fails before
+any probe runs. Both facts were written down; nothing had connected them.
+Resolving it is a decision: enable WinRM in the image, record the cell N/A, or
+split JEA out of the profile as a conditional component.
+
+### Two things this port found
+
+The probe read `'C:\...\RoleCapabilities\$prof.psrc'` in SINGLE quotes, so it
+opened a file literally named `$prof.psrc` -- the real one is `iis.psrc`. Both
+JEA checks were judging an empty string and had never passed. The naive fix is
+also wrong: in double quotes `"$prof.psrc"` parses as a property access, so it
+needs `$($prof).psrc`.
+
+Which means **windows-2022's previous `VERIFIED: 2026-08-23` stamp recorded a
+verification that could not have happened** -- it was committed in the same
+changeset as the probe, and the probe could not pass. The stamp now on that file
+was earned by a run that actually passed.
+
+The shell driver could not have surfaced either: it collapsed all fourteen
+checks into `grep -q "RESULT: PASS"`. That grep also reads a log truncated per
+platform but appended per app, so a second Windows app's FAIL would be masked by
+the first app's PASS -- latent only because `matrix-windows.yml` declares one app.

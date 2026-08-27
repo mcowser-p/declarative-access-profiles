@@ -49,9 +49,20 @@ Check 'sdset: snapshot exists for rollback' (Test-Path 'C:\bootstrap\dap-snapsho
 # 6. JEA endpoint
 $pssc = Get-PSSessionConfiguration -Name $prof -ErrorAction SilentlyContinue
 Check 'jea: endpoint registered' ($pssc -ne $null) "$($pssc.Name)"
-$psrc = Get-Content 'C:\Program Files\WindowsPowerShell\Modules\DeclarativeAccessJEA\RoleCapabilities\$prof.psrc' -Raw
+# SINGLE quotes do not interpolate, so this read a file literally named
+# '$prof.psrc' and always came back empty -- the real file is iis.psrc. Both
+# checks below then judged an empty string, which is why they had never passed.
+#
+# $($prof) rather than $prof: inside double quotes "$prof.psrc" parses as a
+# PROPERTY ACCESS on $prof, not the variable followed by a literal suffix, so
+# the naive fix produces an empty path instead of a wrong one.
+$psrcPath = "C:\Program Files\WindowsPowerShell\Modules\DeclarativeAccessJEA\RoleCapabilities\$($prof).psrc"
+Check 'jea: role capability file present' (Test-Path $psrcPath) $psrcPath
+# Read it only if it exists: a missing file should fail as ONE self-describing
+# check, not as two downstream checks silently judging an empty string.
+$psrc = if (Test-Path $psrcPath) { Get-Content $psrcPath -Raw } else { '' }
 Check 'jea: pool names are ValidateSet-constrained' ($psrc -match "'app'" -and $psrc -match "'www'") ''
-Check 'jea: only catalogue functions exposed' ($psrc -notmatch 'DefaultAppPool') ''
+Check 'jea: only catalogue functions exposed' ($psrc -and $psrc -notmatch 'DefaultAppPool') ''
 
 # 7. NEVER granted
 $hacl = Get-Acl "$env:windir\system32\inetsrv\config\applicationHost.config"

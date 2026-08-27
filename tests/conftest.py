@@ -63,11 +63,38 @@ def pytest_configure(config):  # noqa: D401
     signal.signal(signal.SIGTERM, _term)
 
 
+def pytest_ignore_collect(collection_path, config):
+    """Collect only the family this run is for.
+
+    Without this, a --distro run also collects the Windows module with an empty
+    parameter set and reports 12 tests for an 11-app matrix, and a --platform run
+    picks up a [NOTSET] placeholder from the Linux module. The counts are the
+    first thing anyone reads off a verification run; they have to mean what the
+    matrix means.
+    """
+    name = collection_path.name
+    if name == "test_access_profile.py" and not config.getoption("--distro"):
+        return True
+    if name == "test_windows_profile.py" and not config.getoption("--platform"):
+        return True
+    return None
+
+
 def pytest_addoption(parser):
+    # Neither is required: a run supplies exactly one, and the suite for the
+    # other family then collects nothing. Making --distro mandatory (as it was
+    # when Linux was the only family) would make every Windows run fail at
+    # argument parsing.
     parser.addoption(
         "--distro",
-        required=True,
-        help="matrix distro to verify, e.g. almalinux-9. One per process.",
+        default=None,
+        help="matrix.yml distro to verify, e.g. almalinux-9. One per process.",
+    )
+    parser.addoption(
+        "--platform",
+        default=None,
+        help="matrix-windows.yml platform to verify, e.g. windows-2022. "
+             "One per process.",
     )
     parser.addoption(
         "--app",
@@ -124,6 +151,8 @@ def pytest_generate_tests(metafunc):
         return
     d = metafunc.config.getoption("--distro")
     only = metafunc.config.getoption("--app")
+    if not d:
+        return
     with (REPO / "matrix.yml").open() as fh:
         m = yaml.safe_load(fh)
 
@@ -327,3 +356,162 @@ def put_profile(guest):
         assert res.returncode == 0, f"staging {src.name} failed:\n{res.stderr[-800:]}"
 
     return _put
+
+
+# --------------------------------------------------------------------------
+# Windows
+# --------------------------------------------------------------------------
+WIN_LIB = REPO / "scripts" / "windows-lib.sh"
+
+
+def _winbash(script: str, check: bool = True, key: str | None = None, pw: str | None = None):
+    """windows-lib.sh counterpart of _bash. Same reason for assigning the
+    credentials after the source: windows-lib.sh opens with an unconditional
+    `DAP_KEY_DIR="" DAP_KEY_FILE="" WIN_ADMIN_PW=""`."""
+    prelude = f'source "{WIN_LIB}"\n'
+    if key:
+        prelude += f'DAP_KEY_FILE={key!r}\nDAP_KEY_DIR="$(dirname {key!r})"\n'
+    if pw:
+        prelude += f"WIN_ADMIN_PW={pw!r}\n"
+    return subprocess.run(
+        ["bash", "-c", prelude + script],
+        capture_output=True, text=True, check=check, env=os.environ.copy(),
+    )
+
+
+@pytest.fixture(scope="session")
+def platform(request) -> str:
+    p = request.config.getoption("--platform")
+    if not p:
+        pytest.skip("--platform not given")
+    with (REPO / "matrix-windows.yml").open() as fh:
+        known = yaml.safe_load(fh)["platforms"]
+    if p not in known:
+        pytest.fail(f"unknown platform {p!r}; matrix-windows.yml has {', '.join(known)}")
+    return p
+
+
+@pytest.fixture(scope="session")
+def win_guest(platform):
+    """Launch one Windows guest, yield (ip, key, admin_pw), always destroy it.
+
+    This fixture is also the answer to a gap the shell path still has:
+    verify-profile-windows.sh sets DAP_TRAP_PLATFORMS but nothing consumes it --
+    there is no win_teardown_scoped, so win_teardown sweeps EVERY dap-* Windows
+    guest and two concurrent platform runs would reap each other. Here each
+    process owns one platform and tears down only that platform, so the scoping
+    is structural rather than something a second function has to remember.
+
+    Windows first boot is slow (win_launch allows 10 min for a lease and 30 for
+    sshd, then waits on the IIS role stamp), so this is session-scoped and every
+    app on the platform shares it.
+    """
+    proc = _winbash(
+        f"""
+        win_setup_creds >&2
+        printf 'KEY=%s\\n' "$DAP_KEY_FILE"
+        printf 'PW=%s\\n' "$WIN_ADMIN_PW"
+        ip="$(win_launch {platform})" || exit 1
+        printf 'IP=%s\\n' "$ip"
+        """
+    )
+    fields = dict(l.split("=", 1) for l in proc.stdout.splitlines() if "=" in l)
+    ip, key, pw = fields.get("IP"), fields.get("KEY"), fields.get("PW")
+    if not ip or not key:
+        pytest.fail(f"launch produced no IP/KEY for {platform}\n{proc.stderr[-3000:]}")
+    try:
+        yield ip, key, pw
+    finally:
+        if not os.environ.get("DAP_KEEP_VM"):
+            _winbash(f"win_destroy_platform {platform} >&2", check=False, key=key)
+        shutil.rmtree(pathlib.Path(key).parent, ignore_errors=True)
+
+
+@pytest.fixture(scope="session")
+def win_inventory(win_guest, platform, tmp_path_factory) -> pathlib.Path:
+    """Ansible inventory for the guest, PowerShell shell type and all.
+
+    BatchMode is stripped from the ssh args exactly as the shell driver does --
+    ansible needs to answer host-key prompts that the harness's own ssh calls
+    suppress.
+    """
+    ip, key, _ = win_guest
+    opts = _winbash("_win_ssh_opts", check=False, key=key).stdout.strip()
+    opts = opts.replace("-o BatchMode=yes ", "")
+    inv = tmp_path_factory.mktemp("win") / f"{platform}.inv"
+    inv.write_text(
+        "[win]\n"
+        f"target ansible_host={ip}\n"
+        "[win:vars]\n"
+        f'ansible_user={os.environ.get("WIN_SSH_USER", "Administrator")}\n'
+        "ansible_connection=ssh\n"
+        "ansible_shell_type=powershell\n"
+        f"ansible_ssh_private_key_file={key}\n"
+        f"ansible_ssh_common_args={opts}\n"
+    )
+    return inv
+
+
+@pytest.fixture(scope="session")
+def win_ps(win_guest):
+    """Run a local .ps1 on the guest with the DAP_* probe variables exported.
+
+    Copy-then-execute via win_run_ps1_env, never a stdin pipe: the golden images
+    set PowerShell as the SSH default shell, so a piped script is read as the
+    shell's own input rather than as a file.
+    """
+    ip, key, pw = win_guest
+
+    def _run(script: pathlib.Path, group: str = "", profile: str = "") -> str:
+        res = _winbash(
+            f"DAP_GROUP={group!r} DAP_PROFILE={profile!r} "
+            f"win_run_ps1_env {ip!r} {str(script)!r}",
+            check=False, key=key, pw=pw,
+        )
+        return res.stdout + res.stderr
+
+    return _run
+
+
+@pytest.fixture(scope="session")
+def run_playbook():
+    """Run ansible-playbook against a generated inventory.
+
+    ANSIBLE_ROLES_PATH points at ACCESS_SRC/roles because the generated play
+    names declarative_access_windows as a bare role -- the same reason the Linux
+    side exports it. ANSIBLE_STDOUT_CALLBACK=default keeps the output parseable
+    when a run has to be read after the fact.
+    """
+    access_src = os.environ.get("ACCESS_SRC")
+    if not access_src:
+        pytest.fail("ACCESS_SRC must point at an ansible-declarative-access checkout")
+
+    def _run(inventory, playbook, tags: str | None = None):
+        argv = ["ansible-playbook", "-i", str(inventory), str(playbook)]
+        if tags:
+            argv += ["--tags", tags]
+        env = os.environ.copy()
+        env["ANSIBLE_ROLES_PATH"] = f"{access_src}/roles"
+        env["ANSIBLE_STDOUT_CALLBACK"] = "default"
+        env["ANSIBLE_HOST_KEY_CHECKING"] = "False"
+        return subprocess.run(argv, capture_output=True, text=True, env=env)
+
+    return _run
+
+
+@pytest.fixture(scope="session")
+def win_provenance(win_guest) -> str:
+    """The image the Windows guest says it is, from its own registry.
+
+    Same principle as the Linux provenance fixture: a stamp must record what the
+    guest reported, not what the run intended to launch.
+    """
+    ip, key, _ = win_guest
+    res = _winbash(
+        f"win_ssh {ip!r} "
+        r"'(Get-ItemProperty HKLM:\SOFTWARE\ImageRelease).IMAGE_NAME'",
+        check=False, key=key,
+    )
+    name = res.stdout.replace("\r", "").strip().splitlines()
+    assert name, f"guest reported no IMAGE_NAME\n{res.stderr[-800:]}"
+    return name[-1]

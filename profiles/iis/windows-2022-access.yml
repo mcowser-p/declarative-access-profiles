@@ -40,7 +40,7 @@
 #     -e "declarative_access_windows_group=<hostname>-app_restricted"
 #   revoke: same command + --tags cleanup
 #
-# REVIEWED: 2026-08-23   VERIFIED: 2026-08-23 (KVM windows2022-core-20260823,
+# REVIEWED: 2026-08-23   VERIFIED: 2026-08-27 (KVM windows2022-core-20260824,
 #           WMSVC+SDDL+JEA applied, probed, revoked)
 
 declarative_access_windows_profile_name: 'iis'
