@@ -83,7 +83,25 @@ asserting on a database's own answer is what ansible is for.
 
 ## Status
 
-`scripts/verify-profile-kvm.sh` and `_verify-remote.sh` still exist and still
-work. This suite has been proven on almalinux-9 (nginx, apache, caddy) and on
-the skip paths for every N/A cell, but has not yet driven a full 51-cell sweep —
-until it has, the shell path stays as the one with a complete track record.
+Proven over the full matrix on 2026-08-27: **51 passed, 4 skipped, 0 failed,
+0 errors** across 55 cases, five distros running concurrently, 13 minutes
+wall-clock, no stray guests.
+
+| Distro | Tests | Passed | Skipped |
+|---|---|---|---|
+| almalinux-9 | 11 | 11 | 0 |
+| almalinux-10 | 11 | 10 | 1 |
+| ubuntu-24.04 | 11 | 11 | 0 |
+| ubuntu-26.04 | 11 | 11 | 0 |
+| amazonlinux-2023 | 11 | 8 | 3 |
+
+Same 51 cells the shell path verifies, reported as 55 cases rather than 51 --
+the four N/A cells now carry their recorded reason instead of being absent.
+
+The provenance snippet is byte-identical to the one in
+`scripts/verify-profile-kvm.sh`, so a stamp written by either path says the same
+thing about the same guest. That run was deliberately made **without** `--stamp`:
+a suite proving itself should not also rewrite the evidence it is judged against.
+
+`scripts/verify-profile-kvm.sh` and `_verify-remote.sh` still work and are still
+the documented path. Retiring them is now a decision rather than a risk.
