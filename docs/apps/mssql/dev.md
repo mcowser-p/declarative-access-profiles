@@ -29,7 +29,7 @@ spellings from `sudo -l` output, not from memory or this page.
 | Service control over `mssql-server` | scoped sudoers verbs | `sudo systemctl restart mssql-server` |
 | Unit inspection | scoped sudoers | `sudo systemctl status mssql-server` |
 | Engine logs | per-unit journalctl grant | `sudo journalctl -u mssql-server -e` |
-| Everything database-shaped | **a SQL login over 1433**, not the filesystem | `sqlcmd -S localhost -U <you> -C` |
+| Everything database-shaped | **a SQL login over 1433**, not the filesystem | `sqlcmd -S 127.0.0.1 -U <you> -C` |
 
 Not granted, on purpose: no config paths (none exist outside the closed data
 root), no membership in the `mssql` group (that group owns the raw data files
@@ -129,7 +129,9 @@ decisions, not distro facts — see the db-lab.
 sudo -l                                          # what exactly you hold
 sudo systemctl status mssql-server               # is it up
 sudo journalctl -u mssql-server -e               # why is it not up
-sqlcmd -S localhost -U $USER -C                  # everything else is SQL
+sqlcmd -S 127.0.0.1 -U $USER -C                  # everything else is SQL
+#   (127.0.0.1, not "localhost": EL names ::1 localhost too and the ODBC
+#    driver intermittently blackholes on the IPv6 loopback -- 0x102 timeouts)
 #   settings:  EXEC sp_configure; RECONFIGURE;
 #   errorlog:  EXEC sys.xp_readerrorlog 0, 1, N'error';
 #   edition:   SELECT SERVERPROPERTY('Edition');
