@@ -1,0 +1,61 @@
+---
+# declarative-access-profiles :: mssql on almalinux-9
+#
+# PROVENANCE
+#   footprint : footprints/almalinux-9/footprint-mssql.json
+#               (schema 1.0, captured 2026-08-29 on KVM alma9-20260823,
+#               SELinux enforcing, CIS L1; treadmark 0.11.0. Package install
+#               ONLY — `mssql-conf setup` has NOT run, so /var/opt/mssql (the
+#               data root, the unit's WorkingDirectory and the mssql user's
+#               home) does not exist yet. That also makes the footprint
+#               edition-neutral: every edition installs identical bits, and
+#               MSSQL_PID at setup is the only divergence.)
+#   raw       : ./almalinux-9-raw.yml   (diff against this file = the review)
+#   docs      : ../../docs/apps/mssql/ops.md  (review reasoning, §2)
+#
+# ACCESS MODEL: database — config-scoped, NOT group-scoped. NO pam_group into
+# the 'mssql' group: once setup runs, that group owns the raw data files under
+# /var/opt/mssql, so membership is filesystem access that bypasses every
+# server-level permission and SQL GRANT. Config is mssql.conf INSIDE the data
+# root — not grantable without granting the data; changes are ops-side
+# (/opt/mssql/bin/mssql-conf, root) or SQL-side (sp_configure). Read-only-
+# units profile. Log read = the journal via the service grant (the errorlog
+# lands in the closed data root).
+#
+# APPLY
+#   ansible-playbook -i inventory playbooks/5_apply_access_profile.yml \
+#     -e @profiles/mssql/almalinux-9-access.yml \
+#     -e "group_name=<hostname>-app_restricted"
+#   revoke: same command + --tags cleanup
+#
+# REVIEWED: 2026-08-29   VERIFIED: 2026-08-29 (KVM alma9-20260823, SELinux enforcing, real PAM, CIS L1)
+
+declarative_access_profile_name: 'mssql'
+declarative_access_sudo: true
+declarative_access_services:
+  - 'mssql-server'
+
+# REVIEW-DROP: declarative_access_services ['saslauthd'] — a DEPENDENCY's
+# daemon, not the app: cyrus-sasl rides in for AD authentication support. It
+# runs as root (the footprint's own risks[] flags the missing User=), so a
+# restart grant over it is a grant over a root process the team does not
+# operate. Teams integrating AD auth get it as a deliberate ops decision, not
+# as a side effect of the database profile.
+
+# REVIEW-DROP: declarative_access_files_modify [mssql-server.service +
+# saslauthd.service, each under /lib and /usr/lib — 4 paths] — vendor unit
+# files; a write ACL on a unit file is root-equivalent for that unit.
+# Read-only-units profile.
+
+# REVIEW-DROP: declarative_access_folders_modify ['/etc/gdbinit.d',
+# '/opt/mssql'] — '/etc/gdbinit.d' belongs to gdb, which mssql-server pulls in
+# for crash-dump capture; it is debugger autoload config, and writes there are
+# executed by any future root gdb session. '/opt/mssql' is the vendor binary
+# tree (root:root): write access is binary tampering, not configuration. The
+# app's real config (mssql.conf) does not exist until setup and lives inside
+# the closed data root — see ops §3.
+
+# No ownership section ON PURPOSE: /var/opt/mssql does not exist at install
+# time (setup creates it 0700 mssql:mssql), and asserting a path that is not
+# there would fail the apply. The day it exists, the DATABASE-class rule
+# applies to it unchanged: never grantable — see ops §3.

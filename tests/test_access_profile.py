@@ -79,6 +79,29 @@ def test_profile_verifies(host, bootstrapped, provenance, put_profile, app, dist
     if "epel" in repos:
         _sudo(host, "dnf install -qy epel-release >/dev/null 2>&1 || true")
 
+    # Mirror of the capture harness's enable block: Microsoft's config URL is
+    # keyed by family and major version. On debian the keyring comes from the
+    # bootstrap .deb -- the armored .asc in signed-by fails on noble's apt
+    # ("Unknown error executing apt-key", observed 2026-08-29). Plain string,
+    # not an f-string -- ${VERSION_ID%%.*} is bash, not Python.
+    if "mssql-2025" in repos:
+        _sudo(host, """
+            if command -v dnf >/dev/null 2>&1; then
+              v="$(. /etc/os-release && echo "${VERSION_ID%%.*}")"
+              curl -fsSL "https://packages.microsoft.com/config/rhel/${v}/mssql-server-2025.repo" \\
+                -o /etc/yum.repos.d/mssql-server-2025.repo
+            else
+              . /etc/os-release
+              curl -fsSL "https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb" \\
+                -o /tmp/msprod.deb
+              DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/msprod.deb >/dev/null 2>&1
+              rm -f /tmp/msprod.deb
+              printf 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/%s/mssql-server-2025 %s main\\n' \\
+                "$VERSION_ID" "$VERSION_CODENAME" > /etc/apt/sources.list.d/mssql-server-2025.list
+              apt-get update -qq
+            fi
+        """)
+
     # --- conflicting packages --------------------------------------------
     # mysql-server and mariadb-server cannot coexist. Removing the meta alone
     # strands the core packages and their conffiles, and the incoming package's

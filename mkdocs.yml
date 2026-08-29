@@ -54,6 +54,7 @@ nav:
       - postgresql: [apps/postgresql/dev.md, apps/postgresql/ops.md]
       - mariadb: [apps/mariadb/dev.md, apps/mariadb/ops.md]
       - mysql: [apps/mysql/dev.md, apps/mysql/ops.md]
+      - mssql: [apps/mssql/dev.md, apps/mssql/ops.md]
       - redis: [apps/redis/dev.md, apps/redis/ops.md]
       - memcached: [apps/memcached/dev.md, apps/memcached/ops.md]
       - caddy: [apps/caddy/dev.md, apps/caddy/ops.md]
@@ -68,6 +69,7 @@ nav:
       - postgresql: role-evals/postgresql.md
       - mariadb: role-evals/mariadb.md
       - mysql: role-evals/mysql.md
+      - mssql: role-evals/mssql.md
       - redis: role-evals/redis.md
       - memcached: role-evals/memcached.md
       - caddy: role-evals/caddy.md

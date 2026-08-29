@@ -8,8 +8,10 @@
 #   app      value for `treadmark footprint --app` (default: the row slug)
 #   service  unit name asserted in the footprint and targeted by verify
 #   extra    extra packages installed alongside (list)
-#   repos    extra package repos enabled before install (list; only value
-#            today: epel — EL-family only, installs epel-release first)
+#   repos    extra package repos enabled before install (list). Values:
+#            epel — EL-family only, installs epel-release first;
+#            mssql-2025 — packages.microsoft.com for SQL Server 2025, config
+#            URL keyed by family and major version (RHEL 9/10, Ubuntu 24.04)
 #   na       reason this cell is not applicable (mutually exclusive with
 #            package) — N/A is always a recorded decision, never silence
 
@@ -84,6 +86,17 @@ apps:
     ubuntu-26.04: {package: mysql-server, app: mysql, service: mysql.service,
                    conflicts: [mariadb-server]}
     amazonlinux-2023: {na: "mysql not packaged in AL2023 — community RPM only, out of scope"}
+  mssql:
+    # Microsoft SQL Server 2025 on Linux: ONE package for every edition — the
+    # edition (Express, Evaluation, Standard, ...) is chosen at `mssql-conf
+    # setup`, which capture never runs, so the footprint is edition-neutral.
+    # Microsoft's support matrix is RHEL 9/10 + Ubuntu 24.04; alma is
+    # RHEL-compatible and is what the fleet actually runs.
+    almalinux-9: {package: mssql-server, service: mssql-server.service, repos: [mssql-2025]}
+    almalinux-10: {package: mssql-server, service: mssql-server.service, repos: [mssql-2025]}
+    ubuntu-24.04: {package: mssql-server, service: mssql-server.service, repos: [mssql-2025]}
+    ubuntu-26.04: {na: "not in SQL Server 2025's support matrix — Ubuntu support caps at 24.04"}
+    amazonlinux-2023: {na: "not a supported SQL Server platform (RHEL and Ubuntu only), not packaged"}
   redis:
     # Distro-split row: EL10 replaced redis with valkey (license change).
     # Footprint files keep the row slug (footprint-redis.json); the model's

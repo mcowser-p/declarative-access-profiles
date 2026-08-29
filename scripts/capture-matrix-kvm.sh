@@ -147,6 +147,29 @@ while IFS= read -r cell; do
   case " $repos " in *" epel "*)
     command -v dnf >/dev/null 2>&1 && dnf install -qy epel-release >/dev/null 2>&1 ;;
   esac
+  # same placement, same reasoning, for Microsoft's SQL Server repo. The
+  # config URL is keyed by family and major version; the matrix only marks
+  # cells live where that URL exists (RHEL 9/10, Ubuntu 24.04).
+  case " $repos " in *" mssql-2025 "*)
+    if command -v dnf >/dev/null 2>&1; then
+      v="$(. /etc/os-release && echo "${VERSION_ID%%.*}")"
+      curl -fsSL "https://packages.microsoft.com/config/rhel/${v}/mssql-server-2025.repo" \
+        -o /etc/yum.repos.d/mssql-server-2025.repo
+    else
+      # NOT the armored .asc in signed-by: noble's apt fails that with
+      # "Unknown error executing apt-key" and reports the repo unsigned
+      # (observed 2026-08-29). The bootstrap .deb installs the DEARMORED
+      # keyring at the path every Microsoft list file references.
+      . /etc/os-release
+      curl -fsSL "https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb" \
+        -o /tmp/msprod.deb
+      DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/msprod.deb >/dev/null 2>&1
+      rm -f /tmp/msprod.deb
+      printf 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/%s/mssql-server-2025 %s main\n' \
+        "$VERSION_ID" "$VERSION_CODENAME" > /etc/apt/sources.list.d/mssql-server-2025.list
+      apt-get update -qq
+    fi ;;
+  esac
   $TREADMARK files init --config /etc/treadmark/footprint.yaml --force >/dev/null 2>&1
   if command -v apt-get >/dev/null 2>&1; then
     dpkg -s "$pkg" >/dev/null 2>&1 && { echo "SKIP: $pkg already present"; continue; }

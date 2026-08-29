@@ -119,6 +119,30 @@ c=m['apps']['$app']['$distro'];print('' if 'na' in c else ' '.join(c.get('repos'
     case " $repos " in *" epel "*)
       kvm_ssh "$ip" "$KVM_SSH_USER" 'sudo dnf install -qy epel-release >/dev/null 2>&1' ;;
     esac
+    case " $repos " in *" mssql-2025 "*)
+      # mirror of the capture harness's enable block: config URL keyed by
+      # family and major version, armored key straight into signed-by
+      kvm_ssh "$ip" "$KVM_SSH_USER" 'sudo bash -s' <<'MSREPO'
+set -e
+if command -v dnf >/dev/null 2>&1; then
+  v="$(. /etc/os-release && echo "${VERSION_ID%%.*}")"
+  curl -fsSL "https://packages.microsoft.com/config/rhel/${v}/mssql-server-2025.repo" \
+    -o /etc/yum.repos.d/mssql-server-2025.repo
+else
+  # dearmored keyring via the bootstrap .deb — the armored .asc in signed-by
+  # fails on noble's apt ("Unknown error executing apt-key")
+  . /etc/os-release
+  curl -fsSL "https://packages.microsoft.com/config/ubuntu/${VERSION_ID}/packages-microsoft-prod.deb" \
+    -o /tmp/msprod.deb
+  DEBIAN_FRONTEND=noninteractive dpkg -i /tmp/msprod.deb >/dev/null 2>&1
+  rm -f /tmp/msprod.deb
+  printf 'deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/ubuntu/%s/mssql-server-2025 %s main\n' \
+    "$VERSION_ID" "$VERSION_CODENAME" > /etc/apt/sources.list.d/mssql-server-2025.list
+  apt-get update -qq
+fi
+MSREPO
+      ;;
+    esac
     if kvm_ssh "$ip" "$KVM_SSH_USER" "sudo APP=$app PKG='$pkg' CONFLICTS='$conflicts' bash -s" \
         < "$REPO/scripts/_verify-remote.sh" >> "$logf" 2>&1; then
       log "  OK  $app on $distro"
