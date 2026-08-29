@@ -165,7 +165,7 @@ key exists for any of this, and none should.
 | Risk | Severity | Disposition |
 |---|---|---|
 | `saslauthd.service` runs as root (footprint `risks[]`, EL both) | medium | **Accept + contain**: dependency of mssql-server, disabled by default and NOT granted (§2 drop). Owner: platform. Revisit only if AD auth integration turns it on |
-| sqlservr runs **unconfined** — no SELinux policy by default (opt-in `mssql-server-selinux` exists, RHEL 9.6+), no AppArmor profile at all | medium | **Accept, recorded**: the vendor-supported default. The db-lab labels the archive volume with the data-root equivalence anyway, so a future confined mode inherits correct labels. Owner: platform |
+| SQL Server **2025 refuses to start under SELinux enforcing without `mssql-server-selinux`** — error 101, no ERRORLOG, no AVC even with dontaudit disabled: the launcher checks the mode itself and self-refuses (found live on alma9, 2026-08-29; the 2017–2022 "unconfined, policy optional" guidance is stale for 2025). No AppArmor profile exists on Ubuntu, where it genuinely runs unconfined | medium | **Fix, done**: deployments on enforcing EL install the policy package alongside the engine (the db-lab role does); the archive-volume equivalence label is what lets the confined engine write its backup chain. Owner: deployment |
 | Evaluation edition stops starting after 180 days (error 17051) | low (lab) / high (anywhere else) | **Accept in the lab** — weekly rebuilds reset the clock at setup; the db-lab README documents it. Anywhere durable: licensed PID or Express. Owner: deployment |
 | 1433 (and 5022 where an AG exists) exposure | medium | **Contain**: host firewall scoped to the lab CIDR by the deploying role; SQL auth enforces 3-of-4 password classes on sa. Owner: deployment |
 
@@ -198,7 +198,8 @@ The db-lab deployment (`app-vending-machine/labs/db`) is the reference:
   (`/var/opt/mssql-archive`): a runaway chain fills its own disk instead of
   stopping the engine, and the PITR evidence survives losing the data disk.
 - On EL the archive volume carries an SELinux **equivalence label** to
-  `/var/opt/mssql` — not load-bearing while sqlservr is unconfined (§11),
-  present so a future confined mode finds the labels already right.
+  `/var/opt/mssql` — load-bearing, not decorative: 2025 runs CONFINED there
+  (§11's policy-package requirement), and the label is what lets the engine
+  write its backup chain onto the second volume.
 - Sizing in the lab: 10 GB data / 5 GB archive per node, deliberately
   unequal so the two virtio disks can never be told apart wrongly.
