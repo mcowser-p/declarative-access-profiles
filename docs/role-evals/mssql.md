@@ -232,13 +232,53 @@ Two standing recommendations rather than one:
 
 ### 8.4 What is proven, and what is not
 
-The Windows tier's **infrastructure** is proven on hardware as of 2026-09-01:
-both guests build from the golden images, complete the rename reboot, and
-answer as themselves. The **installation** path — the SSEI bootstrapper's
-flags, and Express's self-extracting-EXE branch specifically — is the part
-still being exercised for the first time; `labs/db/media/` is the deterministic
-fallback when a download link rots or the lab is offline. This section will be
-worth re-reading once that run is on the record either way.
+Proven on hardware 2026-09-01, on the golden images named:
+
+| | mswe01 | mswx01 |
+|---|---|---|
+| OS | Windows Server 2022 Core (`windows2022-core-20260824`) | Windows Server 2025 Core (`windows2025-core-20260824`) |
+| Edition | **Enterprise Evaluation** (EngineEdition 3) | **Express** (EngineEdition 4) |
+| Version | 17.0.1000.7 (SQL Server 2025) | 17.0.1000.7 |
+| Media path | SSEI bootstrapper → **ISO**, mounted | SSEI bootstrapper → **self-extracting EXE**, extracted |
+| `drlab` | exists, **FULL** recovery, base backup taken | same |
+| Memory cap, firewall | 4096 MB; 1433 open to the lab CIDR only | same |
+
+Both media shapes worked, which was the open question: a role that assumes
+"download, mount, run setup.exe" would have installed Evaluation and failed
+Express at the mount. The install itself ran zero-failure on both hosts.
+
+**Three findings from the live run, none of which the local checks could have
+caught:**
+
+1. **`sqlcmd` is not on PATH.** It lands at `C:\Program Files\Microsoft SQL
+   Server\Client SDK\ODBC\180\Tools\Binn\SQLCMD.EXE`, dropped by the ODBC
+   driver rather than added to the system path. Anything scripting these hosts
+   needs the full path — or, better, `System.Data.SqlClient` from PowerShell,
+   which needs no client tools at all and is what the verification used.
+2. **`-C` (trust server certificate) is needed on Windows too.** The first
+   query failed with "the certificate chain was issued by an authority that is
+   not trusted" — the same self-signed-cert trap the Linux tier hit, where the
+   fix was baked into a wrapper. The Windows side has no equivalent wrapper.
+3. **The log-backup scheduled task did not fire on its own on Server 2022.**
+   Registered identically on both hosts — same action, same `PT5M` repetition
+   from a 2020 `StartBoundary`, same `SYSTEM`/Highest principal, verified by
+   comparing the exported trigger XML — yet mswx01 (2025) fired every five
+   minutes from registration while mswe01 (2022) sat at
+   `LastTaskResult=0x41303` ("task has not yet run") through two windows.
+   A manual `Start-ScheduledTask` runs the action cleanly (`0x0`, backup
+   written), and the task still did not resume by itself afterwards — one
+   backup across two further windows. So **the action is sound, the trigger
+   never fires on 2022, and a manual kick does not repair it**. Until
+   that is understood, treat a Windows log-backup chain as needing
+   confirmation rather than assumed — the freshness check that the Linux
+   verify play makes is exactly the assertion this tier still lacks.
+
+**Still not proven:** a Windows PITR **drill**. The Linux tier restores to a
+recorded instant and asserts pre-target rows survive and post-target rows do
+not; the Windows tier has a backup chain but no drill play, so by this
+library's own standard its backups remain a hypothesis. That, plus a Windows
+access profile (which needs `evidence/windows-*/inventory-mssql.json` captured
+and committed), is what a follow-up should cover.
 
 ## 9. Sources
 
