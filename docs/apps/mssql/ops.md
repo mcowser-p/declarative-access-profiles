@@ -169,6 +169,24 @@ key exists for any of this, and none should.
 | Evaluation edition stops starting after 180 days (error 17051) — and its license grants **evaluation use only, never production**; the free Developer PIDs are likewise dev/test-only, and Express is the sole no-cost edition with production rights | low (lab) / high (anywhere else) | **Accept in the lab** — weekly rebuilds reset the clock at setup and the lab is evaluation by definition; the db-lab README states the terms. Anywhere durable: paid Standard/Enterprise, or Express within its caps. The EULA is accepted non-interactively at setup (`ACCEPT_EULA=Y`). Owner: deployment |
 | 1433 (and 5022 where an AG exists) exposure | medium | **Contain**: host firewall scoped to the lab CIDR by the deploying role; SQL auth enforces 3-of-4 password classes on sa. Owner: deployment |
 
+## 11b. Windows Server, in one paragraph
+
+Everything above describes SQL Server on **Linux**, which is where this app's
+profiles and evidence come from. The estate also runs it on **Windows Server
+2022 and 2025 Core** (`app-vending-machine` labs/db `mswe01`/`mswx01`, and
+labs/gmsa's SQL 2022 host), and the operational shape differs in ways worth
+knowing before you carry a Linux assumption across: the **edition is the
+media**, not a PID, and Evaluation ships an ISO while Express ships a
+self-extracting EXE; installation is `setup.exe` with a rendered configuration
+file, run from a one-shot scheduled task so it executes in SYSTEM context;
+there is no `mssql-conf`, so host-level settings are `sqlservr` command-line
+flags, registry, or T-SQL; and automation reaches the guest over **SSH with
+`ansible_shell_type: powershell`**, never WinRM. No Windows access profile
+exists for mssql yet — `matrix-windows.yml` covers `iis` only, and a Windows
+profile needs live evidence (`evidence/<platform>/inventory-mssql.json`)
+committed before it can be reviewed. The role evaluation's §8 covers the
+Windows tooling question separately.
+
 ## 12. Storage and growth
 
 Two growth surfaces, both familiar from the other engines and both landing in

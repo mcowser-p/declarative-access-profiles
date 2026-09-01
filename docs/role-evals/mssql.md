@@ -1,4 +1,7 @@
-# Ansible role evaluation: Microsoft SQL Server (AlmaLinux 9/10 + Ubuntu 24.04)
+# Ansible role evaluation: Microsoft SQL Server
+
+_Linux (AlmaLinux 9/10, Ubuntu 24.04) in §1–§7; **Windows Server 2022/2025 in §8**,
+which is a separate evaluation with different candidates and a different answer._
 
 ## 1. Method
 
@@ -164,7 +167,80 @@ to stand alone in this repo's terms: scope = repo + install + unattended
 setup + firewall on EL9/10 + Ubuntu 24.04, molecule with an allow/deny probe
 pair per [ops §5](../apps/mssql/ops.md). **Not scheduled.**
 
-## 8. Sources
+## 8. Windows Server 2022/2025 — a separate evaluation
+
+Added 2026-09-01, after the db lab grew a Windows tier (`mswe01` on Server 2022
+Core, `mswx01` on Server 2025 Core). It is deliberately its own section rather
+than extra rows above, because almost nothing transfers.
+
+**Why the Linux answer does not apply.** On Linux, one package serves every
+edition and `MSSQL_PID` at `mssql-conf setup` selects it. On Windows there is
+no such switch: **the edition IS the media** — Microsoft publishes a separate
+download per edition, each carrying a predefined key, so `/PID` is meaningful
+only for a paid key. The media shapes differ too: the Evaluation bootstrapper
+emits an **ISO**, Express emits a **self-extracting EXE**. A role that assumes
+"download, mount, run setup.exe" works for Evaluation and fails for Express at
+the mount. Any candidate has to be judged on installation mechanics that the
+Linux candidates never face.
+
+### 8.1 Candidates
+
+| Role/module | Backing | Status (2026-09-01) |
+|---|---|---|
+| [SqlServerDsc](https://github.com/dsccommunity/SqlServerDsc) via `ansible.windows.win_dsc` | **DSC Community** (not Microsoft, despite common belief), 386★, 1303 commits | **Active and widely used.** 17.5.1 (2026-02-05), releases in Jan and Feb 2026; **14.4M downloads**; PowerShell 5.0+. Its `SqlSetup` resource installs the engine; the module also covers logins, permissions, AGs, RS |
+| [lowlydba.sqlserver](https://github.com/LowlyDBA/lowlydba.sqlserver) | Community, in the Ansible package | **Active**, 2.8.1. A **dbatools wrapper that configures a RUNNING instance** — logins, databases, AG membership, agent jobs. Not an installer, so it does not compete on install; it is the natural complement |
+| `microsoft.sql.server` (linux-system-roles) | Vendor-official | **Cannot reach Windows at all** — RHEL-only by charter (§2). Excluded on sight here |
+
+### 8.2 Scoring, on the rows that differ from Linux
+
+| # | Requirement | SqlServerDsc + win_dsc |
+|---|---|---|
+| R1 | Server 2022 **and** 2025 Core | ✅ version-agnostic; `SqlSetup` drives `setup.exe`, which both support |
+| R2 | Install via native mechanism | ✅ that is precisely what `SqlSetup` wraps |
+| R2b | **Acquire the media** | ❌ **out of scope for the module** — it consumes a `SourcePath` you must already have staged. The per-edition download, the ISO-vs-EXE shape difference and the mount/extract split are all still yours to solve |
+| R5 | Secrets | ⚠️ credentials pass as DSC `PSCredential`; workable, but adds a `become`/CredSSP or DSC-credential-encryption question the SSH+PowerShell path does not have |
+| R7 | Verification / assurance | ⚠️ the module itself is well-tested, but `win_dsc` + `MSFT_SqlSetup` has a long tail of reported breakage — missing CIM class, "resource not found", `Test-TargetResource` null-reference — across Ansible issue trackers |
+| R10 | Dependency footprint | ⚠️ requires the DSC module chain pre-installed on every guest, and DSC itself, which nothing else in this estate uses |
+
+### 8.3 Verdict: build (again) — but for a different reason than Linux
+
+On Linux the verdict was *build* because the vendor role could not reach two of
+three cells. Here the verdict is *build* because **the hard part is the part no
+role does**: acquiring the right media per edition and handling two media
+shapes. `SqlServerDsc` would install a SQL Server from media already staged —
+which is the easy half — while adding DSC as a dependency this estate has
+nowhere else.
+
+Weighed against that, the org role reuses a technique **already proven in this
+estate**: `labs/gmsa` installs SQL Server 2022 on Server 2022 Core unattended
+today, via `setup.exe` with a rendered configuration `.ini` driven from a
+one-shot scheduled task (SYSTEM context, which is what makes the install
+behave). `labs/db`'s `mssql_windows` role generalises that to two editions and
+two Server versions.
+
+Two standing recommendations rather than one:
+
+1. **Keep the org role for installation.** Revisit if DSC ever earns its place
+   in this estate for other reasons — the calculus changes the moment DSC is
+   already a dependency rather than a new one.
+2. **Adopt `lowlydba.sqlserver` if instance MANAGEMENT grows** — declarative
+   logins, databases, AG membership and agent jobs across many instances. It
+   does not overlap the installer, and it is the same "adopt + wrap" shape the
+   MySQL eval reached: a public module collection for the SQL-side objects, an
+   org role for the deployment. It carries a PowerShell + dbatools dependency,
+   which is why it is a recommendation and not a default.
+
+### 8.4 What is proven, and what is not
+
+The Windows tier's **infrastructure** is proven on hardware as of 2026-09-01:
+both guests build from the golden images, complete the rename reboot, and
+answer as themselves. The **installation** path — the SSEI bootstrapper's
+flags, and Express's self-extracting-EXE branch specifically — is the part
+still being exercised for the first time; `labs/db/media/` is the deterministic
+fallback when a download link rots or the lab is offline. This section will be
+worth re-reading once that run is on the record either way.
+
+## 9. Sources
 
 - https://github.com/linux-system-roles/mssql — repo, 34★, 401 commits; README: SQL Server 2017/2019/2022; RHEL platforms; `mssql_edition`, EULA vars, `mssql_ha_configure`, `mssql_tls_*`, `mssql_datadir`/`mssql_logdir` (2026-08-29)
 - https://github.com/linux-system-roles/mssql/releases — latest 2.6.6, 2026-02-06 (2026-08-29)
@@ -174,4 +250,8 @@ pair per [ops §5](../apps/mssql/ops.md). **Not scheduled.**
 - https://github.com/kyleabenson/ansible-role-mssql — RHEL demo role (eliminated) (2026-08-29)
 - https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-release-notes-2025?view=sql-server-ver17 — SQL Server 2025 on Linux: RHEL 9/10, Ubuntu 22.04/24.04 (2026-08-29)
 - https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-editions-and-components-2025?view=sql-server-ver17 — edition feature boundaries (AG: Express **No**) (2026-08-29)
+- https://github.com/dsccommunity/SqlServerDsc — DSC Community, 386★, 1303 commits; SqlSetup installs the engine (2026-09-01)
+- https://www.powershellgallery.com/packages/SqlServerDsc — 17.5.1 published 2026-02-05; 14.4M downloads; PowerShell 5.0+ (2026-09-01)
+- https://github.com/ansible-collections/ansible.windows/issues/32 and ansible/ansible#68246, #51543 — win_dsc + MSFT_SqlSetup failure reports (2026-09-01)
+- Windows deployment reference in this estate: `app-vending-machine` labs/gmsa `roles/mssql` (SQL 2022 on Server 2022 Core) and labs/db `roles/mssql_windows` (2026-09-01)
 - Requirement source: `profiles/mssql/almalinux-9-access.yml`, `docs/apps/mssql/{dev,ops}.md`, and the deployed reference `app-vending-machine/labs/db/ansible/roles/mssql`
