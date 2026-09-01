@@ -1,0 +1,3312 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Evidence-based access profiles for Linux applications — treadmark footprints reviewed into least-privilege grants, with dev and ops documentation.">
+      
+      
+      
+        <link rel="canonical" href="https://mcowser-p.github.io/declarative-access-profiles/apps/apache/dev/">
+      
+      
+        <link rel="prev" href="../../nginx/ops/">
+      
+      
+        <link rel="next" href="../ops/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Apache HTTP Server — your life after lockdown - Declarative Access Profiles</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#apache-http-server-your-life-after-lockdown" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Declarative Access Profiles" class="md-header__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Declarative Access Profiles
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Apache HTTP Server — your life after lockdown
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Declarative Access Profiles" class="md-nav__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Declarative Access Profiles
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog/how-it-fits-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it fits together
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../onboarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onboarding an app
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/footprints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footprints (what treadmark does)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/access-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The access model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/tls-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS / SSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs & rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage & growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Applications
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Applications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nginx/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    apache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-first-command-sudo-l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. First command: sudo -l
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-your-grants-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Your grants at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-administering-your-systemd-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Administering your systemd unit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-editing-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Editing configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tls-ssl-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. TLS / SSL administration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-logs-and-log-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Logs and log rotation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-storage-what-fills-up-and-what-you-can-do-about-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Storage: what fills up, and what you can do about it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-everything-else-youll-eventually-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Everything else you'll eventually need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-per-distro-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Per-distro differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    haproxy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../haproxy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../haproxy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tomcat
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tomcat/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tomcat/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    php-fpm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../php-fpm/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../php-fpm/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgresql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgresql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../postgresql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mariadb/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mariadb/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mysql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mysql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mssql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mssql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mssql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../redis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_11" id="__nav_5_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    memcached
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memcached/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memcached/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_12" id="__nav_5_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    caddy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../caddy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../caddy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_13" id="__nav_5_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    iis (Windows)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    iis (Windows)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — lockdown runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Role evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Method & index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/apache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/haproxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/tomcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/php-fpm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/mariadb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/mssql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/memcached/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../role-evals/caddy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../windows-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0-first-command-sudo-l" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. First command: sudo -l
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-your-grants-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Your grants at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-administering-your-systemd-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Administering your systemd unit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-editing-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Editing configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-tls-ssl-administration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. TLS / SSL administration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-logs-and-log-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Logs and log rotation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-storage-what-fills-up-and-what-you-can-do-about-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Storage: what fills up, and what you can do about it
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-everything-else-youll-eventually-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Everything else you'll eventually need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-per-distro-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Per-distro differences
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-cheat-sheet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Cheat sheet
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="apache-http-server-your-life-after-lockdown">Apache HTTP Server — your life after lockdown<a class="headerlink" href="#apache-http-server-your-life-after-lockdown" title="Permanent link">&para;</a></h1>
+<p>You deployed Apache (<code>httpd</code> on the EL family — AlmaLinux and Amazon Linux
+2023 — <code>apache2</code> on Ubuntu); you're now in <code>&lt;hostname&gt;-app_restricted</code>. This
+page is everything you can still do, and how. What ops decided and why is in
+the <a href="../ops/">ops runbook</a>; your grants come from the reviewed profile for
+your distro
+(<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/almalinux-9-access.yml">alma9</a>,
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/almalinux-10-access.yml">alma10</a>,
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/amazonlinux-2023-access.yml">al2023</a>,
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/ubuntu-24.04-access.yml">ubuntu 24.04</a>,
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/profiles/apache/ubuntu-26.04-access.yml">ubuntu 26.04</a>).</p>
+<h2 id="0-first-command-sudo-l">0. First command: <code>sudo -l</code><a class="headerlink" href="#0-first-command-sudo-l" title="Permanent link">&para;</a></h2>
+<p><code>sudo -l</code> prints your exact granted command lines. sudo matches the
+<strong>whole command string, argument order included</strong> —
+<code>journalctl -u httpd -e</code> is a different string from the granted
+<code>journalctl -e -u httpd</code> and will prompt for a password. Copy from
+<code>sudo -l</code> output, not from memory.</p>
+<h2 id="1-your-grants-at-a-glance">1. Your grants at a glance<a class="headerlink" href="#1-your-grants-at-a-glance" title="Permanent link">&para;</a></h2>
+<p>The unit is <code>httpd</code> on EL and <code>apache2</code> on Ubuntu — substitute yours.</p>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>How it's granted</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service control</td>
+<td>sudoers: <code>start stop restart reload status enable disable mask unmask</code>, bare and <code>.service</code> spellings</td>
+<td><code>sudo systemctl reload httpd</code></td>
+</tr>
+<tr>
+<td>Its journal</td>
+<td>sudoers: <code>journalctl -u &lt;unit&gt;</code>, <code>-e -u</code>, <code>-ef -u</code>, <code>--since -5m/-10m/-15m</code> variants (bare + <code>.service</code>)</td>
+<td><code>sudo journalctl -e -u apache2</code></td>
+</tr>
+<tr>
+<td><code>daemon-reload</code></td>
+<td>sudoers (global — see §2)</td>
+<td><code>sudo systemctl daemon-reload</code></td>
+</tr>
+<tr>
+<td>Config: <code>/etc/httpd</code> (EL) / <code>/etc/apache2</code> (Ubuntu)</td>
+<td>write <strong>ACL</strong> for your team group (+ default ACL for new files)</td>
+<td>edit <code>conf.d/*.conf</code> / <code>sites-available/*.conf</code></td>
+</tr>
+<tr>
+<td>Content: <code>/var/www/html</code></td>
+<td>setgid dir owned <code>root:apache</code> (Ubuntu: <code>root:www-data</code>) <code>2775</code> — you're in that group at login via pam_group</td>
+<td>write files; they inherit the group</td>
+</tr>
+<tr>
+<td>Logs: <code>/var/log/httpd</code> (EL) / <code>/var/log/apache2</code> (Ubuntu)</td>
+<td>read ACL + default ACL</td>
+<td><code>less /var/log/httpd/error_log</code></td>
+</tr>
+<tr>
+<td>Service group at login</td>
+<td>pam_group: <code>apache</code> (Ubuntu: <code>www-data</code>) — <strong>next SSH login only</strong>, SSH sessions only, not cron</td>
+<td><code>id</code> after a fresh login</td>
+</tr>
+</tbody>
+</table>
+<p>There is no grant for the unit files, the private-key directory, the
+firewall, or <code>/var/lib/httpd</code> (<code>/var/lib/apache2</code>) — those are ops, by
+design; see <a href="../ops/">§2 of the ops runbook</a> for the raw→reviewed decisions.</p>
+<h2 id="2-administering-your-systemd-unit">2. Administering your systemd unit<a class="headerlink" href="#2-administering-your-systemd-unit" title="Permanent link">&para;</a></h2>
+<p>The full verb set is granted for <code>httpd.service</code> (EL) / <code>apache2.service</code>
+(Ubuntu). Prefer <code>sudo systemctl reload &lt;unit&gt;</code> for config and certificate
+changes — Apache's reload is a <strong>graceful</strong> restart (<code>apachectl graceful</code>):
+workers finish in-flight requests and new config is picked up without
+dropping connections. <code>restart</code> drops them; use it only when a module load
+or a change reload can't apply requires it.</p>
+<p>Ubuntu 26.04 spelling trap: the package also installs <code>httpd.service</code> as a
+<strong>compat alias symlink</strong> of <code>apache2.service</code>. The grant is spelled
+<code>apache2</code> — <code>sudo systemctl reload httpd</code> is a different command string and
+will be <strong>denied</strong>. Same unit, one granted name.</p>
+<p><code>daemon-reload</code> is in your list because unit changes need it; it is
+host-global by design — running it is harmless but re-reads <em>every</em> unit's
+metadata, not just yours.</p>
+<p>There are no timers or quadlets in this profile. The cache cleaner
+(<code>htcacheclean</code> on EL, <code>apache-htcacheclean</code> on Ubuntu) and Ubuntu's
+one-shot <code>ssl-cert</code> generator were deliberately left out of the profile —
+they're not the web server. If you turn on <code>mod_cache_disk</code>, ask ops to add
+the cleaner unit back (see <a href="../ops/">ops §2</a>).</p>
+<h2 id="3-editing-configuration">3. Editing configuration<a class="headerlink" href="#3-editing-configuration" title="Permanent link">&para;</a></h2>
+<p><strong>Drop-in discipline: never edit the vendor main config.</strong> One intention
+per file.</p>
+<ul>
+<li><strong>EL</strong> — leave <code>/etc/httpd/conf/httpd.conf</code> alone; put changes in
+  <code>/etc/httpd/conf.d/&lt;intention&gt;.conf</code>. The package reads every <code>*.conf</code>
+  in <code>conf.d</code> automatically.</li>
+<li><strong>Ubuntu</strong> — leave <code>/etc/apache2/apache2.conf</code> alone. Site config goes in
+  <code>/etc/apache2/sites-available/&lt;name&gt;.conf</code>; global snippets in
+  <code>/etc/apache2/conf-available/&lt;name&gt;.conf</code>. Apache only reads the
+  <code>*-enabled</code> directories, which hold <strong>symlinks</strong> to the <code>*-available</code>
+  files (the <code>a2ensite</code>/<code>a2enmod</code> model).</li>
+</ul>
+<p>The normal enable helpers <code>a2ensite</code>/<code>a2enmod</code> still need <code>sudo</code> — they
+  also write maintainer state under <code>/var/lib/apache2</code>, which is <strong>not</strong> in
+  your profile. Because you hold the write ACL on the whole <code>/etc/apache2</code>
+  tree, you can make the enable-symlink yourself without sudo instead:</p>
+<div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span>../sites-available/mysite.conf<span class="w"> </span>/etc/apache2/sites-enabled/mysite.conf
+</code></pre></div>
+<p>Validate before reloading — the config tree is world-readable, so the
+syntax check needs <strong>no sudo</strong>:</p>
+<div class="highlight"><pre><span></span><code>apachectl<span class="w"> </span>configtest<span class="w">          </span><span class="c1"># EL also accepts: httpd -t</span>
+<span class="w">                              </span><span class="c1"># Ubuntu also accepts: apache2ctl configtest</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>httpd<span class="w">   </span><span class="c1"># or apache2 — graceful</span>
+</code></pre></div>
+<p>If a write to the config tree or the content dir fails: did you log in
+<strong>after</strong> the profile was applied? pam_group membership is granted at
+login. Then <code>getfacl &lt;path&gt;</code> — you should see your team group (config
+tree) or the service group on the directory (content). The general "why
+did my write fail" logic is in <a href="../../../concepts/access-model/">the access model</a>.</p>
+<h2 id="4-tls-ssl-administration">4. TLS / SSL administration<a class="headerlink" href="#4-tls-ssl-administration" title="Permanent link">&para;</a></h2>
+<p>What you can touch: your TLS <strong>config</strong> and the granted <strong>reload</strong> to pick
+up new certificates.</p>
+<ul>
+<li><strong>EL</strong> — TLS lives in <code>/etc/httpd/conf.d/ssl.conf</code> (a <code>mod_ssl</code> drop-in)
+  with <code>SSLCertificateFile</code> / <code>SSLCertificateKeyFile</code>. <code>mod_ssl</code> is a
+  <strong>separate package</strong> and may not be installed — first-time TLS enablement
+  is <code>dnf install mod_ssl</code>, which is an ops change window (it changes the
+  install footprint), per the
+  <a href="../../../concepts/tls-ssl/#escalations-that-are-always-ops">always-ops escalations</a>.</li>
+<li><strong>Ubuntu</strong> — the <code>ssl</code> module ships with the package
+  (<code>/etc/apache2/mods-available/ssl.conf</code>); enable it with <code>sudo a2enmod ssl</code>
+  (or symlink it under your config ACL) and put <code>SSLCertificateFile</code> /
+  <code>SSLCertificateKeyFile</code> in your <code>sites-available</code> vhost.</li>
+</ul>
+<p>What you can't touch: the private-key directory —
+<code>/etc/pki/tls/private</code> (EL) / <code>/etc/ssl/private</code> (Ubuntu) is root-only and
+deliberately in <strong>no</strong> profile. Apache's parent process reads the key <strong>as
+root</strong> at startup/reload before dropping privileges to <code>apache</code>/<code>www-data</code>,
+so neither you nor the service account ever needs key read — this is the
+cleanest case of <a href="../../../concepts/tls-ssl/#per-application-class-exceptions">why key dirs stay out of profiles</a>.</p>
+<blockquote>
+<p>Ubuntu note: the install auto-generated a <strong>self-signed snakeoil</strong> pair
+(<code>/etc/ssl/certs/ssl-cert-snakeoil.pem</code>, <code>/etc/ssl/private/ssl-cert-snakeoil.key</code>,
+<code>root:ssl-cert</code>). It exists only so TLS can start — replace it with a real
+CA-issued certificate before production; that swap is ops (key dir).</p>
+</blockquote>
+<p>Renewal flow: check expiry without privileges
+(<code>openssl x509 -enddate -noout -in /etc/pki/tls/certs/&lt;host&gt;.crt</code>) →
+platform drops the new pair in the key dir → <strong>you</strong> run
+<code>sudo systemctl reload &lt;unit&gt;</code>. The full split is in
+<a href="../../../concepts/tls-ssl/#renewal-the-split-between-ops-and-the-team">TLS under the access model</a>.
+Always ops: <code>mod_ssl</code> install (EL), new ports below 1024, key permission
+changes.</p>
+<h2 id="5-logs-and-log-rotation">5. Logs and log rotation<a class="headerlink" href="#5-logs-and-log-rotation" title="Permanent link">&para;</a></h2>
+<p>Apache writes files to <code>/var/log/httpd/{access_log,error_log}</code> (EL) /
+<code>/var/log/apache2/{access.log,error.log,other_vhosts_access.log}</code> (Ubuntu)
+— read via your ACL, <strong>no sudo</strong> — and startup/exit messages to the journal
+(read via the granted <code>journalctl</code> spellings, verbatim in <code>sudo -l</code>).</p>
+<p>Rotated logs stay readable because the profile set a <strong>default ACL</strong> on the
+log directory — tomorrow's logs and the <code>.gz</code> archives inherit your read
+grant. If a rotated file is ever unreadable, <code>getfacl</code> it and look for
+<code>#effective:---</code> lines — that's the logrotate <code>create</code>-mode mask
+interaction, explained in
+<a href="../../../concepts/logging/#the-mask-gotcha">Logs &amp; rotation</a>.
+<code>/etc/logrotate.d/httpd</code> (EL) / <code>/etc/logrotate.d/apache2</code> (Ubuntu) is
+outside your grant: retention or frequency changes are a request to ops.</p>
+<h2 id="6-storage-what-fills-up-and-what-you-can-do-about-it">6. Storage: what fills up, and what you can do about it<a class="headerlink" href="#6-storage-what-fills-up-and-what-you-can-do-about-it" title="Permanent link">&para;</a></h2>
+<p>Two things grow here: <strong>log files</strong> in <code>/var/log/httpd</code> (Ubuntu:
+<code>/var/log/apache2</code>), where the access log is usually the bulk of it
+<code>[app-knowledge]</code>, and <strong>content</strong> under <code>/var/www/html</code>, which is as large
+as whatever you write there. The journal is capped by default, so it isn't
+what fills the disk.</p>
+<p>You can see all of it without sudo — <code>df -h /var</code> for the filesystem, <code>du -sh</code>
+inside your granted paths. You can't fix any of it: <code>mount</code>, <code>mkfs</code>,
+<code>/etc/fstab</code>, <code>chown</code> on a mount point, and the retention knobs
+(<code>/etc/logrotate.d/httpd</code> — Ubuntu <code>apache2</code> — and journald limits) are ops,
+and each needs a change window. Raise it before you're full, not at 3am.</p>
+<p>Worth knowing so you ask the right question: if ops mounts a volume over a
+path you hold, <strong>your ACLs disappear with no error</strong> — they're on the
+directory now hidden underneath, and ops has to re-apply the profile. That's
+<a href="../../../concepts/storage/#the-trap-a-mount-hides-the-acls-underneath-it">the mount trap</a>,
+not something you broke.</p>
+<h2 id="7-everything-else-youll-eventually-need">7. Everything else you'll eventually need<a class="headerlink" href="#7-everything-else-youll-eventually-need" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Env / tunables</strong>: EL reads <code>/etc/sysconfig/httpd</code> (<code>$OPTIONS</code>); Ubuntu
+  reads <code>/etc/apache2/envvars</code> (<code>APACHE_RUN_USER</code>, <code>APACHE_RUN_GROUP</code>, log
+  dir). Both sit outside your config-tree ACL — changes there are ops.</li>
+<li><strong>Content</strong>: write your site under <code>/var/www/html</code>; new files inherit the
+  service group via the setgid bit, so the running server can read them.</li>
+<li><strong>CGI / suexec (EL)</strong>: <code>/usr/sbin/suexec</code> runs CGI under a target user.
+  It is privileged (see <a href="../ops/">ops §11</a>); enabling suexec-based CGI is an
+  ops conversation, not a config edit.</li>
+<li><strong>Installing modules</strong> (<code>dnf install mod_*</code> / <code>a2enmod</code> of a not-yet-shipped
+  module), package upgrades, new units: change window — ops re-adds you to
+  <code>&lt;hostname&gt;-app_full</code>, you work, you hand over again.</li>
+<li><strong>A command is denied</strong>: read the denial, run <code>sudo -l</code>, and if the need
+  is real, request either the exact command grant or a change window.</li>
+</ul>
+<h2 id="8-per-distro-differences">8. Per-distro differences<a class="headerlink" href="#8-per-distro-differences" title="Permanent link">&para;</a></h2>
+<p>Amazon Linux 2023 (<code>al2023</code>) is the EL shape throughout — same package,
+units, account, and paths as alma9/10.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>alma9</th>
+<th>alma10</th>
+<th>al2023</th>
+<th>ubuntu 24.04</th>
+<th>ubuntu 26.04</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Package / unit</td>
+<td><code>httpd</code> / <code>httpd.service</code></td>
+<td><code>httpd</code> / <code>httpd.service</code></td>
+<td><code>httpd</code> / <code>httpd.service</code></td>
+<td><code>apache2</code> / <code>apache2.service</code></td>
+<td><code>apache2</code> / <code>apache2.service</code> (+ <code>httpd.service</code> compat alias symlink — the grant is spelled <code>apache2</code>, see §2)</td>
+</tr>
+<tr>
+<td>Service account:group</td>
+<td><code>apache:apache</code></td>
+<td><code>apache:apache</code></td>
+<td><code>apache:apache</code></td>
+<td><code>www-data:www-data</code></td>
+<td><code>www-data:www-data</code></td>
+</tr>
+<tr>
+<td>Config root</td>
+<td><code>/etc/httpd</code> (+<code>conf.d</code> drop-ins)</td>
+<td><code>/etc/httpd</code> (+<code>conf.d</code>)</td>
+<td><code>/etc/httpd</code> (+<code>conf.d</code>)</td>
+<td><code>/etc/apache2</code> (<code>sites-available</code> + <code>sites-enabled</code> symlink model)</td>
+<td><code>/etc/apache2</code> (same symlink model)</td>
+</tr>
+<tr>
+<td>Drop-in dir</td>
+<td><code>/etc/httpd/conf.d/*.conf</code></td>
+<td><code>/etc/httpd/conf.d/*.conf</code></td>
+<td><code>/etc/httpd/conf.d/*.conf</code></td>
+<td><code>/etc/apache2/{sites,conf}-available</code> + enable symlink</td>
+<td><code>/etc/apache2/{sites,conf}-available</code> + enable symlink</td>
+</tr>
+<tr>
+<td>Content root</td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
+<td><code>/var/www/html</code></td>
+</tr>
+<tr>
+<td>Log dir</td>
+<td><code>/var/log/httpd</code></td>
+<td><code>/var/log/httpd</code></td>
+<td><code>/var/log/httpd</code></td>
+<td><code>/var/log/apache2</code></td>
+<td><code>/var/log/apache2</code></td>
+</tr>
+<tr>
+<td>Validator</td>
+<td><code>apachectl configtest</code> / <code>httpd -t</code></td>
+<td><code>apachectl configtest</code> / <code>httpd -t</code></td>
+<td><code>apachectl configtest</code> / <code>httpd -t</code></td>
+<td><code>apache2ctl configtest</code></td>
+<td><code>apache2ctl configtest</code></td>
+</tr>
+<tr>
+<td>TLS config</td>
+<td><code>/etc/httpd/conf.d/ssl.conf</code> (needs <code>mod_ssl</code> pkg)</td>
+<td>same</td>
+<td>same</td>
+<td><code>mods-available/ssl.conf</code> (<code>a2enmod ssl</code>) + vhost</td>
+<td>same as 24.04</td>
+</tr>
+<tr>
+<td>TLS paths</td>
+<td><code>/etc/pki/tls/{certs,private}</code></td>
+<td><code>/etc/pki/tls/{certs,private}</code></td>
+<td><code>/etc/pki/tls/{certs,private}</code></td>
+<td><code>/etc/ssl/{certs,private}</code> (<code>ssl-cert</code> group)</td>
+<td><code>/etc/ssl/{certs,private}</code> (<code>ssl-cert</code> group)</td>
+</tr>
+<tr>
+<td>suexec (privileged CGI)</td>
+<td>present (<code>/usr/sbin/suexec</code>)</td>
+<td>present</td>
+<td>present (same file-capability xattr — <a href="../ops/">ops §11</a>)</td>
+<td><strong>N/A on ubuntu 24.04 — <code>apache2-suexec-*</code> not installed by default</strong></td>
+<td><strong>N/A on ubuntu 26.04 — same</strong></td>
+</tr>
+<tr>
+<td>pam_group group</td>
+<td><code>apache</code></td>
+<td><code>apache</code></td>
+<td><code>apache</code></td>
+<td><code>www-data</code> (shared with other Debian web services — see the profile's REVIEW-KEEP)</td>
+<td><code>www-data</code> (same caveat)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-cheat-sheet">9. Cheat sheet<a class="headerlink" href="#9-cheat-sheet" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-l<span class="w">                                   </span><span class="c1"># your exact grants — start here</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>httpd<span class="w">               </span><span class="c1"># health (Ubuntu: apache2)</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-e<span class="w"> </span>-u<span class="w"> </span>httpd<span class="w">               </span><span class="c1"># recent journal (granted spelling)</span>
+vi<span class="w"> </span>/etc/httpd/conf.d/mysite.conf<span class="w">          </span><span class="c1"># config change (ACL); Ubuntu: sites-available</span>
+apachectl<span class="w"> </span>configtest<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>reload<span class="w"> </span>httpd<span class="w">   </span><span class="c1"># validate (no sudo) + graceful reload</span>
+less<span class="w"> </span>/var/log/httpd/error_log<span class="w">             </span><span class="c1"># file logs (ACL, no sudo)</span>
+id<span class="w">                                        </span><span class="c1"># confirm service group (fresh login)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

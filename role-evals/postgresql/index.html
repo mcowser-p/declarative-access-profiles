@@ -1,0 +1,3403 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Evidence-based access profiles for Linux applications — treadmark footprints reviewed into least-privilege grants, with dev and ops documentation.">
+      
+      
+      
+        <link rel="canonical" href="https://mcowser-p.github.io/declarative-access-profiles/role-evals/postgresql/">
+      
+      
+        <link rel="prev" href="../php-fpm/">
+      
+      
+        <link rel="next" href="../mariadb/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>postgresql - Declarative Access Profiles</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ansible-role-evaluation-postgresql-almalinux-910-ubuntu-24042604-amazon-linux-2023" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Declarative Access Profiles" class="md-header__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Declarative Access Profiles
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              postgresql
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Declarative Access Profiles" class="md-nav__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Declarative Access Profiles
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/how-it-fits-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it fits together
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../onboarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onboarding an app
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/footprints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footprints (what treadmark does)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/access-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The access model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/tls-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS / SSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs & rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage & growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Applications
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Applications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/nginx/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/nginx/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    apache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/apache/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/apache/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    haproxy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/haproxy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/haproxy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tomcat
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/tomcat/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/tomcat/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    php-fpm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/php-fpm/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/php-fpm/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgresql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/postgresql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/postgresql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mariadb/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mariadb/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mysql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mysql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mysql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mssql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mssql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/mssql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/redis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/redis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_11" id="__nav_5_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    memcached
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/memcached/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/memcached/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_12" id="__nav_5_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    caddy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/caddy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/caddy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_13" id="__nav_5_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    iis (Windows)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    iis (Windows)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/iis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../apps/iis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — lockdown runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Role evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Method & index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../haproxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tomcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../php-fpm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Method
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-candidates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Candidates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-rubric-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rubric scoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nuances-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nuances found
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verdict-adopt-wrap-family-split-do-not-force-one-role-across-both" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verdict: adopt + wrap (family-split) — do NOT force one role across both
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-implementing-least-privilege-with-this-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Implementing least privilege with this role
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Implementing least privilege with this role">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6a-where-the-role-runs-in-the-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6a. Where the role runs in the lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6b-configuring-the-deployment-for-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6b. Configuring the deployment for least privilege
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6c-applying-the-access-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6c. Applying the access profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6d-who-does-what-after-lockdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6d. Who does what after lockdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-if-nothing-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. If nothing fits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mariadb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mssql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memcached/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../caddy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../windows-plan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Method
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-candidates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Candidates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-rubric-scoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Rubric scoring
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-nuances-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Nuances found
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verdict-adopt-wrap-family-split-do-not-force-one-role-across-both" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verdict: adopt + wrap (family-split) — do NOT force one role across both
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-implementing-least-privilege-with-this-role" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Implementing least privilege with this role
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Implementing least privilege with this role">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6a-where-the-role-runs-in-the-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6a. Where the role runs in the lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6b-configuring-the-deployment-for-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6b. Configuring the deployment for least privilege
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6c-applying-the-access-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6c. Applying the access profile
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6d-who-does-what-after-lockdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6d. Who does what after lockdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-if-nothing-fits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. If nothing fits
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Sources
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ansible-role-evaluation-postgresql-almalinux-910-ubuntu-24042604-amazon-linux-2023">Ansible role evaluation: PostgreSQL (AlmaLinux 9/10, Ubuntu 24.04/26.04, Amazon Linux 2023)<a class="headerlink" href="#ansible-role-evaluation-postgresql-almalinux-910-ubuntu-24042604-amazon-linux-2023" title="Permanent link">&para;</a></h1>
+<h2 id="1-method">1. Method<a class="headerlink" href="#1-method" title="Permanent link">&para;</a></h2>
+<p>The reviewed PostgreSQL profiles and the <a href="../../apps/postgresql/dev/">dev</a> /
+<a href="../../apps/postgresql/ops/">ops</a> doc pair are the requirement rubric; each
+public role is scored (from its actual GitHub source, not its README) on how
+much of it the role delivers, and the gap becomes the spec for our overlay.
+Role findings are dated <strong>2026-08-09</strong> — web-search results decay, so
+re-verify activity and CI before adopting. The requirement side was
+refreshed <strong>2026-08-23</strong> against the five-distro KVM capture (ubuntu-26.04
+= PostgreSQL 18, amazonlinux-2023 = <code>postgresql17-server</code>); the R1/R7/R10
+rows below reflect that matrix without new candidate research.</p>
+<h2 id="2-candidates">2. Candidates<a class="headerlink" href="#2-candidates" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Backing</th>
+<th>Status (as of 2026-08-09)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/linux-system-roles/postgresql">linux-system-roles.postgresql</a></td>
+<td>Red Hat official (ships in <code>rhel-system-roles</code>)</td>
+<td><strong>Active</strong>; v1.8.0 released 2026-08-06. EL-first (<code>tasks/main.yml</code> validates RHEL 8/9/10).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/geerlingguy/ansible-role-postgresql">geerlingguy.postgresql</a></td>
+<td>Community (Jeff Geerling, ~655★)</td>
+<td>Active; molecule CI on <code>ubuntu2404</code>/<code>ubuntu2604</code>/<code>ubuntu2204</code> + Debian 11/12/13. <strong>EL disabled</strong> (<code>rockylinux9</code> commented out in <code>.github/workflows/ci.yml</code>).</td>
+</tr>
+<tr>
+<td><a href="https://github.com/ANXS/postgresql">ANXS.postgresql</a></td>
+<td>Community (long-standing)</td>
+<td>Active; last commit 2026-05-30 (PG17, Debian 13). <code>meta/main.yml</code>: EL 8/9 + Ubuntu focal/jammy/noble + Debian — <strong>no EL10</strong>.</td>
+</tr>
+<tr>
+<td>galaxyproject.postgresql, idealista.postgresql_role, trainline-eu, claranet</td>
+<td>Community</td>
+<td>Niche / single-family / lower activity — not scored in depth.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-rubric-scoring">3. Rubric scoring<a class="headerlink" href="#3-rubric-scoring" title="Permanent link">&para;</a></h2>
+<p>Scored from source (<code>tasks/</code>, <code>templates/</code>, <code>meta/</code>, CI), not the README.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Requirement (from our profiles/docs)</th>
+<th>linux-system-roles</th>
+<th>geerlingguy</th>
+<th>ANXS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Both our families with correct paths/units/accounts — now five distros: alma9/10, ubuntu 24.04/26.04, al2023</td>
+<td>❌ EL/Fedora only — <code>tasks/main.yml</code> gates on RHEL 8/9/10; no Debian family; the gate does not name Amazon Linux, so <strong>al2023 is unverified</strong> despite its alma-identical footprint</td>
+<td>⚠️ Ubuntu-first — 24.04 <strong>and</strong> 26.04 in CI (<code>ubuntu2404</code>/<code>ubuntu2604</code>); EL supported in <code>vars/RedHat.yml</code> but <strong>not CI-tested</strong> (al2023 untested too)</td>
+<td>⚠️ Both families in <code>meta</code> (EL 8/9, Ubuntu <code>noble</code>, Debian) but <strong>EL10 absent</strong>, no 26.04, no al2023</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Install + configure via native pkg/config mechanisms</td>
+<td>✅ pkg + <code>postgresql-setup --initdb</code> + templates</td>
+<td>✅ pkg + templates/lineinfile</td>
+<td>✅ pkg + templates</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Drop-in discipline / deterministic whole-file (FIM note)</td>
+<td>⚠️ <code>postgresql.conf.j2</code> → internal conf + <code>include_if_exists</code> (include-style, deterministic); <code>pg_hba.conf.j2</code> full replace</td>
+<td>❌ <code>postgresql.conf</code> via <strong><code>lineinfile</code> per-option</strong> (in-place edits of the vendor file — worst for FIM); <code>pg_hba.conf.j2</code> full template</td>
+<td>⚠️ <strong>whole-file</strong> <code>postgresql.conf-&lt;ver&gt;.j2</code> template (deterministic <em>if</em> <code>ansible_managed</code> is timestamp-free)</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>systemd hardening drop-ins</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Env / secret file management</td>
+<td>❌ (superuser password set via <code>psql</code>, <code>no_log</code> — SQL, not a file)</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>R6</td>
+<td><strong>Access model</strong> (scoped sudoers, pam_group, ACLs)</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>Verification / idempotence (molecule? which platforms?)</td>
+<td>✅ Red Hat CI (EL/Fedora) — <strong>verify our EL9/EL10</strong>; no Debian; <strong>al2023 in nobody's CI</strong> — a KVM verify run on our own al2023 image is the only assurance path</td>
+<td>⚠️ molecule green on <code>ubuntu2404</code> <strong>and</strong> <code>ubuntu2604</code> (both our Ubuntu cells); <strong>EL path unverified</strong> (disabled)</td>
+<td>⚠️ has test harness; verify <code>noble</code> + idempotence this pass; no 26.04/al2023 coverage</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>TLS wiring</td>
+<td>✅ <code>postgresql_ssl_enable</code> + <code>postgresql_cert_name</code> + <code>postgresql_certificates</code> (via <code>certificate.yml</code> → <code>fedora.linux_system_roles.certificate</code>)</td>
+<td>❌ no ssl defaults</td>
+<td>❌ <code>configure.yml</code> manages no cert files</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>logrotate policy management</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>R10</td>
+<td>Maintenance &amp; platform assurance for OUR versions (alma9/10, ubuntu 24.04/26.04, al2023)</td>
+<td>✅ EL9/EL10 first-class (Red Hat, v1.8.0 2026-08-06); ❌ Ubuntu; ⚠️ al2023 outside the declared platform set — assure it ourselves or don't adopt there</td>
+<td>✅ Ubuntu 24.04 + 26.04 (both in CI as of 2026-08-09); ⚠️ EL/al2023 not assured</td>
+<td>⚠️ active (PG17 landed 2026-05-30); EL 8/9 + <code>noble</code> only — <strong>EL10, 26.04 and al2023 gaps</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The standing finding holds: <strong>R4, R5, R6 and R9 fail for every candidate.</strong>
+R6 (the access model) is not a PostgreSQL gap — no public role manages scoped
+sudoers, pam_group, or ACLs for any service. That is exactly the gap this
+library fills.</p>
+<h2 id="4-nuances-found">4. Nuances found<a class="headerlink" href="#4-nuances-found" title="Permanent link">&para;</a></h2>
+<p><strong>The config-write mechanism splits the field, and it matters under FIM.</strong>
+Three different strategies, three different drift stories:</p>
+<ul>
+<li><strong>geerlingguy edits <code>postgresql.conf</code> in place with <code>lineinfile</code></strong>
+  (<code>tasks/configure.yml</code>, "Configure global settings"). The rendered file is
+  the vendor file with some lines rewritten — non-deterministic against a
+  golden baseline, and the hardest to reason about when a FIM scan flags a
+  change. For a config-managed host this is the weakest option.</li>
+<li><strong>ANXS templates a whole <code>postgresql.conf-&lt;version&gt;.j2</code>.</strong> As with the
+  chrony/timesync whole-file case, this is <em>stronger</em> than hand-edited
+  drop-ins for FIM — the baseline accepts the rendered file and any deviation
+  is a tamper signal — <strong>provided</strong> <code>ansible_managed</code> carries no timestamp
+  (otherwise every run churns the file and trains operators to ignore FIM
+  diffs).</li>
+<li><strong>linux-system-roles writes an internal conf and pulls it in with
+  <code>include_if_exists</code></strong> — effectively a managed include/drop-in that leaves
+  the packaged main file alone. Cleanest of the three, and it lines up with
+  our own drop-in guidance (<code>conf.d</code> on Ubuntu, <code>ALTER SYSTEM</code> on EL).</li>
+</ul>
+<p>All three <strong>notify <code>restart</code>, not <code>reload</code></strong>, on a config change — a brief
+outage on every parameter change, where our profile deliberately grants (and
+<a href="../../apps/postgresql/dev/">our dev guide</a> prefers) the graceful SIGHUP
+<code>reload</code> for anything that doesn't require a restart. A wrap should override
+the handler to <code>reload</code> where the changed parameter allows it.</p>
+<p><strong>LSR writes EL config into the data dir.</strong> LSR's <code>__postgresql_conf_file</code>
+resolves inside <code>/var/lib/pgsql/data</code> on EL — the same <code>0700</code> directory our
+access model keeps closed. That is fine because the role runs during the
+setup window as root (before capture), and it is the concrete reason EL
+config is not team-grantable afterward: the file physically lives inside the
+closed data dir.</p>
+<p><strong>Only LSR wires TLS.</strong> It is also the only role that touches certificates at
+all, via the shared <code>certificate</code> role. Even so it places <code>server.key</code> where
+our model says it belongs — root-owned, inside the data dir (EL) — so key
+rotation stays ops, exactly as <a href="../../apps/postgresql/ops/#9-tls-key-ownership-and-rotation">ops §9</a>
+requires.</p>
+<h2 id="5-verdict-adopt-wrap-family-split-do-not-force-one-role-across-both">5. Verdict: adopt + wrap (family-split) — do NOT force one role across both<a class="headerlink" href="#5-verdict-adopt-wrap-family-split-do-not-force-one-role-across-both" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>EL9 / EL10 → adopt <code>linux-system-roles.postgresql</code> as the config
+   engine.</strong> It is the only enterprise-maintained option, EL10 is
+   first-class (RHEL 8/9/10 validation in <code>tasks/main.yml</code>, v1.8.0 shipped
+   2026-08-06), its include-style config is the cleanest, and it is the only
+   candidate that wires TLS the way ops needs. Pin the version.
+   <strong>al2023 rides this bullet conditionally:</strong> the footprint is
+   alma-identical (unversioned paths, same unit, same uid), but LSR's
+   platform gate does not name Amazon Linux — prove the gate passes (or
+   loosen it in the wrap) on our al2023 image before adopting there;
+   otherwise al2023 falls through to the thin internal task file.</li>
+<li><strong>Ubuntu 24.04 / 26.04 → adopt <code>geerlingguy.postgresql</code></strong> (its molecule
+   CI treats
+   <code>noble</code> — and, as of 2026-08-09, <code>ubuntu2604</code> — as first-class targets)
+   <strong>and override its <code>lineinfile</code>
+   <code>postgresql.conf</code> handling</strong> — drive settings through a <code>conf.d</code> drop-in
+   template instead, so the config tree our profile ACLs (16/main on 24.04,
+   18/main on 26.04) stays deterministic.
+   <code>ANXS.postgresql</code> is the fallback (whole-file template, both families) once
+   its EL10 support lands; a thin internal Debian task file is the last
+   resort, mirroring the chrony pattern. Do <strong>not</strong> adopt LSR here — it does
+   not target the Debian family.</li>
+<li><strong>Build the thin org overlay for the rows every role fails.</strong> R6 (access
+   model) is already delivered by this repo's PostgreSQL profiles +
+   playbook 5. R4 (systemd hardening), R5 (env files) and R9 (logrotate) are
+   the remaining reusable overlay payload — parameterized per service, not
+   PostgreSQL-specific.</li>
+</ol>
+<h2 id="6-implementing-least-privilege-with-this-role">6. Implementing least privilege with this role<a class="headerlink" href="#6-implementing-least-privilege-with-this-role" title="Permanent link">&para;</a></h2>
+<h3 id="6a-where-the-role-runs-in-the-lifecycle">6a. Where the role runs in the lifecycle<a class="headerlink" href="#6a-where-the-role-runs-in-the-lifecycle" title="Permanent link">&para;</a></h3>
+<p>The role runs during the <strong>setup window</strong> (executor in <code>&lt;hostname&gt;-app_full</code>)
+or via platform automation — <strong>always before capture</strong>, so its outputs land
+in the footprint like a manual install and flow through the normal
+capture → review → apply → flip pipeline
+(<a href="../../concepts/lifecycle/">lifecycle</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Role output</th>
+<th>Lands in footprint as</th>
+<th>Profile key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packaged unit(s) — <code>postgresql.service</code>, on Ubuntu the cluster instance (<code>postgresql@16-main</code> / <code>postgresql@18-main</code>)</td>
+<td><code>services.systemd_units[]</code></td>
+<td><code>declarative_access_services</code> (read-only-units — <strong>drop</strong> <code>files_modify</code>)</td>
+</tr>
+<tr>
+<td><code>initdb</code> + started cluster</td>
+<td>data dir <code>0700 postgres:postgres</code></td>
+<td><code>declarative_access_ownership</code> assertion only — <strong>never</strong> granted</td>
+</tr>
+<tr>
+<td>Templated/included config (LSR internal conf; geerlingguy <code>postgresql.conf</code>; ANXS whole-file)</td>
+<td>Ubuntu: the <code>/etc/postgresql/16/main</code> (26.04: <code>18/main</code>) tree; EL: files inside the data dir</td>
+<td>Ubuntu → <code>declarative_access_folders_modify</code> (the cluster config dir); EL → <strong>nothing</strong> (config is inside the closed data dir → SQL/ops)</td>
+</tr>
+<tr>
+<td>TLS cert/key (LSR <code>certificate.yml</code>)</td>
+<td>key <code>0600 root</code> in data dir (EL) / <code>/etc/ssl/private</code> via <code>ssl-cert</code> (Ubuntu)</td>
+<td><strong>no key in any profile</strong>; team gets the granted <code>reload</code></td>
+</tr>
+<tr>
+<td>Config-change handler</td>
+<td>—</td>
+<td>the reload-vs-restart choice: our profile grants both; wrap should prefer <code>reload</code></td>
+</tr>
+<tr>
+<td>logrotate</td>
+<td>none of the roles write it</td>
+<td><code>/var/log/postgresql</code> → <code>declarative_access_folders_read</code> is <strong>our</strong> REVIEW-ADD (Ubuntu); EL is journal-only</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Wrap notes.</strong></p>
+<ul>
+<li><strong>Pin the role version.</strong> A version bump changes the rendered config /
+  unit set → the footprint changes → re-capture and re-review. Treat the
+  pinned role like any other input to the baseline.</li>
+<li><strong>Neutralize the handler where it fights us.</strong> Override <code>restart</code> →
+  <code>reload</code> for SIGHUP-safe parameters so routine tuning stays zero-downtime,
+  matching the granted verb the team actually uses.</li>
+<li><strong>Re-running the role post-lockdown is a platform act.</strong> LSR/geerlingguy
+  rewrite <code>postgresql.conf</code>/<code>pg_hba.conf</code>; on Ubuntu that <strong>sheds the file
+  ACL</strong> on the replaced file. The directory's default ACL re-covers <em>new</em>
+  files, but re-run playbook 5 after any role run and <code>getfacl</code> to confirm
+  (idempotent) — see <a href="../../apps/postgresql/ops/#8-drift-and-patching">ops §8</a>.</li>
+</ul>
+<h3 id="6b-configuring-the-deployment-for-least-privilege">6b. Configuring the deployment for least privilege<a class="headerlink" href="#6b-configuring-the-deployment-for-least-privilege" title="Permanent link">&para;</a></h3>
+<p>What to set (and refuse to set) in the role so the install stays compatible
+with the access model — scored from the same 2026-08-09 source reading as §3:</p>
+<ul>
+<li><strong>Keep config at vendor ownership; no role-written sudoers.</strong> None of the
+  three chowns config off its packaged state or writes sudoers today — LSR
+  writes EL config inside the data dir as root, geerlingguy/ANXS leave
+  Debian's tree at its packaged <code>postgres:postgres</code> — and that is exactly
+  what our profiles' <code>ownership</code> entries assert. If a future version adds
+  either behavior, disable it: the access model is this library's layer,
+  applied by playbook 5, never the install role's.</li>
+<li><strong>Run as the packaged service account.</strong> The EL unit carries
+  <code>User=postgres</code>; Debian starts root and drops via <code>pg_ctlcluster</code>. Leave
+  any service-account/ownership var at its packaged <code>postgres</code> default —
+  a cluster running as a login user would put a human identity behind the
+  0700 data dir and outside every grant this profile scopes.</li>
+<li><strong>Port posture: stay above 1024.</strong> The packaged listener is 5432 — no
+  capability work, no privileged bind. Keep the port at its default through
+  the role's config mechanism (R3); a sub-1024 listener is an ops change
+  window plus capability engineering that no candidate expresses.</li>
+<li><strong>Log to the packaged sink so the log grants hold.</strong> Leave
+  <code>log_destination</code>/<code>log_directory</code> unset: EL logs to stderr → journald
+  (covered by the scoped <code>journalctl</code> grants), Ubuntu to
+  <code>/var/log/postgresql</code> (covered by the read ACL). A role-templated
+  <code>log_directory</code> anywhere else silently orphans the Ubuntu ACL — and on EL
+  a hand-enabled collector writes into the closed data dir
+  (<a href="../../apps/postgresql/ops/#10-logs">ops §10</a>).</li>
+<li><strong>Secrets stay out of files.</strong> Set the superuser password through the
+  role's SQL path where offered (LSR does it via <code>psql</code> with <code>no_log</code>) — the
+  catalog, not an env file. File-based env/secret management is <strong>not
+  expressible with any candidate</strong> (R5 ❌ across the field); anything
+  file-shaped waits for the org overlay, never a world-readable var file.</li>
+<li><strong>TLS through LSR's vars only.</strong> <code>postgresql_ssl_enable</code> +
+  <code>postgresql_certificates</code> place the key <code>0600 root</code> in the locations
+  <a href="../../apps/postgresql/ops/#9-tls-key-ownership-and-rotation">ops §9</a>
+  requires. geerlingguy/ANXS manage no cert files (R8 ❌ — not expressible):
+  there, ops places key material and the team points config at it via
+  <code>conf.d</code>/<code>ALTER SYSTEM</code> and runs the granted <code>reload</code>.</li>
+</ul>
+<h3 id="6c-applying-the-access-profile">6c. Applying the access profile<a class="headerlink" href="#6c-applying-the-access-profile" title="Permanent link">&para;</a></h3>
+<p>Once the role has deployed and the capture → review pass is done, lockdown
+is one playbook run per host, then verify and flip — the full runbook is
+<a href="../../apps/postgresql/ops/#4-apply">ops §4–§6</a>:</p>
+<div class="highlight"><pre><span></span><code>ansible-playbook<span class="w"> </span>-i<span class="w"> </span>inventory<span class="w"> </span>playbooks/5_apply_access_profile.yml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span>@profiles/postgresql/&lt;distro&gt;-access.yml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-e<span class="w"> </span><span class="s2">"group_name=&lt;hostname&gt;-app_restricted"</span>
+</code></pre></div>
+<p>All five distro profiles exist and are reviewed
+(<code>profiles/postgresql/{almalinux-9,almalinux-10,ubuntu-24.04,ubuntu-26.04,amazonlinux-2023}-access.yml</code>);
+run the <a href="../../apps/postgresql/ops/#5-verify">ops §5</a> probes, then flip the
+team out of <code>&lt;hostname&gt;-app_full</code>.</p>
+<h3 id="6d-who-does-what-after-lockdown">6d. Who does what after lockdown<a class="headerlink" href="#6d-who-does-what-after-lockdown" title="Permanent link">&para;</a></h3>
+<p><strong>The application team</strong> operates from the
+<a href="../../apps/postgresql/dev/">dev guide</a> — "your life after lockdown": the
+granted <code>systemctl</code> verbs (umbrella + cluster unit on Ubuntu), the verbatim
+<code>journalctl</code> spellings, config editing via the <code>conf.d</code> ACL on Ubuntu and
+<code>ALTER SYSTEM</code> on EL, and the log-read paths, with the denied-command
+playbook when something isn't granted.</p>
+<p><strong>The operations team</strong> works from the
+<a href="../../apps/postgresql/ops/">ops runbook</a> — the footprint evidence (§1), the
+raw→reviewed decisions (§2), apply/verify/flip/revoke (§4–§7), drift and
+patching (§8), TLS key custody (§9), risk triage (§11), and the data-volume
+mechanics (§12–§13).</p>
+<h2 id="7-if-nothing-fits">7. If nothing fits<a class="headerlink" href="#7-if-nothing-fits" title="Permanent link">&para;</a></h2>
+<p>Not the case here — LSR (EL9/10) + geerlingguy/ANXS (Ubuntu 24.04/26.04)
+cover install and
+config; al2023 is the one cell that may fall through (LSR's platform gate,
+§5.1) — its fallback is a thin internal task file over the alma-identical
+footprint, not a new role. The only unfilled rows are the cross-service
+overlay concerns (R4
+hardening, R5 env files, R9 logrotate) plus R6, which this repo already
+delivers. A dedicated <code>org.postgresql</code> install role is <strong>not scheduled</strong>: the
+reusable <code>org.service_baseline</code>-style overlay (the same one the chrony eval
+specs) carries R4/R5/R6/R9 fleet-wide, parameterized per service, with this
+app's reviewed profiles as its access-model input.</p>
+<h2 id="8-sources">8. Sources<a class="headerlink" href="#8-sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li>https://github.com/linux-system-roles/postgresql — <code>README.md</code>,
+  <code>tasks/main.yml</code>, <code>meta/main.yml</code>, releases (v1.8.0, 2026-08-06). Fetched
+  2026-08-09.</li>
+<li>https://github.com/geerlingguy/ansible-role-postgresql — <code>meta/main.yml</code>,
+  <code>tasks/main.yml</code>, <code>tasks/configure.yml</code>, <code>defaults/main.yml</code>,
+  <code>.github/workflows/ci.yml</code> (655★). Fetched 2026-08-09.</li>
+<li>https://github.com/ANXS/postgresql — <code>meta/main.yml</code>, <code>tasks/configure.yml</code>,
+  <code>commits/master</code> (last commit 2026-05-30). Fetched 2026-08-09.</li>
+<li>Requirement source: <code>profiles/postgresql/*-access.yml</code>,
+  <code>docs/apps/postgresql/{dev,ops}.md</code> in this repo.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

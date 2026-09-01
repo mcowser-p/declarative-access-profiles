@@ -1,0 +1,3603 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Evidence-based access profiles for Linux applications — treadmark footprints reviewed into least-privilege grants, with dev and ops documentation.">
+      
+      
+      
+        <link rel="canonical" href="https://mcowser-p.github.io/declarative-access-profiles/windows-plan/">
+      
+      
+        <link rel="prev" href="../role-evals/caddy/">
+      
+      
+        <link rel="next" href="../conventions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Windows plan - Declarative Access Profiles</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#windows-server-2025-pre-work-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Declarative Access Profiles" class="md-header__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Declarative Access Profiles
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Windows plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Declarative Access Profiles" class="md-nav__button md-logo" aria-label="Declarative Access Profiles" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Declarative Access Profiles
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mcowser-p/declarative-access-profiles" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../blog/how-it-fits-together/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it fits together
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Operations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../onboarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Onboarding an app
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/footprints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Footprints (what treadmark does)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/access-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The access model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/lifecycle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment lifecycle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/tls-ssl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS / SSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/logging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logs & rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage & growth
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Applications
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Applications
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_1" id="__nav_5_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    nginx
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/nginx/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/nginx/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    apache
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/apache/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/apache/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apache HTTP Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    haproxy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/haproxy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/haproxy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HAProxy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    tomcat
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/tomcat/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/tomcat/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tomcat — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    php-fpm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/php-fpm/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/php-fpm/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    postgresql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/postgresql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/postgresql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PostgreSQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mariadb
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mariadb/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mariadb/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MariaDB — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mysql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mysql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mysql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MySQL — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    mssql
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mssql/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/mssql/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Microsoft SQL Server — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    redis
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/redis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/redis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_11" id="__nav_5_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    memcached
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/memcached/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/memcached/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_12" id="__nav_5_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    caddy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/caddy/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/caddy/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy — lockdown runbook (ops)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_13" id="__nav_5_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    iis (Windows)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    iis (Windows)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/iis/dev/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — your life after lockdown
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/iis/ops/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IIS — lockdown runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Role evaluations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Role evaluations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Method & index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/nginx/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    nginx
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/apache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    apache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/haproxy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    haproxy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/tomcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tomcat
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/php-fpm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    php-fpm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/postgresql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    postgresql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/mariadb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mariadb
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/mysql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mysql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/mssql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    mssql
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/redis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    redis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/memcached/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    memcached
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../role-evals/caddy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    caddy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows plan
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-where-capture-stands-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Where capture stands today
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-enforcement-gap-map-linux-primitive-windows-analog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The enforcement gap map (Linux primitive → Windows analog)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2a-iis-worked-design-the-vendor-native-stack-single-tenant-2026-08-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2a. IIS worked design — the vendor-native stack, single-tenant (2026-08-23)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2a. IIS worked design — the vendor-native stack, single-tenant (2026-08-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-microsoft-ships-for-exactly-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Microsoft ships for exactly this
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-honest-gap-list-what-the-vendor-path-does-not-delegate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The honest gap list (what the vendor path does NOT delegate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssl-filesystem-the-two-stated-team-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSL, filesystem — the two stated team needs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stub-set-to-implement-extends-the-2-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stub set to implement (extends the §2 list)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-a-windows-access-vars-would-emit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What a Windows --access-vars would emit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-winget-corpus-loop-tested-and-ruled-out-2026-08-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-was-tried" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What was tried
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The finding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scope-of-this-finding-what-was-not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope of this finding — what was NOT tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-system-route-was-then-tested-and-found-the-real-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The SYSTEM route was then tested — and found the real problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-use-instead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to use instead
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-original-loop-for-whichever-channel-replaces-winget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The original loop, for whichever channel replaces winget
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verification-story" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verification story
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-phased-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Phased plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-where-capture-stands-today" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Where capture stands today
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-the-enforcement-gap-map-linux-primitive-windows-analog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. The enforcement gap map (Linux primitive → Windows analog)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2a-iis-worked-design-the-vendor-native-stack-single-tenant-2026-08-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2a. IIS worked design — the vendor-native stack, single-tenant (2026-08-23)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2a. IIS worked design — the vendor-native stack, single-tenant (2026-08-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-microsoft-ships-for-exactly-this" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Microsoft ships for exactly this
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-honest-gap-list-what-the-vendor-path-does-not-delegate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The honest gap list (what the vendor path does NOT delegate)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssl-filesystem-the-two-stated-team-needs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SSL, filesystem — the two stated team needs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stub-set-to-implement-extends-the-2-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stub set to implement (extends the §2 list)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-what-a-windows-access-vars-would-emit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. What a Windows --access-vars would emit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-the-winget-corpus-loop-tested-and-ruled-out-2026-08-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-was-tried" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What was tried
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-finding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The finding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scope-of-this-finding-what-was-not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scope of this finding — what was NOT tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-system-route-was-then-tested-and-found-the-real-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The SYSTEM route was then tested — and found the real problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-to-use-instead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What to use instead
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-original-loop-for-whichever-channel-replaces-winget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The original loop, for whichever channel replaces winget
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-verification-story" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Verification story
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Open questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-phased-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Phased plan
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="windows-server-2025-pre-work-plan">Windows Server 2025 — pre-work plan<a class="headerlink" href="#windows-server-2025-pre-work-plan" title="Permanent link">&para;</a></h1>
+<p><strong>Planning only.</strong> No Windows captures or enforcement code ship in this
+repo yet. This page maps what already works, what's missing, and a phased
+path to bring winget-installed Windows Server apps into the same
+evidence-based access model the Linux side uses.</p>
+<h2 id="1-where-capture-stands-today">1. Where capture stands today<a class="headerlink" href="#1-where-capture-stands-today" title="Permanent link">&para;</a></h2>
+<p>treadmark already produces a <code>1.0-windows</code> footprint — a file <strong>and registry</strong>
+diff against a clean baseline. Its CI smoke test exercises this on a Windows
+runner (IIS via the Windows Feature channel, Datadog via winget/MSI), but
+<strong>those footprints are 1–7 day workflow artifacts, deliberately not release
+assets — no Windows footprint is committed anywhere in the corpus.</strong> It
+captures:</p>
+<ul>
+<li><strong>Windows services</strong> reconstructed from <code>HKLM\System\CurrentControlSet\Services</code>
+  (image path, start type, <code>run_as</code> identity, dependencies), with
+  OS-background-churn services filtered out.</li>
+<li><strong>Scheduled tasks</strong> (principal, run level, triggers, command).</li>
+<li><strong>Files</strong> with owner and DACL ACE strings (files only — directory DACLs
+  are recorded as <code>null</code>), classified (<code>iis</code>, <code>service_binary</code>,
+  <code>program_files</code>, <code>programdata</code>, <code>system32</code>, <code>driver</code>, <code>scheduled_task</code>,
+  <code>startup</code>, …).</li>
+<li><strong><code>access_hints[]</code></strong> per principal (the paths a service/task plausibly
+  needs, with provenance) and <strong><code>risks[]</code></strong> (<code>kernel_driver_installed</code>,
+  <code>service_image_nonstandard_path</code>, <code>service_custom_account</code>,
+  <code>autostart_service_as_system</code>, <code>scheduled_task_elevated</code>,
+  <code>world_writable_file</code>).</li>
+</ul>
+<p>Two structural limits are baked in and must be stated in any Windows doc:</p>
+<ul>
+<li><strong>SAM opacity.</strong> Windows accounts live in the SAM, not a readable file, so
+  treadmark <em>references</em> identities (a service's <code>run_as</code>, a file's owner) but
+  <strong>never enumerates the local accounts/groups an installer created</strong>.
+  "The install created account X" is always <code>[needs-runtime-confirmation]</code>
+  on Windows.</li>
+<li><strong>Feature-channel invisibility.</strong> <code>Install-WindowsFeature</code> payload is
+  pre-staged in the component store, so a Feature install can produce almost
+  no diff (IIS's services are already present on the image). <strong>winget/MSI is
+  the channel with real footprint visibility</strong> — pick winget-native
+  candidates.</li>
+</ul>
+<h2 id="2-the-enforcement-gap-map-linux-primitive-windows-analog">2. The enforcement gap map (Linux primitive → Windows analog)<a class="headerlink" href="#2-the-enforcement-gap-map-linux-primitive-windows-analog" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Linux primitive</th>
+<th>Windows analog</th>
+<th>Maturity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>scoped sudoers <code>systemctl</code> grants</td>
+<td><code>sc.exe sdset</code> — per-service SDDL granting start/stop/query to a group SID (single-tenant scope); JEA proxy functions for per-command / per-site scoping — both in-box</td>
+<td>primitive exists; no generator</td>
+</tr>
+<tr>
+<td>POSIX ACL + default ACL</td>
+<td><code>icacls</code> grants with <code>(OI)(CI)</code> inheritance (cleaner than POSIX default ACLs)</td>
+<td>fine; DACLs <strong>replace</strong>, so review needs before/after <code>icacls</code></td>
+</tr>
+<tr>
+<td>pam_group at login</td>
+<td>GPO Restricted Groups / <code>Add-LocalGroupMember</code> — token built at logon, so "flip requires logoff" holds, but membership is <strong>standing</strong>, not session-scoped</td>
+<td>no session-scoped equivalent</td>
+</tr>
+<tr>
+<td><code>journalctl -u</code> per unit</td>
+<td>Event Log Readers builtin group, or per-channel ACL (<code>wevtutil sl /ca:</code>)</td>
+<td>per-channel scoping is coarse</td>
+</tr>
+<tr>
+<td><code>loginctl</code> linger</td>
+<td>— (services are machine-scoped)</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>ownership entries</td>
+<td><code>icacls /setowner</code> + explicit DACL</td>
+<td>fine</td>
+</tr>
+<tr>
+<td>service-account hygiene</td>
+<td><code>SeServiceLogonRight</code> + deny-interactive via a <code>secedit</code> INF; prefer virtual accounts (<code>NT SERVICE\&lt;svc&gt;</code>) or gMSA over custom accounts</td>
+<td>INF stub pattern designed</td>
+</tr>
+<tr>
+<td>MAC (SELinux/AppArmor)</td>
+<td>AppLocker / WDAC, AuditOnly first; <strong>regenerate rule hashes on-host</strong> (AppLocker uses Authenticode PE hashes, not flat-file sha256)</td>
+<td>skeleton designed</td>
+</tr>
+</tbody>
+</table>
+<p>The de-facto stub set already sketched in treadmark's runbook corpus:
+<code>icacls-&lt;app&gt;.ps1</code>, <code>service-account-&lt;app&gt;.ps1</code>, <code>logon-rights-&lt;app&gt;.inf</code>,
+<code>restricted-sid-&lt;app&gt;.ps1</code>, <code>local-groups-&lt;app&gt;.ps1</code>, <code>firewall-&lt;app&gt;.ps1</code>,
+<code>applocker-&lt;app&gt;.xml</code>. None are generated by code today — they are
+hand-authored artifacts.</p>
+<h2 id="2a-iis-worked-design-the-vendor-native-stack-single-tenant-2026-08-23">2a. IIS worked design — the vendor-native stack, single-tenant (2026-08-23)<a class="headerlink" href="#2a-iis-worked-design-the-vendor-native-stack-single-tenant-2026-08-23" title="Permanent link">&para;</a></h2>
+<p>Scope: one team per host (our current support boundary), Server 2022/2025
+(the delegation surface is unchanged between them). The rule is the same
+as the Linux role-evals: <strong>use what the vendor ships, document what it
+covers, and let our profile layer fill only the recorded gaps.</strong></p>
+<h3 id="what-microsoft-ships-for-exactly-this">What Microsoft ships for exactly this<a class="headerlink" href="#what-microsoft-ships-for-exactly-this" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism (all in-box)</th>
+<th>What it delegates</th>
+<th>Where it's configured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>WMSVC</strong> (<code>Web-Mgmt-Service</code> feature) + <strong>IIS Manager Permissions</strong></td>
+<td>Remote IIS Manager for non-admins: connect to <em>their</em> site over HTTPS :8172 with AD credentials; they see only delegated features</td>
+<td><code>administration.config</code> (grants via the <code>ManagementAuthorization</code> API), WMSVC registry enable + service</td>
+</tr>
+<tr>
+<td><strong>Feature Delegation</strong></td>
+<td>Which <code>system.webServer</code> sections the site connection may Read / Read-Write (auth, default docs, compression, SSL <em>settings</em> flags, …)</td>
+<td>section locks in <code>applicationHost.config</code></td>
+</tr>
+<tr>
+<td><strong>Site start/stop</strong> via the delegated site connection</td>
+<td>The team's own site object</td>
+<td>comes with the site connection</td>
+</tr>
+<tr>
+<td><strong>NTFS + per-pool virtual accounts</strong> (<code>IIS AppPool\&lt;pool&gt;</code>, the default identity since IIS 7.5)</td>
+<td>Content ACLs per class: team Modify on content, pool identity Read (+ Write only on App_Data-class paths)</td>
+<td><code>icacls</code> <code>(OI)(CI)</code></td>
+</tr>
+<tr>
+<td><strong>Certificate private-key ACLs</strong> ("Manage Private Keys")</td>
+<td>Read on <em>their</em> cert's key in <code>LocalMachine\My</code>, imported non-exportable</td>
+<td>CNG key DACL</td>
+</tr>
+<tr>
+<td><strong>Centralized Certificate Store</strong> (<code>Web-CertProvider</code>)</td>
+<td>File-based cert management: certs are <code>&lt;hostname&gt;.pfx</code> in a directory IIS loads by SNI convention — cert rotation becomes a <em>file</em> operation on a path we can ACL</td>
+<td><code>Enable-WebCentralCertProvider</code></td>
+</tr>
+<tr>
+<td><strong>AD CS autoenrollment</strong></td>
+<td>Platform-owned issuance/renewal (the <code>acme_please</code> analog)</td>
+<td>GPO</td>
+</tr>
+<tr>
+<td><strong>Event Log Readers</strong> / per-channel <code>wevtutil /ca:</code></td>
+<td>The <code>journalctl</code> analog, incl. CAPI2 for TLS diagnostics</td>
+<td>builtin group</td>
+</tr>
+<tr>
+<td><strong>JEA</strong> (in-box PowerShell)</td>
+<td>Exact-command proxy functions under a virtual account for whatever the rows above cannot express</td>
+<td>role-capability + session registration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-honest-gap-list-what-the-vendor-path-does-not-delegate">The honest gap list (what the vendor path does NOT delegate)<a class="headerlink" href="#the-honest-gap-list-what-the-vendor-path-does-not-delegate" title="Permanent link">&para;</a></h3>
+<p>The R6 finding repeats on Windows: the product delegates <em>feature
+configuration</em>, not <em>operational control</em>. A delegated site connection
+cannot:</p>
+<ul>
+<li><strong>recycle its application pool</strong> (Application Pools is server-scope —
+  and pool recycle is the single most common day-2 op);</li>
+<li><strong>edit bindings or bind a certificate</strong> (bindings + <code>http.sys</code> SSL
+  binds are server-scope);</li>
+<li>restart <code>W3SVC</code>/<code>WAS</code>, or <code>iisreset</code>.</li>
+</ul>
+<p>Single-tenant fills, in order of preference: <code>sc.exe sdset</code> on
+<code>W3SVC</code>+<code>WAS</code> granting start/stop/query to <code>&lt;hostname&gt;-app_restricted</code>
+(whole-service control is <em>correct</em> when the host is one team's — this is
+the sudoers-verbs row); a small JEA endpoint for the two operations SDDL
+cannot express (<code>Restart-AppPool</code>, <code>Bind-SiteCert</code> with the team's
+site/pool/thumbprint as <code>ValidateSet</code>). Multi-tenant later = drop the
+SDDL row, widen the JEA file. Never granted, any tenancy:
+<code>applicationHost.config</code> and <code>inetsrv\config</code> (write there is
+root-equivalent for every site on the host), key export, store-wide cert
+rights.</p>
+<h3 id="ssl-filesystem-the-two-stated-team-needs">SSL, filesystem — the two stated team needs<a class="headerlink" href="#ssl-filesystem-the-two-stated-team-needs" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>SSL</strong>: non-exportable cert in <code>LocalMachine\My</code>; team group gets
+  private-key Read + the JEA <code>Bind-SiteCert</code>; renewal is
+  autoenrollment/ACME dropping the renewed cert, team rebinds; CAPI2
+  read for diagnostics. Where the team fully owns cert files, CCS
+  converts rotation into a file drop on an ACL'd path instead.</li>
+<li><strong>Files</strong>: content root team-Modify, pool identity Read +
+  App_Data-Write, <strong>deny pool-identity Write on <code>web.config</code></strong> (the
+  config→ACL doctrine: the service cannot rewrite its own config —
+  doubling as web-shell persistence defense), per-site log dir Read.</li>
+</ul>
+<h3 id="stub-set-to-implement-extends-the-2-list">Stub set to implement (extends the §2 list)<a class="headerlink" href="#stub-set-to-implement-extends-the-2-list" title="Permanent link">&para;</a></h3>
+<p><code>wmsvc-&lt;app&gt;.ps1</code> (feature install, registry enable, service,
+<code>ManagementAuthorization::Grant</code> for the AD group), <code>delegation-&lt;app&gt;.ps1</code>
+(section locks), <code>sdset-&lt;app&gt;.ps1</code> (with <code>sc.exe sdshow</code> snapshot first —
+the rollback), <code>jea-&lt;app&gt;.psrc/.pssc</code> (the two proxy functions),
+<code>certkey-&lt;app&gt;.ps1</code> (key ACL + non-exportable import), plus the existing
+<code>icacls-&lt;app&gt;.ps1</code> / <code>local-groups-&lt;app&gt;.ps1</code> / <code>firewall-&lt;app&gt;.ps1</code>.
+Verify probes (the <code>_verify-remote.sh</code> analog over PS-Remoting): team can
+start/stop site + recycle pool + rebind cert + write content; team cannot
+write <code>applicationHost.config</code>/<code>web.config</code>-as-pool, cannot export the
+key, cannot touch a foreign service. The verification vehicle question in
+§6 is answered since the KVM tier landed: <code>tofu/modules/windows-vm</code> +
+the smoke-test-windows pattern.</p>
+<p>The flip stays: remove from <code>app_full</code> + force logoff + <code>klist purge</code>
+(tokens are logon-time).</p>
+<h2 id="3-what-a-windows-access-vars-would-emit">3. What a Windows <code>--access-vars</code> would emit<a class="headerlink" href="#3-what-a-windows-access-vars-would-emit" title="Permanent link">&para;</a></h2>
+<p>A parallel <code>declarative_access_windows_*</code> sketch (a separate module — the
+Linux exporter is POSIX-path-bound and refuses Windows footprints today):</p>
+<ul>
+<li>services → <code>sc.exe sdset</code> SDDL grant list per role group;</li>
+<li>folders → <code>icacls</code> grants (with the replace-semantics warning);</li>
+<li>AD group → local-group placements (GPO Restricted Groups);</li>
+<li>service accounts → <code>SeServiceLogonRight</code> INF + deny-interactive;</li>
+<li>AppLocker skeleton (AuditOnly) flag.</li>
+<li>Not applicable: <code>linger</code>, <code>quadlets</code>.</li>
+</ul>
+<p>Apply vehicle is an open question: <code>ansible.windows</code> (<code>win_acl</code>, <code>win_group</code>,
+<code>win_service</code>) vs DSC vs raw PowerShell stubs. Recommend a
+<code>declarative_access_windows</code> role in the collection as the target, with the
+PowerShell stubs as the bridge.</p>
+<h2 id="4-the-winget-corpus-loop-tested-and-ruled-out-2026-08-23">4. The winget corpus loop — TESTED AND RULED OUT (2026-08-23)<a class="headerlink" href="#4-the-winget-corpus-loop-tested-and-ruled-out-2026-08-23" title="Permanent link">&para;</a></h2>
+<p>The loop below was the plan. It does not work on our substrate, and the
+reason is structural rather than fixable by configuration. <strong>winget cannot
+be used to build the corpus over SSH.</strong> Evidence:
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2025/winget-recon.json"><code>evidence/windows-2025/winget-recon.json</code></a>
+and
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2022-desktop/winget-recon.json"><code>evidence/windows-2022-desktop/winget-recon.json</code></a>,
+produced by <code>scripts/winget-recon.sh</code>.</p>
+<h3 id="what-was-tried">What was tried<a class="headerlink" href="#what-was-tried" title="Permanent link">&para;</a></h3>
+<p>The probe (<code>scripts/winget-recon.ps1</code>) walks four escalating paths to reach
+winget: PATH lookup → per-user Appx registration → register the staged or
+provisioned package → bootstrap via <code>Microsoft.WinGet.Client</code> +
+<code>Repair-WinGetPackageManager</code>. It ran on <strong>Server 2025 Core</strong> and, after
+that failed, on <strong>Server 2022 Desktop Experience</strong>.</p>
+<h3 id="the-finding">The finding<a class="headerlink" href="#the-finding" title="Permanent link">&para;</a></h3>
+<p><strong>MSIX deployment requires an interactive session.</strong> The last bootstrap
+path fails with:</p>
+<div class="highlight"><pre><span></span><code>0x80073D19  An error occurred because a user was logged off.
+</code></pre></div>
+<p>That is the AppX Deployment Service refusing to deploy in a <strong>network
+logon</strong>, which is what SSH (and WinRM, and therefore Ansible over either)
+gives you. winget ships as an MSIX package (<code>Microsoft.DesktopAppInstaller</code>)
+that must be <em>registered into a user profile</em> before it can launch at all —
+so the failure is not "install denied", it is "<code>winget.exe</code> does not exist
+for this session".</p>
+<p>Three corollaries, each verified rather than assumed:</p>
+<ul>
+<li><strong>It is not a privilege problem.</strong> Keys land in
+  <code>administrators_authorized_keys</code>, so sshd mints a full unfiltered admin
+  token. On the same transport we ran <code>Install-WindowsFeature</code>,
+  <code>sc.exe sdset</code>, <code>Set-Acl</code> on <code>applicationHost.config</code>, and
+  <code>Register-PSSessionConfiguration</code> — all elevated operations, all
+  successful.</li>
+<li><strong>It is not an edition problem.</strong> Desktop Experience has a <em>healthy</em> Appx
+  stack where Core does not (<code>appx_module</code> and <code>dism_module</code> both present,
+  <code>C:\Program Files\WindowsApps</code> enumerable — on Core that directory is
+  ACL'd to TrustedInstaller and the DISM-backed <code>Get-AppxProvisionedPackage</code>
+  throws a COMException). Desktop still fails, because the blocker is the
+  session type. <strong>There is therefore no reason to leave Server Core</strong>, which
+  is what the fleet runs.</li>
+<li><strong>Ansible does not change this.</strong> Ansible connects over the same SSH
+  network logon and shells out to the same PowerShell; there is no winget
+  module in <code>ansible.windows</code>, so driving it would mean <code>win_shell</code> calling
+  an executable that is not present. Ansible would fail identically.</li>
+</ul>
+<p>Also observed: the 2022 images carry <strong>no provisioned App Installer at
+all</strong> (<code>provisioned</code>, <code>registered_current_user</code> and <code>registered_all_users</code>
+were all empty), consistent with <code>packer/common/windows/install-winget.ps1</code>
+skipping silently when <code>build/cache/winget/</code> is unpopulated.</p>
+<h3 id="scope-of-this-finding-what-was-not-tested">Scope of this finding — what was NOT tested<a class="headerlink" href="#scope-of-this-finding-what-was-not-tested" title="Permanent link">&para;</a></h3>
+<p>The result above is specific and should not be over-read. <strong>Tested and
+failed:</strong> deploying/registering MSIX from an SSH session, and reaching
+winget as Administrator over SSH on both editions. <strong>Not tested:</strong> invoking
+an <em>already provisioned</em> <code>winget.exe</code> by absolute path from a <strong>SYSTEM
+scheduled task</strong>.</p>
+<p>That distinction matters, because the SYSTEM route is the mainstream way
+winget is automated (Intune Win32 apps, ConfigMgr, PDQ all do it) and two
+of the specific blockers we hit do not apply to it:</p>
+<ul>
+<li>SYSTEM can read <code>C:\Program Files\WindowsApps</code>, where our elevated
+  Administrator session got access-denied;</li>
+<li>a scheduled task runs outside the SSH session's job object, which is
+  independently necessary for long installs (holy-qcow already uses this
+  pattern in <code>seal.ps1</code> and the firstboot agent);</li>
+<li>provisioning itself <em>is</em> automatable non-interactively —
+  <code>Add-AppxProvisionedPackage -Online</code> is the DISM offline API, and is how
+  the packer build installs App Installer today.</li>
+</ul>
+<p>Known limits of the SYSTEM route even when it works: no user-scope
+packages, the <code>msstore</code> source is unavailable, <code>--accept-source-agreements</code>
+is required, and Microsoft does not formally support it.</p>
+<h3 id="the-system-route-was-then-tested-and-found-the-real-problem">The SYSTEM route was then tested — and found the real problem<a class="headerlink" href="#the-system-route-was-then-tested-and-found-the-real-problem" title="Permanent link">&para;</a></h3>
+<p><code>scripts/winget-escalate.ps1</code> ran both remaining routes on a 2025-core
+clone. Evidence:
+<a href="https://github.com/mcowser-p/declarative-access-profiles/blob/main/evidence/windows-2025/winget-escalation.json"><code>evidence/windows-2025/winget-escalation.json</code></a>.</p>
+<p><strong>The mechanism works. The package is missing.</strong> The SYSTEM scheduled task
+ran exactly as intended and reported:</p>
+<div class="highlight"><pre><span></span><code>identity: nt authority\system
+windowsapps: enumerable but NO DesktopAppInstaller dir
+</code></pre></div>
+<p>Two things follow. First, the approach is sound: SYSTEM <em>can</em> enumerate
+<code>C:\Program Files\WindowsApps</code>, which the elevated SSH session could not —
+so the ACL blocker named above is real and the scheduled task genuinely
+clears it. Second, and decisively, <strong>there is no App Installer payload on
+the deployed clone at all</strong> — not unregistered, absent. The same holds on
+2022 Desktop, where <code>Get-AppxProvisionedPackage</code>, <code>Get-AppxPackage</code> and
+<code>Get-AppxPackage -AllUsers</code> all came back empty.</p>
+<p>So the honest verdict is narrower and more useful than "MSIX can't work
+over SSH": <strong>no holy-qcow Windows image currently delivers a usable winget
+to a deployed clone.</strong> That contradicts <code>install-winget.ps1</code>'s "2025 ships
+it" assumption and the smoke test's provisioned-package assertion, and is
+filed as a holy-qcow issue. Until an image actually carries the package,
+winget cannot be evaluated further on this substrate — and once one does,
+the SYSTEM scheduled task is the route to use, because its only failure
+here was the missing payload.</p>
+<p>(The <code>runas</code> equivalent, <code>Start-Process -Credential</code>, was tested in the
+same run and produced no output — inconclusive, and moot while the package
+is absent. It remains theoretically interesting because
+<code>CreateProcessWithLogonW</code> performs an <em>interactive-type</em> logon rather than
+SSH's network logon; note <code>/noprofile</code> would defeat it, since MSIX
+registration writes into the user profile.)</p>
+<h3 id="what-to-use-instead">What to use instead<a class="headerlink" href="#what-to-use-instead" title="Permanent link">&para;</a></h3>
+<p>The corpus goal is unchanged: capture real installs whose footprints show
+services, files, ACLs and registry keys — the thing the Feature channel
+cannot give us (§1). Any <em>ordinary</em> installer satisfies that; only MSIX is
+blocked. Both alternatives are Ansible-native and Appx-free:</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Module</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct MSI/EXE</td>
+<td><code>ansible.windows.win_package</code></td>
+<td>No package manager at all; closest to how these apps are actually deployed. Each app needs a pinned URL and silent-install flags.</td>
+</tr>
+<tr>
+<td>Chocolatey</td>
+<td><code>chocolatey.chocolatey.win_chocolatey</code></td>
+<td>Plain PowerShell/.NET install, no Appx, works over SSH. Large server catalog (nginx, postgresql, mongodb, redis, rabbitmq, grafana, telegraf, jenkins).</td>
+</tr>
+</tbody>
+</table>
+<p>The candidate list built for this round
+(<code>scripts/winget-candidates.yml</code>, 39 packages across 8 categories with a
+<code>service:</code> hypothesis per entry) is channel-agnostic and carries over
+unchanged — only the resolver changes. <code>scripts/winget-recon.sh</code> and the
+<code>windows-lib.sh</code> harness it uses are likewise reusable; re-point the probe
+at <code>choco search</code> or at URL reachability and the same evidence shape falls
+out.</p>
+<h3 id="the-original-loop-for-whichever-channel-replaces-winget">The original loop, for whichever channel replaces winget<a class="headerlink" href="#the-original-loop-for-whichever-channel-replaces-winget" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>treadmark all init</code> — <strong><code>all</code>, not <code>files</code></strong>: without the registry
+   baseline the model still builds and still exits 1, but with
+   <code>services: []</code> and the reason buried in <code>registry.note</code>.</li>
+<li>install the package silently;</li>
+<li>settle ~20s — services keep registering after the installer returns;</li>
+<li><code>treadmark footprint --app &lt;pkg&gt; --report footprint-&lt;pkg&gt;.json</code>;</li>
+<li>re-baseline <code>--force</code> before the next app.</li>
+</ol>
+<p>Success is <strong>exit code 1 AND the report file exists</strong> — a crashed run also
+exits 1. Note exit 0 means "no <em>file</em> delta", which a registry-only change
+can produce; inspect the report rather than trusting the code. Add cells to
+<code>matrix-windows.yml</code> (not <code>matrix.yml</code> — Windows has its own matrix and
+vars contract, see §2a). Run treadmark from the <strong>MSI-installed
+<code>treadmark.exe</code></strong>: there is no Python on these images, and the frozen
+binary cannot be uninstalled mid-loop by a package under test (a failure
+treadmark hit live with <code>Python.Python</code>).</p>
+<h2 id="5-verification-story">5. Verification story<a class="headerlink" href="#5-verification-story" title="Permanent link">&para;</a></h2>
+<p>There is no Windows analog of the Linux systemd init container or the EC2
+SSH-apply loop yet. Options: a Vagrant/Hyper-V VM, or an EC2 Windows AMI
+with WinRM. Whatever the vehicle, the apply→probe→revoke shape carries over:
+apply the stubs, confirm a restricted group can <code>sc.exe start/stop</code> its
+services and read its dirs but not others, then revoke. SDDL has no
+<code>--tags cleanup</code> analog — capture <code>sc.exe sdshow</code> before <code>sdset</code> for
+rollback, and <code>secedit /export</code> before an INF apply (user-rights assignment
+has <em>replacement</em> semantics).</p>
+<h2 id="6-open-questions">6. Open questions<a class="headerlink" href="#6-open-questions" title="Permanent link">&para;</a></h2>
+<ul>
+<li>SDDL grant idempotency and reversibility (sdshow snapshots as the undo).</li>
+<li>Verification vehicle (Vagrant vs EC2 Windows + WinRM) and cost.</li>
+<li>Remoting choice (WinRM vs SSH) and its interaction with logon-token group
+  refresh at the flip.</li>
+<li>The flip on Windows = remove from the AD/local group + <strong>force logoff</strong>;
+  RDP session termination story.</li>
+<li>Whether registry "config" surfaces belong in profiles at all, or stay
+  <code>sc.exe config</code>-only.</li>
+</ul>
+<h2 id="7-phased-plan">7. Phased plan<a class="headerlink" href="#7-phased-plan" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>P1</strong> — a Windows exporter that emits <strong>review documents only</strong> (no
+  enforcement) from existing footprints; publishable into this repo's
+  <code>docs/apps/&lt;app&gt;/</code> structure.</li>
+<li><strong>P2</strong> — generate <code>icacls</code> + local-group stubs per footprint.</li>
+<li><strong>P3</strong> — <code>sc.exe sdset</code> service grants + a revocation path.</li>
+<li><strong>P4</strong> — a verification vehicle and CI.</li>
+</ul>
+<p>Each phase ends with something publishable, matching the Linux side's
+evidence-first discipline.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
